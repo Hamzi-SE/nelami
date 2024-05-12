@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { toast } from "react-toastify";
+import customFetch from '../utils/api';
 
 function useAuthorize(props) {
 
@@ -12,7 +13,7 @@ function useAuthorize(props) {
     const accessPage = async () => {
 
         if (props === "checkLogin") {
-            const res = await fetch("/api/v1/authorizeLogin", {
+            const res = await customFetch("/api/v1/authorizeLogin", {
                 method: "GET",
                 "Content-Type": "application/json",
             });
@@ -31,7 +32,7 @@ function useAuthorize(props) {
             }
 
         } else if (props === "checkSeller") {
-            const res = await fetch("/api/v1/authorizeRoleSeller", {
+            const res = await customFetch("/api/v1/authorizeRoleSeller", {
                 method: "GET",
                 "Content-Type": "application/json",
             });

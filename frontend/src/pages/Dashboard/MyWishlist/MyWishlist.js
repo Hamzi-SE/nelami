@@ -8,6 +8,7 @@ import { ThreeDots } from 'react-loader-spinner'
 
 import { toastOptions } from '../../../App';
 import './MyWishlist.css'
+import customFetch from '../../../utils/api';
 
 const MyWishlist = () => {
     const navigate = useNavigate();
@@ -16,7 +17,7 @@ const MyWishlist = () => {
 
     const addToWishlistHandler = async (id) => {
         setLoading(true)
-        const res = await fetch(`/api/v1/addToWishlist`, {
+        const res = await customFetch(`/api/v1/addToWishlist`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -43,7 +44,7 @@ const MyWishlist = () => {
 
 
     const callUserWishlist = async () => {
-        const res = await fetch("/api/v1/getWishlist", {
+        const res = await customFetch("/api/v1/getWishlist", {
             method: "GET",
             "Content-Type": "application/json",
         });

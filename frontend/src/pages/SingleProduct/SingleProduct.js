@@ -16,6 +16,7 @@ import { BsFillPinMapFill } from "react-icons/bs"
 import { IoBedOutline } from "react-icons/io5"
 import MetaData from "../../utils/MetaData";
 import Loader from "../../Components/Loader/Loader";
+import customFetch from "../../utils/api";
 
 const SingleProduct = () => {
 
@@ -34,7 +35,7 @@ const SingleProduct = () => {
   const getSingleProduct = async () => {
     dispatch({ type: "SINGLE_PRODUCT_REQUEST" })
     try {
-      const res = await fetch(`/api/v1/products/${id}`, {
+      const res = await customFetch(`/api/v1/products/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -102,7 +103,7 @@ const SingleProduct = () => {
       return toast.error(`Minimum Bid Amount Should Be Greater Than ${product.price}`)
     }
     try {
-      const res = await fetch(`/api/v1/bid/product/new/${id}`, {
+      const res = await customFetch(`/api/v1/bid/product/new/${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -139,7 +140,7 @@ const SingleProduct = () => {
   const getBidders = async () => {
     // setLoading(true);
     try {
-      const res = await fetch(`/api/v1/bid/product/${id}`, {
+      const res = await customFetch(`/api/v1/bid/product/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -169,7 +170,7 @@ const SingleProduct = () => {
   const startConversation = async () => {
 
     dispatch({ type: "CREATE_CONVERSATION_REQUEST" })
-    const res = await fetch(`/api/v1/conversations`, {
+    const res = await customFetch(`/api/v1/conversations`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

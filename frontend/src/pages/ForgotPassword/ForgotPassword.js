@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./ForgotPassword.css";
 import MetaData from '../../utils/MetaData';
 import { useDispatch, useSelector } from "react-redux";
+import customFetch from '../../utils/api';
 
 const ForgotPassword = () => {
     const { loading } = useSelector(state => state.forgotPassword);
@@ -22,7 +23,7 @@ const ForgotPassword = () => {
 
         dispatch({ type: "FORGOT_PASSWORD_REQUEST" })
 
-        const res = await fetch("/api/v1/password/forgot", {
+        const res = await customFetch("/api/v1/password/forgot", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

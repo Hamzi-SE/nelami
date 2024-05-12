@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import MetaData from "../../utils/MetaData";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../Components/Loader/Loader";
+import customFetch from "../../utils/api";
 
 const AdminLogin = () => {
     const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const AdminLogin = () => {
         }
         dispatch({ type: "LOGIN_USER_REQUEST" })
 
-        const res = await fetch("/api/v1/login", {
+        const res = await customFetch("/api/v1/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

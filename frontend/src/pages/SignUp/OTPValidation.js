@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import MetaData from "../../utils/MetaData";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../Components/Loader/Loader";
+import customFetch from "../../utils/api";
 
 const OTPValidation = () => {
   const { loading } = useSelector(state => state.user);
@@ -29,7 +30,7 @@ const OTPValidation = () => {
 
     // dispatch({ type: "LOGIN_USER_REQUEST" })
 
-    const res = await fetch("/api/v1/OTPValidation", {
+    const res = await customFetch("/api/v1/OTPValidation", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

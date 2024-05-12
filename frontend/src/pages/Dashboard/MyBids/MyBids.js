@@ -6,6 +6,7 @@ import { HiOutlineEye } from 'react-icons/hi';
 import { toastOptions } from '../../../App';
 import { useSelector, useDispatch } from 'react-redux'
 import './MyBids.css'
+import customFetch from '../../../utils/api';
 
 const MyBids = () => {
     const dispatch = useDispatch();
@@ -15,7 +16,7 @@ const MyBids = () => {
 
     const callUserBids = async () => {
         dispatch({ type: "BUYER_ALL_BIDS_REQUEST" })
-        const res = await fetch("/api/v1/bids/user", {
+        const res = await customFetch("/api/v1/bids/user", {
             method: "GET",
             "Content-Type": "application/json",
         });

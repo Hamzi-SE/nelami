@@ -8,6 +8,7 @@ import "./MyProducts.css"
 
 // Icons
 import { HiOutlinePencilAlt, HiOutlineTrash, HiOutlineEye } from "react-icons/hi"
+import customFetch from '../../../utils/api';
 
 const MyProducts = () => {
 
@@ -18,7 +19,7 @@ const MyProducts = () => {
     const [pending, setPending] = useState(true)
 
     const callUserProducts = async () => {
-        const res = await fetch("/api/v1/products/me/all", {
+        const res = await customFetch("/api/v1/products/me/all", {
             method: "GET",
             "Content-Type": "application/json",
         });

@@ -5,6 +5,7 @@ import ProductCard from "../../Components/ProductCard/ProductCard";
 import { ThreeDots } from 'react-loader-spinner'
 import MetaData from "../../utils/MetaData";
 import Pagination from "react-js-pagination";
+import customFetch from "../../utils/api";
 
 
 const CategoryPage = () => {
@@ -30,7 +31,7 @@ const CategoryPage = () => {
             let link = `/api/v1/products?category=${category}&page=${currentPage}`;
 
             setLoading(true);
-            const res = await fetch(link, {
+            const res = await customFetch(link, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"

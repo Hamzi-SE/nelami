@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
+import customFetch from '../../../utils/api';
 
 const Settings = () => {
     const navigate = useNavigate()
@@ -22,7 +23,7 @@ const Settings = () => {
             return toast.error("Please Fill All Fields");
         }
 
-        const res = await fetch("/api/v1/password/update", {
+        const res = await customFetch("/api/v1/password/update", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

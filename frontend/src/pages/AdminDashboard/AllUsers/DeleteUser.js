@@ -1,12 +1,12 @@
 import React from "react";
-import { useNavigate } from 'react-router-dom';
-import { toast } from "react-toastify";
-import { toastOptions } from "../../../App";
-import { useParams } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from "react-toastify";
+import { toastOptions } from "../../../App";
 import Loader from "../../../Components/Loader/Loader";
+import customFetch from "../../../utils/api";
 
 
 
@@ -23,7 +23,7 @@ const DeleteUser = () => {
             dispatch({ type: "DELETE_USER_FAIL", payload: "You can't delete your own account" })
             return toast.error("You can't delete yourself", toastOptions)
         }
-        const res = await fetch(`/api/v1/admin/user/${id}`, {
+        const res = await customFetch(`/api/v1/admin/user/${id}`, {
             method: "DELETE",
             "Content-Type": "application/json",
         });

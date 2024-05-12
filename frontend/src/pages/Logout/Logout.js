@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import customFetch from "../../utils/api";
 
 
 const Logout = () => {
@@ -10,7 +11,7 @@ const Logout = () => {
 
   const callLogout = async () => {
     dispatch({ type: "LOGOUT_USER_REQUEST" });
-    const res = await fetch("/api/v1/logout", {
+    const res = await customFetch("/api/v1/logout", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

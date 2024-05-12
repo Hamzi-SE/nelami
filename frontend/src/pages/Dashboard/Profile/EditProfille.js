@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { toastOptions } from "../../../App";
 import { useDispatch, useSelector } from "react-redux";
+import customFetch from "../../../utils/api";
 
 const EditProfille = () => {
   const { loading } = useSelector(state => state.profile);
@@ -32,7 +33,7 @@ const EditProfille = () => {
   };
 
   const callProfile = async () => {
-    const res = await fetch("/api/v1/me", {
+    const res = await customFetch("/api/v1/me", {
       method: "GET",
       "Content-Type": "application/json",
     });
@@ -52,7 +53,7 @@ const EditProfille = () => {
   const handleUpdate = async (e) => {
     dispatch({ type: "UPDATE_PROFILE_REQUEST" });
     const { name, address, phoneNo, city, store, aboutInfo } = user;
-    const res = await fetch("/api/v1/me/update", {
+    const res = await customFetch("/api/v1/me/update", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

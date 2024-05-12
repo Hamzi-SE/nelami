@@ -9,6 +9,7 @@ import 'tippy.js/dist/tippy.css';
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../../Components/Loader/Loader";
 import generateId from "../../../utils/RandomIdGen";
+import customFetch from "../../../utils/api";
 
 
 const ViewProductBidders = () => {
@@ -26,7 +27,7 @@ const ViewProductBidders = () => {
 
     const callUserProduct = async () => {
         dispatch({ type: "SINGLE_PRODUCT_REQUEST" })
-        const res = await fetch(`/api/v1/products/${id}`, {
+        const res = await customFetch(`/api/v1/products/${id}`, {
             method: "GET",
             "Content-Type": "application/json",
         });
@@ -50,7 +51,7 @@ const ViewProductBidders = () => {
     const getBidders = async () => {
         dispatch({ type: "PRODUCT_BIDS_REQUEST" })
         try {
-            const res = await fetch(`/api/v1/bid/product/${id}`, {
+            const res = await customFetch(`/api/v1/bid/product/${id}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -99,7 +100,7 @@ const ViewProductBidders = () => {
 
     const startConversation = async (id) => {
         // setLoading(true);
-        const res = await fetch(`/api/v1/conversations`, {
+        const res = await customFetch(`/api/v1/conversations`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

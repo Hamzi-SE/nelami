@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import MetaData from "../../utils/MetaData";
 import Loader from "../../Components/Loader/Loader";
+import customFetch from "../../utils/api";
 
 const SignUp = () => {
   const dispatch = useDispatch();
@@ -57,7 +58,7 @@ const SignUp = () => {
     }
     dispatch({ type: "SIGNUP_USER_REQUEST" })
 
-    const res = await fetch("/api/v1/register", {
+    const res = await customFetch("/api/v1/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

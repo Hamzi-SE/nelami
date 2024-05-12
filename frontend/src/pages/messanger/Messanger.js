@@ -11,6 +11,7 @@ import MetaData from "../../utils/MetaData";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../Components/Loader/Loader";
 import { TailSpin } from 'react-loader-spinner'
+import customFetch from "../../utils/api";
 
 
 // Socket Connection
@@ -86,7 +87,7 @@ const Messanger = () => {
 
     const getConversations = async () => {
         dispatch({ type: "GET_ALL_CONVERSATIONS_REQUEST" })
-        const res = await fetch(`/api/v1/conversations/${user?._id}`, {
+        const res = await customFetch(`/api/v1/conversations/${user?._id}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -112,7 +113,7 @@ const Messanger = () => {
     const getMessages = async () => {
         dispatch({ type: "GET_MESSAGES_REQUEST" })
         try {
-            const res = await fetch(`/api/v1/messages/${currentChat?._id}`, {
+            const res = await customFetch(`/api/v1/messages/${currentChat?._id}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -167,7 +168,7 @@ const Messanger = () => {
 
 
 
-        const res = await fetch(`/api/v1/message/new`, {
+        const res = await customFetch(`/api/v1/message/new`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

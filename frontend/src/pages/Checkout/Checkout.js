@@ -19,6 +19,7 @@ import {
 
 import "./checkout.css";
 import { callProfile } from "../../helpers/CallProfile";
+import customFetch from "../../utils/api";
 // import { createOrder, clearErrors } from "../../actions/orderAction";
 
 const Checkout = () => {
@@ -61,7 +62,7 @@ const Checkout = () => {
 
     const handlePlanUpgrade = async (e) => {
         try {
-            const res = await fetch("/api/v1/upgradePlan", {
+            const res = await customFetch("/api/v1/upgradePlan", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -94,7 +95,7 @@ const Checkout = () => {
         dispatch({ type: "PLAN_PAYMENT_REQUEST" })
         try {
 
-            const res = await fetch("/api/v1/payment/process", {
+            const res = await customFetch("/api/v1/payment/process", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

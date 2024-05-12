@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import CountUp from "react-countup";
 
 import "./StatsDashboard.css"
+import customFetch from '../../../utils/api';
 
 
 
@@ -20,7 +21,7 @@ const StatsDashboard = () => {
 
 
     const getStats = async () => {
-        const res = await fetch("/api/v1/userStats", {
+        const res = await customFetch("/api/v1/userStats", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

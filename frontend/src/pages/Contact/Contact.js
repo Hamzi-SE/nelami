@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import MetaData from '../../utils/MetaData';
+import customFetch from '../../utils/api';
 
 const Contact = () => {
 
@@ -20,7 +21,7 @@ const Contact = () => {
             return
         }
 
-        const res = await fetch("/api/v1//message/toAdmin", {
+        const res = await customFetch("/api/v1//message/toAdmin", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

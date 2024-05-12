@@ -10,6 +10,7 @@ import "./AllUsers.css"
 
 //ICONS
 import { HiOutlineTrash, HiOutlineEye } from "react-icons/hi"
+import customFetch from '../../../utils/api';
 
 
 
@@ -26,7 +27,7 @@ const AllUsers = () => {
 
     const getAllUsers = async () => {
         dispatch({ type: "ALL_USERS_REQUEST" })
-        const res = await fetch("/api/v1/admin/users", {
+        const res = await customFetch("/api/v1/admin/users", {
             method: "GET",
             "Content-Type": "application/json",
         });

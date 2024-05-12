@@ -27,6 +27,7 @@ import {
   getKPKCitiesDropList,
 } from "../../utils/PakCitiesData";
 import { useSelector } from "react-redux";
+import customFetch from "../../utils/api";
 
 
 const Home = () => {
@@ -42,7 +43,7 @@ const Home = () => {
 
   const getAllProducts = async () => {
     setLoading(true);
-    const res = await fetch(`/api/v1/products`, {
+    const res = await customFetch(`/api/v1/products`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"

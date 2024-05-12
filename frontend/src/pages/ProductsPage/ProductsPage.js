@@ -20,6 +20,7 @@ import {
 } from "../../utils/PakCitiesData";
 import MetaData from "../../utils/MetaData";
 import Loader from "../../Components/Loader/Loader";
+import customFetch from "../../utils/api";
 
 const ProductsPage = () => {
 
@@ -69,7 +70,7 @@ const ProductsPage = () => {
                 link += `&price[lte]=${toPrice}`;
             }
 
-            const res = await fetch(link, {
+            const res = await customFetch(link, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"

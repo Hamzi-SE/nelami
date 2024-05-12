@@ -1,7 +1,9 @@
+import customFetch from "../utils/api";
+
 export const getData = async (dispatch) => {
     dispatch({ type: "LOAD_DATA_REQUEST" });
     try {
-        const res = await fetch("/api/v1/getData/all", {
+        const res = await customFetch("/api/v1/getData/all", {
             method: "GET",
             "Content-Type": "application/json",
         });

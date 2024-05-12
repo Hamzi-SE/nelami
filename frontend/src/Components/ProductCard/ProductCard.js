@@ -11,6 +11,7 @@ import { IoLocationOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader/Loader";
+import customFetch from "../../utils/api";
 
 const ProductCard = (props) => {
 
@@ -32,7 +33,7 @@ const ProductCard = (props) => {
   const Completionist = () => <span className="card-auction-complete">Auction Ended!</span>;
 
   const getBidsCount = async () => {
-    const res = await fetch(`/api/v1/bid/product/${product._id}`, {
+    const res = await customFetch(`/api/v1/bid/product/${product._id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
@@ -46,7 +47,7 @@ const ProductCard = (props) => {
 
   const startConversation = async () => {
     dispatch({ type: "CREATE_CONVERSATION_REQUEST" })
-    const res = await fetch(`/api/v1/conversations`, {
+    const res = await customFetch(`/api/v1/conversations`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -81,7 +82,7 @@ const ProductCard = (props) => {
 
   const addToWishlistHandler = async () => {
 
-    const res = await fetch(`/api/v1/addToWishlist`, {
+    const res = await customFetch(`/api/v1/addToWishlist`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

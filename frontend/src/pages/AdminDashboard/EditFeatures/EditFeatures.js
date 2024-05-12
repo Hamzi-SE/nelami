@@ -12,6 +12,7 @@ import getBidTimeDropList from "../../../utils/BidData";
 import { getBikeMake } from '../../../utils/BikeData';
 import { getCarMake, getFuelDropList } from '../../../utils/carData';
 import { getData } from '../../../helpers/GetData';
+import customFetch from '../../../utils/api';
 
 const EditFeatures = () => {
     const dispatch = useDispatch();
@@ -33,7 +34,7 @@ const EditFeatures = () => {
         dispatch({ type: "ADD_FEATURE_REQUEST" })
         try {
             console.log(item, newEntry);
-            const res = await fetch(`/api/v1/data/newEntry`, {
+            const res = await customFetch(`/api/v1/data/newEntry`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -69,7 +70,7 @@ const EditFeatures = () => {
         dispatch({ type: "REMOVE_FEATURE_REQUEST" })
         e.preventDefault();
         try {
-            const res = await fetch(`/api/v1/data/removeEntry`, {
+            const res = await customFetch(`/api/v1/data/removeEntry`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json"
@@ -104,7 +105,7 @@ const EditFeatures = () => {
         // dispatch({ type: "REMOVE_FEATURE_REQUEST" })
         e.preventDefault();
         try {
-            const res = await fetch(`/api/v1/data/updatePackage`, {
+            const res = await customFetch(`/api/v1/data/updatePackage`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"

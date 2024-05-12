@@ -12,6 +12,7 @@ import { toastOptions } from "../../../App";
 // Icons
 import { HiOutlineTrash, HiOutlineEye } from "react-icons/hi"
 import { FiUsers } from 'react-icons/fi'
+import customFetch from '../../../utils/api';
 
 
 const AllProducts = () => {
@@ -29,7 +30,7 @@ const AllProducts = () => {
         const getAllProducts = async () => {
             dispatch({ type: "ADMIN_PRODUCTS_REQUEST" })
             try {
-                const res = await fetch(`/api/v1/productsAdmin`, {
+                const res = await customFetch(`/api/v1/productsAdmin`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json"

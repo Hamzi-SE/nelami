@@ -1,7 +1,9 @@
+import customFetch from "../utils/api";
+
 export const callProfile = async (dispatch) => {
     dispatch({ type: "LOAD_USER_REQUEST" });
     try {
-        const res = await fetch("/api/v1/me", {
+        const res = await customFetch("/api/v1/me", {
             method: "GET",
             "Content-Type": "application/json",
         });

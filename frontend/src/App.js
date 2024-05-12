@@ -66,6 +66,7 @@ import Contact from "./pages/Contact/Contact";
 
 import { getData } from "./helpers/GetData";
 import { callProfile } from "./helpers/CallProfile";
+import customFetch from "./utils/api.js";
 
 
 
@@ -159,7 +160,7 @@ function App() {
 
   async function getStripeApiKey() {
     try {
-      const res = await fetch("/api/v1/stripeapikey", {
+      const res = await customFetch("/api/v1/stripeapikey", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

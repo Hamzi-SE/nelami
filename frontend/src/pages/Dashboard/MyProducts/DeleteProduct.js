@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../../Components/Loader/Loader";
+import customFetch from "../../../utils/api";
 
 
 const DeleteProduct = () => {
@@ -18,7 +19,7 @@ const DeleteProduct = () => {
 
     const callDeleteProduct = async () => {
         dispatch({ type: "DELETE_PRODUCT_REQUEST" })
-        const res = await fetch(`/api/v1/product/${id}`, {
+        const res = await customFetch(`/api/v1/product/${id}`, {
             method: "DELETE",
             "Content-Type": "application/json",
         });

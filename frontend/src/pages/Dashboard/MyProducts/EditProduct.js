@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../Components/Loader/Loader";
 import moment from "moment";
+import customFetch from "../../../utils/api";
 
 const EditProfille = () => {
     const dispatch = useDispatch();
@@ -17,9 +18,9 @@ const EditProfille = () => {
 
 
     const loadProductDetails = async () => {
-        // const res = await fetch(`/api/v1/product/${id}`, {
+        // const res = await customFetch(`/api/v1/product/${id}`, {
         dispatch({ type: "LOAD_PRODUCT_REQUEST" });
-        const res = await fetch(`/api/v1/products/${id}`, {
+        const res = await customFetch(`/api/v1/products/${id}`, {
             method: "GET",
             "Content-Type": "application/json",
         });
@@ -56,7 +57,7 @@ const EditProfille = () => {
         dispatch({ type: "UPDATE_PRODUCT_REQUEST" });
 
         const { title, model, description } = productDetails;
-        const res = await fetch(`/api/v1/product/${id}`, {
+        const res = await customFetch(`/api/v1/product/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

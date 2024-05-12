@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import "./Settings.css";
+import customFetch from '../../../utils/api';
 const Settings = () => {
     const { loading } = useSelector(state => state.profile);
     const { user } = useSelector(state => state.user);
@@ -27,7 +28,7 @@ const Settings = () => {
         }
         dispatch({ type: "UPDATE_PASSWORD_REQUEST" })
 
-        const res = await fetch("/api/v1/password/update", {
+        const res = await customFetch("/api/v1/password/update", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

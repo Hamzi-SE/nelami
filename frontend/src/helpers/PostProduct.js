@@ -1,4 +1,5 @@
 import { toast } from "react-toastify";
+import customFetch from "../utils/api";
 
 async function PostProduct(dispatch, navigate, featuredImg, imageOne, imageTwo, imageThree, productData) {
 
@@ -10,7 +11,7 @@ async function PostProduct(dispatch, navigate, featuredImg, imageOne, imageTwo, 
 
     dispatch({ type: "NEW_PRODUCT_REQUEST" });
     try {
-        const res = await fetch("/api/v1/product/new", {
+        const res = await customFetch("/api/v1/product/new", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

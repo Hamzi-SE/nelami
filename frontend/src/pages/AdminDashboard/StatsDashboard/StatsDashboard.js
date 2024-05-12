@@ -5,6 +5,7 @@ import { Chart, registerables } from 'chart.js';
 import CountUp from "react-countup";
 
 import "./StatsDashboard.css"
+import customFetch from '../../../utils/api';
 
 
 
@@ -23,7 +24,7 @@ const StatsDashboard = (props) => {
     })
 
     const getStats = async () => {
-        const res = await fetch("/api/v1/adminStats", {
+        const res = await customFetch("/api/v1/adminStats", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { toastOptions } from "../../../App";
+import customFetch from "../../../utils/api";
 
 const EditProfille = () => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const EditProfille = () => {
   };
 
   const callProfile = async () => {
-    const res = await fetch("/api/v1/me", {
+    const res = await customFetch("/api/v1/me", {
       method: "GET",
       "Content-Type": "application/json",
     });
@@ -48,7 +49,7 @@ const EditProfille = () => {
   const handleUpdate = async (e) => {
     setUpdating(true);
     const { name, address, phoneNo, city, store, aboutInfo } = user;
-    const res = await fetch("/api/v1/me/update", {
+    const res = await customFetch("/api/v1/me/update", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

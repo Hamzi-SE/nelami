@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 //BOOSTRAP
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import customFetch from '../../../utils/api'
 
 const ApprovalProducts = () => {
 
@@ -30,7 +31,7 @@ const ApprovalProducts = () => {
 
     const getApprovalProducts = async () => {
         dispatch({ type: "ADMIN_APPROVAL_PRODUCTS_REQUEST" })
-        const res = await fetch(`/api/v1/approvalProductsAdmin`, {
+        const res = await customFetch(`/api/v1/approvalProductsAdmin`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -64,7 +65,7 @@ const ApprovalProducts = () => {
     const handleProductApproval = async (product) => {
         dispatch({ type: "ADMIN_APPROVE_PRODUCT_REQUEST" })
         try {
-            const res = await fetch(`/api/v1/approveProduct/${product._id}`, {
+            const res = await customFetch(`/api/v1/approveProduct/${product._id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"

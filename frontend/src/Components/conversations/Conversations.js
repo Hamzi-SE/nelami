@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import "./conversations.css"
+import customFetch from '../../utils/api';
 
 const Conversations = ({ currentUser, conversation }) => {
     const [friend, setFriend] = useState(null);
@@ -8,7 +9,7 @@ const Conversations = ({ currentUser, conversation }) => {
     const friendId = conversation.members.find(m => m !== currentUser._id)
 
     const getFriend = async () => {
-        const res = await fetch(`/api/v1/user/${friendId}`,
+        const res = await customFetch(`/api/v1/user/${friendId}`,
             {
                 method: "GET",
                 headers: {

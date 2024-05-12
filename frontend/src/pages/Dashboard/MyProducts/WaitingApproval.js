@@ -3,6 +3,7 @@ import DataTable from 'react-data-table-component'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import customFetch from '../../../utils/api';
 
 const WaitingApproval = () => {
     const dispatch = useDispatch();
@@ -14,7 +15,7 @@ const WaitingApproval = () => {
     const getApprovalProducts = async () => {
         dispatch({ type: "SELLER_APPROVAL_PRODUCTS_REQUEST" })
         try {
-            const res = await fetch(`/api/v1/getApprovalProducts`, {
+            const res = await customFetch(`/api/v1/getApprovalProducts`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"

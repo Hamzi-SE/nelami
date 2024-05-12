@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import Loader from '../../Components/Loader/Loader';
 import ProductCard from '../../Components/ProductCard/ProductCard';
 import "./SellerProfile.css";
+import customFetch from '../../utils/api';
 
 const SellerProfile = () => {
     const dispatch = useDispatch();
@@ -14,7 +15,7 @@ const SellerProfile = () => {
     const callSellerProfile = async () => {
         dispatch({ type: "LOAD_SELLER_REQUEST" });
         try {
-            const res = await fetch(`/api/v1/seller/${id}`, {
+            const res = await customFetch(`/api/v1/seller/${id}`, {
                 method: "GET",
                 "Content-Type": "application/json",
             });
