@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { toast } from "react-toastify";
-import { Link, useParams, useSearchParams, useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import MetaData from "../../utils/MetaData";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import Loader from "../../Components/Loader/Loader";
+import MetaData from "../../utils/MetaData";
 import customFetch from "../../utils/api";
 
 const OTPValidation = () => {

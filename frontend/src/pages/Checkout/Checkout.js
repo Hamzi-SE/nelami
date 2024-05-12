@@ -1,25 +1,24 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
-import { toast } from 'react-toastify'
-import { BsCreditCard, BsKey } from 'react-icons/bs'
-import { AiOutlineCalendar } from 'react-icons/ai'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useRef, useState } from "react";
+import { AiOutlineCalendar } from 'react-icons/ai';
+import { BsCreditCard, BsKey } from 'react-icons/bs';
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Loader from "../../Components/Loader/Loader";
 
 import MetaData from "../../utils/MetaData";
 
 import {
-    CardNumberElement,
     CardCvcElement,
     CardExpiryElement,
-    useStripe,
+    CardNumberElement,
     useElements,
+    useStripe,
 } from "@stripe/react-stripe-js";
 
-import "./checkout.css";
 import { callProfile } from "../../helpers/CallProfile";
 import customFetch from "../../utils/api";
+import "./checkout.css";
 // import { createOrder, clearErrors } from "../../actions/orderAction";
 
 const Checkout = () => {

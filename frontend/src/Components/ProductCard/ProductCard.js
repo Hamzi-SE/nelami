@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from 'react-router-dom'
-import Countdown from 'react-countdown';
 import Tippy from '@tippyjs/react';
-import 'tippy.js/dist/tippy.css';
-import "./ProductCard.css";
-import { FiHeart, FiUsers } from "react-icons/fi";
+import React, { useState } from "react";
+import Countdown from 'react-countdown';
+import { BsChatSquareText, BsClockHistory } from "react-icons/bs";
 import { FaHeart } from "react-icons/fa";
-import { BsClockHistory, BsChatSquareText } from "react-icons/bs";
+import { FiHeart, FiUsers } from "react-icons/fi";
 import { IoLocationOutline } from "react-icons/io5";
-import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "../Loader/Loader";
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
+import 'tippy.js/dist/tippy.css';
 import customFetch from "../../utils/api";
+import Loader from "../Loader/Loader";
+import "./ProductCard.css";
 
 const ProductCard = (props) => {
 

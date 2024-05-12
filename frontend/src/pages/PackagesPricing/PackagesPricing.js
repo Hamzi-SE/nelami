@@ -1,9 +1,9 @@
-import React from 'react'
-import { Link, useNavigate } from "react-router-dom";
+import React from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import "./PackagesPricing.css"
+import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import Loader from '../../Components/Loader/Loader';
+import "./PackagesPricing.css";
 
 const PackagesPricing = () => {
     const navigate = useNavigate();

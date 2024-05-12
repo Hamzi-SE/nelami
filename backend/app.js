@@ -14,7 +14,11 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 app.use(cookieParser());
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
-app.use(cors());
+app.use(cors({
+    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+}));
 
 // ROUTE IMPORTS
 // const product = require("./routes/productRoute");
@@ -38,9 +42,6 @@ app.use("/api/v1", payment);
 
 // MIDDLEWARE FOR ERROR
 app.use(errorMiddleware);
-
-//
-
 
 
 
@@ -115,7 +116,6 @@ io.on("connection", (socket) => {
 
 
 
-//
 
 socketServer.listen(8080, (err) => {
     if (err) {

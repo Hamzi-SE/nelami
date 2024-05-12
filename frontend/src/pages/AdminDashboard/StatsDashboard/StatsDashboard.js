@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
-import { Line, Pie } from 'react-chartjs-2'
 import { Chart, registerables } from 'chart.js';
+import React, { useEffect, useState } from 'react';
+import { Pie } from 'react-chartjs-2';
 import CountUp from "react-countup";
 
-import "./StatsDashboard.css"
 import customFetch from '../../../utils/api';
+import "./StatsDashboard.css";
 
 
 

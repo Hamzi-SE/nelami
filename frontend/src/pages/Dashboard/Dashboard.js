@@ -1,22 +1,22 @@
-import Profile from "./Profile/Profile";
-import React, { useMemo, useRef } from "react";
+import React from "react";
+import { AiOutlineSafety } from "react-icons/ai";
+import { BsBoxArrowLeft } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { AiOutlineSafety } from "react-icons/ai"
-import { BsBoxArrowLeft } from "react-icons/bs"
-import { useSelector, useDispatch } from "react-redux";
+import Profile from "./Profile/Profile";
 
-import "./Dashboard.css"
+import "./Dashboard.css";
 
 //Components
-import StatsDashboard from "./StatsDashboard/StatsDashboard";
-import MyProducts from "./MyProducts/MyProducts";
+import Loader from "../../Components/Loader/Loader";
+import MetaData from "../../utils/MetaData";
 import MyBids from "./MyBids/MyBids";
+import MyProducts from "./MyProducts/MyProducts";
+import WaitingApproval from "./MyProducts/WaitingApproval";
 import MyWishlist from "./MyWishlist/MyWishlist";
 import SafetyTips from "./SafetyTips/SafetyTips";
 import Settings from "./Settings/Settings";
-import MetaData from "../../utils/MetaData";
-import Loader from "../../Components/Loader/Loader";
-import WaitingApproval from "./MyProducts/WaitingApproval";
+import StatsDashboard from "./StatsDashboard/StatsDashboard";
 
 const Dashboard = () => {
   const dispatch = useDispatch();

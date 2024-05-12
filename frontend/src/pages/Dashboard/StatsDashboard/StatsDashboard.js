@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react';
 import CountUp from "react-countup";
+import { useSelector } from 'react-redux';
 
-import "./StatsDashboard.css"
 import customFetch from '../../../utils/api';
+import "./StatsDashboard.css";
 
 
 
