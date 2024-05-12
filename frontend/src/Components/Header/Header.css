@@ -1,0 +1,10 @@
+.horizontal-main {
+  position: sticky;
+  top: 0;
+}
+
+@media screen and (max-width: 476px) {
+  nav.horizontalMenu {
+    z-index: 0 !important;
+  }
+}

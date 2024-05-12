@@ -1,0 +1,108 @@
+.banner-1 {
+    background: url("https://res.cloudinary.com/dwnvcgdsy/image/upload/v1661528861/biddingwebsiteavatars/auction_pzewrr.webp") center center;
+}
+
+
+.home-search-banner {
+    padding: 5em 0px !important;
+}
+
+.header-search-input {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    justify-content: center;
+    align-items: flex-start;
+    column-gap: 1em;
+}
+
+.header-search-input>div {
+    border-radius: 4px !important;
+    overflow: hidden;
+}
+
+
+
+/* FEATURED ITEMS SLIDER */
+
+.home-slider .swiper-slide {
+    text-align: start !important;
+    /* margin-right: 10px !important; */
+}
+
+.home-slider .swiper-slide .card-body {
+    padding: 0.5rem 1.5rem !important;
+    font-size: 14px;
+}
+
+
+.swiper-slide img {
+    object-fit: cover !important;
+}
+
+.home-slider .swiper-slide .bid-time {
+    font-size: 14px;
+}
+
+.home-slider .swiper-slide .bid-time span {
+    padding: 2px 6px !important;
+}
+
+.home-slider .swiper-pagination {
+    width: 100% !important;
+    transform: translateY(13px);
+}
+
+.home-icon-card .item-all-card {
+    font-size: 50px;
+    transition: all 0.3s linear;
+}
+
+.home-icon-card .item-all-card:hover {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+
+
+/* PRODUCTS SLIDER */
+.home-products-slider {
+    margin: 3em auto !important;
+}
+
+
+/* .home-products-slider .product-actions button:first-child {
+    display: none;
+} */
+/* 
+.home-products-slider .swiper-slide {
+    z-index: -999;
+}
+
+.home-products-slider .swiper-slide-active {
+    z-index: 999;
+}
+
+.home-products-slider div.modal.fade.show {
+    display: flex !important;
+    width: fit-content !important;
+    z-index: 9999 !important;
+}
+
+div.modal-backdrop.fade.show {
+    z-index: 0 !important;
+} */
+
+
+@media screen and (max-width: 768px) {
+    .header-search-input {
+        width: 100%;
+        flex-direction: column !important;
+        align-items: center;
+    }
+}
+
+
+@media screen and (max-width: 476px) {
+    .header-search-input>.form-group {
+        width: 100%;
+    }
+}

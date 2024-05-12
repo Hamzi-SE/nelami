@@ -1,0 +1,78 @@
+
+.productForm .product-dataform .productform-images {
+  display: flex !important;
+  column-gap: 2em;
+  overflow: hidden;
+  justify-content: space-between;
+}
+
+.productForm .product-dataform .productform-images .form-group {
+  overflow: hidden;
+}
+
+.productForm .product-dataform .productform-images .form-group:hover {
+  filter: contrast(0.5);
+}
+
+.productForm .product-dataform .productform-images input {
+  opacity: 0;
+  transform: scale(3.4);
+  margin: -84px 0px 48px -150px;
+  z-index: 9;
+
+}
+
+.productForm .product-dataform .productform-images input::before {
+  border: 1px solid red;
+  content: "\f03e";
+  width: 16%;
+  height: 50px;
+  position: absolute;
+  margin: -10px 0px;
+}
+
+.productForm .product-dataform .productform-images .img-upload-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 10px 10px;
+  height: 128px;
+  opacity: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.productForm .product-dataform .productform-images .img-upload-icon img {
+  height: 101%;
+  width: 101% !important;
+  border-radius: 4px;
+  position: absolute;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+  margin: -1px -1px;
+  background: white;
+}
+
+.productForm .product-dataform .productform-images .img-upload-icon img:hover {
+  filter: contrast(0.5);
+}
+
+.productForm .product-dataform .productform-images .img-upload-icon>svg {
+  font-size: 80px;
+  color: black;
+}
+
+
+
+
+
+
+/* MOBILE mEDIA QUERY */
+@media screen and (max-width: 490px) {
+  .productForm .product-dataform .productform-images{
+    flex-direction: column;
+  }
+}

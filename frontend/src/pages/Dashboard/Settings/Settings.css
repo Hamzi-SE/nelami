@@ -1,0 +1,39 @@
+.seller-current-package-input {
+    width: 100%;
+    height: 100%;
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    color: #007bff !important;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.seller-upgrade-package-div {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    cursor: pointer !important;
+}
+
+.seller-upgrade-package-button {
+    cursor: pointer;
+    transition: all 0.15s linear !important;
+}
+
+.seller-upgrade-package-button:hover {
+    color: white !important;
+    background-color: #007bff !important;
+}
+
+.platinum {
+    color: #007bff !important;
+}
+
+.gold {
+    color: #ffc107 !important;
+}
+
+.black {
+    color: #000 !important;
+}

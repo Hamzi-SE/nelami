@@ -1,0 +1,53 @@
+.stats-box {
+    padding: 25px 30px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px !important;
+    color: white;
+    text-align: center;
+    transition: .2s;
+    margin: 10px 0;
+}
+
+.stats-box:hover {
+    box-shadow: rgba(0, 0, 0, 0.40) 0px 3px 8px !important;
+    transform: scale3d(1.01, 1.01, 1.01) !important;
+}
+
+.stats-box h3 {
+    margin: 0;
+    font-size: 19px;
+    text-transform: uppercase;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.stats-box span {
+    font-size: 35px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.red-box {
+    background: #EB1D36;
+}
+
+.green-box {
+    background: #3CCF4E;
+}
+
+.yellow-box {
+    background: #e0cc18 !important;
+}
+
+.blue-box {
+    background: #3AB4F2;
+}
+
+.purple-box {
+    background: #937DC2;
+}
+
+.orange-box {
+    background: #FBB454;
+}

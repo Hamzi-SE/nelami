@@ -1,0 +1,97 @@
+.product-form-block {
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #838383;
+}
+
+.product-forms-wrapper .category-title h4 {
+  color: rgb(24, 24, 24);
+  font-weight: 500;
+}
+
+.product-forms-wrapper .categories-list-wrapper {
+  min-height: 500px;
+}
+
+.product-forms-wrapper .category-name,
+.product-forms-wrapper .subcategory-name {
+  width: 68%;
+}
+
+.product-forms-wrapper .category-title,
+.product-forms-wrapper .col-third {
+  border: 1px solid #8a8a8a !important;
+}
+
+.product-forms-wrapper .category-block,
+.product-forms-wrapper .subcategory-block {
+  border-bottom: 1px solid #8a8a8a;
+  padding: 10px 20px !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s linear;
+}
+
+.product-forms-wrapper .category-block:hover,
+.product-forms-wrapper .subcategory-block:hover {
+  box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
+  border: none;
+}
+
+
+.product-forms-wrapper .subcategory-block a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.product-forms-wrapper .categories-list-wrapper,
+.product-forms-wrapper .category-drop-downs {
+  border: 1px solid #8a8a8a !important;
+}
+
+.product-forms-wrapper .category-name,
+.product-forms-wrapper .subcategory-name {
+  font-size: 18px;
+  color: black;
+}
+
+.product-forms-wrapper .open-arrow-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-forms-wrapper .open-arrow-icon svg {
+  font-size: 20px;
+}
+
+
+.product-forms-wrapper svg {
+  font-size: 30px;
+  color: #373737;
+}
+
+.available-options {
+  display: flex;
+  column-gap: 1em;
+  row-gap: 1em;
+  flex-wrap: wrap;
+}
+
+.available-options .form-control {
+  height: fit-content;
+  width: fit-content;
+  border: 1px solid black;
+}
+
+.available-options label {
+  font-size: 15px;
+  padding: 0px 0px 0px 10px;
+  margin: 0px;
+  color: black;
+}

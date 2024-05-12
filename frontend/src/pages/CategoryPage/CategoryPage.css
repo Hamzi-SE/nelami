@@ -1,0 +1,25 @@
+.cat-box{
+    padding:15px 20px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: .2s;
+    margin: 10px 0;
+}
+.cat-box:hover{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 4px 9px;
+}
+.cat-img{
+    width: 100%;
+}
+.cat-img img{
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+.cat-box h3{
+    margin: 10px 0;
+    text-transform: uppercase;
+    font-weight: 600;
+}

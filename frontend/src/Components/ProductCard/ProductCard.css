@@ -1,0 +1,117 @@
+.Cards-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-img-top {
+  width: 320px;
+  height: 200px;
+}
+
+.icons {
+  font-size: 25px;
+}
+
+.total {
+  font-size: 20px;
+}
+
+.time-div i {
+  font-size: 20px;
+}
+
+.time {
+  line-height: 30px;
+}
+
+.product-actions {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  column-gap: 0.4em;
+}
+
+.product-actions button {
+  border: none;
+  background: none;
+  padding: 0px;
+}
+
+.card-footer .product-price {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0px;
+}
+
+.item-card-img img {
+  height: 180px;
+  object-fit: cover;
+  transition: all 0.2s linear;
+  width: -webkit-fill-available;
+}
+
+.item-card-img img:hover {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+}
+
+.card-body {
+  padding: 1em 1.5em;
+}
+
+.bid-time svg {
+  margin-bottom: -2px;
+}
+
+.product-title {
+  color: black;
+}
+
+
+.card-auction-complete {
+  font-size: 14px;
+
+}
+
+.timer-wrapper {
+  border-radius: 4px;
+}
+
+.timer-ended {
+  background: rgb(249, 55, 55) !important;
+}
+
+.expired-label {
+  background: rgb(249, 55, 55) !important;
+}
+
+.expired-label::before {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  content: "";
+  right: -15px;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  width: 0;
+  border-left: 15px solid rgb(249, 55, 55) !important;
+}
+
+.user-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.user-wrapper>img {
+  border-radius: 50%;
+  width: 8%;
+  margin-right: 10px;
+}
+
+.user-wrapper h3 {
+  margin: 0px;
+}
