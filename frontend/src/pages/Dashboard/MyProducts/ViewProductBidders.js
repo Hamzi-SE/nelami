@@ -115,17 +115,16 @@ const ViewProductBidders = () => {
         if (res.status === 201) {
             document.getElementsByClassName("modal-backdrop")[0].remove();
             toast.success(data.message)
-            navigate("/messenger", { replace: true })
         } else if (res.status === 200) {
             document.getElementsByClassName("modal-backdrop")[0].remove();
             toast.success(data.message)
-            navigate(`/messenger`, { replace: true })
 
         } else {
             document.getElementsByClassName("modal-backdrop")[0].remove();
             toast.error(data.message)
         }
 
+        navigate(`/messenger`, { replace: true })
 
         // setLoading(false);
     }

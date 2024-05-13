@@ -41,7 +41,7 @@ const OTPValidation = () => {
     });
 
     const data = await res.json();
-    console.log(data);
+    
 
     if (res.status === 200) {
         dispatch({ type: "SIGNUP_USER_SUCCESS", payload: data.user})

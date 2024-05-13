@@ -19,7 +19,6 @@ const Logout = () => {
     });
 
     const data = await res.json();
-    console.log(data);
 
     if (res.status === 200) {
       document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";

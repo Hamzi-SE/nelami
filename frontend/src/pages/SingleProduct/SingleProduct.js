@@ -18,6 +18,24 @@ import MetaData from "../../utils/MetaData";
 import Loader from "../../Components/Loader/Loader";
 import customFetch from "../../utils/api";
 
+const MapComponent = ({ cityName }) => {
+  const mapSrc = `https://maps.google.com/maps?q=${encodeURIComponent(cityName)}&output=embed`;
+
+  return (
+    <iframe 
+      title="map"
+      width="100%" 
+      height="500" 
+      src={mapSrc} 
+      frameBorder="0" 
+      style={{ border: 0 }} 
+      allowFullScreen="" 
+      aria-hidden="false" 
+      tabIndex="0">
+    </iframe>
+  );
+};
+
 const SingleProduct = () => {
 
   const navigate = useNavigate();
@@ -184,21 +202,18 @@ const SingleProduct = () => {
 
     if (res.status === 200) {
       dispatch({ type: "CREATE_CONVERSATION_SUCCESS", payload: data.conversation })
-      navigate(`/messenger`, { replace: true })
       document.getElementsByClassName("modal-backdrop")[0].remove();
       toast.info(data.message)
     } else if (res.status === 201) {
       dispatch({ type: "CREATE_CONVERSATION_SUCCESS", payload: data.savedConversation })
       document.getElementsByClassName("modal-backdrop")[0].remove();
-      navigate(`/messenger`, { replace: true })
       toast.success(data.message)
     } else {
       dispatch({ type: "CREATE_CONVERSATION_FAIL", payload: data.message })
       document.getElementsByClassName("modal-backdrop")[0].remove();
-      navigate(`/messenger`, { replace: true })
       window.location.reload();
-
     }
+    navigate(`/messenger`, { replace: true })
   }
 
 
@@ -464,16 +479,7 @@ const SingleProduct = () => {
                         {product.location && <p>{product.location.province} - {product.location.city}</p>}
                       </div>
                       <div className="store-location">
-                        <iframe
-                          title="map"
-                          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d425289.39173725643!2d72.80590930381445!3d33.616372281429015!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38dfbfd07891722f%3A0x6059515c3bdb02b6!2sIslamabad%2C%20Islamabad%20Capital%20Territory%2C%20Pakistan!5e0!3m2!1sen!2s!4v1659613430567!5m2!1sen!2s"
-                          width="600"
-                          height="450"
-                          style={{ border: "0" }}
-                          allowFullScreen=""
-                          loading="lazy" referrerPolicy="no-referrer-when-downgrade">
-
-                        </iframe>
+                        {product.location && <MapComponent cityName={product.location?.province+" "+product.location?.city} />}
                       </div>
                     </div>
                     <hr />
@@ -489,7 +495,7 @@ const SingleProduct = () => {
                           <h4 className="m-0"><b>{seller.name}</b></h4>
                           Phone No: <b>{seller.phoneNo}</b>
                         </div>
-                        <div className="mt-2">{seller.aboutInfo || "--------------------------No about information of this seller--------------------------"}</div>
+                        <div className="mt-2">{seller.aboutInfo || "----------No about information of this seller----------"}</div>
                       </div>
                       <div className="d-flex justify-content-center align-items-center flex-column">
                         <button type="button" className="btn btn-primary w-100">
@@ -523,16 +529,16 @@ const SingleProduct = () => {
               <div className="col-lg-4 col-md-12 col-sm-12">
                 <h2 className="text-center mb-5 pb-5"><b>{product.title}</b></h2>
                 <div className="auction-timer position-relative">
-                  {auctionTimeRemaining && <Countdown date={Date.now() + auctionTimeRemaining}>
+                  {(auctionTimeRemaining && product?.bidStatus === "Live" ) && <Countdown date={Date.now() + auctionTimeRemaining}>
                     <Completionist />
                   </Countdown>}
                 </div>
-                <h3 className="text-center text-success m-3"><b>Bid Status: {product.bidStatus}</b></h3>
+                <h3 className={`text-center m-3 ${product?.bidStatus === "Live" ? 'text-success' : 'text-danger'} `}><b>Bid Status: {product.bidStatus}</b></h3>
 
 
 
                 {/* <!-- Button trigger modal --> */}
-                {auctionTimeRemaining < 0 ? <h3 className="text-warning text-center">Bid Ended</h3> : (
+                {auctionTimeRemaining < 0 || product?.bidStatus === "Expired" ? <h3 className="text-warning text-center">Bidding has ended for this product</h3> : (
                   <button type="button" className="btn btn-primary btn-lg btn-block mt-3 btn-bidnow" data-toggle="modal" data-target="#bidModal">
                     Bid Now
                   </button>
@@ -540,7 +546,7 @@ const SingleProduct = () => {
                 }
 
                 {/* <!-- Modal --> */}
-                <div className="modal fade" id="bidModal" tabIndex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
+                {product?.bidStatus === "Expired" && <div className="modal fade" id="bidModal" tabIndex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
                   <div className="modal-dialog" role="document">
                     <div className="modal-content">
                       <div className="modal-header">
@@ -563,7 +569,7 @@ const SingleProduct = () => {
                       </form>
                     </div>
                   </div>
-                </div>
+                </div>}
 
 
                 <div className="container mt-3 bg-white px-2 py-3">

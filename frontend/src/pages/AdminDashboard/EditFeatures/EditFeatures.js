@@ -33,7 +33,6 @@ const EditFeatures = () => {
         e.preventDefault();
         dispatch({ type: "ADD_FEATURE_REQUEST" })
         try {
-            console.log(item, newEntry);
             const res = await customFetch(`/api/v1/data/newEntry`, {
                 method: "PUT",
                 headers: {
@@ -45,7 +44,7 @@ const EditFeatures = () => {
                 }),
             });
             const data = await res.json();
-            console.log(data);
+            
             if (res.status === 201) {
                 dispatch({ type: "ADD_FEATURE_SUCCESS", payload: data.message })
                 toast.success(data.message);

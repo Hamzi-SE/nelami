@@ -1,41 +1,37 @@
-import React, { useState, useEffect } from "react";
-
-// Product Card Import
+import React, { useState, useEffect, useMemo } from "react";
 import ProductCard from "../../Components/ProductCard/ProductCard";
-
-//Random Id
 import generateId from "../../utils/RandomIdGen";
 
-
-
-const MiscProductSlider = (props) => {
-    const { products } = props;
-    const [miscProducts, setMisProducts] = useState([])
-
+const MiscProductSlider = ({ products }) => {
+    const [miscProducts, setMiscProducts] = useState([]);
 
     useEffect(() => {
+        // Filters misc products by category and sets them to state
+        setMiscProducts(products.filter(product => product.category === "MiscProducts"));
+    }, [products]); // Correctly listen to changes in products
 
-        setMisProducts(products.filter(product => product.category === "MiscProducts"))
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    // useMemo to shuffle and slice misc products only when they change
+    const displayedMiscProducts = useMemo(() => {
+        const shuffleArray = (array) => {
+            const newArr = array.slice(); // Clone to avoid mutation
+            for (let i = newArr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArr[i], newArr[j]] = [newArr[j], newArr[i]]; // Swap elements
+            }
+            return newArr;
+        };
+        return shuffleArray(miscProducts).slice(0, 4); // Select the first 4 for display
+    }, [miscProducts]);
 
     return (
-        <>
+        <div className="d-flex flex-wrap">
+            {displayedMiscProducts.map((miscProduct) => (
+                <div className="col-lg-4 col-md-6 col-sm-12" key={generateId()}>
+                    <ProductCard product={miscProduct} index={generateId()} />
+                </div>
+            ))}
+        </div>
+    );
+};
 
-            <div className="d-flex">
-
-                {
-
-                    //Get 4 random misc products from the misc products array
-                    miscProducts?.sort(() => Math.random() - 0.5).slice(0, 4).map((miscProduct) => {
-                        return (<div className="w-25" key={generateId()}>
-                            <ProductCard product={miscProduct} index={generateId()} />
-                        </div>)
-                    })
-                }
-            </div>
-        </>
-    )
-}
-
-export default MiscProductSlider
+export default MiscProductSlider;

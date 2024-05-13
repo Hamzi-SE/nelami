@@ -11,13 +11,15 @@ const Contact = () => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [message, setMessage] = useState('')
+    const [loading, setLoading] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log(name, email, message)
+        setLoading(true)
 
         if (!name || !email || !message) {
-            alert('Please fill all fields')
+            toast.error('Please fill all fields')
+            setLoading(false)
             return
         }
 
@@ -39,6 +41,8 @@ const Contact = () => {
         else {
             toast.error(data.message)
         }
+
+        setLoading(false)
 
     }
 
@@ -71,16 +75,18 @@ const Contact = () => {
                         <div className="col-lg-4  col-md-12 mx-auto d-block">
                             <div className="card mb-0">
                                 <div className="card-body">
-                                    <div className="form-group">
-                                        <input type="text" className="form-control" id="name1" name="name" onChange={(e) => setName(e.target.value)} placeholder="Your Name" />
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="email" className="form-control" id="email" name="email" onChange={(e) => setEmail(e.target.value)} placeholder="Email Address" />
-                                    </div>
-                                    <div className="form-group">
-                                        <textarea className="form-control" name="message" onChange={(e) => setMessage(e.target.value)} rows="6" placeholder="Message"></textarea>
-                                    </div>
-                                    <button className="btn btn-primary" onClick={handleSubmit}>Send Message</button>
+                                    <form onSubmit={handleSubmit}>
+                                        <div className="form-group">
+                                            <input type="text" className="form-control" id="name1" name="name" onChange={(e) => setName(e.target.value)} placeholder="Your Name" />
+                                        </div>
+                                        <div className="form-group">
+                                            <input type="email" className="form-control" id="email" name="email" onChange={(e) => setEmail(e.target.value)} placeholder="Email Address" />
+                                        </div>
+                                        <div className="form-group">
+                                            <textarea className="form-control" name="message" onChange={(e) => setMessage(e.target.value)} rows="6" placeholder="Message"></textarea>
+                                        </div>
+                                        <button type='submit' className={`btn btn-primary ${loading && 'disabled'}`}>Send Message</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

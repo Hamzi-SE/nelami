@@ -5,74 +5,62 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 
 // Create new Bid
 exports.newBid = catchAsyncErrors(async (req, res, next) => {
-  if (req.user.role == "Seller") {
-    return next(new ErrorHandler(`Role: ${req.user.role} can not bid on this product`, 401));
+  if (req.user.role === "Seller") {
+    return next(new ErrorHandler(`Role: ${req.user.role} cannot bid on this product`, 401));
   }
 
-  const user = req.user._id;
-  const product = req.params.id;
+  const userId = req.user._id;
+  const productId = req.params.id;
   const { price } = req.body;
 
   if (price > 999999999) {
     return next(new ErrorHandler(`Price is way too high`, 401));
   }
 
-
-  //If bid product is already present in schmea, it will only push the new Bid of user
-  const bidDocument = await Bid.findOne({ bidItem: product });
-  if (bidDocument) {
-
-    //Removing the old bid of the user if found
-    const alreadyPresentBid = await Bid.findOneAndUpdate({
-      bidItem: product, user
-    }, {
-      $pull: {
-        bidders: { user }
-      }
-    }, {
-      new: true,
-
-    }
-    )
-    alreadyPresentBid.save();
-
-    //Pushing the new bid of the user
-    const newPresentBid = await Bid.findOneAndUpdate({
-      bidItem: product, user
-    }, {
-      $push: {
-        bidders: { user, price }
-      }
-    }, {
-      new: true,
-
-    }
-    )
-    newPresentBid.save();
-
-    // const newBid = await bidDocument.createBid(user, price);
-    // console.log("newBid ", newBid)
-    await bidDocument.save();
-    res.status(201).json({
-      success: true,
-      newPresentBid
-    });
-    return;
+  // Check if the product exists and is available for bidding
+  const product = await Product.findById(productId);
+  
+  if (!product) {
+    return next(new ErrorHandler(`Product not found with id: ${productId}`, 404));
   }
 
-  const bid = await Bid.create({
-    bidItem: product,
-    bidders: {
-      user,
-      price,
-    },
-  });
+  if (product.endDate < Date.now()) {
+    return next(new ErrorHandler(`Bidding has ended for this product`, 401));
+  }
 
-  res.status(201).json({
-    success: true,
-    bid,
-  });
+  // Check if a bid already exists for this product and user
+  const existingBid = await Bid.findOne({ bidItem: productId, 'bidders.user': userId });
+
+  if (existingBid) {
+    // Remove the existing bid for the user
+    await Bid.updateOne({ bidItem: productId }, {
+      $pull: { bidders: { user: userId } }
+    });
+
+    // Add the new bid
+    const updatedBid = await Bid.findOneAndUpdate({ bidItem: productId }, {
+      $push: { bidders: { user: userId, price } }
+    }, { new: true });
+
+
+    res.status(201).json({
+      success: true,
+      data: updatedBid
+    });
+  } else {
+    // Create a new bid document if no existing bid was found
+    const newBid = await Bid.create({
+      bidItem: productId,
+      bidders: [{ user: userId, price }],
+    });
+
+    res.status(201).json({
+      success: true,
+      data: newBid,
+    });
+  }
 });
+
 
 
 

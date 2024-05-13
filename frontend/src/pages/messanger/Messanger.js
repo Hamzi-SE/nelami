@@ -5,12 +5,11 @@ import "./Messanger.css"
 import Conversations from "../../Components/conversations/Conversations"
 import Message from "../../Components/message/Message"
 import Picker from 'emoji-picker-react';
-import { Circles } from 'react-loader-spinner'
+import { ClipLoader, PulseLoader } from 'react-spinners'
 import io from "socket.io-client"
 import MetaData from "../../utils/MetaData";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../Components/Loader/Loader";
-import { TailSpin } from 'react-loader-spinner'
 import customFetch from "../../utils/api";
 
 
@@ -223,7 +222,7 @@ const Messanger = () => {
                     <div className="chatMenuWrapper">
                         <h3 className="chatMenuInput">Sellers</h3>
                         {conversations?.map(c => (
-                            <div className="conversation-wrapper" onClick={(e) => { setCurrentChat(c); addActiveClass(e) }}>
+                            <div key={c._id} className="conversation-wrapper" onClick={(e) => { setCurrentChat(c); addActiveClass(e) }}>
                                 <Conversations conversation={c} currentUser={user} />
                             </div>
                         ))}
@@ -234,8 +233,11 @@ const Messanger = () => {
                         {currentChat ? (
                             <>
                                 <div className="chatBoxTop" >
-                                    {messagesLoading ? <TailSpin width={100} height={100} color={"#1877f2"} /> : messages.map(m => (
-                                        <div>
+                                    {messagesLoading ? (
+                                        <div className="w-100 h-100 d-flex justify-content-center align-items-center">
+                                            <ClipLoader size={100} color={"#1877f2"} />
+                                        </div>) : messages.map(m => (
+                                        <div key={m._id}>
                                             <Message message={m} own={m.sender === user._id} />
                                         </div>
                                     ))}
@@ -252,8 +254,8 @@ const Messanger = () => {
                                     />}
                                     <textarea className="chatMessageInput" placeholder="Type a message" name="newMessage" value={newMessage} onChange={(e) => setNewMessage(e.target.value)} ></textarea>
 
-                                    <button className="chatSubmitButton d-flex justify-content-center align-items-center" onClick={sendMessage}>
-                                        {msgSending ? <Circles height={20} width={20} color="white" /> : "Send"}</button>
+                                    <button className={`chatSubmitButton d-flex justify-content-center align-items-center ${msgSending && 'pe-none disabled'}`} onClick={sendMessage}>
+                                        {msgSending ? <PulseLoader size={5} color="white" /> : "Send"}</button>
                                 </div>
                             </>) : <span className="noConversationText">Open a Conversation to Start a Chat</span>
                         }

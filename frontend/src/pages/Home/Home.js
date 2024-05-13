@@ -3,7 +3,6 @@ import 'tippy.js/dist/tippy.css';
 import { IoCarSportSharp } from "react-icons/io5";
 import { MdDevicesOther } from 'react-icons/md';
 import { BiBuildingHouse } from "react-icons/bi";
-import { ThreeDots } from 'react-loader-spinner'
 import { Link, useNavigate } from "react-router-dom";
 
 // CSS
@@ -26,11 +25,13 @@ import {
   getBalochistanCitiesDropList,
   getKPKCitiesDropList,
 } from "../../utils/PakCitiesData";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import customFetch from "../../utils/api";
+import Loader from "../../Components/Loader/Loader";
 
 
 const Home = () => {
+  const dispatch = useDispatch();
   const { data } = useSelector(state => state.data)
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState("");
@@ -42,16 +43,23 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   const getAllProducts = async () => {
-    setLoading(true);
-    const res = await customFetch(`/api/v1/products`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-    const data = await res.json();
-    setProducts(data.products);
-    setLoading(false);
+    dispatch({ type: "ALL_PRODUCTS_REQUEST" });
+    try { 
+      const res = await customFetch(`/api/v1/products`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      const data = await res.json();
+      dispatch({ type: "ALL_PRODUCTS_SUCCESS", payload: data.products });
+      setProducts(data.products);
+    } catch (error) {
+      console.log("error: ", error)
+      dispatch({ type: "ALL_PRODUCTS_FAIL", payload: error.message });
+    } finally {
+      setLoading(false);
+    }
   }
 
 
@@ -94,13 +102,7 @@ const Home = () => {
   ), [products]);
 
   if (loading) {
-    return (
-      <>
-        <div className="container-fluid loading-three-dots">
-          <ThreeDots color="blue" height={80} width={80} />
-        </div>
-      </>
-    )
+    return <Loader />
   }
 
   

@@ -81,7 +81,7 @@ const Checkout = () => {
                 console.log("ERROR in upgrading plan")
             }
         } catch (error) {
-            console.log(error.response.data.message);
+            console.log(error?.response?.data?.message);
         }
     }
 

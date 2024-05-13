@@ -130,7 +130,6 @@ const MyProducts = () => {
 
     const filterProducts = (attribute, value) => {
         const result = allProducts?.filter((product) => {
-            console.log(product[attribute]);
             return product[attribute] === value
         }).sort((a, b) => {
             return a.title.localeCompare(b.title)

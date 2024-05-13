@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { HiOutlineEye } from 'react-icons/hi';
 import { FaHeart } from "react-icons/fa";
-import { ThreeDots } from 'react-loader-spinner'
 
 import { toastOptions } from '../../../App';
 import './MyWishlist.css'
 import customFetch from '../../../utils/api';
+import Loader from '../../../Components/Loader/Loader';
 
 const MyWishlist = () => {
     const navigate = useNavigate();
@@ -50,7 +50,7 @@ const MyWishlist = () => {
         });
         try {
             const data = await res.json();
-            console.log(data)
+            
             if (res.status === 200) {
                 setUserWishlist(data.products);
             } else {
@@ -68,13 +68,7 @@ const MyWishlist = () => {
     }, [loading]);
 
     if (loading) {
-        return (
-            <>
-                <div className="container-fluid loading-three-dots ">
-                    <ThreeDots color="blue" height={80} width={80} />
-                </div>
-            </>
-        )
+        return <Loader />
     }
 
 

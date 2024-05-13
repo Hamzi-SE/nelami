@@ -40,7 +40,6 @@ import DeleteUser from "./pages/AdminDashboard/AllUsers/DeleteUser";
 
 //Style Imports
 import "./App.css";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import "react-toastify/dist/ReactToastify.css";
 
 //Meta Data

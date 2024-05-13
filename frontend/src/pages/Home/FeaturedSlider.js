@@ -1,42 +1,32 @@
 import React from "react";
-
-// Product Card Import
 import ProductCard from "../../Components/ProductCard/ProductCard";
-
-//Random Id
 import generateId from "../../utils/RandomIdGen";
 
+const FeaturedSlider = ({ products }) => {
+    // Function to shuffle array
+    const shuffleArray = (arr) => {
+        const array = arr.slice(); // Create a copy of the array
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+        }
+        return array;
+    };
 
-const FeaturedSlider = (props) => {
-    const { products } = props;
+    // Shuffled and sliced products
+    const displayedProducts = React.useMemo(() => {
+        return shuffleArray(products).slice(0, 4);
+    }, [products]);
 
     return (
-        <>
-            <div className="d-flex">
-                {/* Previous button */}
-                {/* <div className="prev">
-                    <i className="fa fa-chevron-left"></i>
-                </div> */}
-                {/* Slider */}
-                {
-                    //Get 4 random products from the products array
-                    products?.sort(() => Math.random() - 0.5).slice(0, 4).map((product) => {
-                        return (<div className="w-25" key={generateId()}>
-                            <ProductCard product={product} index={generateId()} />
-                        </div>)
-                    })
-                }
-                {/* Next button */}
-                {/* <div className="next">
-                    <i className="fa fa-chevron-right"></i>
-                </div> */}
+        <div className="d-flex flex-wrap">
+            {displayedProducts.map((product) => (
+                <div className="col-lg-3 col-md-6 col-sm-12" key={generateId()}>
+                    <ProductCard product={product} index={generateId()} />
+                </div>
+            ))}
+        </div>
+    );
+};
 
-
-            </div>
-
-        </>
-
-    )
-}
-
-export default FeaturedSlider
+export default FeaturedSlider;

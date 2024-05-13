@@ -1,65 +1,64 @@
 import { createReducer } from "@reduxjs/toolkit";
 
-
 const initialState = {
-    loading: true,
+    loading: false,
     bid: null,
     error: null,
-}
+};
 
-export const bidReducer = createReducer(initialState, {
+export const bidReducer = createReducer(initialState, (builder) => {
+    builder
+        .addCase('BID_REQUEST', (state) => {
+            state.loading = true;
+            state.bid = null;
+            state.error = null;
+        })
+        .addCase('BID_SUCCESS', (state, action) => {
+            state.bid = action.payload;
+            state.loading = false;
+        })
+        .addCase('BID_FAIL', (state, action) => {
+            state.loading = false;
+            state.bid = null;
+            state.error = action.payload;
+        });
+});
 
-    BID_REQUEST: (state) => {
-        state.loading = true;
-        state.bid = null;
-        state.error = null;
-    },
-    BID_SUCCESS: (state, action) => {
-        state.bid = action.payload;
-        state.loading = false;
-    },
-    BID_FAIL: (state, action) => {
-        state.bid = false;
-        state.error = action.payload;
-    }
-
-})
 
 const bidsInitialState = {
-    loading: true,
+    loading: false,
     bids: null,
     error: null,
-}
+};
 
-export const bidsReducer = createReducer(bidsInitialState, {
-
-    PRODUCT_BIDS_REQUEST: (state) => {
-        state.loading = true;
-        state.bids = null;
-        state.error = null;
-    },
-    PRODUCT_BIDS_SUCCESS: (state, action) => {
-        state.bids = action.payload;
-        state.loading = false;
-    },
-    PRODUCT_BIDS_FAIL: (state, action) => {
-        state.bids = false;
-        state.error = action.payload;
-    },
-
-
-    BUYER_ALL_BIDS_REQUEST: (state) => {
-        state.loading = true;
-        state.bids = null;
-        state.error = null;
-    },
-    BUYER_ALL_BIDS_SUCCESS: (state, action) => {
-        state.bids = action.payload;
-        state.loading = false;
-    },
-    BUYER_ALL_BIDS_FAIL: (state, action) => {
-        state.bids = false;
-        state.error = action.payload;
-    }
-
-})
+export const bidsReducer = createReducer(bidsInitialState, (builder) => {
+    builder
+        .addCase('PRODUCT_BIDS_REQUEST', (state) => {
+            state.loading = true;
+            state.bids = null;
+            state.error = null;
+        })
+        .addCase('PRODUCT_BIDS_SUCCESS', (state, action) => {
+            state.bids = action.payload;
+            state.loading = false;
+        })
+        .addCase('PRODUCT_BIDS_FAIL', (state, action) => {
+            state.loading = false;
+            state.bids = null;
+            state.error = action.payload;
+        })
+        .addCase('BUYER_ALL_BIDS_REQUEST', (state) => {
+            state.loading = true;
+            state.bids = null;
+            state.error = null;
+        })
+        .addCase('BUYER_ALL_BIDS_SUCCESS', (state, action) => {
+            state.bids = action.payload;
+            state.loading = false;
+        })
+        .addCase('BUYER_ALL_BIDS_FAIL', (state, action) => {
+            state.loading = false;
+            state.bids = null; 
+            state.error = action.payload;
+        });
+});

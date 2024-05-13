@@ -1,45 +1,37 @@
-import React, { useState, useEffect } from "react";
-
-// Product Card Import
+import React, { useState, useEffect, useMemo } from "react";
 import ProductCard from "../../Components/ProductCard/ProductCard";
-
-
-//Random Id
 import generateId from "../../utils/RandomIdGen";
 
-
-const VehiclesSlider = (props) => {
-    const { products } = props;
-    const [vehicles, setVehicles] = useState([])
-
+const VehiclesSlider = ({ products }) => {
+    const [vehicles, setVehicles] = useState([]);
 
     useEffect(() => {
+        const filteredVehicles = products.filter(product => product.category === "Vehicles");
+        setVehicles(filteredVehicles);
+    }, [products]); // Depend on products so it updates when products change
 
-        setVehicles(products.filter(product => product.category === "Vehicles"))
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    // Shuffling and selecting the first 4 vehicles
+    const shuffledVehicles = useMemo(() => {
+        const shuffleArray = (array) => {
+            let newArr = array.slice();
+            for (let i = newArr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArr[i], newArr[j]] = [newArr[j], newArr[i]]; // Swap elements
+            }
+            return newArr;
+        };
+        return shuffleArray(vehicles).slice(0, 4);
+    }, [vehicles]); // Only reshuffle when vehicles array changes
 
     return (
-        <>
+        <div className="d-flex flex-wrap">
+            {shuffledVehicles.map((vehicle) => (
+                <div className="col-lg-4 col-md-6 col-sm-12" key={generateId()}>
+                    <ProductCard product={vehicle} index={generateId()} />
+                </div>
+            ))}
+        </div>
+    );
+};
 
-
-            <div className="d-flex">
-
-
-                {
-                    //Get 4 random vehicles from the vehicles array
-                    vehicles?.sort(() => Math.random() - 0.5).slice(0, 4).map((vehicle) => {
-                        return (<div className="w-25" key={generateId()}>
-                            <ProductCard product={vehicle} index={generateId()} />
-                        </div>)
-                    })
-                }
-
-
-
-            </div>
-        </>
-    )
-}
-
-export default VehiclesSlider
+export default VehiclesSlider;

@@ -45,7 +45,7 @@ const StatsDashboard = (props) => {
             })
         }
         else {
-            console.log("Error")
+            console.log(data?.message || "Something went wrong while fetching stats")
         }
     }
     useEffect(() => {

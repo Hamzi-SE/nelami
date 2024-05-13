@@ -39,11 +39,17 @@ const SignUp = () => {
   // };
 
   const handleChange = async (e) => {
-    if (e.target.name === "name") {
-      const result = e.target.value.replace(/[^a-zA-Z ]/gi, "");
+    const { name, value } = e.target;
+    if (name === "name") {
+      const result = value.replace(/[^a-zA-Z ]/gi, "");
       setUser({ ...user, name: result });
+    } else if (name === "phoneNo") {
+      // Allow only digits to be inputted
+      if (value === "" || /^[0-9\b]+$/.test(value)) {
+        setUser({ ...user, [name]: value });
+      }
     } else {
-      setUser({ ...user, [e.target.name]: e.target.value });
+      setUser({ ...user, [name]: value });
     }
   };
 
@@ -52,7 +58,7 @@ const SignUp = () => {
 
     const { name, email, password, confirmPassword, address, phoneNo, role, city, store } = user;
 
-    if (!name || !email || !password || !confirmPassword || !address || !phoneNo || !role) {
+    if (!name || !email || !password || !confirmPassword || !phoneNo || !role) {
       toast.error("Please Fill All Fields");
       return;
     }
@@ -140,27 +146,23 @@ const SignUp = () => {
                       <div className="card-body">
                         <div className="form-group">
                           <label className="form-label text-dark">Name</label>
-                          <input type="text" className="form-control" placeholder="Enter Name" name="name" value={user.name} onChange={handleChange} />
+                          <input type="text" className="form-control" placeholder="Enter Name" name="name" value={user.name} onChange={handleChange} required />
                         </div>
                         <div className="form-group">
                           <label className="form-label text-dark">Email address</label>
-                          <input type="email" className="form-control" placeholder="Enter Email" name="email" value={user.email} onChange={handleChange} />
+                          <input type="email" className="form-control" placeholder="Enter Email" name="email" value={user.email} onChange={handleChange} required />
                         </div>
                         <div className="form-group">
                           <label className="form-label text-dark">Password</label>
-                          <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Enter Password" name="password" value={user.password} onChange={handleChange} />
+                          <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Enter Password" name="password" value={user.password} onChange={handleChange} required />
                         </div>
                         <div className="form-group">
                           <label className="form-label text-dark">Confirm Password</label>
-                          <input type="password" className="form-control" id="exampleInputPassword2" placeholder="Confirm Password" name="confirmPassword" value={user.confirmPassword} onChange={handleChange} />
+                          <input type="password" className="form-control" id="exampleInputPassword2" placeholder="Confirm Password" name="confirmPassword" value={user.confirmPassword} onChange={handleChange} required />
                         </div>
                         <div className="form-group">
                           <label className="form-label text-dark">Phone No.</label>
-                          <input type="number" className="form-control" id="exampleInputPhone" placeholder="Enter Phone Number" minLength={9} maxLength={15} name="phoneNo" value={user.phoneNo} onChange={handleChange} />
-                        </div>
-                        <div className="form-group">
-                          <label className="form-label text-dark">Address</label>
-                          <input type="text" className="form-control" id="exampleInputAddress" placeholder="Enter Address" name="address" value={user.address} onChange={handleChange} />
+                          <input type="text" className="form-control" id="exampleInputPhone" placeholder="Enter Phone Number" minLength={11} maxLength={15} name="phoneNo" value={user.phoneNo} onChange={handleChange} required />
                         </div>
                         <div className="form-group">
                           <label className="form-label text-dark">City</label>
@@ -172,20 +174,26 @@ const SignUp = () => {
                             {getAllCitiesDropList(data)}
                           </select>
                         </div>
-                        <div className="form-group">
+                        <div className="form-group" required>
                           <div className="form-check">
-                            <input className="form-check-input" type="radio" name="role" value="buyer" id="role-buyer" onChange={handleChange} />
+                            <input className="form-check-input" type="radio" name="role" value="buyer" id="role-buyer" onChange={handleChange} checked={user.role === 'buyer'} />
                             <label className="form-check-label" htmlFor="role-buyer">
                               Buyer
                             </label>
                           </div>
                           <div className="form-check">
-                            <input className="form-check-input" type="radio" name="role" value="seller" id="role-seller" onChange={handleChange} />
+                            <input className="form-check-input" type="radio" name="role" value="seller" id="role-seller" onChange={handleChange} checked={user.role === 'seller'} />
                             <label className="form-check-label" htmlFor="role-seller">
                               Seller
                             </label>
                           </div>
                         </div>
+                        {user.role === "seller" && (
+                        <div className="form-group">
+                          <label className="form-label text-dark">Address</label>
+                          <input type="text" className="form-control" id="exampleInputAddress" placeholder="Enter Address" name="address" value={user.address} onChange={handleChange} />
+                        </div>
+                        )}
 
                         {user.role === "seller" && (
                           <div className="form-group">

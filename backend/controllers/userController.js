@@ -16,7 +16,7 @@ const Conversation = require("../models/conversationModel");
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
   const { name, email, password, confirmPassword, role, address, phoneNo, city, store, aboutInfo } = req.body;
 
-  if (!name || !email || !password || !confirmPassword || !role || !address || !phoneNo || !city) {
+  if (!name || !email || !password || !confirmPassword || !role || !phoneNo || !city) {
     return next(new ErrorHandler("Please Fill All Required Fields", 400));
   }
 
@@ -70,10 +70,8 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     });
 
   } catch (error) {
-    user.otp = undefined;
-    user.otpExpiresIn = undefined;
-    
-    await user.save({ validateBeforeSave: false });
+    // remove user from database
+    await user.remove();
     return next(new ErrorHandler(error.message, 500));
   }
 
@@ -408,39 +406,39 @@ exports.getSingleUser = catchAsyncErrors(async (req, res, next) => {
 
 //Add Product To Wishlist
 exports.addProductToWishlist = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findById(req.user.id);
-  const { productId } = req.body;
-
-  if (!user) {
-    return next(new ErrorHandler(`Please Login to Add Items to Wishlist`));
+  if (!req.user.id) {
+    return next(new ErrorHandler('Please Login to Add Items to Wishlist', 401));
   }
-
+  const user = await User.findById(req.user.id);
+  
+  if (!user) {
+    return next(new ErrorHandler('User not found', 404));
+  }
+  
+  const { productId } = req.body;
   const product = await Product.findById(productId);
 
   if (!product) {
-    return next(new ErrorHandler(`Product does not exist with Id: ${productId}`));
+    return next(new ErrorHandler(`Product does not exist with Id: ${productId}`, 404));
   }
 
-  if (user.wishlist.includes(productId)) {
-    user.wishlist.pull(productId);
+  const index = user.wishlist.indexOf(productId);
+  if (index !== -1) {
+    user.wishlist.splice(index, 1);
+    await user.save();
     res.status(200).json({
       success: true,
-      message: "Product Removed from Wishlist",
+      message: "Product removed from Wishlist",
     });
-    return await user.save();
   } else {
     user.wishlist.push(productId);
+    await user.save();
+    res.status(201).json({
+      success: true,
+      message: "Product added to Wishlist",
+    });
   }
-
-
-  await user.save();
-
-  res.status(201).json({
-    success: true,
-    message: `Product is added to Wishlist`,
-  });
-}
-);
+});
 
 
 //Get Wishlist Items

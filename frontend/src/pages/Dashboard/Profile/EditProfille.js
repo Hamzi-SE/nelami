@@ -69,7 +69,7 @@ const EditProfille = () => {
       }),
     });
     const data = await res.json();
-    console.log(data);
+    
     if (res.status === 200) {
       dispatch({ type: "UPDATE_PROFILE_SUCCESS" });
       dispatch({ type: "LOAD_USER_SUCCESS", payload: data.user });

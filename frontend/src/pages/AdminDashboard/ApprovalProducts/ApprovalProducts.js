@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import DataTable from 'react-data-table-component'
 import { useDispatch, useSelector } from 'react-redux';
-import { TailSpin } from 'react-loader-spinner'
+import { ClipLoader } from 'react-spinners'
 
 // Icons
 import { HiOutlinePencilAlt, HiOutlineTrash, HiOutlineEye } from "react-icons/hi"
@@ -109,7 +109,7 @@ const ApprovalProducts = () => {
                         <Button variant="danger" onClick={() => setShow(false)}>
                             Close
                         </Button>
-                        <Button variant="primary" onClick={() => handleProductApproval(approvalProducts[index])}>{productLoading ? <TailSpin height={20} width={20} color="white" /> : "Approve"}</Button>
+                        <Button variant="primary" onClick={() => handleProductApproval(approvalProducts[index])}>{productLoading ? <ClipLoader size={20} color="white" /> : "Approve"}</Button>
                     </Modal.Footer>
                 </Modal>
             </>

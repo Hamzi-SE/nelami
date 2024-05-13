@@ -1,12 +1,12 @@
 import React from 'react'
-import { ThreeDots } from 'react-loader-spinner'
+import { ClipLoader } from 'react-spinners'
 import "./Loader.css"
 
 const Loader = () => {
     return (
         <>
             <div className="container-fluid loading-three-dots">
-                <ThreeDots color="blue" height={80} width={80} />
+                <ClipLoader color="blue" size={80} aria-label='Loading Spinner' />
             </div>
         </>
     )

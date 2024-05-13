@@ -23,7 +23,7 @@ const SellerProfile = () => {
             const data = await res.json();
             if (res.status === 200) {
                 if (data.user.role === "seller") {
-                    console.log(data);
+                    
                     dispatch({ type: "LOAD_SELLER_SUCCESS", payload: { seller: data.user, products: data.products } });
                 } else {
                     dispatch({ type: "LOAD_SELLER_FAIL", payload: `${data.user.role} does not have a shop page` });

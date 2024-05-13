@@ -34,7 +34,7 @@ const ForgotPassword = () => {
         });
 
         const data = await res.json();
-        console.log(data)
+        
         if (res.status === 200) {
             dispatch({ type: "FORGOT_PASSWORD_SUCCESS", payload: data.message })
             toast.success(data.message);

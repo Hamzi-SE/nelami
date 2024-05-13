@@ -12,6 +12,7 @@ import 'tippy.js/dist/tippy.css';
 import customFetch from "../../utils/api";
 import Loader from "../Loader/Loader";
 import "./ProductCard.css";
+import { callProfile } from '../../helpers/CallProfile';
 
 const ProductCard = (props) => {
 
@@ -24,7 +25,9 @@ const ProductCard = (props) => {
 
   const navigate = useNavigate();
 
-  const [added, setAdded] = useState(false);
+  // check if the product is already added to wishlist
+  const [added, setAdded] = useState(user?.wishlist?.includes(product?._id) ? true : false);
+  
   const [bidCount, setBidCount] = useState(0);
 
   let remainingTime = new Date(product.endDate).getTime() - new Date().getTime();
@@ -63,18 +66,17 @@ const ProductCard = (props) => {
       dispatch({ type: "CREATE_CONVERSATION_SUCCESS", payload: data.savedConversation })
       document.getElementsByClassName("modal-backdrop")[0].remove();
       toast.success(data.message)
-      navigate("/messenger", { replace: true })
     } else if (res.status === 200) {
       dispatch({ type: "CREATE_CONVERSATION_SUCCESS", payload: data.conversation })
       document.getElementsByClassName("modal-backdrop")[0].remove();
       toast.success(data.message)
-      navigate(`/messenger`, { replace: true })
 
     } else {
       dispatch({ type: "CREATE_CONVERSATION_FAIL", payload: data.message })
       document.getElementsByClassName("modal-backdrop")[0].remove();
       toast.error(data.message)
     }
+    navigate(`/messenger`, { replace: true })
 
 
 
@@ -104,6 +106,9 @@ const ProductCard = (props) => {
     else {
       toast.error(data.message)
     }
+
+    callProfile(dispatch)
+    
   }
 
 
@@ -151,7 +156,7 @@ const ProductCard = (props) => {
       </div>
 
 
-      {product && <div className=" col-md-12 col-sm-12 ">
+      {product && <div className=" col-md-12 col-sm-12 p-0 ">
         <div className="card overflow-hidden">
           <Link to={`/Product/${product._id}`}>
             <div className="item-card-img">

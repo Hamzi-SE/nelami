@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./CategoryPage.css"
 import { useParams } from "react-router-dom";
 import ProductCard from "../../Components/ProductCard/ProductCard";
-import { ThreeDots } from 'react-loader-spinner'
 import MetaData from "../../utils/MetaData";
 import Pagination from "react-js-pagination";
 import customFetch from "../../utils/api";
+import Loader from "../../Components/Loader/Loader";
 
 
 const CategoryPage = () => {
@@ -49,13 +49,7 @@ const CategoryPage = () => {
 
 
     if (loading) {
-        return (
-            <>
-                <div className="container-fluid loading-three-dots">
-                    <ThreeDots color="blue" height={80} width={80} />
-                </div>
-            </>
-        )
+        return <Loader />
     }
 
     return (
