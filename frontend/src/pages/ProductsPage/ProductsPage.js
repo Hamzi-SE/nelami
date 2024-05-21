@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import ProductCard from "../../Components/ProductCard/ProductCard";
 import { useSelector, useDispatch } from "react-redux";
 import Pagination from "react-js-pagination";
@@ -25,6 +25,7 @@ import customFetch from "../../utils/api";
 const ProductsPage = () => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { loading, products } = useSelector(state => state.products);
     const { data } = useSelector(state => state.data)
     //get all queries from url
@@ -32,7 +33,7 @@ const ProductsPage = () => {
 
     const [city, setCity] = useState(searchParams.get("city"));
     const [province, setProvince] = useState(searchParams.get("province"));
-    const [category, setCategory] = useState(searchParams.get("category"));
+    const [category, setCategory] = useState(searchParams.get("category") || "");
     const [keyword, setKeyword] = useState(searchParams.get("keyword"));
 
 
@@ -43,6 +44,7 @@ const ProductsPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalProducts, setTotalProducts] = useState(0);
     const [filteredTotalProducts, setFilteredTotalProducts] = useState(0);
+    const [getParamCategory, setGetParamCategory] = useState(searchParams.get("category") || "");
 
     const getAllSearchProducts = async () => {
         dispatch({ type: "ALL_PRODUCTS_REQUEST" });
@@ -76,6 +78,7 @@ const ProductsPage = () => {
                     "Content-Type": "application/json"
                 }
             })
+            updateUrl();
             const data = await res.json();
             dispatch({ type: "ALL_PRODUCTS_SUCCESS", payload: data.products });
             setResultsPerPage(data.resultsPerPage);
@@ -88,6 +91,30 @@ const ProductsPage = () => {
 
     }
 
+    const updateUrl = () => {
+        let link = `/products?page=${currentPage}`;
+        if (keyword) {
+            link += `?keyword=${keyword}`
+          }
+        if (province) {
+          link.includes("?") ? link += "&" : link += "?"
+          link += `province=${province}`
+        } if (category) {
+          link.includes("?") ? link += "&" : link += "?"
+          link += `category=${category}`
+        }
+        if (province && city) {
+            link.includes("?") ? link += "&" : link += "?"
+            link += `city=${city}`;
+        }
+        if (fromPrice) {
+            link += `&price[gte]=${fromPrice}`;
+        }
+        if (toPrice) {
+            link += `&price[lte]=${toPrice}`;
+        }
+        navigate(link)
+    }
 
 
     const setCurrentPageNo = (e) => {
@@ -99,6 +126,10 @@ const ProductsPage = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage])
 
+
+    useEffect(() => {
+        setGetParamCategory(searchParams.get("category") || "");
+    }, [searchParams])
 
     if (loading) {
         return <Loader />
@@ -119,7 +150,7 @@ const ProductsPage = () => {
                                 <div className="col-12 mx-auto">
                                     <div className="text-center text-white">
                                         <h1 className="">
-                                            <span className="font-weight-bold"><CountUp duration={0.8} end={totalProducts} useEasing={true} /></span> Auctions Running Right Now on Nelami
+                                            <span className="font-weight-bold"><CountUp duration={0.8} end={totalProducts} useEasing={true} /></span> Auctions Running Right {getParamCategory ? `In ${getParamCategory}` : ""} Now on Nelami
                                         </h1>
                                     </div>
 
@@ -130,12 +161,12 @@ const ProductsPage = () => {
                                                 <input type="text" className="form-control input-lg border-end-0" value={keyword ? keyword : ""} id="text" placeholder="Search Products" onChange={(e) => setKeyword(e.target.value)} />
                                             </div>
                                             <div className="form-group">
-                                                <select value={category ? category : ""} className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option" data-placeholder="Select Category"
+                                                <select value={category} className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option" data-placeholder="Select Category"
                                                     onChange={async (e) => {
                                                         setCategory(e.target.value)
                                                     }}  >
                                                     <optgroup label="Categories">
-                                                        <option>Select Category</option>
+                                                        <option value="">Select Category</option>
                                                         <option value="Vehicles">Vehicles</option>
                                                         <option value="Property">Properties</option>
                                                         <option value="MiscProducts">Miscellaneous Products</option>
@@ -145,7 +176,7 @@ const ProductsPage = () => {
                                             {/* PRONVINCES LIST */}
                                             <div className="form-group">
                                                 <select id="province" name="province" value={province ? province : ""} onChange={(e) => setProvince(e.target.value)} className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option" data-placeholder="Select" required>
-                                                    <option>Select Province</option>
+                                                    <option value="">Select Province</option>
                                                     {getProvinceDropList(data)}
                                                 </select>
                                             </div>
@@ -154,8 +185,8 @@ const ProductsPage = () => {
                                             {/* Islamabad CITIES DROPLIST */}
                                             {province === "Islamabad" && (
                                                 <div className="form-group">
-                                                    <select id="islamabad-sectors" name="city" value={city ? city : ""} onChange={(e) => setCity(e.target.value)} className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option" required>
-                                                        <option value="" disabled>
+                                                    <select id="islamabad-sectors" name="city" value={(province && city) ? city : ""} onChange={(e) => setCity(e.target.value)} className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option" required>
+                                                        <option value="">
                                                             Select Sector
                                                         </option>
                                                         {getIslamabadSectorsDropList(data)}
@@ -167,7 +198,7 @@ const ProductsPage = () => {
                                             {province === "Punjab" && (
                                                 <div className="form-group">
                                                     <select id="punjab-cities" name="city" value={city ? city : ""} onChange={(e) => setCity(e.target.value)} className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option" required>
-                                                        <option value="" disabled>
+                                                        <option value="">
                                                             Select City
                                                         </option>
                                                         {getPunjabCitiesDropList(data)}
@@ -178,7 +209,7 @@ const ProductsPage = () => {
                                             {province === "Khyber Pakhtunkhwa" && (
                                                 <div className="form-group">
                                                     <select id="kpk-cities" name="city" value={city ? city : ""} onChange={(e) => setCity(e.target.value)} className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option" required>
-                                                        <option value="" disabled selected>
+                                                        <option value="">
                                                             Select City
                                                         </option>
                                                         {getKPKCitiesDropList(data)}
@@ -189,7 +220,7 @@ const ProductsPage = () => {
                                             {province === "Sindh" && (
                                                 <div className="form-group">
                                                     <select id="sindh-cities" name="city" value={city ? city : ""} onChange={(e) => setCity(e.target.value)} className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option" required>
-                                                        <option value="" disabled selected>
+                                                        <option value="">
                                                             Select City
                                                         </option>
                                                         {getSindhCitiesDropList(data)}
@@ -200,7 +231,7 @@ const ProductsPage = () => {
                                             {province === "Balochistan" && (
                                                 <div className="form-group">
                                                     <select id="balochistan-cities" name="city" value={city ? city : ""} onChange={(e) => setCity(e.target.value)} className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option" required>
-                                                        <option value="" disabled selected>
+                                                        <option value="">
                                                             Select City
                                                         </option>
                                                         {getBalochistanCitiesDropList(data)}
@@ -211,7 +242,7 @@ const ProductsPage = () => {
                                             {province === "Azad Kashmir" && (
                                                 <div className="form-group">
                                                     <select id="AzadKashmir-cities" name="city" value={city ? city : ""} onChange={(e) => setCity(e.target.value)} className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option" required>
-                                                        <option value="" disabled selected>
+                                                        <option value="">
                                                             Select City
                                                         </option>
                                                         {getAzadKashmirCitiesDropList(data)}
@@ -222,7 +253,7 @@ const ProductsPage = () => {
                                             {province === "Northern Areas" && (
                                                 <div className="form-group">
                                                     <select id="northern-areas-cities" name="city" value={city ? city : ""} onChange={(e) => setCity(e.target.value)} className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option" required>
-                                                        <option value="" disabled selected>
+                                                        <option value="">
                                                             Select City
                                                         </option>
                                                         {getNorthernAreasCitiesDropList(data)}
@@ -289,7 +320,7 @@ const ProductsPage = () => {
                                     <div className="item2-gl">
                                         <div className="item2-gl-nav d-flex">
 
-                                            {category ? <h6 className="mb-0 mt-2">Showing {filteredTotalProducts} to {filteredTotalProducts} entries from <b>{category}</b></h6> : <h6 className="mb-0 mt-2">Showing {startIndex + 1} to {endIndex} entries</h6>}
+                                            {getParamCategory ? <h6 className="mb-0 mt-2">Showing {filteredTotalProducts} to {filteredTotalProducts} entries from <b>{getParamCategory}</b></h6> : <h6 className="mb-0 mt-2">Showing {startIndex + 1} to {endIndex} entries</h6>}
                                             <div className="d-flex select2-sm">
                                                 <label className="me-2 mt-1 mb-sm-1 w-100">Sort By:</label>
                                                 <select name="item" className="form-control select2 w-70">
@@ -305,7 +336,7 @@ const ProductsPage = () => {
                                                 {
                                                     products?.length !== 0 ? products?.map((product, index) => {
 
-                                                        return <div key={index}>
+                                                        return <div key={index} className="product-wrapper col-lg-4 col-md-6 col-sm-12">
 
                                                             <ProductCard product={product} index={index} />
 

@@ -92,17 +92,17 @@ div.modal-backdrop.fade.show {
 } */
 
 
-@media screen and (max-width: 768px) {
+
+
+@media screen and (max-width: 840px) {
+    .header-search-input>.form-group {
+        width: 100%;
+    }
+
     .header-search-input {
         width: 100%;
         flex-direction: column !important;
         align-items: center;
-    }
-}
-
-
-@media screen and (max-width: 476px) {
-    .header-search-input>.form-group {
-        width: 100%;
+        flex-wrap: wrap;
     }
 }

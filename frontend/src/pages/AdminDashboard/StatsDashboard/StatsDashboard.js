@@ -8,7 +8,7 @@ import "./StatsDashboard.css";
 
 
 
-const StatsDashboard = (props) => {
+const StatsDashboard = () => {
 
     const [stats, setStats] = useState({
         totalUsers: 0,

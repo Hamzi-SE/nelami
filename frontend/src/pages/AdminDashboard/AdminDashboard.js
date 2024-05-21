@@ -43,9 +43,6 @@ const AdminDashboard = () => {
     };
 
 
-    // useEffect(() => {
-    //     setActiveComponent(activeComponent)
-    // }, [activeComponent])
 
 
     if (loading) {
@@ -115,7 +112,7 @@ const AdminDashboard = () => {
                                     <div className="app-sidebar__user clearfix">
                                         <ul className="side-menu">
                                             <li data-component={"statsDashboard"} onClick={handleActiveComponent} className="slide">
-                                                <button className="side-menu__item" data-bs-toggle="slide">
+                                                <button className="side-menu__item active-component" data-bs-toggle="slide">
                                                     <i className="fa-solid fa-chart-line"></i>
                                                     <span className="side-menu__label">Stats Overview</span>
                                                     <i className="angle fa fa-angle-right"></i>
@@ -184,7 +181,7 @@ const AdminDashboard = () => {
 
                         </div>
 
-                        {activeComponent === "statsDashboard" && <StatsDashboard totalUsers={"8"} />}
+                        {activeComponent === "statsDashboard" && <StatsDashboard />}
 
                         {activeComponent === "profile" && <Profile user={user} />}
                         {activeComponent === "allUsers" && <AllUsers />}

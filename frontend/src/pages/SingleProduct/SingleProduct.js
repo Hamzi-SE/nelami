@@ -559,7 +559,7 @@ const SingleProduct = () => {
                         <div className="modal-body">
                           <h4>Enter Your Bid Amount</h4>
                           <div className="d-flex">
-                            <h3 className="m-0 d-flex align-items-end justify-content-center">Rs. </h3><input type="number" maxLength={10} value={bidAmount} onChange={(e) => setBidAmount(e.target.value)} className="form-control input-bid" />
+                            <h3 className="m-0 d-flex align-items-end justify-content-center">Rs. </h3><input type="number" value={bidAmount} onChange={(e) => setBidAmount(e.target.value)} className="form-control input-bid" placeholder="Enter Your Bid Amount" />
                           </div>
                         </div>
                         <div className="modal-footer">

@@ -9,8 +9,8 @@ exports.adminStats = catchAsyncErrors(async (req, res, next) => {
     const totalUsers = await User.find({ role: { $ne: "admin" } }).countDocuments();
     const totalBuyers = await User.find({ role: "buyer" }).countDocuments();
     const totalSellers = await User.find({ role: "seller" }).countDocuments();
-    const activeBids = await Product.find({ endDate: { $gt: Date.now() }, status: "Approved" }).countDocuments();
-    const endedBids = await Product.find({ endDate: { $lt: Date.now() }, status: "Approved" }).countDocuments();
+    const activeBids = await Product.find({ status: "Approved", bidStatus: "Live" }).countDocuments();
+    const endedBids = await Product.find({ status: "Approved", bidStatus: "Expired" }).countDocuments();
     const totalProducts = await Product.find({ status: "Approved" }).countDocuments();
     const totalVehicles = await Product.find({ status: "Approved", category: "Vehicles" }).countDocuments();
     const totalProperties = await Product.find({ status: "Approved", category: "Property" }).countDocuments();

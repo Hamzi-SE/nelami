@@ -26,7 +26,7 @@ const MiscProductSlider = ({ products }) => {
     return (
         <div className="d-flex flex-wrap">
             {displayedMiscProducts.map((miscProduct) => (
-                <div className="col-lg-4 col-md-6 col-sm-12" key={generateId()}>
+                <div className="col-lg-3 col-md-6 col-sm-12" key={generateId()}>
                     <ProductCard product={miscProduct} index={generateId()} />
                 </div>
             ))}

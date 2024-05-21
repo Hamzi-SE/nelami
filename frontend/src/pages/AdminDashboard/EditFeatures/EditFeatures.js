@@ -214,7 +214,7 @@ const EditFeatures = () => {
                                     <div className="form-group m-0">
                                         <label className="form-label text-dark">Feature</label>
                                         <select id="features" name="item" value={item} onChange={(e) => setItem(e.target.value)} className="form-control" required>
-                                            <option value="" disabled selected> Select Item</option>
+                                            <option value=""> Select Item</option>
                                             <option value="bidTimeList">Bid Time</option>
                                             <option value="bikeMakeList">Bike Make</option>
                                             <option value="carMakeList">Car Make</option>
@@ -262,7 +262,7 @@ const EditFeatures = () => {
                                     <div className="form-group m-0">
                                         <label className="form-label text-dark">Features</label>
                                         <select id="features" name="item" value={itemRemove} onChange={(e) => setItemRemove(e.target.value)} className="form-control" required>
-                                            <option value="" disabled selected> Select Item</option>
+                                            <option value=""> Select Item</option>
                                             <option value="bidTimeList">Bid Time</option>
                                             <option value="bikeMakeList">Bike Make</option>
                                             <option value="carMakeList">Car Make</option>
@@ -318,7 +318,7 @@ const EditFeatures = () => {
                                     <div className="form-group m-0">
                                         <label className="form-label text-dark">Packages</label>
                                         <select id="features" name="name" value={newPackage.name} onChange={handlePackageNameChange} className="form-control" required>
-                                            <option value="" disabled selected> Select Package</option>
+                                            <option value=""> Select Package</option>
                                             <option value="Free">Free</option>
                                             <option value="Gold">Gold</option>
                                             <option value="Platinum">Platinum</option>

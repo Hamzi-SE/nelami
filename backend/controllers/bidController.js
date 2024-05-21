@@ -29,37 +29,43 @@ exports.newBid = catchAsyncErrors(async (req, res, next) => {
   }
 
   // Check if a bid already exists for this product and user
-  const existingBid = await Bid.findOne({ bidItem: productId, 'bidders.user': userId });
+  let bid = await Bid.findOne({ bidItem: productId });
 
-  if (existingBid) {
-    // Remove the existing bid for the user
-    await Bid.updateOne({ bidItem: productId }, {
-      $pull: { bidders: { user: userId } }
-    });
+  if (bid) {
+    // Check if the user has already placed a bid
+    const userBid = bid.bidders.find(bidder => bidder.user.toString() === userId.toString());
 
-    // Add the new bid
-    const updatedBid = await Bid.findOneAndUpdate({ bidItem: productId }, {
-      $push: { bidders: { user: userId, price } }
-    }, { new: true });
+    if (userBid) {
+      // Update the existing bid price
+      userBid.price = price;
+    } else {
+      // Add a new bid for the user
+      bid.bidders.push({ user: userId, price });
+    }
 
+    await bid.save();
 
     res.status(201).json({
       success: true,
-      data: updatedBid
+      newPresentBid: bid
     });
   } else {
     // Create a new bid document if no existing bid was found
     const newBid = await Bid.create({
       bidItem: productId,
-      bidders: [{ user: userId, price }],
+      bidders: { 
+        user: userId, 
+        price 
+      },
     });
 
     res.status(201).json({
       success: true,
-      data: newBid,
+      newPresentBid: newBid,
     });
   }
 });
+
 
 
 

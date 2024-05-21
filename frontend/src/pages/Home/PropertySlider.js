@@ -26,7 +26,7 @@ const PropertySlider = ({ products }) => {
     return (
         <div className="d-flex flex-wrap">
             {displayedProperties.map((property) => (
-                <div className="col-lg-4 col-md-6 col-sm-12" key={generateId()}>
+                <div className="col-lg-3 col-md-6 col-sm-12" key={generateId()}>
                     <ProductCard product={property} index={generateId()} />
                 </div>
             ))}

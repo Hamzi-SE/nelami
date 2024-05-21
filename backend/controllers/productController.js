@@ -118,7 +118,7 @@ exports.getAllProducts = catchAsyncErrors(async (req, res) => {
 
   const resultsPerPage = 12;
 
-  const apiFeature = new ApiFeatures(Product.find({}), req.query).pagination(resultsPerPage).search().filter();
+  const apiFeature = new ApiFeatures(Product.find({status: "Approved", bidStatus: "Live"}), req.query).pagination(resultsPerPage).search().filter();
   const products = await apiFeature.query.populate({
     path: "user", select: "name avatar.url"
   });

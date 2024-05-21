@@ -6,8 +6,10 @@
 }
 
 
-.products-page-products-wrapper>div {
-    width: 33.33%;
+.products-page-products-wrapper .product-wrapper {
+    /* width: 33.33%; */
+    padding: 0 10px;
+
 }
 
 .paginationBox {

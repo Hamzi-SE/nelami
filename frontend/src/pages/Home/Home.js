@@ -296,15 +296,15 @@ const Home = () => {
         </div>
       </section>
 
-      <div className="container products-slider home-products-slider home-featured-slider">
+      <div className="container products-slider home-products-slider home-vehicles-slider">
         <h1 className="text-center">Top Vehicles</h1>
         {vehiclesSliderMemo}
       </div>
-      <div className="container products-slider home-products-slider home-featured-slider">
+      <div className="container products-slider home-products-slider home-properties-slider">
         <h1 className="text-center">Top Properties</h1>
         {propertySliderMemo}
       </div>
-      <div className="container products-slider home-products-slider home-featured-slider">
+      <div className="container products-slider home-products-slider home-misc-slider">
         <h1 className="text-center">Top Miscellaneous Items</h1>
         {miscProductSliderMemo}
       </div>
