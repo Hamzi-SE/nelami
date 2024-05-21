@@ -546,7 +546,7 @@ const SingleProduct = () => {
                 }
 
                 {/* <!-- Modal --> */}
-                {product?.bidStatus === "Expired" && <div className="modal fade" id="bidModal" tabIndex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
+                {product?.bidStatus !== "Expired" && <div className="modal fade" id="bidModal" tabIndex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
                   <div className="modal-dialog" role="document">
                     <div className="modal-content">
                       <div className="modal-header">
