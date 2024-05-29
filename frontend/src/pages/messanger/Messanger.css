@@ -65,13 +65,6 @@
     border-radius: 10px;
 }
 
-.chatBoxTop>div[data-testid="tail-spin-loading"] {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
-
 
 
 .chatBoxBottom {
@@ -109,8 +102,7 @@
 }
 
 .chatMenuWrapper,
-.chatBoxWrapper,
-.chatOnlineWrapper {
+.chatBoxWrapper {
     padding: 10px;
     height: 100%;
 }

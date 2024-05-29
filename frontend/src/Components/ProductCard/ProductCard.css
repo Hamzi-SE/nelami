@@ -4,20 +4,11 @@
   justify-content: space-between;
 }
 
-.card-img-top {
-  width: 320px;
-  height: 200px;
-}
-
 .icons {
   font-size: 25px;
 }
 
 .total {
-  font-size: 20px;
-}
-
-.time-div i {
   font-size: 20px;
 }
 

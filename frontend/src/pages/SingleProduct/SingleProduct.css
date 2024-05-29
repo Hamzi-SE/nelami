@@ -3,11 +3,6 @@
 }
 
 
-.main-div {
-  display: flex;
-}
-
-
 
 
 .main-img div {
@@ -110,21 +105,6 @@
   opacity: 0.5;
 }
 
-.__react_modal_image__modal_container {
-  background-color: rgba(0, 0, 0, 0.94) !important
-}
-
-img#react-modal-image-img {
-  width: auto;
-  height: auto;
-}
-
-
-img#react-modal-image-img:hover {
-  opacity: 1;
-  filter: none;
-}
-
 .main-external {
   display: flex;
 }
@@ -195,15 +175,6 @@ img#react-modal-image-img:hover {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
 }
 
-.time-box {
-  background: white;
-  padding: 0px 25px;
-  border: 1px solid rgb(220, 207, 207);
-  border-radius: 10px;
-  height: 5.3rem !important;
-  width: 22%;
-}
-
 .auction-complete {
   width: 100%;
   height: 90px;
@@ -214,15 +185,6 @@ img#react-modal-image-img:hover {
   align-items: center;
   color: red;
   font-weight: 900 !important;
-}
-
-.time-box h3 {
-  color: white;
-}
-
-.time-box:hover {
-  cursor: pointer;
-  opacity: 0.5;
 }
 
 .input-bid {
@@ -242,13 +204,6 @@ img#react-modal-image-img:hover {
   /* margin-left: ; */
 }
 
-.unorder-list li .sr-no {
-  background-color: blue;
-  color: white;
-  padding: 0px 6px;
-  border-radius: 50%;
-}
-
 .unorder-list li {
   list-style: none;
 }
@@ -263,11 +218,6 @@ img#react-modal-image-img:hover {
   justify-content: space-between;
 }
 
-.card-img-top {
-  width: 320px;
-  height: 200px;
-}
-
 .icons {
   font-size: 25px;
 }
@@ -276,54 +226,8 @@ img#react-modal-image-img:hover {
   font-size: 20px;
 }
 
-.time-div i {
-  font-size: 20px;
-}
-
 .time {
   line-height: 30px;
-}
-
-.share-icon {
-  display: flex;
-  justify-content: space-evenly;
-}
-
-.share-icon .fb {
-  border: 0.5px solid rgb(0, 29, 245);
-  padding: 10px 15px;
-  border-radius: 50%;
-  color: rgb(0, 29, 245);
-  font-size: 25px;
-}
-
-.share-icon .wa {
-  border: 0.5px solid rgb(3, 255, 53);
-  padding: 10px 15px;
-  border-radius: 50%;
-  color: rgb(3, 255, 53);
-  font-size: 25px;
-}
-
-.share-icon .twit {
-  border: 0.5px solid rgba(3, 168, 244, 0.471);
-  padding: 10px 15px;
-  border-radius: 50%;
-  color: rgba(3, 168, 244, 0.471);
-  font-size: 25px;
-}
-
-.share-icon .insta {
-  border: 0.5px solid rgba(239, 29, 166, 0.937);
-  padding: 10px 15px;
-  border-radius: 50%;
-  color: rgba(239, 29, 166, 0.937);
-  font-size: 25px;
-}
-
-.share-icon i:hover {
-  cursor: pointer;
-  opacity: 0.5;
 }
 
 .user-img img {

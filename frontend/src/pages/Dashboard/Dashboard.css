@@ -34,39 +34,6 @@
     color: #212529;
 }
 
-.card-body .rdt_TableRow #cell-6-undefined,
-.card-body .rdt_TableRow #cell-7-undefined {
-    justify-content: space-around;
-    /* flex: 1.4 !important; */
-}
-
-
-.card-body .rdt_TableRow #cell-6-undefined>button:first-child {
-    background: green;
-    border: none;
-    padding: 3px 4px 1px 4px;
-}
-
-.card-body .rdt_TableRow #cell-6-undefined>button:nth-child(2),
-.card-body .rdt_TableRow #cell-7-undefined>button:nth-child(2) {
-    background: red;
-    border: none;
-    /* padding: 3px 4px 1px 4px; */
-}
-
-.card-body .rdt_TableRow #cell-6-undefined>button:nth-child(3) {
-    background: #6862FF;
-    border: none;
-    padding: 3px 4px 1px 4px;
-}
-
-.card-body .rdt_TableRow #cell-6-undefined>button>svg,
-.card-body .rdt_TableRow #cell-7-undefined>button>i,
-.card-body .rdt_TableRow #cell-7-undefined>button>svg,
-.card-body .rdt_TableRow #cell-7-undefined>button>i {
-    font-size: 20px;
-}
-
 /* .card-body .rdt_TableRow #cell-6-undefined>button:last-child {
     width: 27px !important;
     height: 27px !important;
