@@ -30,20 +30,20 @@ const ProductCard = (props) => {
   
   const [bidCount, setBidCount] = useState(0);
 
-  let remainingTime = new Date(product.endDate).getTime() - new Date().getTime();
+  let remainingTime = new Date(product?.endDate).getTime() - new Date().getTime();
 
 
   const Completionist = () => <span className="card-auction-complete">Auction Ended!</span>;
 
   const getBidsCount = async () => {
-    const res = await customFetch(`/api/v1/bid/product/${product._id}`, {
+    const res = await customFetch(`/api/v1/bid/product/${product?._id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
       }
     })
     const data = await res.json();
-    data?.bids[0]?.bidders?.length ? setBidCount(data.bids[0].bidders.length) : setBidCount(0);
+    (data?.bids && data?.bids[0]?.bidders?.length) ? setBidCount(data?.bids[0]?.bidders?.length) : setBidCount(0);
     return;
   }
 

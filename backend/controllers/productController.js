@@ -118,12 +118,18 @@ exports.getAllProducts = catchAsyncErrors(async (req, res) => {
 
   const resultsPerPage = 12;
 
-  const apiFeature = new ApiFeatures(Product.find({status: "Approved", bidStatus: "Live"}), req.query).pagination(resultsPerPage).search().filter();
+  const apiFeature = new ApiFeatures(Product.find({status: "Approved", bidStatus: "Live"}), req.query).search().filter().pagination(resultsPerPage);
   const products = await apiFeature.query.populate({
     path: "user", select: "name avatar.url"
   });
-  let productsCount = await Product.countDocuments({ status: "Approved", bidStatus: "Live" });
+  let productsCount;
+  if (!req.query.category && !req.query.keyword && !req.query.province && !req.query.city && !req.query.price) {
+    productsCount = await Product.countDocuments({ status: "Approved", bidStatus: "Live" });
+  } else {
+    productsCount = products.length;
+  }
   let filteredProductsCount = products.length;
+
 
   if (req.query.category) {
     productsCount = await Product.countDocuments({ category: req.query.category, status: "Approved", bidStatus: "Live" });

@@ -150,7 +150,7 @@ const ProductsPage = () => {
                                 <div className="col-12 mx-auto">
                                     <div className="text-center text-white">
                                         <h1 className="">
-                                            <span className="font-weight-bold"><CountUp duration={0.8} end={totalProducts} useEasing={true} /></span> Auctions Running Right {getParamCategory ? `In ${getParamCategory}` : ""} Now on Nelami
+                                            <span className="font-weight-bold"><CountUp duration={0.8} end={totalProducts} useEasing={true} /></span> Auctions Running {getParamCategory ? `In ${getParamCategory}` : ""} Right Now on Nelami
                                         </h1>
                                     </div>
 
@@ -341,12 +341,14 @@ const ProductsPage = () => {
                                                             <ProductCard product={product} index={index} />
 
                                                         </div>
-                                                    }) : <h3 className="text-center">No Products Found</h3>}
+                                                    }) : <h3 className="w-100 text-center">
+                                                        No Products Matched Your Search
+                                                    </h3>}
 
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="paginationBox">
+                                    { products?.length !== 0 && <div className="paginationBox">
                                         <Pagination activePage={currentPage}
                                             itemsCountPerPage={resultsPerPage}
                                             totalItemsCount={totalProducts}
@@ -360,7 +362,7 @@ const ProductsPage = () => {
                                             activeClass="pageItemActive"
                                             activeLinkClass="pageLinkActive"
                                         />
-                                    </div>
+                                    </div>}
                                 </div>
                             </div>
                         </div>
