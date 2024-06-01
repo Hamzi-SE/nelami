@@ -18,7 +18,6 @@ const CategoryPage = () => {
 
     const [resultsPerPage, setResultsPerPage] = useState(12);
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalProducts, setTotalProducts] = useState(0);
     const [filteredTotalProducts, setFilteredTotalProducts] = useState(0);
 
     const setCurrentPageNo = (e) => {
@@ -39,7 +38,6 @@ const CategoryPage = () => {
             })
             const data = await res.json();
             setResultsPerPage(data.resultsPerPage);
-            setTotalProducts(data.productsCount);
             setFilteredTotalProducts(data.filteredProductsCount)
             setProducts(data.products);
             setLoading(false);

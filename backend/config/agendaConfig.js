@@ -3,6 +3,7 @@ const User = require("../models/userModel");
 const Product = require("../models/productModel");
 const Bid = require("../models/bidModel");
 const dotenv = require("dotenv");
+const moment = require('moment');
 
 dotenv.config({ path: "./config/config.env" });
 
@@ -14,7 +15,7 @@ const agenda = new Agenda({ db: { address: mongoConnectionString } });
 agenda.define("expire and notify winner", async (job) => {
     const { productId } = job.attrs.data;
     const product = await Product.findById(productId);
-    if (new Date() > new Date(product.endDate)) {
+    if (moment().isAfter(moment(product.endDate).utc())) {
         product.bidStatus = "Expired";
         await product.save();
         console.log(`Expired product: ${product.id}`);

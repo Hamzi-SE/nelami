@@ -9,6 +9,7 @@ const { cloudinary } = require("../utils/cloudinary");
 const uploadImagetoCloudinary = require("../utils/uploadImagetoCloudinary");
 const ApiFeatures = require("../utils/apiFeatures");
 const agenda = require("../config/agendaConfig");
+const moment = require("moment");
 
 const dotenv = require("dotenv");
 
@@ -52,44 +53,20 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
 
   req.body.images = {}
 
-  if (featuredImg) {
-    const result = await uploadImagetoCloudinary(featuredImg)
-
-    req.body.images.featuredImg = {
-      public_id: result.public_id,
-      url: result.secure_url
+  const uploadImages = async (image, key) => {
+    if (image) {
+      const result = await uploadImagetoCloudinary(image);
+      req.body.images[key] = {
+        public_id: result.public_id,
+        url: result.secure_url,
+      };
     }
-  }
+  };
 
-  if (imageOne) {
-    const result = await uploadImagetoCloudinary(imageOne)
-
-    req.body.images.imageOne = {
-      public_id: result.public_id,
-      url: result.secure_url
-    }
-
-  }
-
-  if (imageTwo) {
-    const result = await uploadImagetoCloudinary(imageTwo)
-
-    req.body.images.imageTwo = {
-      public_id: result.public_id,
-      url: result.secure_url
-    }
-
-  }
-
-  if (imageThree) {
-    const result = await uploadImagetoCloudinary(imageThree)
-
-    req.body.images.imageThree = {
-      public_id: result.public_id,
-      url: result.secure_url
-    }
-
-  }
+  await uploadImages(featuredImg, 'featuredImg');
+  await uploadImages(imageOne, 'imageOne');
+  await uploadImages(imageTwo, 'imageTwo');
+  await uploadImages(imageThree, 'imageThree');
 
 
   const product = await Product.create(req.body);
@@ -99,8 +76,11 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
     await user.save();
   }
 
+  // Convert endDate to UTC before scheduling the job
+  const endDateUTC = moment(product.endDate).utc().toDate();
+
   // Schedule job to expire the product and notify winner
-  await agenda.schedule(product.endDate, 'expire and notify winner', { productId: product._id });
+  await agenda.schedule(endDateUTC, 'expire and notify winner', { productId: product._id });
 
   res.status(201).json({
     success: true,

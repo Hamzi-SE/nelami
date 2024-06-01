@@ -41,7 +41,7 @@ const ProductsPage = () => {
     const [toPrice, setToPrice] = useState("");
 
     const [resultsPerPage, setResultsPerPage] = useState(12);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(parseInt(searchParams.get("page")) || 1);
     const [totalProducts, setTotalProducts] = useState(0);
     const [filteredTotalProducts, setFilteredTotalProducts] = useState(0);
     const [getParamCategory, setGetParamCategory] = useState(searchParams.get("category") || "");
