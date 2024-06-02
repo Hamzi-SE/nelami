@@ -6,6 +6,8 @@ const bodyParser = require("body-parser");
 const { Server } = require("socket.io")
 const { createServer } = require("http");
 require("./utils/cloudinary");
+const dotenv = require("dotenv");
+dotenv.config({ path: "config/config.env" });
 
 const app = express();
 const socketServer = createServer(app);
