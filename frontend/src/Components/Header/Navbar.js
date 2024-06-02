@@ -40,20 +40,15 @@ const Navbar = () => {
                   </NavLink>
                 </li>
 
-                <li role="menuitem" className="position-relative" aria-haspopup="true"><Link to="/products">Categories <span className="fa fa-caret-down m-0"></span></Link>
-                  <div className="horizontal-megamenu clearfix">
-                    <div className="container">
-                      <div className="megamenu-content">
-                        <div className="row">
-                          <ul className="col link-list">
-                            <li role="menuitem" aria-haspopup="true"><Link to="/categories/Vehicles">Vehicles</Link></li>
-                            <li role="menuitem" aria-haspopup="true"><Link to="/categories/Property">Properties</Link></li>
-                            <li role="menuitem" aria-haspopup="true"><Link to="/categories/MiscProducts">Miscellaneous Products</Link></li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <li role="menuitem" aria-haspopup="true">
+                    <Link to="#" className="dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+                      Categories
+                    </Link>
+                    <ul className="dropdown-menu" role="menu" aria-labelledby="menu1">
+                      <li role="menuitem"><Link to="/categories/Vehicles">Vehicles</Link></li>
+                      <li role="menuitem"><Link to="/categories/Property">Properties</Link></li>
+                      <li role="menuitem"><Link to="/categories/MiscProducts">Miscellaneous Products</Link></li>
+                    </ul>
                 </li>
 
                 {(isAuthenticated ? user?.role === "seller" || user?.role === "admin" : true) && <li role="menuitem" aria-haspopup="true">

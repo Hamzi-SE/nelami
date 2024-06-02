@@ -8108,6 +8108,7 @@ video {
     -moz-transition: inherit;
     transition: inherit;
     -webkit-transform-style: flat;
+    transform-style: flat;
   }
 
   .horizontalMenu>.horizontalMenu-list>li>ul.sub-menu>li>a {
@@ -8157,6 +8158,7 @@ video {
     -moz-transition: inherit;
     transition: inherit;
     -webkit-transform-style: flat;
+    transform-style: flat;
   }
 
   .horizontalMenu>.horizontalMenu-list>li>ul.sub-menu>li>ul.sub-menu>li {
@@ -8215,6 +8217,7 @@ video {
     -moz-transition: inherit;
     transition: inherit;
     -webkit-transform-style: flat;
+    transform-style: flat;
   }
 
   .horizontalMenu>.horizontalMenu-list>li>ul.sub-menu>li>ul.sub-menu>li>ul.sub-menu>li {
@@ -8266,6 +8269,7 @@ video {
     transition: inherit;
     border-bottom: 1px solid rgba(0, 0, 0, 0.13);
     -webkit-transform-style: flat;
+    transform-style: flat;
   }
 
   .horizontalMenu>.horizontalMenu-list>li>.horizontal-megamenu .container {
@@ -8477,6 +8481,7 @@ video {
     -moz-transition: opacity 1.5s ease-in-out;
     -ms-transition: opacity 1.5s ease-in-out;
     -o-transition: opacity 1.5s ease-in-out;
+    transition: opacity 1.5s ease-in-out;
   }
 
   .horizontalMenucontainer {
