@@ -100,7 +100,7 @@ const SellerProfile = () => {
                                         {
                                             products?.length !== 0 ? products?.map((product, index) => {
 
-                                                return <div key={index}>
+                                                return <div key={index} className='product-wrapper col-lg-4 col-md-6 col-sm-12'>
                                                     <ProductCard product={product} index={index} />
 
                                                 </div>
