@@ -46,7 +46,7 @@ jobs:
       - name: SSH and deploy backend
         run: |
           ssh root@213.130.144.89 <<EOF
-          export PATH=$PATH:/usr/bin:/usr/local/bin
+          export PATH=$PATH:/root/.nvm/versions/node/v20.13.1/bin
           cd ~/nelami/backend
           echo "${{ secrets.BACKEND_ENV }}" > config/config.env
           npm install
@@ -60,7 +60,7 @@ jobs:
       - name: SSH and deploy frontend
         run: |
           ssh root@213.130.144.89 <<EOF
-          export PATH=$PATH:/usr/bin:/usr/local/bin
+          export PATH=$PATH:/root/.nvm/versions/node/v20.13.1/bin
           cd ~/nelami/frontend
           echo "${{ secrets.FRONTEND_ENV }}" > .env
           npm install
