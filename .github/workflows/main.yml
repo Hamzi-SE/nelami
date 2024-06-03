@@ -46,10 +46,11 @@ jobs:
       - name: SSH and deploy backend
         run: |
           ssh root@213.130.144.89 <<EOF
+          export PATH=$PATH:/usr/bin:/usr/local/bin
           cd ~/nelami/backend
           echo "${{ secrets.BACKEND_ENV }}" > config/config.env
           npm install
-          pm2 restart nelami_server || pm2 start npm --name "nelami_server" -- start
+          pm2 delete nelami_server && pm2 start npm --name "nelami_server" -- start
           exit
           EOF
         env:
@@ -59,6 +60,7 @@ jobs:
       - name: SSH and deploy frontend
         run: |
           ssh root@213.130.144.89 <<EOF
+          export PATH=$PATH:/usr/bin:/usr/local/bin
           cd ~/nelami/frontend
           echo "${{ secrets.FRONTEND_ENV }}" > .env
           npm install
