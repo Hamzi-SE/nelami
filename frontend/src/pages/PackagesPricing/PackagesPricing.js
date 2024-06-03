@@ -50,8 +50,8 @@ const PackagesPricing = () => {
                                     {user?.userPackage === pkg.name ? (
                                         <h3>Current Plan</h3>
                                     ) : (
-                                        <button type="button" className="btn btn-lg btn-block btn-primary" onClick={() => handlePackageClick(pkg.name, pkg.price, pkg.description, index + 1)}>
-                                            Purchase
+                                        <button type="button" className="btn btn-lg btn-block btn-primary" onClick={() => index === 0 ? navigate("/SignUp") : handlePackageClick(pkg.name, pkg.price, pkg.description, index + 1)}>
+                                            {index === 0 ? "Get Started for Free" : "Purchase"}
                                         </button>
                                     )}
                                 </div>
