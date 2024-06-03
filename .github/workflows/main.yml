@@ -1,0 +1,70 @@
+name: Deploy Nelami
+
+on:
+  push:
+    branches:
+      - main  # Trigger the workflow on push to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.14.0' # LTS Version
+
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_KEY }}
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
+
+      - name: Clean old backend and frontend folders on VPS
+        run: |
+          ssh root@213.130.144.89 <<EOF
+          rm -rf nelami/backend/*
+          rm -rf nelami/frontend/*
+          exit
+          EOF
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
+
+      - name: Copy files to VPS
+        run: |
+          scp -r ./backend/* root@213.130.144.89:~/nelami/backend
+          scp -r ./frontend/* root@213.130.144.89:~/nelami/frontend
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
+
+      - name: SSH and deploy backend
+        run: |
+          ssh root@213.130.144.89 <<EOF
+          cd cd ~/nelami/backend
+          echo "${{ secrets.BACKEND_ENV }}" > config/config.env
+          npm install
+          pm2 restart nelami_server || pm2 start npm --name "nelami_server" -- start
+          exit
+          EOF
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
+
+      - name: SSH and deploy frontend
+        run: |
+          ssh root@213.130.144.89 <<EOF
+          cd cd ~/nelami/frontend
+          echo "${{ secrets.FRONTEND_ENV }}" > .env
+          npm install
+          npm run build
+          exit
+          EOF
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
