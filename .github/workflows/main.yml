@@ -36,6 +36,17 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
 
+      - name: Create temporary directories on VPS
+        run: |
+          ssh ubuntu@144.24.108.128 <<EOF
+          mkdir -p /home/ubuntu/nelami_backend_tmp
+          mkdir -p /home/ubuntu/nelami_frontend_tmp
+          exit
+          EOF
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
+
       - name: Copy files to VPS
         run: |
           scp -r ./backend/* ubuntu@144.24.108.128:/home/ubuntu/nelami_backend_tmp
