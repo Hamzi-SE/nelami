@@ -4,6 +4,7 @@ const Product = require("../models/productModel");
 const Bid = require("../models/bidModel");
 const dotenv = require("dotenv");
 const moment = require('moment');
+const sendEmail = require("../utils/sendEmail");
 
 dotenv.config({ path: "./config/config.env" });
 
