@@ -35,7 +35,7 @@ agenda.define("expire and notify winner", async (job) => {
         );
         const highestBidUserId = String(highestBid.user);
         const highestBidUser = await User.findById(highestBidUserId);
-        const message = `Congratulations! You have won the auction for ${product.title}.\nProduct Link: ${process.env.FRONTEND_URL}/${product._id} \nPlease contact the seller for further steps.`;
+        const message = `Congratulations! You have won the auction for ${product.title}.\nProduct Link: ${process.env.FRONTEND_URL}/product/${product._id} \nPlease contact the seller for further steps.`;
         try {
             await sendEmail({
                 email: highestBidUser.email,
