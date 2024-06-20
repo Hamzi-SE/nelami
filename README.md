@@ -137,35 +137,38 @@ nelami/
     Create a `.env` file in the frontend folder and add the following variables:
 
     ```env
-    REACT_APP_MAILCHIMP_U
-    REACT_APP_MAILCHIMP_ID
-    REACT_APP_STRIPE_PK
-    REACT_APP_URL
-    REACT_APP_SOCKET_URL
-    REACT_APP_API_URL
+    REACT_APP_MAILCHIMP_U=your_mailchimp_user_key
+    REACT_APP_MAILCHIMP_ID=your_mailchimp_list_id
+    REACT_APP_STRIPE_PK=your_stripe_publishable_key
+    REACT_APP_URL=http://localhost:3000
+    REACT_APP_SOCKET_URL=http://localhost:8080
+    REACT_APP_API_URL=http://localhost:8000
     ```
 
     #### Backend
     Create a `config.env` file in the backend/config folder and add the following variables:
 
     ```env
-    PORT
-    DB_URI
-    FRONTEND_URL
-    JWT_SECRET
-    JWT_EXPIRE
-    COOKIE_EXPIRE
-    SMTP_SERVICE
-    SMTP_MAIL
-    SMTP_PASSWORD
-    SMTP_HOST
-    SMTP_PORT
-    CLOUDINARY_NAME
-    CLOUDINARY_API_KEY
-    CLOUDINARY_API_SECRET
-    STRIPE_API_KEY
-    STRIPE_SECRET_KEY
+    PORT=8000
+    DB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/nelami?retryWrites=true&w=majority
+    FRONTEND_URL=http://localhost:3000
+    JWT_SECRET=your_jwt_secret
+    JWT_EXPIRE=7d
+    COOKIE_EXPIRE=7
+    SMTP_SERVICE=gmail
+    SMTP_MAIL=youremail@gmail.com
+    SMTP_PASSWORD=your_smtp_password
+    SMTP_HOST=smtp.gmail.com
+    SMTP_PORT=465
+    CLOUDINARY_NAME=your_cloudinary_name
+    CLOUDINARY_API_KEY=your_cloudinary_api_key
+    CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+    STRIPE_API_KEY=your_stripe_api_key
+    STRIPE_SECRET_KEY=your_stripe_secret_key
     ```
+
+    > Make sure to replace the placeholder values with your actual configuration details before running the application.
+
 
 4. **Run the application:**
 
