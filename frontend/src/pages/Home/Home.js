@@ -42,26 +42,6 @@ const Home = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const getAllProducts = async () => {
-    dispatch({ type: "ALL_PRODUCTS_REQUEST" });
-    try { 
-      const res = await customFetch(`/api/v1/products`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-      const data = await res.json();
-      dispatch({ type: "ALL_PRODUCTS_SUCCESS", payload: data.products });
-      setProducts(data.products);
-    } catch (error) {
-      console.log("error: ", error)
-      dispatch({ type: "ALL_PRODUCTS_FAIL", payload: error.message });
-    } finally {
-      setLoading(false);
-    }
-  }
-
 
   const getAllSearchProducts = async () => {
     let link = `/products`
@@ -82,8 +62,29 @@ const Home = () => {
   }
 
   useEffect(() => {
+
+    const getAllProducts = async () => {
+      dispatch({ type: "ALL_PRODUCTS_REQUEST" });
+      try { 
+        const res = await customFetch(`/api/v1/products`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+        const data = await res.json();
+        dispatch({ type: "ALL_PRODUCTS_SUCCESS", payload: data.products });
+        setProducts(data.products);
+      } catch (error) {
+        console.log("error: ", error)
+        dispatch({ type: "ALL_PRODUCTS_FAIL", payload: error.message });
+      } finally {
+        setLoading(false);
+      }
+    }
+
     getAllProducts();
-  }, [])
+  }, [dispatch])
 
   const featuredSliderMemo = useMemo(() => (
     <FeaturedSlider products={products} />

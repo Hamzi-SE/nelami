@@ -95,32 +95,37 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
 
 // Get All Products
 exports.getAllProducts = catchAsyncErrors(async (req, res) => {
-
   const resultsPerPage = 12;
 
-  const apiFeature = new ApiFeatures(Product.find({status: "Approved", bidStatus: "Live"}), req.query).search().filter().pagination(resultsPerPage);
+  const apiFeature = new ApiFeatures(Product.find({ status: "Approved", bidStatus: "Live" }), req.query)
+      .search()
+      .filter()
+      .sort()
+      .pagination(resultsPerPage);
+
   const products = await apiFeature.query.populate({
-    path: "user", select: "name avatar.url"
+      path: "user", select: "name avatar.url"
   });
+
   let productsCount;
   if (!req.query.category && !req.query.keyword && !req.query.province && !req.query.city && !req.query.price) {
-    productsCount = await Product.countDocuments({ status: "Approved", bidStatus: "Live" });
+      productsCount = await Product.countDocuments({ status: "Approved", bidStatus: "Live" });
   } else {
-    productsCount = products.length;
+      productsCount = products.length;
   }
+
   let filteredProductsCount = products.length;
 
-
   if (req.query.category) {
-    productsCount = await Product.countDocuments({ category: req.query.category, status: "Approved", bidStatus: "Live" });
+      productsCount = await Product.countDocuments({ category: req.query.category, status: "Approved", bidStatus: "Live" });
   }
 
   res.status(200).json({
-    success: true,
-    productsCount,
-    products,
-    filteredProductsCount,
-    resultsPerPage
+      success: true,
+      productsCount,
+      products,
+      filteredProductsCount,
+      resultsPerPage
   });
 });
 

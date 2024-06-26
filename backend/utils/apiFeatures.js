@@ -1,3 +1,10 @@
+const SORT_BY = {
+    LATEST: 1,
+    OLDEST: 2,
+    PRICE_LOW_TO_HIGH: 3,
+    PRICE_HIGH_TO_LOW: 4,
+};
+
 class ApiFeatures {
     constructor(query, queryStr) {
         this.query = query;
@@ -37,7 +44,7 @@ class ApiFeatures {
         const queryCopy = { ...this.queryStr };
 
         // Removing Some Fields For Category
-        const removeFields = ["keyword", "page", "limit", "province", "city"];
+        const removeFields = ["keyword", "page", "limit", "province", "city", "sortBy"];
         removeFields.forEach(key => delete queryCopy[key]);
 
         // Filter For Price
@@ -45,6 +52,40 @@ class ApiFeatures {
         queryStr = queryStr.replace(/\b(gt|lt|gte|lte)\b/g, key => `$${key}`);
 
         this.query = this.query.find(JSON.parse(queryStr));
+        return this;
+    }
+
+    sort() {
+        const sortBy = parseInt(this.queryStr.sortBy);
+
+        if (isNaN(sortBy)) {
+            return this;
+        }
+
+        // console.log(sortBy);
+
+        if (sortBy) {
+            let sortOrder;
+            switch (sortBy) {
+                case SORT_BY.LATEST:
+                    sortOrder = { createdAt: -1 };
+                    break;
+                case SORT_BY.OLDEST:
+                    sortOrder = { createdAt: 1 };
+                    break;
+                case SORT_BY.PRICE_LOW_TO_HIGH:
+                    sortOrder = { price: 1 };
+                    break;
+                case SORT_BY.PRICE_HIGH_TO_LOW:
+                    sortOrder = { price: -1 };
+                    break;
+                default:
+                    console.log("default");
+                    sortOrder = { createdAt: -1 };
+                    break;
+            }
+            this.query = this.query.sort(sortOrder);
+        }
         return this;
     }
 

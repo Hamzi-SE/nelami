@@ -187,7 +187,7 @@ const EditFeatures = () => {
 
 
     const handlePackageNameChange = (e) => {
-        let obj = data.packages.find(o => o.name == e.target.value);
+        let obj = data.packages.find(o => o.name === e.target.value);
         if (obj) {
             setNewPackage({
                 name: obj.name,
