@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo  } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import 'tippy.js/dist/tippy.css';
 import { IoCarSportSharp } from "react-icons/io5";
 import { MdDevicesOther } from 'react-icons/md';
@@ -14,7 +14,7 @@ import VehiclesSlider from "./VehiclesSlider"
 import PropertySlider from "./PropertySlider"
 import MiscProductSlider from "./MiscProductSlider"
 
-//Utils Import
+// Utils Import
 import {
   getProvinceDropList,
   getIslamabadSectorsDropList,
@@ -29,91 +29,103 @@ import { useDispatch, useSelector } from "react-redux";
 import customFetch from "../../utils/api";
 import Loader from "../../Components/Loader/Loader";
 
-
 const Home = () => {
   const dispatch = useDispatch();
-  const { data } = useSelector(state => state.data)
+  const { data } = useSelector(state => state.data);
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState("");
   const [province, setProvince] = useState("");
   const [city, setCity] = useState("");
   const [category, setCategory] = useState("");
 
-  const [products, setProducts] = useState([]);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [vehicles, setVehicles] = useState([]);
+  const [properties, setProperties] = useState([]);
+  const [miscProducts, setMiscProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-
   const getAllSearchProducts = async () => {
-    let link = `/products`
+    let link = `/products`;
     if (keyword) {
-      link += `?keyword=${keyword}`
+      link += `?keyword=${keyword}`;
     }
     if (province) {
-      link.includes("?") ? link += "&" : link += "?"
-      link += `province=${province}`
-    } if (city) {
-      link.includes("?") ? link += "&" : link += "?"
-      link += `city=${city}`
-    } if (category) {
-      link.includes("?") ? link += "&" : link += "?"
-      link += `category=${category}`
+      link.includes("?") ? (link += "&") : (link += "?");
+      link += `province=${province}`;
     }
-    navigate(link)
-  }
+    if (city) {
+      link.includes("?") ? (link += "&") : (link += "?");
+      link += `city=${city}`;
+    }
+    if (category) {
+      link.includes("?") ? (link += "&") : (link += "?");
+      link += `category=${category}`;
+    }
+    navigate(link);
+  };
 
   useEffect(() => {
-
-    const getAllProducts = async () => {
+    const fetchProducts = async () => {
       dispatch({ type: "ALL_PRODUCTS_REQUEST" });
-      try { 
-        const res = await customFetch(`/api/v1/products`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json"
-          }
-        })
-        const data = await res.json();
-        dispatch({ type: "ALL_PRODUCTS_SUCCESS", payload: data.products });
-        setProducts(data.products);
+      try {
+        const [featuredRes, vehiclesRes, propertiesRes, miscRes] = await Promise.all([
+          customFetch(`/api/v1/products`),
+          customFetch(`/api/v1/products?category=Vehicles`),
+          customFetch(`/api/v1/products?category=Property`),
+          customFetch(`/api/v1/products?category=MiscProducts`)
+        ]);
+
+        const [featuredData, vehiclesData, propertiesData, miscData] = await Promise.all([
+          featuredRes.json(),
+          vehiclesRes.json(),
+          propertiesRes.json(),
+          miscRes.json()
+        ]);
+
+        console.log("vehiclesData: ", vehiclesData);
+
+        setFeaturedProducts(featuredData.products);
+        setVehicles(vehiclesData.products);
+        setProperties(propertiesData.products);
+        setMiscProducts(miscData.products);
+        dispatch({ type: "ALL_PRODUCTS_SUCCESS", payload: featuredData.products });
       } catch (error) {
-        console.log("error: ", error)
+        console.error("Error fetching products: ", error);
         dispatch({ type: "ALL_PRODUCTS_FAIL", payload: error.message });
       } finally {
         setLoading(false);
       }
-    }
+    };
 
-    getAllProducts();
-  }, [dispatch])
+    fetchProducts();
+  }, [dispatch]);
 
   const featuredSliderMemo = useMemo(() => (
-    <FeaturedSlider products={products} />
-  ), [products]);
-  
+    <FeaturedSlider products={featuredProducts} />
+  ), [featuredProducts]);
+
   const vehiclesSliderMemo = useMemo(() => (
-    <VehiclesSlider products={products} />
-  ), [products]);
-  
+    <VehiclesSlider products={vehicles} />
+  ), [vehicles]);
+
   const propertySliderMemo = useMemo(() => (
-    <PropertySlider products={products} />
-  ), [products]);
-  
+    <PropertySlider products={properties} />
+  ), [properties]);
+
   const miscProductSliderMemo = useMemo(() => (
-    <MiscProductSlider products={products} />
-  ), [products]);
+    <MiscProductSlider products={miscProducts} />
+  ), [miscProducts]);
 
   if (loading) {
-    return <Loader />
+    return <Loader />;
   }
-
-  
 
   return (
     <>
       {/* <!--Sliders Section--> */}
 
       <div className="header-2 mb-5">
-        <div className="home-search-banner banner-1 cover-image sptb-2 bg-background" >
+        <div className="home-search-banner banner-1 cover-image sptb-2 bg-background">
           <div className="header-text1 mb-0">
             <div className="container">
               <div className="text-center text-white">
@@ -122,18 +134,13 @@ const Home = () => {
               </div>
               <div className="row">
                 <div className="col-sm-12 mx-auto">
-
                   <div className="search-background mb-0">
                     <div className="form row g-0 header-search-input">
-
                       <div className="form-group">
                         <input type="text" className="form-control input-lg border-end-0" value={keyword} id="text" placeholder="Search Products" onChange={(e) => setKeyword(e.target.value)} />
                       </div>
                       <div className="form-group">
-                        <select className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option" data-placeholder="Select Category"
-                          onChange={async (e) => {
-                            setCategory(e.target.value)
-                          }}  >
+                        <select className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option" data-placeholder="Select Category" onChange={(e) => setCategory(e.target.value)}>
                           <optgroup label="Categories">
                             <option>Select Category</option>
                             <option value="All">All products</option>
@@ -150,8 +157,6 @@ const Home = () => {
                           {getProvinceDropList(data)}
                         </select>
                       </div>
-
-
                       {/* Islamabad CITIES DROPLIST */}
                       {province === "Islamabad" && (
                         <div className="form-group">
@@ -163,7 +168,6 @@ const Home = () => {
                           </select>
                         </div>
                       )}
-
                       {/* PUNJAB CITIES DROPLIST */}
                       {province === "Punjab" && (
                         <div className="form-group">
@@ -230,16 +234,11 @@ const Home = () => {
                           </select>
                         </div>
                       )}
-
-
-
-
                       <div className="">
-                        <button type="button" className="btn btn-lg btn-block btn-secondary" onClick={getAllSearchProducts} >Search</button>
+                        <button type="button" className="btn btn-lg btn-block btn-secondary" onClick={getAllSearchProducts}>Search</button>
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -249,11 +248,10 @@ const Home = () => {
       </div>
       {/* <!--/Sliders Section--> */}
 
-      {/* <HeroSlider /> */}
-
-
       <div className="container products-slider home-products-slider home-featured-slider">
-        <h1 className="text-center">Featured Products</h1>
+        <h1 className="text-center home-products-slider-header">
+          Featured Products
+        </h1>
         {featuredSliderMemo}
       </div>
 
@@ -264,7 +262,6 @@ const Home = () => {
           </div>
           <div className="item-all-cat center-block text-center">
             <div className="row">
-
               <div className="home-icon-card col-lg-4 col-md-4 col-sm-6">
                 <Link to="/categories/Vehicles">
                   <div className="item-all-card text-dark text-center">
@@ -273,7 +270,6 @@ const Home = () => {
                   </div>
                 </Link>
               </div>
-
               <div className="home-icon-card col-lg-4 col-md-4 col-sm-6">
                 <Link to="/categories/Property">
                   <div className="item-all-card text-dark text-center">
@@ -282,7 +278,6 @@ const Home = () => {
                   </div>
                 </Link>
               </div>
-
               <div className="home-icon-card col-lg-4 col-md-4 col-sm-6">
                 <Link to="/categories/MiscProducts">
                   <div className="item-all-card text-dark text-center">
@@ -291,26 +286,25 @@ const Home = () => {
                   </div>
                 </Link>
               </div>
-
             </div>
           </div>
         </div>
       </section>
 
       <div className="container products-slider home-products-slider home-vehicles-slider">
-        <h1 className="text-center">Top Vehicles</h1>
+        <h1 className="text-center home-products-slider-header">Top Vehicles</h1>
         {vehiclesSliderMemo}
       </div>
       <div className="container products-slider home-products-slider home-properties-slider">
-        <h1 className="text-center">Top Properties</h1>
+        <h1 className="text-center home-products-slider-header">Top Properties</h1>
         {propertySliderMemo}
       </div>
       <div className="container products-slider home-products-slider home-misc-slider">
-        <h1 className="text-center">Top Miscellaneous Items</h1>
+        <h1 className="text-center home-products-slider-header">Top Miscellaneous Items</h1>
         {miscProductSliderMemo}
       </div>
     </>
-  )
+  );
 };
 
 export default Home;

@@ -20,7 +20,7 @@ const VehiclesSlider = ({ products }) => {
             }
             return newArr;
         };
-        return shuffleArray(vehicles).slice(0, 4);
+        return shuffleArray(vehicles).slice(0, 8);
     }, [vehicles]); // Only reshuffle when vehicles array changes
 
     return (

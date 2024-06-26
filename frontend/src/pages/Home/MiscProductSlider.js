@@ -20,7 +20,7 @@ const MiscProductSlider = ({ products }) => {
             }
             return newArr;
         };
-        return shuffleArray(miscProducts).slice(0, 4); // Select the first 4 for display
+        return shuffleArray(miscProducts).slice(0, 8); // Select the first 4 for display
     }, [miscProducts]);
 
     return (

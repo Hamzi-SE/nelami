@@ -15,7 +15,7 @@ const FeaturedSlider = ({ products }) => {
 
     // Shuffled and sliced products
     const displayedProducts = React.useMemo(() => {
-        return shuffleArray(products).slice(0, 4);
+        return shuffleArray(products).slice(0, 8);
     }, [products]);
 
     return (

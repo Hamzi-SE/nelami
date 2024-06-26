@@ -20,7 +20,7 @@ const PropertySlider = ({ products }) => {
             }
             return newArr;
         };
-        return shuffleArray(properties).slice(0, 4); // Select the first 4 for display
+        return shuffleArray(properties).slice(0, 8); // Select the first 4 for display
     }, [properties]);
 
     return (
