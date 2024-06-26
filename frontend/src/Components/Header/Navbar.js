@@ -69,7 +69,7 @@ const Navbar = () => {
 
                 <li role="menuitem" aria-haspopup="true" className="d-lg-none mt-5 pb-5 mt-lg-0">
                   <span>
-                    <NavLink className="btn btn-secondary" to="/addnew">
+                    <NavLink className="btn btn-secondary" to="/product/new">
                       Post Free Ad
                     </NavLink>
                   </span>
