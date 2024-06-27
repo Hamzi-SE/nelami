@@ -5,7 +5,6 @@ const MobileHeader = () => {
   useEffect(() => {
     // check if device is apple device
     const isAppleDevice = /Mac|iPod|iPhone|iPad/.test(navigator.platform);
-    console.log(isAppleDevice);
     
     if (isAppleDevice) {
       const horizontalNavtoggle = document.getElementById("horizontal-navtoggle");

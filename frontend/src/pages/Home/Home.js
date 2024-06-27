@@ -82,8 +82,6 @@ const Home = () => {
           miscRes.json()
         ]);
 
-        console.log("vehiclesData: ", vehiclesData);
-
         setFeaturedProducts(featuredData.products);
         setVehicles(vehiclesData.products);
         setProperties(propertiesData.products);

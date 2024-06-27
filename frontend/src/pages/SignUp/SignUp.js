@@ -84,7 +84,6 @@ const SignUp = () => {
     });
 
     const data = await res.json();
-    console.log(data);
 
     if (res.status === 201) {
       dispatch({ type: "OTP_SENT_SUCCESS"})

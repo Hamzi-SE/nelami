@@ -62,8 +62,6 @@ class ApiFeatures {
             return this;
         }
 
-        // console.log(sortBy);
-
         if (sortBy) {
             let sortOrder;
             switch (sortBy) {
@@ -80,7 +78,6 @@ class ApiFeatures {
                     sortOrder = { price: -1 };
                     break;
                 default:
-                    console.log("default");
                     sortOrder = { createdAt: -1 };
                     break;
             }

@@ -41,7 +41,7 @@ const StatsDashboard = () => {
             })
         }
         else {
-            console.log("Error")
+            console.log("Error in getting stats")
         }
     }
 

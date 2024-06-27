@@ -50,7 +50,7 @@ const Contact = () => {
         <>
             <MetaData title="Contact - Nelami" />
             {/* <!--Breadcrumb--> */}
-            <div>
+            
                 <div className="bannerimg cover-image bg-background3">
                     <div className="header-text mb-0">
                         <div className="container">
@@ -64,7 +64,7 @@ const Contact = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            
             {/* <!--/Breadcrumb--> */}
 
 
