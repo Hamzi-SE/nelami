@@ -78,31 +78,8 @@ const CategoryPage = () => {
                             </div>
                         </div>
                     </div>
-                    {/* <!-- /header-text --> */}
                 </div>
             </div>
-            {/* <!--/Sliders Section--> */}
-
-            {/* <!--Breadcrumb--> */}
-            {/* <div className="bg-white border-bottom">
-              <div className="container">
-                <div className="page-header">
-                  <h4 className="page-title">Ad List Right</h4>
-                  <ol className="breadcrumb">
-                    <li className="breadcrumb-item">
-                      <a href="#">Home</a>
-                    </li>
-                    <li className="breadcrumb-item">
-                      <a href="#">Pages</a>
-                    </li>
-                    <li className="breadcrumb-item active" aria-current="page">
-                      Ad List Right
-                    </li>
-                  </ol>
-                </div>
-              </div>
-            </div> */}
-            {/* <!--/Breadcrumb--> */}
             
             {products ? (<section className="sptb">
                 <div className="container">
