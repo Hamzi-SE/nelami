@@ -3,7 +3,7 @@ const errorMiddleware = require("./middleware/error");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const { Server } = require("socket.io")
+const { Server } = require("socket.io");
 const { createServer } = require("http");
 require("./utils/cloudinary");
 const dotenv = require("dotenv");
@@ -23,13 +23,12 @@ app.use(cors({
 }));
 
 // ROUTE IMPORTS
-// const product = require("./routes/productRoute");
 const user = require("./routes/userRoutes");
 const product = require("./routes/productRoutes");
 const bid = require("./routes/bidRoutes");
 const conversations = require("./routes/conversationRoutes");
 const messages = require("./routes/messageRoutes");
-const data = require("./routes/dataRoutes")
+const data = require("./routes/dataRoutes");
 const stats = require("./routes/statRoutes");
 const payment = require("./routes/paymentRoutes");
 
@@ -45,23 +44,17 @@ app.use("/api/v1", payment);
 // MIDDLEWARE FOR ERROR
 app.use(errorMiddleware);
 
-
-
-
-
-
-
-
-// Socket Connection && CODE
-const io = new Server(socketServer, {
+// Socket.IO Configuration
+const io = new Server(socketServer, { 
+    wssEngine: ['ws', 'wss'],
+    transports: ['websocket', 'polling'],
     cors: {
         origin: process.env.FRONTEND_URL || "http://localhost:3000",
-        methods: ["*"],
+        methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+        credentials: true
     },
+    allowEIO3: true,
 });
-
-
-
 
 let users = [];
 
@@ -80,9 +73,7 @@ const getUser = (userId) => {
 io.on("connection", (socket) => {
     console.log(`User Connected: ${socket.id}`)
 
-    // io.emit("welcome", "Welcome to the chat")
-
-    socket.on("addUser", userId => {
+    socket.on("addUser", (userId) => {
         if (userId) {
             addUser(userId, socket.id)
             io.emit("getUsers", users)
@@ -102,22 +93,6 @@ io.on("connection", (socket) => {
         io.emit("getUsers", users)
     })
 })
-
-// Socket Connection && CODE END
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 socketServer.listen(8080, (err) => {
     if (err) {

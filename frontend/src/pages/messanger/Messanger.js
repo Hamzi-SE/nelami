@@ -14,7 +14,11 @@ import customFetch from "../../utils/api";
 
 
 // Socket Connection
-const socket = io.connect(process.env.REACT_APP_SOCKET_URL)
+const socket = io.connect(process.env.REACT_APP_SOCKET_URL, {
+    transports: ['websocket', 'polling'],
+    reconnection: true,
+    reconnectionAttempts: 5,
+})
 
 
 const Messanger = () => {
@@ -30,7 +34,7 @@ const Messanger = () => {
     const [msgSending, setMsgSending] = useState(false);
     const scrollRef = useRef();
     const chatEmojiRef = useRef();
-
+    
     // useEffect(() => {
     //     //scroll to top
     //     window.scrollTo(0, 0);
