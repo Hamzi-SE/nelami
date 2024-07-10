@@ -35,8 +35,8 @@ const ProductsPage = () => {
   const [category, setCategory] = useState(searchParams.get("category") || "");
   const [keyword, setKeyword] = useState(searchParams.get("keyword"));
 
-  const [fromPrice, setFromPrice] = useState("");
-  const [toPrice, setToPrice] = useState("");
+  const [fromPrice, setFromPrice] = useState(searchParams.get("price[gte]" || ""));
+  const [toPrice, setToPrice] = useState(searchParams.get("price[lte]" || ""));
 
   const [resultsPerPage, setResultsPerPage] = useState(12);
   const [currentPage, setCurrentPage] = useState(
