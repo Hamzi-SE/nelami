@@ -28,17 +28,9 @@ const AdminDashboard = () => {
 
 
     const handleActiveComponent = (e) => {
-        dispatch({ type: "SET_ACTIVE_COMPONENT", payload: e.currentTarget.dataset.component })
-
-        //Toggle active class from all the buttons
-        const componentsButtons = document.querySelectorAll(".side-menu__item")
-        componentsButtons.forEach((item) => {
-            item.addEventListener("click", function () {
-                componentsButtons.forEach((item) => {
-                    item.classList.remove("active-component");
-                    this.classList.add("active-component");
-                })
-            });
+        dispatch({
+            type: "SET_ACTIVE_COMPONENT",
+            payload: e.currentTarget.dataset.component,
         });
     };
 
@@ -112,14 +104,14 @@ const AdminDashboard = () => {
                                     <div className="app-sidebar__user clearfix">
                                         <ul className="side-menu">
                                             <li data-component={"statsDashboard"} onClick={handleActiveComponent} className="slide">
-                                                <button className="side-menu__item active-component" data-bs-toggle="slide">
+                                                <button className={`side-menu__item ${activeComponent === "statsDashboard" ? "active-component" : ""}`} data-bs-toggle="slide">
                                                     <i className="fa-solid fa-chart-line"></i>
                                                     <span className="side-menu__label">Stats Overview</span>
                                                     <i className="angle fa fa-angle-right"></i>
                                                 </button>
                                             </li>
                                             <li data-component={"profile"} onClick={handleActiveComponent} className="slide">
-                                                <button className="side-menu__item" data-bs-toggle="slide">
+                                                <button className={`side-menu__item ${activeComponent === "profile" ? "active-component" : ""}`} data-bs-toggle="slide">
                                                     <i className="fa-solid fa-user"></i>
                                                     <span className="side-menu__label">Profile</span>
                                                     <i className="angle fa fa-angle-right"></i>
@@ -127,7 +119,7 @@ const AdminDashboard = () => {
                                             </li>
 
                                             <li data-component={"allUsers"} onClick={handleActiveComponent} className="slide">
-                                                <button className="side-menu__item" data-bs-toggle="slide">
+                                                <button className={`side-menu__item ${activeComponent === "allUsers" ? "active-component" : ""}`} data-bs-toggle="slide">
                                                     <i className="fa-solid fa-users"></i>
                                                     <span className="side-menu__label">All Users</span>
                                                     <i className="angle fa fa-angle-right"></i>
@@ -135,7 +127,7 @@ const AdminDashboard = () => {
                                             </li>
 
                                             <li data-component={"allProducts"} onClick={handleActiveComponent} className="slide">
-                                                <button className="side-menu__item" data-bs-toggle="slide">
+                                                <button className={`side-menu__item ${activeComponent === "allProducts" ? "active-component" : ""}`} data-bs-toggle="slide">
                                                     <i className="fa-solid fa-box-open"></i>
                                                     <span className="side-menu__label">All Products</span>
                                                     <i className="angle fa fa-angle-right"></i>
@@ -143,7 +135,7 @@ const AdminDashboard = () => {
                                             </li>
 
                                             <li data-component={"approvalProducts"} onClick={handleActiveComponent} className="slide">
-                                                <button className="side-menu__item" data-bs-toggle="slide">
+                                                <button className={`side-menu__item ${activeComponent === "approvalProducts" ? "active-component" : ""}`} data-bs-toggle="slide">
                                                     <i className="fa-solid fa-square-check"></i>
                                                     <span className="side-menu__label">Approval Products</span>
                                                     <i className="angle fa fa-angle-right"></i>
@@ -151,7 +143,7 @@ const AdminDashboard = () => {
                                             </li>
 
                                             <li data-component={"editFeatures"} onClick={handleActiveComponent} className="slide">
-                                                <button className="side-menu__item" data-bs-toggle="slide">
+                                                <button className={`side-menu__item ${activeComponent === "editFeatures" ? "active-component" : ""}`} data-bs-toggle="slide">
                                                     <i className="fa-regular fa-pen-to-square"></i>
                                                     <span className="side-menu__label">Edit Features</span>
                                                     <i className="angle fa fa-angle-right"></i>
@@ -159,7 +151,7 @@ const AdminDashboard = () => {
                                             </li>
 
                                             <li data-component={"settings"} onClick={handleActiveComponent} className="slide">
-                                                <button className="side-menu__item" data-bs-toggle="slide">
+                                                <button className={`side-menu__item ${activeComponent === "settings" ? "active-component" : ""}`} data-bs-toggle="slide">
                                                     <i className="fa-solid fa-gear"></i>
                                                     <span className="side-menu__label">Settings</span>
                                                     <i className="angle fa fa-angle-right"></i>
