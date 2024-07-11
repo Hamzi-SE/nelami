@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+
 const sendToken = (user, statusCode, res) => {
   const token = user.getJWTToken();
 
@@ -14,4 +16,14 @@ const sendToken = (user, statusCode, res) => {
   });
 };
 
-module.exports = sendToken;
+const createActivationToken = (user) => {
+  const activationCode = Math.floor(1000 + Math.random() * 9000).toString(); // 4 digit number
+
+  const token = jwt.sign({ user, activationCode }, process.env.ACTIVATION_SECRET, {
+      expiresIn: "15m",
+  });
+
+  return { token, activationCode };
+};
+
+module.exports = { sendToken, createActivationToken };

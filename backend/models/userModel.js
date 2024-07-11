@@ -21,10 +21,6 @@ const userSchema = new mongoose.Schema({
     unique: [true, "Email is already registered"],
     validate: [validator.isEmail, "Please Enter a valid Email"],
   },
-  emailVerified: {
-    type: Boolean,
-    default: false,
-  },
   password: {
     type: String,
     required: [true, "Please Enter Your Password"],
@@ -73,24 +69,12 @@ const userSchema = new mongoose.Schema({
     },
   ],
 
-  otp: String,
-  otpExpiresIn: Date,
-
   resetPasswordToken: String,
   resetPasswordExpire: Date,
 },
   { timestamps: true }
 );
 
-// Create OTP
-userSchema.methods.createOTP = function () {
-  const otp = Math.floor(100000 + Math.random() * 900000);
-
-  this.otp = otp;
-  this.otpExpiresIn = Date.now() + 15 * 60 * 1000;
-
-  return otp;
-};
 
 // Hashing the Password
 userSchema.pre("save", async function (next) {

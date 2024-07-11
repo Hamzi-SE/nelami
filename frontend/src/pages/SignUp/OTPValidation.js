@@ -7,11 +7,9 @@ import MetaData from "../../utils/MetaData";
 import customFetch from "../../utils/api";
 
 const OTPValidation = () => {
-  const { loading } = useSelector(state => state.user);
+  const { loading, token } = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  // get email from query string (http://localhost:3000/user/validate?email=ffawad@giulieano.xyz)
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -37,6 +35,7 @@ const OTPValidation = () => {
       body: JSON.stringify({
         email,
         otp,
+        token
       }),
     });
 

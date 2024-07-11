@@ -3,6 +3,7 @@ import { createReducer } from "@reduxjs/toolkit";
 const initialState = {
     loading: false,
     user: null,
+    token: null,
     isAuthenticated: false,
     error: null,
 };
@@ -50,6 +51,7 @@ export const userReducer = createReducer(initialState, (builder) => {
         .addCase('SIGNUP_USER_SUCCESS', (state, action) => {
             state.loading = false;
             state.user = action.payload;
+            state.token = null;
             state.isAuthenticated = true;
             state.error = null;
         })
@@ -59,9 +61,10 @@ export const userReducer = createReducer(initialState, (builder) => {
             state.isAuthenticated = false;
             state.error = action.payload;
         })
-        .addCase('OTP_SENT_SUCCESS', (state) => {
+        .addCase('OTP_SENT_SUCCESS', (state, action) => {
             state.loading = false;
             state.user = null;
+            state.token = action.payload.activationToken;
             state.isAuthenticated = false;
             state.error = null;
         })

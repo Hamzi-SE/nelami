@@ -86,7 +86,7 @@ const SignUp = () => {
     const data = await res.json();
 
     if (res.status === 201) {
-      dispatch({ type: "OTP_SENT_SUCCESS"})
+      dispatch({ type: "OTP_SENT_SUCCESS", payload: data })
       toast.success(data.message);
 
       navigate(`/user/validate?email=${email}`, { replace: true });

@@ -1,10 +1,11 @@
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
-const sendToken = require("../utils/jwtToken");
+const {sendToken, createActivationToken} = require("../utils/jwtToken");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 // const { cloudinary } = require("../utils/cloudinary");
 const cloudinaryy = require("cloudinary");
+const jwt = require("jsonwebtoken");
 
 const User = require("../models/userModel");
 const Product = require("../models/productModel");
@@ -20,7 +21,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Please Fill All Required Fields", 400));
   }
 
-  if (password != confirmPassword) {
+  if (password !== confirmPassword) {
     return next(new ErrorHandler("Password does not match", 400));
   }
 
@@ -35,8 +36,13 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     userPackage = "Free"
   }
 
+  const userExists = await User.findOne({ email });
+
+  if (userExists) {
+    return next(new ErrorHandler("Email is already registered", 400));
+  }
   
-  const user = await User.create({
+  const user = {
     userPackage,
     name,
     email,
@@ -48,19 +54,18 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     store,
     aboutInfo,
     productsPosted,
-  });
+  }
 
-  
-  // send otp confirmation to the email
-  const otp = user.createOTP();
-  await user.save({ validateBeforeSave: false });
+  const activationToken = createActivationToken(user);
+
+  const activationCode = activationToken.activationCode;
 
 
   // // Add URL 
   const url = `${process.env.FRONTEND_URL}/user/validate?email=${email}`;
 
   // // Send URL and OTP to the email
-  const message = `Your OTP is :- \n\n${otp}\n\n Please click on the link below to verify your email. The link will expire in 15 minutes. \n\n${url}\n\n If you have not requested this email, then please ignore it`;
+  const message = `Your OTP is :- \n\n${activationCode}\n\n Please click on the link below to verify your email. The link will expire in 15 minutes. \n\n${url}\n\n If you have not requested this email, then please ignore it`;
 
   try {
     await sendEmail({
@@ -70,14 +75,13 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     });
 
   } catch (error) {
-    // remove user from database
-    await user.remove();
     return next(new ErrorHandler(error.message, 500));
   }
 
   res.status(201).json({
     success: true,
-    message: "Please verify your email to complete registration",
+    message: `Please check your email: ${user.email} to activate your account`,
+    activationToken: activationToken.token,
   });
 
 });
@@ -87,37 +91,39 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 // OTP Validation
 exports.OTPValidation = catchAsyncErrors(async (req, res, next) => {
 
-  const { email, otp } = req.body;
+  const { email, otp, token } = req.body;
 
   if (!email || !otp) {
     return next(new ErrorHandler("Please enter Email & OTP both", 400));
   }
 
-  const user = await User.findOne({ email });
-
-  if (!user) {
-    return next(new ErrorHandler("Incorrect Email or OTP", 400));
+  if (!token) {
+    return next(new ErrorHandler("Something went wrong while activating your account. Please try again.", 400));
   }
 
-  if(user.emailVerified){
-    return next(new ErrorHandler("Email is already verified", 400))
+  const newUser = jwt.verify(token, process.env.ACTIVATION_SECRET)
+
+  if (!newUser) {
+    return next(new ErrorHandler("Invalid Token or Token has been expired", 400));
   }
 
-  if (user.otp !== otp) {
-    return next(new ErrorHandler("Incorrect Email or OTP", 400));
+  if (newUser.activationCode !== otp) {
+    return next(new ErrorHandler("Invalid activation code", 400));
   }
 
-  if (user.otpExpiresIn < Date.now()) {
-    return next(new ErrorHandler("OTP has been expired", 400));
+  const user = newUser.user;
+
+  // check if email already exists
+  const emailExists = await User.findOne({ email });
+
+  if (emailExists) {
+    return next(new ErrorHandler("Email is already registered", 400));
   }
 
-  user.otp = undefined;
-  user.otpExpiresIn = undefined;
-  user.emailVerified = true;
+  // create user
+  const createdUser = await User.create(user);
 
-  await user.save({ validateBeforeSave: false });
-
-  sendToken(user, 200, res);
+  sendToken(createdUser, 200, res);
 });
 
 
@@ -135,10 +141,6 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
   
   if (!user) {
     return next(new ErrorHandler("Incorrect Email or Password", 401));
-  }
-
-  if (!user.emailVerified) {
-    return next(new ErrorHandler("Please Verify Your Email to Login", 401));
   }
 
   const isPasswordMatched = await user.comparePassword(password);
