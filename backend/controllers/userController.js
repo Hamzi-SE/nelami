@@ -332,6 +332,13 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
       store,
       aboutInfo,
     };
+  } else if (req.user.role === "admin") {
+    newUserData = {
+      name,
+      address,
+      phoneNo,
+      city,
+    };
   }
 
   if (req.body.avatar !== "") {
