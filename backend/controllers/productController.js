@@ -188,12 +188,18 @@ exports.approveProduct = catchAsyncErrors(async (req, res) => {
   await product.save();
 
   const productUser = await User.findById(product.user);
-  const message = `Congratulations! Your product ${product.title} has been approved.\nLink:${process.env.FRONTEND_URL}/Product/${product._id}`
+  
+  const emailData = {
+    user: { name: productUser.name },
+    product: { title: product.title, _id: product._id },
+    frontendUrl: process.env.FRONTEND_URL
+  };
   try {
     await sendEmail({
       email: productUser.email,
-      subject: "Congratulations! Product Approved",
-      message,
+      subject: "Congratulations! Your Product has been Approved",
+      template: "product-approved-mail",
+      data: emailData
     });
   } catch (err) {
     console.log("Error in sending Email:", err)

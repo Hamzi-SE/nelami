@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Activation Email</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Activation Email" />
+    <meta name="author" content="Muhammad Hamza" />
+    <style type="text/css">
+        /* Base styles */
+        body {
+            margin: 0;
+            padding: 0;
+            min-width: 100%;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            background-color: #fafafa;
+            color: #222222;
+        }
+
+        a {
+            color: #000;
+            text-decoration: none;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1.25;
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 24px;
+        }
+
+        /* Layout styles */
+        .wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .body {
+            padding: 30px;
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <%- include('./includes/header.ejs') %>
+        <div class="body">
+            <h1>Activate Your Account</h1>
+            <p>Hi <%= user.name %>,</p>
+            <p>
+                Thank you for registering on Nelami. To activate your account, please use the following activation code:
+            </p>
+            <h2>
+                <%= activationCode %>
+            </h2>
+            <p>
+                <a href="<%= url %>">Click here to open the activation form</a>
+            </p>
+            <p>
+                Please enter this code in the activation form within the next 15 minutes.
+            </p>
+            <p>
+                If you did not register for an account on Nelami, please ignore this email.
+            </p>
+        </div>
+        <%- include('./includes/footer.ejs') %>
+    </div>
+</body>
+
+</html>

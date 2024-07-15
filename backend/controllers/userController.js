@@ -67,11 +67,14 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
   // // Send URL and OTP to the email
   const message = `Your OTP is :- \n\n${activationCode}\n\n Please click on the link below to verify your email. The link will expire in 15 minutes. \n\n${url}\n\n If you have not requested this email, then please ignore it`;
 
+  const emailData = { user: { name: user.name }, activationCode, url };
+
   try {
     await sendEmail({
       email: user.email,
-      subject: "Nelami Website OTP Confirmation",
-      message,
+      subject: "Nelami Website Account Activation",
+      template: "activation-mail",
+      data: emailData,
     });
 
   } catch (error) {
@@ -123,7 +126,22 @@ exports.OTPValidation = catchAsyncErrors(async (req, res, next) => {
   // create user
   const createdUser = await User.create(user);
 
+  const emailData = { user: { name: user.name, role: user.role } };
+
   sendToken(createdUser, 200, res);
+  // send email with welcome message
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: "Welcome to Nelami",
+      template: "welcome-mail",
+      data: emailData,
+    });
+
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+
 });
 
 
@@ -194,18 +212,19 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
 
   const resetPasswordUrl = `${process.env.FRONTEND_URL}/user/password/reset/${resetToken}`;
 
-  const message = `Your password reset token is :- \n\n${resetPasswordUrl}\n\n If you have not requested this email, then please ignore it`;
+  const emailData = { user: { name: user.name }, resetPasswordUrl };
 
   try {
     await sendEmail({
       email: user.email,
-      subject: "Nelami Website Password Recovery",
-      message,
+      subject: "Nelami Password Recovery",
+      template: "forgot-password-mail",
+      data: emailData,
     });
 
     res.status(200).json({
       success: true,
-      message: `Email sent to ${user.email} successfully`,
+      message: `Password reset email sent to: ${user.email}`,
     });
   } catch (error) {
     user.resetPasswordToken = undefined;
