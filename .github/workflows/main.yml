@@ -24,38 +24,17 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
 
-      - name: Clean old backend and frontend folders on VPS
+      - name: SSH and prepare for deployment
         run: |
-          ssh ubuntu@144.24.108.128 <<EOF
+          ssh ubuntu@ihamza.dev <<EOF
           sudo su -
-          rm -rf /root/nelami/backend/*
-          rm -rf /root/nelami/frontend/*
-          exit
-          EOF
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-          KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
-
-      - name: Create temporary directories on VPS
-        run: |
-          ssh ubuntu@144.24.108.128 <<EOF
-          mkdir -p /home/ubuntu/nelami_backend_tmp
-          mkdir -p /home/ubuntu/nelami_frontend_tmp
-          exit
-          EOF
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-          KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
-
-      - name: Copy files to VPS
-        run: |
-          scp -r ./backend/* ubuntu@144.24.108.128:/home/ubuntu/nelami_backend_tmp
-          scp -r ./frontend/* ubuntu@144.24.108.128:/home/ubuntu/nelami_frontend_tmp
-          ssh ubuntu@144.24.108.128 <<EOF
-          sudo su -
-          mv /home/ubuntu/nelami_backend_tmp/* /root/nelami/backend/
-          mv /home/ubuntu/nelami_frontend_tmp/* /root/nelami/frontend/
-          rm -rf /home/ubuntu/nelami_backend_tmp /home/ubuntu/nelami_frontend_tmp
+          cd /root/nelami
+          if [ ! -d .git ]; then
+            git init
+            git remote add origin git@github.com:Hamzi-SE/nelami.git
+          fi
+          git fetch origin
+          git reset --hard origin/main
           exit
           EOF
         env:
@@ -64,7 +43,7 @@ jobs:
 
       - name: SSH and deploy backend
         run: |
-          ssh ubuntu@144.24.108.128 <<EOF
+          ssh ubuntu@ihamza.dev <<EOF
           sudo su -
           export PATH=$PATH:/root/.nvm/versions/node/v20.14.0/bin
           cd /root/nelami/backend
@@ -80,7 +59,7 @@ jobs:
 
       - name: SSH and deploy frontend
         run: |
-          ssh ubuntu@144.24.108.128 <<EOF
+          ssh ubuntu@ihamza.dev <<EOF
           sudo su -
           export PATH=$PATH:/root/.nvm/versions/node/v20.14.0/bin
           cd /root/nelami/frontend
