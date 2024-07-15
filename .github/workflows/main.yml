@@ -26,7 +26,7 @@ jobs:
 
       - name: SSH and prepare for deployment
         run: |
-          ssh ubuntu@ihamza.dev <<EOF
+          ssh ubuntu@144.24.108.128 <<EOF
           sudo su -
           cd /root/nelami
           if [ ! -d .git ]; then
@@ -43,7 +43,7 @@ jobs:
 
       - name: SSH and deploy backend
         run: |
-          ssh ubuntu@ihamza.dev <<EOF
+          ssh ubuntu@144.24.108.128 <<EOF
           sudo su -
           export PATH=$PATH:/root/.nvm/versions/node/v20.14.0/bin
           cd /root/nelami/backend
@@ -59,7 +59,7 @@ jobs:
 
       - name: SSH and deploy frontend
         run: |
-          ssh ubuntu@ihamza.dev <<EOF
+          ssh ubuntu@144.24.108.128 <<EOF
           sudo su -
           export PATH=$PATH:/root/.nvm/versions/node/v20.14.0/bin
           cd /root/nelami/frontend
