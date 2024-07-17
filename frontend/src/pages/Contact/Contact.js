@@ -121,7 +121,7 @@ const Contact = () => {
                             <div className="col-xl-4 col-lg-12  col-md-12">
                                 <div className="support-service bg-warning br-2">
                                     <i className="fa fa-envelope"></i>
-                                    <h6>nelami@gmail.com</h6>
+                                    <h6>nelami@ihamza.dev</h6>
                                     <p>Support us!</p>
                                 </div>
                             </div>

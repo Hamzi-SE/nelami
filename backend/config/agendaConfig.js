@@ -15,7 +15,9 @@ const agenda = new Agenda({ db: { address: mongoConnectionString } });
 
 agenda.define("expire and notify winner", async (job) => {
     const { productId } = job.attrs.data;
-    const product = await Product.findById(productId);
+    const product = await Product.findById(productId).populate({
+        path: "user", select: "name email avatar.url"
+    });
     if (moment().isAfter(moment(product.endDate).utc())) {
         product.bidStatus = "Expired";
         await product.save();
@@ -38,7 +40,7 @@ agenda.define("expire and notify winner", async (job) => {
 
         const emailData = { 
             user: { name: highestBidUser.name }, 
-            product: { title: product.title, _id: product._id }, 
+            product: { title: product.title, _id: product._id, sellerName: product.user.name, sellerEmail: product.user.email, sellerAvatar: product.user.avatar.url },
             frontendUrl: process.env.FRONTEND_URL
         };
 

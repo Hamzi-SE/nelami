@@ -74,6 +74,19 @@
                 Please contact the seller for further steps to complete the purchase.
             </p>
             <p>
+                The seller of this product is:
+            </p>
+            <h3>
+                <%= product.sellerName %>
+            </h3>
+            <img src="<%= product.sellerAvatar %>" alt="<%= product.sellerName %>" style="width: 100px; height: 100px; border-radius: 50%; margin-bottom: 15px;">
+            <p>
+                You can contact the seller using the following email address or by using the messaging feature on the platform:
+            </p>
+            <p>
+                <a href="mailto:<%= product.sellerEmail %>"><%= product.sellerEmail %></a>
+            </p>
+            <p>
                 Congratulations once again, and thank you for participating in the auction!
             </p>
         </div>
