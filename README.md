@@ -19,6 +19,7 @@ Nelami is an innovative platform designed to connect buyers and sellers through 
 - **Backend**: Node.js, Express.js
 - **Database**: MongoDB
 - **Authentication**: JWT (JSON Web Tokens)
+- **Email Templating**: EJS
 - **Payment Gateway**: Stripe
 - **Real-Time Communication**: Socket.IO
 - **Deployment**: VPS
