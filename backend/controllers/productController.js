@@ -21,7 +21,11 @@ dotenv.config({ path: "./config/config.env" });
 exports.createProduct = catchAsyncErrors(async (req, res, next) => {
   req.body.user = req.user._id;
 
-  const { featuredImg, imageOne, imageTwo, imageThree } = req.body;
+  const { featuredImg, imageOne, imageTwo, imageThree, endDate } = req.body;
+
+  if (!endDate) {
+    return next(new ErrorHandler("End date is required", 400));
+  }
 
   // upload user products according to package
   const user = await User.findById(req.user._id);
@@ -68,6 +72,8 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
   await uploadImages(imageTwo, 'imageTwo');
   await uploadImages(imageThree, 'imageThree');
 
+  // Converting endDate to UTC for storing in the database
+  req.body.endDate = moment(endDate).utc().toDate();
 
   const product = await Product.create(req.body);
 
@@ -76,11 +82,8 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
     await user.save();
   }
 
-  // Convert endDate to UTC before scheduling the job
-  const endDateUTC = moment(product.endDate).utc().toDate();
-
   // Schedule job to expire the product and notify winner
-  await agenda.schedule(endDateUTC, 'expire and notify winner', { productId: product._id });
+  await agenda.schedule(product.endDate, 'expire and notify winner', { productId: product._id });
 
   res.status(201).json({
     success: true,
@@ -103,22 +106,20 @@ exports.getAllProducts = catchAsyncErrors(async (req, res) => {
       .sort()
       .pagination(resultsPerPage);
 
+  // Apply filters to get the count of all matching products
+  const baseQuery = Product.find({ status: "Approved", bidStatus: "Live" });
+  const countQuery = new ApiFeatures(baseQuery, req.query).search().filter();
+  
+  // Count all products matching the initial filters
+  const productsCount = await countQuery.query.countDocuments();
+
+  // Fetch the products with pagination
   const products = await apiFeature.query.populate({
       path: "user", select: "name avatar.url"
   });
 
-  let productsCount;
-  if (!req.query.category && !req.query.keyword && !req.query.province && !req.query.city && !req.query.price) {
-      productsCount = await Product.countDocuments({ status: "Approved", bidStatus: "Live" });
-  } else {
-      productsCount = products.length;
-  }
-
-  let filteredProductsCount = products.length;
-
-  if (req.query.category) {
-      productsCount = await Product.countDocuments({ category: req.query.category, status: "Approved", bidStatus: "Live" });
-  }
+  // The number of products returned after pagination
+  const filteredProductsCount = products.length;
 
   res.status(200).json({
       success: true,
@@ -128,6 +129,7 @@ exports.getAllProducts = catchAsyncErrors(async (req, res) => {
       resultsPerPage
   });
 });
+
 
 // Get All Products --Admin
 exports.getAllProductsAdmin = catchAsyncErrors(async (req, res) => {

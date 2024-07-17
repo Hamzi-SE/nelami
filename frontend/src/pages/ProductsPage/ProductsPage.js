@@ -43,7 +43,6 @@ const ProductsPage = () => {
     parseInt(searchParams.get("page")) || 1
   );
   const [totalProducts, setTotalProducts] = useState(0);
-  const [filteredTotalProducts, setFilteredTotalProducts] = useState(0);
   const [getParamCategory, setGetParamCategory] = useState(
     searchParams.get("category") || ""
   );
@@ -89,7 +88,6 @@ const ProductsPage = () => {
       dispatch({ type: "ALL_PRODUCTS_SUCCESS", payload: data.products });
       setResultsPerPage(data.resultsPerPage);
       setTotalProducts(data.productsCount);
-      setFilteredTotalProducts(data.filteredProductsCount);
     } catch (error) {
       dispatch({ type: "ALL_PRODUCTS_FAIL", payload: error.message });
     }
@@ -128,6 +126,16 @@ const ProductsPage = () => {
     setCurrentPage(e);
   };
 
+  const applyFilters = () => {
+    setCurrentPage(1); // Reset to page 1 whenever a new filter is applied
+    getAllSearchProducts(1);
+  };
+  
+  const handleSearch = () => {
+    setCurrentPage(1); // Reset to page 1 whenever a new search is performed
+    getAllSearchProducts(1);
+  };
+
   useEffect(() => {
     getAllSearchProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -141,8 +149,8 @@ const ProductsPage = () => {
     return <Loader />;
   }
 
-  const startIndex = (currentPage - 1) * resultsPerPage;
-  const endIndex = currentPage * resultsPerPage;
+  const startIndex = Math.min((currentPage - 1) * resultsPerPage + 1, totalProducts);
+  const endIndex = Math.min(currentPage * resultsPerPage, totalProducts);
 
   return (
     <>
@@ -334,7 +342,7 @@ const ProductsPage = () => {
                         <button
                           type="button"
                           className="btn btn-lg btn-block btn-secondary"
-                          onClick={getAllSearchProducts}
+                          onClick={handleSearch}
                         >
                           Search
                         </button>
@@ -364,7 +372,7 @@ const ProductsPage = () => {
                   <div id="mySlider" className="d-flex">
                     <input
                       type="number"
-                      placeholder="From Rs."
+                      placeholder="Min"
                       value={fromPrice}
                       onChange={(e) => setFromPrice(e.target.value)}
                       className="form-range border"
@@ -372,7 +380,7 @@ const ProductsPage = () => {
                     />
                     <input
                       type="number"
-                      placeholder="To Rs."
+                      placeholder="Max"
                       value={toPrice}
                       onChange={(e) => setToPrice(e.target.value)}
                       className="form-range border"
@@ -384,7 +392,7 @@ const ProductsPage = () => {
                 <div className="card-footer">
                   <button
                     className="btn btn-secondary btn-block"
-                    onClick={getAllSearchProducts}
+                    onClick={applyFilters}
                   >
                     Apply Filter
                   </button>
@@ -401,13 +409,14 @@ const ProductsPage = () => {
                     <div className="item2-gl-nav d-flex align-items-center justify-content-between">
                       {getParamCategory ? (
                         <h6 className="mb-0 mt-2">
-                          Showing {filteredTotalProducts} to{" "}
-                          {filteredTotalProducts} entries from{" "}
+                          Showing {startIndex} to {endIndex} entries of{" "}
+                          <b>{totalProducts}</b> entries in{" "}
                           <b>{getParamCategory}</b>
                         </h6>
                       ) : (
                         <h6 className="mb-0">
-                          Showing {startIndex + 1} to {endIndex} entries
+                          Showing {startIndex} to {endIndex} entries of{" "}
+                          <b>{totalProducts}</b> entries
                         </h6>
                       )}
                       <div className="d-flex select2-sm align-items-center">
