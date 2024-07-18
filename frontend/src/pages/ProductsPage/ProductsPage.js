@@ -409,13 +409,13 @@ const ProductsPage = () => {
                     <div className="item2-gl-nav d-flex align-items-center justify-content-between">
                       {getParamCategory ? (
                         <h6 className="mb-0 mt-2">
-                          Showing {startIndex} to {endIndex} entries of{" "}
+                          Showing {startIndex} - {endIndex} of{" "}
                           <b>{totalProducts}</b> entries in{" "}
                           <b>{getParamCategory}</b>
                         </h6>
                       ) : (
                         <h6 className="mb-0">
-                          Showing {startIndex} to {endIndex} entries of{" "}
+                          Showing {startIndex} - {endIndex} of{" "}
                           <b>{totalProducts}</b> entries
                         </h6>
                       )}
