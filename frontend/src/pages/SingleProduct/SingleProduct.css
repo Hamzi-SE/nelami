@@ -249,6 +249,11 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    gap: 16px;
+  }
+
+  .user-detail .user-img img {
+    margin-right: 0;
   }
 }
   
