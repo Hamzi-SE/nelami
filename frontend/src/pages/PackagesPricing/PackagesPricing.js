@@ -57,6 +57,25 @@ const PackagesPricing = () => {
                                 </div>
                             </div>
                         ))}
+                        {/* contact for custom package */}
+                        <div className="col-md-12 card mb-4 box-shadow">
+                            <div className="card-header">
+                                <h4 className="my-0 font-weight-normal"><b>
+                                    Custom Package
+                                </b></h4>
+                            </div>
+                            <div className="card-body">
+                                <h1><b>Rates Vary</b></h1>
+                                <ul className="list-unstyled mt-3 mb-4">
+                                    <li>Customize your own package</li>
+                                    <li>Get in touch with us</li>
+                                    <li>Get a quote</li>
+                                </ul>
+                                <button type="button" className="btn btn-lg btn-block btn-primary" onClick={() => navigate("/contact")}>
+                                    Contact Us
+                                </button>
+                            </div>
+                            </div>
                     </div>
                 </div>
             </div>
