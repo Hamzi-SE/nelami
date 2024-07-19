@@ -474,7 +474,7 @@ const SingleProduct = () => {
                     <hr />
 
                     <div className="mb-3">
-                      <div className="block-title mt-5 p-3">
+                      <div className="block-title mt-5 py-3">
                         <h4>Location</h4>
                         {product.location && <p>{product.location.province} - {product.location.city}</p>}
                       </div>
@@ -483,7 +483,7 @@ const SingleProduct = () => {
                       </div>
                     </div>
                     <hr />
-                    <div className="mt-5 p-3">
+                    <div className="block-title mt-5 py-3">
                       <h4>Seller</h4>
                     </div>
                     <div className="user-detail d-flex mt-1">

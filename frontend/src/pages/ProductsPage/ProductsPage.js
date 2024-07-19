@@ -409,14 +409,14 @@ const ProductsPage = () => {
                     <div className="item2-gl-nav d-flex align-items-center justify-content-between">
                       {getParamCategory ? (
                         <h6 className="mb-0 mt-2">
-                          Showing {startIndex} - {endIndex} of{" "}
-                          <b>{totalProducts}</b> entries in{" "}
+                          Showing <b>{startIndex}</b> to <b>{endIndex}</b> of{" "}
+                          <b>{totalProducts}</b> results in{" "}
                           <b>{getParamCategory}</b>
                         </h6>
                       ) : (
                         <h6 className="mb-0">
-                          Showing {startIndex} - {endIndex} of{" "}
-                          <b>{totalProducts}</b> entries
+                          Showing <b>{startIndex}</b> to <b>{endIndex}</b> of{" "}
+                          <b>{totalProducts}</b> results
                         </h6>
                       )}
                       <div className="d-flex select2-sm align-items-center">

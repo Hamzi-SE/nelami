@@ -8,7 +8,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import "./herSlider.css";
+import "./heroSlider.css";
 
 // import img_slide_1 from "../../../assets/images/slider-img-1.png";
 // import required modules

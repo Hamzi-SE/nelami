@@ -2,6 +2,12 @@
   padding-right: 3em;
 }
 
+/* mobile devices padding 1rem */
+@media (max-width: 480px) {
+  .single-product-page-wrapper {
+    padding: 1em;
+  }
+}
 
 
 
@@ -236,6 +242,16 @@
   margin-right: 20px;
   border-radius: 35px;
 }
+
+@media (max-width: 480px) {
+  .user-detail {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+}
+  
 
 .name-detail {
   margin-right: 20px;
