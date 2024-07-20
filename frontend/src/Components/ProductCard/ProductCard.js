@@ -84,6 +84,10 @@ const ProductCard = (props) => {
 
   const addToWishlistHandler = async () => {
 
+    if (!user) {
+      return Promise.reject(new Error("Login to add products to your wishlist"))
+    }
+
     const res = await customFetch(`/api/v1/addToWishlist`, {
       method: "POST",
       headers: {
@@ -100,7 +104,7 @@ const ProductCard = (props) => {
     } else if (res.status === 201) {
       setAdded(true)
     } else {
-      toast.error(data.message)
+      return Promise.reject(new Error(data?.message))
     }
 
     callProfile(dispatch)
@@ -202,7 +206,7 @@ const ProductCard = (props) => {
                       <button onClick={ () => toast.promise(addToWishlistHandler(), {
                           loading: added ? "Removing..." : "Adding...",
                           success: added ? "Removed from wishlist" : "Added to wishlist",
-                          error: "Failed to add"
+                          error: (err) => err.message
                         })
                       }>{added ? <FaHeart /> : <FiHeart />}</button>
                     </Tippy>
