@@ -51,29 +51,6 @@
 }
 
 
-/* .home-products-slider .product-actions button:first-child {
-    display: none;
-} */
-/* 
-.home-products-slider .swiper-slide {
-    z-index: -999;
-}
-
-.home-products-slider .swiper-slide-active {
-    z-index: 999;
-}
-
-.home-products-slider div.modal.fade.show {
-    display: flex !important;
-    width: fit-content !important;
-    z-index: 9999 !important;
-}
-
-div.modal-backdrop.fade.show {
-    z-index: 0 !important;
-} */
-
-
 
 
 @media screen and (max-width: 840px) {

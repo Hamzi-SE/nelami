@@ -36,8 +36,7 @@ nelami/
     |   ├───Components/
     |   │   ├───conversations/
     |   │   ├───Footer/
-    |   │   ├───Header/
-    |   │   ├───HeroSlider/
+    |   │   ├───Header/   
     |   │   ├───Loader/
     |   │   ├───MailchimpFormContainer/
     |   │   ├───message/
