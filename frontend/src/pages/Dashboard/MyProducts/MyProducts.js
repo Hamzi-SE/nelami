@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from "react-toastify";
-import { toastOptions } from "../../../App";
+import { toast } from "react-hot-toast";
 import DataTable from "react-data-table-component";
 
 import "./MyProducts.css"
@@ -30,7 +29,7 @@ const MyProducts = () => {
                 setFilteredProducts(data.products);
                 setPending(false)
             } else {
-                toast.error(data.message, toastOptions);
+                toast.error(data.message);
                 navigate("/Dashboard");
             }
         } catch (error) {

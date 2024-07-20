@@ -6,7 +6,7 @@ import { ClipLoader } from 'react-spinners'
 // Icons
 import { HiOutlinePencilAlt, HiOutlineTrash, HiOutlineEye } from "react-icons/hi"
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 
 //BOOSTRAP
 import Button from 'react-bootstrap/Button';

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { toastOptions } from "../../../App";
+import { toast } from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../Components/Loader/Loader";
@@ -31,7 +30,7 @@ const EditProfille = () => {
                 setProductDetails(data.product);
             } else {
                 dispatch({ type: "LOAD_PRODUCT_FAIL", payload: data.message });
-                toast.error(data.message, toastOptions);
+                toast.error(data.message);
                 navigate("/");
             }
         } catch (error) {
@@ -71,11 +70,11 @@ const EditProfille = () => {
         const data = await res.json();
         if (res.status === 200) {
             dispatch({ type: "UPDATE_PRODUCT_SUCCESS", payload: data.product });
-            toast.success("Product Updated Successfully", toastOptions);
+            toast.success("Product Updated Successfully");
             navigate("/Dashboard");
         } else {
             dispatch({ type: "UPDATE_PRODUCT_FAIL", payload: data.message });
-            toast.error(data.message, toastOptions);
+            toast.error(data.message);
         }
     };
 

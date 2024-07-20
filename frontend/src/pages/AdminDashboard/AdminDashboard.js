@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { toastOptions } from "../../App";
+import { toast } from "react-hot-toast";
 import { BsBoxArrowLeft } from "react-icons/bs"
 
 //CSS
@@ -46,7 +45,7 @@ const AdminDashboard = () => {
     }
     if (isAuthenticated && user?.role !== "admin") {
         navigate("/")
-        toast.error("Only admin can access this page", toastOptions);
+        toast.error("Only admin can access this page");
 
     }
 

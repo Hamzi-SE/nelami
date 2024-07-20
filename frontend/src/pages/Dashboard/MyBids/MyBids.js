@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import DataTable from 'react-data-table-component';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { HiOutlineEye } from 'react-icons/hi';
-import { toastOptions } from '../../../App';
 import { useSelector, useDispatch } from 'react-redux'
 import './MyBids.css'
 import customFetch from '../../../utils/api';
@@ -28,7 +27,7 @@ const MyBids = () => {
 
             } else {
                 dispatch({ type: "BUYER_ALL_BIDS_FAIL", payload: data.message })
-                toast.error(data.message, toastOptions);
+                toast.error(data.message);
                 navigate("/Dashboard");
             }
         } catch (error) {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import { toast } from 'react-hot-toast'
 import MetaData from '../../utils/MetaData';
 import customFetch from '../../utils/api';
 

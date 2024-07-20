@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { toastOptions } from "../../../App";
+import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import customFetch from "../../../utils/api";
 import { getAllCitiesDropList } from "../../../utils/PakCitiesData";
@@ -53,7 +52,7 @@ const EditProfille = () => {
       if (res.status === 200) {
         setUser(data.user);
       } else {
-        toast.error(data.message, toastOptions);
+        toast.error(data.message);
         navigate("/");
       }
     } catch (error) {
@@ -84,11 +83,11 @@ const EditProfille = () => {
     if (res.status === 200) {
       dispatch({ type: "UPDATE_PROFILE_SUCCESS" });
       dispatch({ type: "LOAD_USER_SUCCESS", payload: data.user });
-      toast.success("Profile Updated Successfully", toastOptions);
+      toast.success("Profile Updated Successfully");
       navigate("/Dashboard");
     } else {
       dispatch({ type: "UPDATE_PROFILE_FAIL", payload: data.message });
-      toast.error(data.message, toastOptions);
+      toast.error(data.message);
     }
   };
 

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import DataTable from "react-data-table-component";
 import { useNavigate } from 'react-router-dom';
-import { toast } from "react-toastify";
-import { toastOptions } from "../../../App";
+import { toast } from "react-hot-toast";
 import { useSelector, useDispatch } from "react-redux";
 
 //CSS
@@ -39,7 +38,7 @@ const AllUsers = () => {
                 setFilteredUsers(data.users);
             } else {
                 dispatch({ type: "ALL_USERS_FAIL", payload: data.message })
-                toast.error(data.message, toastOptions);
+                toast.error(data.message);
                 navigate("/Dashboard");
             }
         } catch (error) {

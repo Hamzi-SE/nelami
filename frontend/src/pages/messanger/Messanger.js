@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import "./Messanger.css"
 // import ChatOnline from "../components/chatOnline/ChatOnline"
 import Conversations from "../../Components/conversations/Conversations"

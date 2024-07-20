@@ -3,8 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from 'react-router-dom';
-import { toast } from "react-toastify";
-import { toastOptions } from "../../../App";
+import { toast } from "react-hot-toast";
 import Loader from "../../../Components/Loader/Loader";
 import customFetch from "../../../utils/api";
 
@@ -21,7 +20,7 @@ const DeleteUser = () => {
         dispatch({ type: "DELETE_USER_REQUEST" })
         if (user?._id === id) {
             dispatch({ type: "DELETE_USER_FAIL", payload: "You can't delete your own account" })
-            return toast.error("You can't delete yourself", toastOptions)
+            return toast.error("You can't delete yourself")
         }
         const res = await customFetch(`/api/v1/admin/user/${id}`, {
             method: "DELETE",
@@ -31,7 +30,7 @@ const DeleteUser = () => {
             const data = await res.json();
             if (res.status === 200) {
                 dispatch({ type: "DELETE_USER_SUCCESS" })
-                toast.success(data.message, toastOptions);
+                toast.success(data.message);
                 if (user?.role === "admin") {
                     navigate("/admin/Dashboard")
                 } else {
@@ -39,7 +38,7 @@ const DeleteUser = () => {
                 }
             } else {
                 dispatch({ type: "DELETE_USER_FAIL", payload: data.message })
-                toast.error(data.message, toastOptions);
+                toast.error(data.message);
                 navigate("/Dashboard");
             }
         } catch (error) {

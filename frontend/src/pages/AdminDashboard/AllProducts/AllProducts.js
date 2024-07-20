@@ -6,8 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import DataTable from "react-data-table-component";
 
 //MISC
-import { toast } from "react-toastify";
-import { toastOptions } from "../../../App";
+import { toast } from "react-hot-toast";
 
 // Icons
 import { HiOutlineTrash, HiOutlineEye } from "react-icons/hi"
@@ -43,7 +42,7 @@ const AllProducts = () => {
                     setFilteredProducts(data.products)
                 } else {
                     dispatch({ type: "ADMIN_PRODUCTS_FAIL", payload: data.message })
-                    toast.error(data.message, toastOptions);
+                    toast.error(data.message);
                     navigate("/Dashboard");
                 }
             } catch (error) {

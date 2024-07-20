@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import Loader from "../../Components/Loader/Loader";
 import MetaData from "../../utils/MetaData";
 import customFetch from "../../utils/api";

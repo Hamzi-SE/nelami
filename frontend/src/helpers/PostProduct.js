@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import customFetch from "../utils/api";
 
 async function PostProduct(dispatch, navigate, featuredImg, imageOne, imageTwo, imageThree, productData) {

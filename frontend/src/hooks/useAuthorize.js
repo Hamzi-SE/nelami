@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import customFetch from '../utils/api';
 
 function useAuthorize(props) {

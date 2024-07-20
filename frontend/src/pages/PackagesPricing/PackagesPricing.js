@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import Loader from '../../Components/Loader/Loader';
 import "./PackagesPricing.css";
 
@@ -24,7 +24,7 @@ const PackagesPricing = () => {
 
     if (!loading && user && (user?.role === "buyer")) {
         navigate("/")
-        toast.warning(`${user?.role} can't access this page`)
+        toast.error(`${user?.role} can't access this page`)
         return;
     }
 

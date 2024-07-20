@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { toastOptions } from "../../../App";
+import { toast } from "react-hot-toast";
 import { BsChatSquareText } from "react-icons/bs";
 import { useParams } from "react-router-dom";
 import Tippy from '@tippyjs/react';
@@ -37,7 +36,7 @@ const ViewProductBidders = () => {
                 dispatch({ type: "SINGLE_PRODUCT_SUCCESS", payload: data.product })
             } else {
                 dispatch({ type: "SINGLE_PRODUCT_FAIL", payload: data.message })
-                toast.error(data.message, toastOptions);
+                toast.error(data.message);
                 navigate("/");
             }
         } catch (error) {
@@ -69,7 +68,7 @@ const ViewProductBidders = () => {
                 }
             } else {
                 dispatch({ type: "PRODUCT_BIDS_FAIL", payload: data.message })
-                toast.error(data.message, toastOptions);
+                toast.error(data.message);
                 navigate("/");
             }
 

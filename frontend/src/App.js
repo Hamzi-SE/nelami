@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate } from 'react-router-dom'
 import { Routes, Route, useLocation } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { Toaster } from "react-hot-toast"
 import { useDispatch, useSelector } from "react-redux"
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
@@ -40,7 +40,6 @@ import DeleteUser from "./pages/AdminDashboard/AllUsers/DeleteUser";
 
 //Style Imports
 import "./App.css";
-import "react-toastify/dist/ReactToastify.css";
 
 //Meta Data
 import MetaData from "./utils/MetaData";
@@ -141,14 +140,6 @@ const Routing = ({ isAuthenticated, stripeApiKey }) => {
   );
 };
 
-export const toastOptions = {
-  position: "top-right",
-  autoClose: 1000,
-  pauseOnHover: true,
-  draggable: true,
-  theme: "light",
-};
-
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -200,7 +191,7 @@ function App() {
 
   return (
     <>
-      <ToastContainer options={toastOptions} />
+      <Toaster />
       <Header />
       <MetaData title="Nelami" />
       <Routing isAuthenticated={isAuthenticated} stripeApiKey={stripeApiKey} />

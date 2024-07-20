@@ -7,7 +7,7 @@ import { FiHeart, FiUsers } from "react-icons/fi";
 import { IoLocationOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import 'tippy.js/dist/tippy.css';
 import customFetch from "../../utils/api";
 import Loader from "../Loader/Loader";
@@ -96,14 +96,10 @@ const ProductCard = (props) => {
     const data = await res.json();
 
     if (res.status === 200) {
-      toast.warning(data.message)
       setAdded(false);
-    }
-    else if (res.status === 201) {
-      toast.success(data.message)
+    } else if (res.status === 201) {
       setAdded(true)
-    }
-    else {
+    } else {
       toast.error(data.message)
     }
 
@@ -203,7 +199,12 @@ const ProductCard = (props) => {
                       <button data-toggle="modal" data-target={`#chatModal-${index}`}><BsChatSquareText /></button>
                     </Tippy>
                     <Tippy content="Add To Wishlist">
-                      <button onClick={addToWishlistHandler}>{added ? <FaHeart /> : <FiHeart />}</button>
+                      <button onClick={ () => toast.promise(addToWishlistHandler(), {
+                          loading: added ? "Removing..." : "Adding...",
+                          success: added ? "Removed from wishlist" : "Added to wishlist",
+                          error: "Failed to add"
+                        })
+                      }>{added ? <FaHeart /> : <FiHeart />}</button>
                     </Tippy>
                     <Tippy content={`${bidCount <= 1 ? `${bidCount} bid` : `${bidCount} bids`}`}>
                       <button> <FiUsers /></button>

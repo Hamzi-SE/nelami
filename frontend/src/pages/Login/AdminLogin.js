@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import MetaData from "../../utils/MetaData";
 import { useDispatch, useSelector } from "react-redux";

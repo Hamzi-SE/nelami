@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { toastOptions } from "../../../App";
+import { toast } from "react-hot-toast";
 import customFetch from "../../../utils/api";
 
 const EditProfille = () => {
@@ -38,7 +37,7 @@ const EditProfille = () => {
       if (res.status === 200) {
         setUser(data.user);
       } else {
-        toast.error(data.message, toastOptions);
+        toast.error(data.message);
         navigate("/");
       }
     } catch (error) {
@@ -66,10 +65,10 @@ const EditProfille = () => {
     });
     const data = await res.json();
     if (res.status === 200) {
-      toast.success("Profile Updated Successfully", toastOptions);
+      toast.success("Profile Updated Successfully");
       navigate("/admin/Dashboard");
     } else {
-      toast.error(data.message, toastOptions);
+      toast.error(data.message);
     }
     setUpdating(false);
   };

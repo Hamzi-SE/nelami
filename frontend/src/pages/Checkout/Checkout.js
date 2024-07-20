@@ -3,7 +3,7 @@ import { AiOutlineCalendar } from 'react-icons/ai';
 import { BsCreditCard, BsKey } from 'react-icons/bs';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import Loader from "../../Components/Loader/Loader";
 
 import MetaData from "../../utils/MetaData";
@@ -157,13 +157,13 @@ const Checkout = () => {
             <Loader />
         }
         if (!userLoading && !isAuthenticated) {
-            toast.warning(`Please Login to upgrade your plan`)
+            toast.error(`Please Login to upgrade your plan`)
             navigate("/packages")
             return;
         }
         if (!orderPackage || !orderPrice) {
             navigate("/packages")
-            toast.warning(`Please select a package`)
+            toast.error(`Please select a package`)
             return;
         }
         setCheckoutFormLoading(false)

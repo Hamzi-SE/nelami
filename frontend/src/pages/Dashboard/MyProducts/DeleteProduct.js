@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
-import { toast } from "react-toastify";
-import { toastOptions } from "../../../App";
+import { toast } from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -27,7 +26,7 @@ const DeleteProduct = () => {
             const data = await res.json();
             if (res.status === 200) {
                 dispatch({ type: "DELETE_PRODUCT_SUCCESS", payload: data.message })
-                toast.success(data.message, toastOptions);
+                toast.success(data.message);
                 if (user?.role === "admin") {
                     navigate("/admin/Dashboard")
                 } else {
@@ -35,7 +34,7 @@ const DeleteProduct = () => {
                 }
             } else {
                 dispatch({ type: "DELETE_PRODUCT_FAIL", payload: data.message })
-                toast.error(data.message, toastOptions);
+                toast.error(data.message);
                 navigate("/Dashboard");
             }
         } catch (error) {
