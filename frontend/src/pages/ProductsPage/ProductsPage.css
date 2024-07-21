@@ -15,7 +15,7 @@
 .paginationBox {
     display: flex;
     justify-content: center;
-    margin: 6vmax;
+    margin: 5vmax;
 }
 
 .pagination {
@@ -28,9 +28,15 @@
     background-color: rgb(255, 255, 255);
     list-style: none;
     border: 1px solid rgba(0, 0, 0, 0.178);
-    padding: 1vmax 1.5vmax;
+    padding: 0.5vmax 1vmax;
     transition: all 0.3s;
     cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+    .page-item {
+        padding: 1vmax 1.5vmax;
+    }
 }
 
 .page-item:first-child {
