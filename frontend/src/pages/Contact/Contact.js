@@ -154,7 +154,7 @@ const Contact = () => {
                             <div className="support-service bg-warning">
                                 <i className="fa fa-envelope"></i>
                                 <h6>nelami@ihamza.dev</h6>
-                                <p>For general inquiries or feedback, email us at the above address, and we'll get back to you as soon as possible.</p>
+                                <p>For general inquiries or feedback, email us at the above address, and we'll get back to you soon.</p>
                             </div>
                         </div>
                     </div>

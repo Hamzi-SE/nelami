@@ -141,7 +141,6 @@ const Home = () => {
                         <select className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option" data-placeholder="Select Category" onChange={(e) => setCategory(e.target.value)}>
                           <optgroup label="Categories">
                             <option>Select Category</option>
-                            <option value="All">All products</option>
                             <option value="Vehicles">Vehicles</option>
                             <option value="Property">Properties</option>
                             <option value="MiscProducts">Miscellaneous Products</option>
