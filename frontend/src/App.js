@@ -62,7 +62,7 @@ import customFetch from "./utils/api";
 
 import "./App.css";
 
-const Routing = ({ isAuthenticated, stripeApiKey }) => {
+const Routing = ({ isAuthenticated, loading, stripeApiKey }) => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -124,7 +124,7 @@ const Routing = ({ isAuthenticated, stripeApiKey }) => {
       )}
 
       {/* Messenger */}
-      <Route path="/messenger" element={<Messenger />} />
+      <Route path="/messenger" element={ (!loading && isAuthenticated) ? <Messenger /> : <Navigate to="/login" />} />
       <Route path="/contact" element={<Contact />} />
 
       {/* Error */}
@@ -136,7 +136,7 @@ const Routing = ({ isAuthenticated, stripeApiKey }) => {
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { isAuthenticated } = useSelector(state => state.user);
+  const { isAuthenticated, loading } = useSelector(state => state.user);
   const [stripeApiKey, setStripeApiKey] = useState("");
 
   const getStripeApiKey = async () => {
@@ -177,7 +177,7 @@ function App() {
       <Toaster />
       <Header />
       <MetaData title="Nelami" />
-      <Routing isAuthenticated={isAuthenticated} stripeApiKey={stripeApiKey} />
+      <Routing isAuthenticated={isAuthenticated} loading={loading} stripeApiKey={stripeApiKey} />
       <Footer />
     </>
   );

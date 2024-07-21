@@ -10,6 +10,7 @@ import MetaData from "../../utils/MetaData";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../Components/Loader/Loader";
 import customFetch from "../../utils/api";
+import { useNavigate } from "react-router-dom";
 
 // Socket Connection
 const socket = io.connect(process.env.REACT_APP_SOCKET_URL, {
@@ -20,7 +21,8 @@ const socket = io.connect(process.env.REACT_APP_SOCKET_URL, {
 
 const Messenger = () => {
     const dispatch = useDispatch();
-    const { user, loading: userLoading } = useSelector(state => state.user);
+    const navigate = useNavigate()
+    const { user, loading: userLoading, isAuthenticated } = useSelector(state => state.user);
     const { loading, conversations } = useSelector(state => state.conversations);
     const messagesLoading = useSelector(state => state.messages.loading);
     const [showPicker, setShowPicker] = useState(false);
@@ -194,6 +196,8 @@ const Messenger = () => {
 
     if (loading || userLoading) {
         return <Loader />;
+    } else if (!userLoading && !isAuthenticated) {
+        return navigate("/login", { replace: true })
     }
 
     return (
