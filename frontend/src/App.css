@@ -2269,7 +2269,6 @@ dd {
 
 .dropdown-menu.show {
   display: block;
-  margin: 15px 0 0 0;
   box-shadow: 0px 5px 25px rgba(39, 55, 76, 0.2);
 }
 

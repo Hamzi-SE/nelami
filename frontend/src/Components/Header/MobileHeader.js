@@ -1,31 +1,54 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const MobileHeader = () => {
+  const location = useLocation();
+  const isAppleDevice = useRef(/Mac|iPod|iPhone|iPad/.test(navigator.platform));
+  const horizontalNavtoggleRef = useRef(null);
+  const bodyRef = useRef(document.body);
+
   useEffect(() => {
-    // check if device is apple device
-    const isAppleDevice = /Mac|iPod|iPhone|iPad/.test(navigator.platform);
-    
-    if (isAppleDevice) {
-      const horizontalNavtoggle = document.getElementById("horizontal-navtoggle");
-      const body = document.querySelector("body");
-  
+    const toggleActiveClass = () => {
+      if (bodyRef.current.classList.contains('active')) {
+        bodyRef.current.classList.remove('active');
+      }
+    };
+
+    const handleClick = () => {
+      bodyRef.current.classList.toggle('active');
+    };
+
+    const horizontalNavtoggle = horizontalNavtoggleRef.current;
+
+    if (isAppleDevice.current) {
       if (horizontalNavtoggle) {
-        horizontalNavtoggle.addEventListener("click", () => {
-          body.classList.toggle('active');
-        });
-      } else {
-        return;
+        horizontalNavtoggle.addEventListener("click", handleClick);
       }
     }
-  }, []);
+
+    // Listen for route changes
+    toggleActiveClass();
+
+    // Cleanup event listeners on component unmount
+    return () => {
+      if (horizontalNavtoggle) {
+        horizontalNavtoggle.removeEventListener("click", handleClick);
+      }
+    };
+  }, [location]);
+
   return (
     <>
       {/* <!-- Mobile Header --> */}
       <div className="sticky">
         <div className="horizontal-header clearfix ">
           <div className="container">
-            <button style={{ border: "0px" }} id="horizontal-navtoggle" className="animated-arrow">
+            <button
+              style={{ border: "0px" }}
+              id="horizontal-navtoggle"
+              className="animated-arrow"
+              ref={horizontalNavtoggleRef}
+            >
               <span></span>
             </button>
             <span className="smllogo">

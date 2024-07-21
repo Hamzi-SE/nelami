@@ -1,11 +1,16 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import Loader from "../Loader/Loader";
-
 
 const Navbar = () => {
   const { user, isAuthenticated, loading } = useSelector(state => state.user);
+  const location = useLocation();
+
+  const isActiveCategory = () => {
+    const path = location.pathname;
+    return path.startsWith("/categories");
+  };
 
   if (loading) {
     return <Loader />
@@ -26,7 +31,6 @@ const Navbar = () => {
               </NavLink>
             </div>
             {/* Navbar */}
-
             <nav className="horizontalMenu clearfix d-md-flex">
               <ul role="menubar" className="horizontalMenu-list">
                 <li role="menuitem" aria-haspopup="true">
@@ -39,34 +43,26 @@ const Navbar = () => {
                     Products
                   </NavLink>
                 </li>
-
                 <li role="menuitem" aria-haspopup="true">
-                    <Link to="#" className="dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
-                      Categories
-                    </Link>
-                    <ul className="dropdown-menu" role="menu" aria-labelledby="menu1">
-                      <li role="menuitem"><Link to="/categories/Vehicles">Vehicles</Link></li>
-                      <li role="menuitem"><Link to="/categories/Property">Properties</Link></li>
-                      <li role="menuitem"><Link to="/categories/MiscProducts">Miscellaneous Products</Link></li>
-                    </ul>
+                  <NavLink to="/categories/Vehicles" className={`dropdown-toggle ${isActiveCategory() ? 'active' : ''}`} type="button" id="menu1" data-toggle="dropdown">
+                    Categories
+                  </NavLink>
+                  <ul className="dropdown-menu" role="menu" aria-labelledby="menu1">
+                    <li role="menuitem"><Link to="/categories/Vehicles">Vehicles</Link></li>
+                    <li role="menuitem"><Link to="/categories/Property">Properties</Link></li>
+                    <li role="menuitem"><Link to="/categories/MiscProducts">Miscellaneous Products</Link></li>
+                  </ul>
                 </li>
-
                 {(isAuthenticated ? user?.role === "seller" || user?.role === "admin" : true) && <li role="menuitem" aria-haspopup="true">
                   <NavLink to="/Packages">
                     Packages
                   </NavLink>
                 </li>}
-
                 <li role="menuitem" aria-haspopup="true">
                   <NavLink to="/Contact">
                     Contact
                   </NavLink>
                 </li>
-
-
-
-                {/*  */}
-
                 <li role="menuitem" aria-haspopup="true" className="d-lg-none mt-5 pb-5 mt-lg-0">
                   <span>
                     <NavLink className="btn btn-secondary" to="/product/new">
@@ -88,7 +84,6 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-
       {/* <!--Nav--> */}
     </>
   );
