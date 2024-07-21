@@ -197,6 +197,7 @@ const Messenger = () => {
     if (loading || userLoading) {
         return <Loader />;
     } else if (!userLoading && !isAuthenticated) {
+        toast.error("Login to access messenger")
         return navigate("/login", { replace: true })
     }
 

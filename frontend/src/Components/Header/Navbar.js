@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import Loader from "../Loader/Loader";
@@ -6,10 +6,16 @@ import Loader from "../Loader/Loader";
 const Navbar = () => {
   const { user, isAuthenticated, loading } = useSelector(state => state.user);
   const location = useLocation();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const isActiveCategory = () => {
     const path = location.pathname;
     return path.startsWith("/categories");
+  };
+
+  const handleDropdownClick = (e) => {
+    e.preventDefault();
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
   if (loading) {
@@ -44,7 +50,7 @@ const Navbar = () => {
                   </NavLink>
                 </li>
                 <li role="menuitem" aria-haspopup="true">
-                  <NavLink to="/categories/Vehicles" className={`dropdown-toggle ${isActiveCategory() ? 'active' : ''}`} type="button" id="menu1" data-toggle="dropdown">
+                  <NavLink to="/categories/vehicles" onClick={handleDropdownClick} className={`dropdown-toggle ${isActiveCategory() ? 'active' : ''}`} type="button" id="menu1" data-toggle="dropdown">
                     Categories
                   </NavLink>
                   <ul className="dropdown-menu" role="menu" aria-labelledby="menu1">

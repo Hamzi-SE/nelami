@@ -61,6 +61,7 @@ import { callProfile } from "./helpers/CallProfile";
 import customFetch from "./utils/api";
 
 import "./App.css";
+import Loader from "./Components/Loader/Loader";
 
 const Routing = ({ isAuthenticated, loading, stripeApiKey }) => {
   return (
@@ -124,7 +125,16 @@ const Routing = ({ isAuthenticated, loading, stripeApiKey }) => {
       )}
 
       {/* Messenger */}
-      <Route path="/messenger" element={ (!loading && isAuthenticated) ? <Messenger /> : <Navigate to="/login" />} />
+      <Route 
+        path="/messenger" 
+        element={
+          loading 
+            ? <Loader /> 
+            : isAuthenticated 
+              ? <Messenger /> 
+              : <Navigate to="/login" replace />
+        } 
+      />
       <Route path="/contact" element={<Contact />} />
 
       {/* Error */}
