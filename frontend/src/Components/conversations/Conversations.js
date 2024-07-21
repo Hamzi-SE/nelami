@@ -1,46 +1,15 @@
-import { useState, useEffect } from 'react'
-import { toast } from 'react-hot-toast'
-import "./conversations.css"
-import customFetch from '../../utils/api';
+import "./conversations.css";
 
-const Conversations = ({ currentUser, conversation }) => {
-    const [friend, setFriend] = useState(null);
-
-    const friendId = conversation.members.find(m => m !== currentUser._id)
-
-    const getFriend = async () => {
-        const res = await customFetch(`/api/v1/user/${friendId}`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            });
-        const data = await res.json();
-
-        if (res.status !== 200) {
-            toast.error(data.message)
-        } else {
-            setFriend(data.user)
-            localStorage.setItem("friendAvatar", data.user.avatar.url);
-        }
-    };
-
-    useEffect(() => {
-        getFriend();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentUser, conversation])
-
-
+const Conversations = ({ currentUser, conversation, friendsData }) => {
+    const friendId = conversation.members.find(m => m !== currentUser._id);
+    const friend = friendsData[friendId];
 
     return (
-        <>
-            <div className="conversation">
-                <img className="conversationImg" src={friend?.avatar.url} alt="UserImage" />
-                <span className="conversationName">{friend?.name}</span>
-            </div>
-        </>
-    )
-}
+        <div className="conversation">
+            <img className="conversationImg" src={friend?.avatar.url} alt="UserImage" />
+            <span className="conversationName">{friend?.name}</span>
+        </div>
+    );
+};
 
-export default Conversations
+export default Conversations;

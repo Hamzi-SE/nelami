@@ -34,10 +34,18 @@
     position: relative;
 }
 
+.chatFriendName {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background-color: white;
+    padding: 1rem;
+}
+
 .chatBoxTop {
     height: 100%;
     overflow-y: scroll;
-    padding: 1em 2em;
+    padding: 2em;
 }
 
 

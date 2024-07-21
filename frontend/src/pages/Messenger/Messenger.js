@@ -1,46 +1,39 @@
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import "./Messenger.css"
-// import ChatOnline from "../components/chatOnline/ChatOnline"
-import Conversations from "../../Components/conversations/Conversations"
-import Message from "../../Components/message/Message"
+import "./Messenger.css";
+import Conversations from "../../Components/conversations/Conversations";
+import Message from "../../Components/message/Message";
 import Picker from 'emoji-picker-react';
-import { ClipLoader, PulseLoader } from 'react-spinners'
-import io from "socket.io-client"
+import { ClipLoader, PulseLoader } from 'react-spinners';
+import io from "socket.io-client";
 import MetaData from "../../utils/MetaData";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../Components/Loader/Loader";
 import customFetch from "../../utils/api";
-
 
 // Socket Connection
 const socket = io.connect(process.env.REACT_APP_SOCKET_URL, {
     transports: ['websocket', 'polling'],
     reconnection: true,
     reconnectionAttempts: 5,
-})
-
+});
 
 const Messenger = () => {
     const dispatch = useDispatch();
-    const { user } = useSelector(state => state.user);
+    const { user, loading: userLoading } = useSelector(state => state.user);
     const { loading, conversations } = useSelector(state => state.conversations);
     const messagesLoading = useSelector(state => state.messages.loading);
     const [showPicker, setShowPicker] = useState(false);
     const [currentChat, setCurrentChat] = useState(null);
+    const [currentFriendName, setCurrentFriendName] = useState("");
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
     const [arrivalMessage, setArrivalMessage] = useState(null);
     const [msgSending, setMsgSending] = useState(false);
+    const [userAvatars, setUserAvatars] = useState({});
+    const [friendsData, setFriendsData] = useState({});
     const scrollRef = useRef();
     const chatEmojiRef = useRef();
-    
-    // useEffect(() => {
-    //     //scroll to top
-    //     window.scrollTo(0, 0);
-
-    // }, [])
-
 
     useEffect(() => {
         socket.on("getMessage", (data) => {
@@ -50,21 +43,7 @@ const Messenger = () => {
                 createdAt: Date.now(),
             });
         });
-
-
-        // //Hide footer only on Messagner page
-        // const footer = document.querySelector(".footer");
-        // if (footer) {
-        //     footer.style.display = "none";
-        // }
-
-        // //Hide form container only on Messagner page
-        // const formContainer = document.querySelector(".mc__form-container");
-        // if (formContainer) {
-        //     formContainer.style.display = "none";
-        // }
-
-    }, [])
+    });
 
     useEffect(() => {
         arrivalMessage &&
@@ -72,104 +51,112 @@ const Messenger = () => {
             setMessages((prev) => [...prev, arrivalMessage]);
     }, [arrivalMessage, currentChat]);
 
-
-    // Add User to the live users upon connection
     useEffect(() => {
-        socket.emit("addUser", user?._id)
-        // socket.on("getUsers", (users) => {
-        //     console.log(users)
-        // })
-    }, [user])
-
+        socket.emit("addUser", user?._id);
+    }, [user]);
 
     const onEmojiClick = (event, emojiObject) => {
         setNewMessage(prevInput => prevInput + emojiObject.emoji);
         setShowPicker(false);
     };
 
-
-    const getConversations = async () => {
-        dispatch({ type: "GET_ALL_CONVERSATIONS_REQUEST" })
-        const res = await customFetch(`/api/v1/conversations/${user?._id}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        const data = await res.json();
-
-
-        if (res.status !== 200) {
-            dispatch({ type: "GET_ALL_CONVERSATIONS_FAIL", payload: data.message });
-            toast.error(data.message)
-        } else {
-            dispatch({ type: "GET_ALL_CONVERSATIONS_SUCCESS", payload: data.conversations })
-        }
-    };
-
     useEffect(() => {
-        getConversations();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user?._id])
-
-
-    const getMessages = async () => {
-        dispatch({ type: "GET_MESSAGES_REQUEST" })
-        try {
-            const res = await customFetch(`/api/v1/messages/${currentChat?._id}`, {
+        const getConversations = async () => {
+            dispatch({ type: "GET_ALL_CONVERSATIONS_REQUEST" });
+            const res = await customFetch(`/api/v1/conversations/${user?._id}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                 },
             });
             const data = await res.json();
-
+    
             if (res.status !== 200) {
-                dispatch({ type: "GET_MESSAGES_FAIL", payload: data.message });
-                toast.error(data.message)
+                dispatch({ type: "GET_ALL_CONVERSATIONS_FAIL", payload: data.message });
+                toast.error(data.message);
             } else {
-                dispatch({ type: "GET_MESSAGES_SUCCESS", payload: data.messages })
-                setMessages(data.messages)
+                dispatch({ type: "GET_ALL_CONVERSATIONS_SUCCESS", payload: data.conversations });
+                // Fetch avatars and friends data
+                const avatars = {};
+                const friends = {};
+                for (const conversation of data.conversations) {
+                    const friendId = conversation.members.find(m => m !== user?._id);
+                    if (!friends[friendId]) {
+                        const res = await customFetch(`/api/v1/user/${friendId}`, {
+                            method: "GET",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        });
+                        const friendData = await res.json();
+                        if (res.status === 200) {
+                            avatars[friendId] = friendData.user?.avatar.url;
+                            friends[friendId] = friendData.user;
+                        }
+                    }
+                }
+                setUserAvatars(avatars);
+                setFriendsData(friends);
+                setUserAvatars(prevAvatars =>({...prevAvatars, [user?._id]: user?.avatar.url}))
             }
-        } catch (error) {
-            dispatch({ type: "GET_MESSAGES_FAIL", payload: error });
-        }
-
-    }
+        };
+        getConversations();
+    }, [user?._id, dispatch, user?.avatar.url]);
 
     useEffect(() => {
-        getMessages();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentChat])
-
+        const getMessages = async () => {
+            dispatch({ type: "GET_MESSAGES_REQUEST" });
+            try {
+                const res = await customFetch(`/api/v1/messages/${currentChat?._id}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                const data = await res.json();
+    
+                if (res.status !== 200) {
+                    dispatch({ type: "GET_MESSAGES_FAIL", payload: data.message });
+                    toast.error(data.message);
+                } else {
+                    dispatch({ type: "GET_MESSAGES_SUCCESS", payload: data.messages });
+                    setMessages(data.messages);
+                }
+            } catch (error) {
+                dispatch({ type: "GET_MESSAGES_FAIL", payload: error });
+            }
+        };
+        if (currentChat) {
+            const friendId = currentChat.members.find(m => m !== user?._id);
+            setCurrentFriendName(friendsData[friendId]?.name || "");
+            getMessages();
+        }
+    }, [currentChat, dispatch, friendsData, user?._id]);
 
     const sendMessage = async (e) => {
         e.preventDefault();
-        setMsgSending(true)
+        setMsgSending(true);
 
         const receiverId = currentChat.members.find(
-            (member) => member !== user._id
+            (member) => member !== user?._id
         );
 
         const message = {
-            sender: user._id,
+            sender: user?._id,
             conversationId: currentChat._id,
             text: newMessage,
-        }
+        };
 
-        // If message is empty, don't send it
         if (newMessage.length === 0) {
-            setMsgSending(false)
-            return
+            setMsgSending(false);
+            return;
         }
 
         socket.emit("sendMessage", {
-            senderId: user._id,
+            senderId: user?._id,
             receiverId,
             text: newMessage,
         });
-
-
 
         const res = await customFetch(`/api/v1/message/new`, {
             method: "POST",
@@ -180,26 +167,21 @@ const Messenger = () => {
         });
         const data = await res.json();
         if (res.status !== 201) {
-            toast.error(data.message)
+            toast.error(data.message);
         } else {
-            setMessages([...messages, data.savedMessage])
-            setNewMessage("")
+            setMessages([...messages, data.savedMessage]);
+            setNewMessage("");
         }
 
-        setMsgSending(false)
-    }
-
-
+        setMsgSending(false);
+    };
 
     useEffect(() => {
-        //scroll to bottom
         scrollRef.current?.scrollIntoView({
             behavior: "smooth",
         });
+    }, [messages]);
 
-    }, [messages])
-
-    // add active class to child component
     const addActiveClass = (e) => {
         const allConversations = document.querySelectorAll(".conversation");
         allConversations.forEach((conversation) => {
@@ -210,13 +192,9 @@ const Messenger = () => {
     };
 
 
-
-
-
-    if (loading) {
-        return <Loader />
+    if (loading || userLoading) {
+        return <Loader />;
     }
-
 
     return (
         <>
@@ -227,7 +205,7 @@ const Messenger = () => {
                         <h3 className="chatMenuInput">Sellers</h3>
                         {conversations?.map(c => (
                             <div key={c._id} className="conversation-wrapper" onClick={(e) => { setCurrentChat(c); addActiveClass(e) }}>
-                                <Conversations conversation={c} currentUser={user} />
+                                <Conversations conversation={c} currentUser={user} friendsData={friendsData} />
                             </div>
                         ))}
                     </div>
@@ -236,13 +214,14 @@ const Messenger = () => {
                     <div className="chatBoxWrapper">
                         {currentChat ? (
                             <>
-                                <div className="chatBoxTop" >
+                                <h3 className="chatFriendName">{currentFriendName}</h3>
+                                <div className="chatBoxTop">
                                     {messagesLoading ? (
                                         <div className="w-100 h-100 d-flex justify-content-center align-items-center">
                                             <ClipLoader size={100} color={"#1877f2"} />
                                         </div>) : messages.map(m => (
                                         <div key={m._id}>
-                                            <Message message={m} own={m.sender === user._id} />
+                                            <Message message={m} own={m.sender === user?._id} userAvatars={userAvatars} />
                                         </div>
                                     ))}
                                     <div ref={scrollRef}></div>
@@ -253,13 +232,11 @@ const Messenger = () => {
                                         src="https://icons.getbootstrap.com/assets/icons/emoji-smile.svg"
                                         alt="emoji"
                                         onClick={() => setShowPicker(val => !val)} />
-                                    {showPicker && <Picker
-                                        onEmojiClick={onEmojiClick}
-                                    />}
-                                    <textarea className="chatMessageInput" placeholder="Type a message" name="newMessage" value={newMessage} onChange={(e) => setNewMessage(e.target.value)} ></textarea>
-
+                                    {showPicker && <Picker onEmojiClick={onEmojiClick} />}
+                                    <textarea className="chatMessageInput" placeholder="Type a message" name="newMessage" value={newMessage} onChange={(e) => setNewMessage(e.target.value)}></textarea>
                                     <button className={`chatSubmitButton d-flex justify-content-center align-items-center ${msgSending && 'pe-none disabled'}`} onClick={sendMessage}>
-                                        {msgSending ? <PulseLoader size={5} color="white" /> : "Send"}</button>
+                                        {msgSending ? <PulseLoader size={5} color="white" /> : "Send"}
+                                    </button>
                                 </div>
                             </>) : <span className="noConversationText">Open a Conversation to Start a Chat</span>
                         }
@@ -267,7 +244,7 @@ const Messenger = () => {
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default Messenger
+export default Messenger;

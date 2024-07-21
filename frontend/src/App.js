@@ -124,7 +124,7 @@ const Routing = ({ isAuthenticated, stripeApiKey }) => {
       )}
 
       {/* Messenger */}
-      <Route path="/messenger" element={isAuthenticated ? <Messenger /> : <Navigate to="/login" />} />
+      <Route path="/messenger" element={<Messenger />} />
       <Route path="/contact" element={<Contact />} />
 
       {/* Error */}
