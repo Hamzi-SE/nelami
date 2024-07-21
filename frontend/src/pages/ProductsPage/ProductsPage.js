@@ -30,13 +30,13 @@ const ProductsPage = () => {
   // get all queries from url
   const [searchParams] = useSearchParams();
 
-  const [city, setCity] = useState(searchParams.get("city"));
-  const [province, setProvince] = useState(searchParams.get("province"));
+  const [city, setCity] = useState(searchParams.get("city") || "");
+  const [province, setProvince] = useState(searchParams.get("province") || "");
   const [category, setCategory] = useState(searchParams.get("category") || "");
-  const [keyword, setKeyword] = useState(searchParams.get("keyword"));
+  const [keyword, setKeyword] = useState(searchParams.get("keyword") || "");
 
-  const [fromPrice, setFromPrice] = useState(searchParams.get("price[gte]" || ""));
-  const [toPrice, setToPrice] = useState(searchParams.get("price[lte]" || ""));
+  const [fromPrice, setFromPrice] = useState(searchParams.get("price[gte]") || "");
+  const [toPrice, setToPrice] = useState(searchParams.get("price[lte]") || "");
 
   const [resultsPerPage, setResultsPerPage] = useState(12);
   const [currentPage, setCurrentPage] = useState(
@@ -183,7 +183,7 @@ const ProductsPage = () => {
                         <input
                           type="text"
                           className="form-control input-lg border-end-0"
-                          value={keyword ? keyword : ""}
+                          value={keyword}
                           id="text"
                           placeholder="Search Products"
                           onChange={(e) => setKeyword(e.target.value)}
