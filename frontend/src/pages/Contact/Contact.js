@@ -72,20 +72,52 @@ const Contact = () => {
             <div className="sptb">
                 <div className="container">
                     <div className="row">
-                        <div className="col-lg-4  col-md-12 mx-auto d-block">
-                            <div className="card mb-0">
+                        <div className="col-lg-6 col-md-8 mx-auto">
+                            <div className="card mb-4">
                                 <div className="card-body">
                                     <form onSubmit={handleSubmit}>
-                                        <div className="form-group">
-                                            <input type="text" className="form-control" id="name1" name="name" onChange={(e) => setName(e.target.value)} placeholder="Your Name" />
+                                        <div className="form-group mb-3">
+                                            <input 
+                                                type="text" 
+                                                className="form-control" 
+                                                id="name" 
+                                                name="name" 
+                                                value={name}
+                                                onChange={(e) => setName(e.target.value)} 
+                                                placeholder="Your Name" 
+                                                required 
+                                            />
                                         </div>
-                                        <div className="form-group">
-                                            <input type="email" className="form-control" id="email" name="email" onChange={(e) => setEmail(e.target.value)} placeholder="Email Address" />
+                                        <div className="form-group mb-3">
+                                            <input 
+                                                type="email" 
+                                                className="form-control" 
+                                                id="email" 
+                                                name="email" 
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)} 
+                                                placeholder="Email Address" 
+                                                required 
+                                            />
                                         </div>
-                                        <div className="form-group">
-                                            <textarea className="form-control" name="message" onChange={(e) => setMessage(e.target.value)} rows="6" placeholder="Message"></textarea>
+                                        <div className="form-group mb-3">
+                                            <textarea 
+                                                className="form-control" 
+                                                name="message" 
+                                                value={message}
+                                                onChange={(e) => setMessage(e.target.value)} 
+                                                rows="7" 
+                                                placeholder="Message" 
+                                                required
+                                            ></textarea>
                                         </div>
-                                        <button type='submit' className={`btn btn-primary ${loading && 'disabled'}`}>Send Message</button>
+                                        <button 
+                                            type='submit' 
+                                            className={`btn btn-primary ${loading ? 'disabled' : ''}`}
+                                            disabled={loading}
+                                        >
+                                            {loading ? 'Sending...' : 'Send Message'}
+                                        </button>
                                     </form>
                                 </div>
                             </div>
