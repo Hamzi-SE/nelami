@@ -5294,12 +5294,6 @@ textarea[cols] {
     text-align: center;
   }
 
-  .support .support-service i {
-    float: none !important;
-    margin-right: 0 !important;
-    margin-bottom: 20px;
-  }
-
   .bannerimg img {
     height: 10rem;
   }
@@ -5357,38 +5351,6 @@ textarea[cols] {
 .social li a {
   color: rgba(255, 255, 255, 0.6);
   line-height: 0;
-}
-
-/*--Supports--*/
-.support-service {
-  padding: 1.5rem 1.5rem;
-  border: 1px solid #e8ebf3;
-  background: #f2f3f8;
-}
-
-.support-service i {
-  float: left;
-  margin-right: 15px;
-  font-size: 1.5rem;
-  line-height: 40px;
-  width: 45px;
-  text-align: center;
-  height: 45px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.support-service h6 {
-  font-size: 20px;
-  font-weight: 400;
-  margin-bottom: 0;
-}
-
-.support-service p {
-  margin-bottom: 0;
-  font-size: 15px;
-  color: rgba(255, 255, 255, 0.5);
 }
 
 .top-bar {

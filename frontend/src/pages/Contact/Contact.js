@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
 import MetaData from '../../utils/MetaData';
 import customFetch from '../../utils/api';
+import "./contact.css"
 
 const Contact = () => {
 
@@ -127,41 +128,39 @@ const Contact = () => {
             </div>
             {/* <!--Contact--> */}
 
-            {/* <!--Statistics--> */}
+            {/* Contact Info */}
             <section className="sptb bg-white">
                 <div className="container">
-                    <div className="section-title center-block text-center">
-                        <h1>Contact Info</h1>
-                        <p>Mauris ut cursus nunc. Morbi eleifend, ligula at consectetur vehicula</p>
+                    <div className="section-title text-center">
+                        <h1>Contact Information</h1>
+                        <p>If you have any questions or need assistance, please reach out to us through the following contact details:</p>
                     </div>
-                    <div className="support">
-                        <div className="row text-white">
-                            <div className="col-xl-4 col-lg-12 col-md-12">
-                                <div className="support-service bg-primary br-2 mb-4 mb-xl-0">
-                                    <i className="fa fa-phone"></i>
-                                    <h6>+92 315-608-8777</h6>
-                                    <p>Free Support!</p>
-                                </div>
+                    <div className="row text-center">
+                        <div className="col-xl-4 col-lg-12 col-md-12 mb-4">
+                            <div className="support-service bg-primary">
+                                <i className="fa fa-phone"></i>
+                                <h6>+92 315-608-8777</h6>
+                                <p>Our customer support team is available 24/7 to assist you with any queries or issues.</p>
                             </div>
-                            <div className="col-xl-4 col-lg-12 col-md-12">
-                                <div className="support-service bg-secondary br-2 mb-4 mb-xl-0">
-                                    <i className="fa fa-clock"></i>
-                                    <h6>Mon-Sat(10:00-19:00)</h6>
-                                    <p>Working Hours!</p>
-                                </div>
+                        </div>
+                        <div className="col-xl-4 col-lg-12 col-md-12 mb-4">
+                            <div className="support-service bg-secondary">
+                                <i className="fa fa-clock"></i>
+                                <h6>Mon-Sat (10:00 AM - 7:00 PM)</h6>
+                                <p>Our office hours are Monday through Saturday. Feel free to contact us during these hours.</p>
                             </div>
-                            <div className="col-xl-4 col-lg-12  col-md-12">
-                                <div className="support-service bg-warning br-2">
-                                    <i className="fa fa-envelope"></i>
-                                    <h6>nelami@ihamza.dev</h6>
-                                    <p>Support us!</p>
-                                </div>
+                        </div>
+                        <div className="col-xl-4 col-lg-12 col-md-12 mb-4">
+                            <div className="support-service bg-warning">
+                                <i className="fa fa-envelope"></i>
+                                <h6>nelami@ihamza.dev</h6>
+                                <p>For general inquiries or feedback, email us at the above address, and we'll get back to you as soon as possible.</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-            {/* <!--/Statistics--> */}
+            {/* /Contact Info */}
 
 
         </>
