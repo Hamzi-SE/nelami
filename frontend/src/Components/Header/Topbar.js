@@ -76,7 +76,7 @@ const Topbar = () => {
                   )}
                   {isAuthenticated && (
                     <li className="dropdown">
-                      <NavLink to="/Messenger" className="text-dark show">
+                      <NavLink to="/messenger" className="text-dark show">
                         <i className='fab me-1'>&#xf39f;</i>
                         <span>Messenger</span>
                       </NavLink>

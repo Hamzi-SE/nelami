@@ -68,7 +68,7 @@ nelami/
     |   │   ├───Home/
     |   │   ├───Login/
     |   │   ├───Logout/
-    |   │   ├───messanger/
+    |   │   ├───Messenger/
     |   │   ├───PackagesPricing/
     |   │   ├───ProductForms/
     |   │   │   ├───Misc/

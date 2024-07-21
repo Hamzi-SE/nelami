@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import "./Messanger.css"
+import "./Messenger.css"
 // import ChatOnline from "../components/chatOnline/ChatOnline"
 import Conversations from "../../Components/conversations/Conversations"
 import Message from "../../Components/message/Message"
@@ -21,7 +21,7 @@ const socket = io.connect(process.env.REACT_APP_SOCKET_URL, {
 })
 
 
-const Messanger = () => {
+const Messenger = () => {
     const dispatch = useDispatch();
     const { user } = useSelector(state => state.user);
     const { loading, conversations } = useSelector(state => state.conversations);
@@ -270,4 +270,4 @@ const Messanger = () => {
     )
 }
 
-export default Messanger
+export default Messenger

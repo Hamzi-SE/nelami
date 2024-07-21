@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import customFetch from "../../../utils/api";
 import { getAllCitiesDropList } from "../../../utils/PakCitiesData";
 
-const EditProfille = () => {
+const EditProfile = () => {
   const { loading } = useSelector(state => state.profile);
   const { data } = useSelector(state => state.data);
   const dispatch = useDispatch();
@@ -211,4 +211,4 @@ const EditProfille = () => {
   );
 };
 
-export default EditProfille;
+export default EditProfile;

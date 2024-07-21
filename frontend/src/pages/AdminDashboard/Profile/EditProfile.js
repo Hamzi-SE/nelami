@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import customFetch from "../../../utils/api";
 
-const EditProfille = () => {
+const EditProfile = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
 
@@ -433,4 +433,4 @@ const EditProfille = () => {
   );
 };
 
-export default EditProfille;
+export default EditProfile;
