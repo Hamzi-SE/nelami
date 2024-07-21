@@ -39,7 +39,12 @@
     top: 0;
     width: 100%;
     background-color: white;
-    padding: 1rem;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #d0c5c5;
+}
+
+.chatFriendName h3 {
+    margin: 0;
 }
 
 .chatBoxTop {

@@ -214,7 +214,9 @@ const Messenger = () => {
                     <div className="chatBoxWrapper">
                         {currentChat ? (
                             <>
-                                <h3 className="chatFriendName">{currentFriendName}</h3>
+                                <div className="chatFriendName">
+                                    <h3>{currentFriendName}</h3>
+                                </div>
                                 <div className="chatBoxTop">
                                     {messagesLoading ? (
                                         <div className="w-100 h-100 d-flex justify-content-center align-items-center">
