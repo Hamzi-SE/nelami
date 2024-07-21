@@ -69,7 +69,7 @@ const ProductCard = (props) => {
     } else if (res.status === 200) {
       dispatch({ type: "CREATE_CONVERSATION_SUCCESS", payload: data.conversation })
       document.getElementsByClassName("modal-backdrop")[0].remove();
-      toast.success(data.message)
+      toast(data.message, {icon: "🤝"})
 
     } else {
       dispatch({ type: "CREATE_CONVERSATION_FAIL", payload: data.message })

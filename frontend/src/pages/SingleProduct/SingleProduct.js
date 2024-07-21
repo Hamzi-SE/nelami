@@ -203,7 +203,7 @@ const SingleProduct = () => {
     if (res.status === 200) {
       dispatch({ type: "CREATE_CONVERSATION_SUCCESS", payload: data.conversation })
       document.getElementsByClassName("modal-backdrop")[0].remove();
-      toast.info(data.message)
+      toast(data.message, {icon: "🤝"})
     } else if (res.status === 201) {
       dispatch({ type: "CREATE_CONVERSATION_SUCCESS", payload: data.savedConversation })
       document.getElementsByClassName("modal-backdrop")[0].remove();
