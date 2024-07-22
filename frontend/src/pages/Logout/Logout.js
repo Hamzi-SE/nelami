@@ -1,13 +1,16 @@
 import React, { useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import customFetch from "../../utils/api";
+import { socket } from "../../helpers/SocketConnect";
 
 
 const Logout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { user } = useSelector(state => state.user);
 
   const callLogout = async () => {
     dispatch({ type: "LOGOUT_USER_REQUEST" });
@@ -21,11 +24,12 @@ const Logout = () => {
     const data = await res.json();
 
     if (res.status === 200) {
+      socket.emit("removeUserFromLiveUsers", user?._id)
       document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       dispatch({ type: "LOGOUT_USER_SUCCESS" })
       dispatch({ type: "RESET_ACTIVE_COMPONENT" })
       toast.success(data.message);
-      navigate("/Products");
+      navigate("/");
     } else {
       dispatch({ type: "LOGOUT_USER_FAIL", payload: data.message })
       toast.error(data.message);

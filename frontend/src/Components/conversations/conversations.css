@@ -23,6 +23,17 @@
     font-weight: 500;
 }
 
+.user-online {
+    width: 12px;
+    height: 12px;
+    border: 1px solid #08bc08;
+    background: #08bc08;
+    border-radius: 50%;
+    position: absolute;
+    right: 22px;
+    top: 0;
+}
+
 @media screen and (max-width: 768px) {
     /* .conversationName {
         display: none;

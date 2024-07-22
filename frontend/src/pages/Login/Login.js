@@ -6,6 +6,7 @@ import MetaData from "../../utils/MetaData";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../Components/Loader/Loader";
 import customFetch from "../../utils/api";
+import { socket } from "../../helpers/SocketConnect";
 
 const Login = () => {
   const { loading } = useSelector(state => state.user);
@@ -41,7 +42,7 @@ const Login = () => {
 
     if (res.status === 200) {
       dispatch({ type: "LOGIN_USER_SUCCESS", payload: data.user })
-
+      socket.emit("addUser", data.user?._id);
       toast.success("Logged In Successfully");
       navigate("/", { replace: true });
       window.scrollTo(0, 0);

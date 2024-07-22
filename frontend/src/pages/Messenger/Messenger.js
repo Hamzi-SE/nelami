@@ -5,19 +5,12 @@ import Conversations from "../../Components/conversations/Conversations";
 import Message from "../../Components/message/Message";
 import Picker from 'emoji-picker-react';
 import { ClipLoader, PulseLoader } from 'react-spinners';
-import io from "socket.io-client";
 import MetaData from "../../utils/MetaData";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../Components/Loader/Loader";
 import customFetch from "../../utils/api";
 import { useNavigate } from "react-router-dom";
-
-// Socket Connection
-const socket = io.connect(process.env.REACT_APP_SOCKET_URL, {
-    transports: ['websocket', 'polling'],
-    reconnection: true,
-    reconnectionAttempts: 5,
-});
+import { socket } from "../../helpers/SocketConnect";
 
 const Messenger = () => {
     const dispatch = useDispatch();
@@ -31,6 +24,7 @@ const Messenger = () => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
     const [arrivalMessage, setArrivalMessage] = useState(null);
+    const [liveUsers, setLiveUsers] = useState([]);
     const [msgSending, setMsgSending] = useState(false);
     const [userAvatars, setUserAvatars] = useState({});
     const [friendsData, setFriendsData] = useState({});
@@ -55,6 +49,9 @@ const Messenger = () => {
 
     useEffect(() => {
         socket.emit("addUser", user?._id);
+        socket.on("getUsers", users => {
+            setLiveUsers(users);
+        })
     }, [user]);
 
     const onEmojiClick = (event, emojiObject) => {
@@ -137,6 +134,11 @@ const Messenger = () => {
 
     const sendMessage = async (e) => {
         e.preventDefault();
+
+        if (newMessage.trim() === "") {
+            return;
+        }
+
         setMsgSending(true);
 
         const receiverId = currentChat.members.find(
@@ -146,13 +148,8 @@ const Messenger = () => {
         const message = {
             sender: user?._id,
             conversationId: currentChat._id,
-            text: newMessage,
+            text: newMessage.trim(),
         };
-
-        if (newMessage.length === 0) {
-            setMsgSending(false);
-            return;
-        }
 
         socket.emit("sendMessage", {
             senderId: user?._id,
@@ -193,6 +190,11 @@ const Messenger = () => {
         e.currentTarget.children[0].classList.add("active");
     };
 
+    const checkOnlineStatus = (members) => {
+        const friendId = members.find(m => m !== user?._id);
+        return !!liveUsers.find(user => user.userId === friendId)
+    }
+
 
     if (loading || userLoading) {
         return <Loader />;
@@ -210,7 +212,7 @@ const Messenger = () => {
                         <h3 className="chatMenuInput">Sellers</h3>
                         {conversations?.map(c => (
                             <div key={c._id} className="conversation-wrapper" onClick={(e) => { setCurrentChat(c); addActiveClass(e) }}>
-                                <Conversations conversation={c} currentUser={user} friendsData={friendsData} />
+                                <Conversations conversation={c} currentUser={user} friendsData={friendsData} onlineStatus={checkOnlineStatus(c.members)} />
                             </div>
                         ))}
                     </div>

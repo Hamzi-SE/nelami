@@ -62,8 +62,13 @@ const addUser = (userId, socketId) => {
     !users.some((user) => user.userId === userId) && users.push({ userId, socketId })
 }
 
-const removeUser = (socketId) => {
-    users = users.filter((user) => user.socketId !== socketId)
+const removeUser = (userId, socketId) => {
+    if (socketId) {
+        users = users.filter(user => user.socketId !== socketId);
+
+    } else if (userId) {
+        users = users.filter(user => user.userId !== userId);
+    }
 }
 
 const getUser = (userId) => {
@@ -71,8 +76,6 @@ const getUser = (userId) => {
 }
 
 io.on("connection", (socket) => {
-    console.log(`User Connected: ${socket.id}`)
-
     socket.on("addUser", (userId) => {
         if (userId) {
             addUser(userId, socket.id)
@@ -87,9 +90,14 @@ io.on("connection", (socket) => {
         })
     })
 
+    socket.on("removeUserFromLiveUsers", userId => {
+        removeUser(userId, null);
+        io.emit('getUsers', users);
+        io.emit("removeUserFromLiveUsers", users)
+    })
+
     socket.on("disconnect", () => {
-        console.log("User Disconnected")
-        removeUser(socket.id)
+        removeUser(null, socket.id)
         io.emit("getUsers", users)
     })
 })
