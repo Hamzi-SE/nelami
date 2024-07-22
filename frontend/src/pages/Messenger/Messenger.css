@@ -154,7 +154,7 @@ div.conversation.active {
 
 @media screen and (max-width: 768px) {
     .chatMenu {
-        flex: 1;
+        flex: 4 1;
     }
 
     .chatMenuInput {
@@ -205,7 +205,8 @@ div.conversation.active {
     }
 
     .chatBoxTop {
-        padding: 0.5em 0.5em;
+        padding: 3em 1em;
+        margin-top: 2px;
     }
 
     .noConversationText {
