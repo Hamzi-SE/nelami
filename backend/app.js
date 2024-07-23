@@ -5,6 +5,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const { Server } = require("socket.io");
 const { createServer } = require("http");
+const User = require("./models/userModel");
 require("./utils/cloudinary");
 const dotenv = require("dotenv");
 dotenv.config({ path: "config/config.env" });
@@ -58,16 +59,34 @@ const io = new Server(socketServer, {
 
 let users = [];
 
-const addUser = (userId, socketId) => {
+const addUser = async (userId, socketId) => {
     !users.some((user) => user.userId === userId) && users.push({ userId, socketId })
+    await User.findByIdAndUpdate(userId, { lastActive: Date.now() });
 }
 
-const removeUser = (userId, socketId) => {
+const removeUser = async (userId, socketId) => {
+    let removedUserId = null;
+    const currentTime = Date.now();
+
     if (socketId) {
+        const user = users.find(user => user.socketId === socketId);
+        if (user) {
+            removedUserId = user.userId;
+            await User.findByIdAndUpdate(removedUserId, { lastActive: Date.now() });
+        }
         users = users.filter(user => user.socketId !== socketId);
 
     } else if (userId) {
+        removedUserId = userId;
+        await User.findByIdAndUpdate(removedUserId, { lastActive: Date.now() });
         users = users.filter(user => user.userId !== userId);
+    }
+
+    if (removedUserId) {
+        io.emit('updateLastActive', {
+            userId: removedUserId,
+            lastActive: currentTime
+        });
     }
 }
 
@@ -76,9 +95,9 @@ const getUser = (userId) => {
 }
 
 io.on("connection", (socket) => {
-    socket.on("addUser", (userId) => {
+    socket.on("addUser",async (userId) => {
         if (userId) {
-            addUser(userId, socket.id)
+            await addUser(userId, socket.id)
             io.emit("getUsers", users)
         }
     })
@@ -90,14 +109,14 @@ io.on("connection", (socket) => {
         })
     })
 
-    socket.on("removeUserFromLiveUsers", userId => {
-        removeUser(userId, null);
+    socket.on("removeUserFromLiveUsers",async (userId) => {
+        await removeUser(userId, null);
         io.emit('getUsers', users);
-        io.emit("removeUserFromLiveUsers", users)
+        // io.emit("removeUserFromLiveUsers", users)
     })
 
-    socket.on("disconnect", () => {
-        removeUser(null, socket.id)
+    socket.on("disconnect", async () => {
+        await removeUser(null, socket.id)
         io.emit("getUsers", users)
     })
 })

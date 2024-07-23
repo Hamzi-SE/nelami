@@ -48,7 +48,7 @@ exports.getUserConversation = async (req, res, next) => {
     try {
         const conversations = await Conversation.find({
             members: { $in: [req.params.userId] }
-        }).sort({ lastMessage: -1 });
+        }).sort({ lastMessageTime: -1 });
 
         res.status(200).json({
             message: "Conversations fetched successfully",

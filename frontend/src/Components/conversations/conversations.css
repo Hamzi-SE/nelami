@@ -4,23 +4,58 @@
     padding: 10px;
     cursor: pointer;
     margin-top: 20px;
+    border-bottom: 1px solid rgb(195, 178, 178);
+    width: 90%;
 }
 
 .conversation:hover {
     background-color: rgb(245, 243, 243);
 }
 
-.conversationImg {
+.conversation-img-wrapper {
+    min-width: 40px;
+}
+
+.conversation-last-message {
+    font-size: 13px;
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.conversation-last-time {
+    font-size: 13px;
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.conversation-active-now {
+    color: #08bc08;
+}
+
+.conversation-img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
-    margin-right: 20px;
     border: 1px solid rgb(122, 122, 122);
 }
 
-.conversationName {
+.conversation-name {
     font-weight: 500;
+}
+
+.conversation-user-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-left: 20px;
 }
 
 .user-online {
@@ -34,8 +69,19 @@
     top: 0;
 }
 
-@media screen and (max-width: 768px) {
-    /* .conversationName {
+@media screen and (max-width: 476px) {
+    .conversation-name {
+        font-size: small;
+    }
+    .conversation-user-details {
+        font-size: small
+    }
+
+    .conversation-user-details {
         display: none;
-    } */
+    }
+
+    .conversation-last-time {
+        display: none;
+    }
 }

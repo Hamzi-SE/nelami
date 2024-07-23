@@ -11,6 +11,7 @@ import Loader from "../../Components/Loader/Loader";
 import customFetch from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import { socket } from "../../helpers/SocketConnect";
+import { formatDistanceToNow } from "date-fns";
 
 const Messenger = () => {
     const dispatch = useDispatch();
@@ -21,10 +22,14 @@ const Messenger = () => {
     const [showPicker, setShowPicker] = useState(false);
     const [currentChat, setCurrentChat] = useState(null);
     const [currentFriendName, setCurrentFriendName] = useState("");
+    const [currentFriendActiveTime, setCurrentFriendActiveTime] = useState(null);
+    const [currentFriendPicture, setCurrentFriendPicture] = useState("");
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
     const [arrivalMessage, setArrivalMessage] = useState(null);
     const [liveUsers, setLiveUsers] = useState([]);
+    const [lastActive, setLastActive] = useState(null); // State to track last active time
+    const [, forceUpdate] = useState(0); // Dummy state to trigger re-render
     const [msgSending, setMsgSending] = useState(false);
     const [userAvatars, setUserAvatars] = useState({});
     const [friendsData, setFriendsData] = useState({});
@@ -128,6 +133,8 @@ const Messenger = () => {
         if (currentChat) {
             const friendId = currentChat.members.find(m => m !== user?._id);
             setCurrentFriendName(friendsData[friendId]?.name || "");
+            setCurrentFriendActiveTime(friendsData[friendId]?.lastActive || null);
+            setCurrentFriendPicture(friendsData[friendId]?.avatar?.url || "");
             getMessages();
         }
     }, [currentChat, dispatch, friendsData, user?._id]);
@@ -195,6 +202,27 @@ const Messenger = () => {
         return !!liveUsers.find(user => user.userId === friendId)
     }
 
+    useEffect(() => {
+        const handleUpdateLastActive = ({ userId, lastActive }) => {
+            if (currentChat?.members.includes(userId)) {
+                setLastActive(lastActive);
+            }
+        };
+
+        socket.on('updateLastActive', handleUpdateLastActive);
+
+        // Set up interval to force re-render
+        const intervalId = setInterval(() => {
+            forceUpdate(prev => prev + 1); // Increment dummy state
+        }, 60000); // Update every minute
+
+        // Cleanup listener and interval on unmount
+        return () => {
+            socket.off('updateLastActive', handleUpdateLastActive);
+            clearInterval(intervalId);
+        };
+    }, [currentChat, currentChat?.members, lastActive]);
+
 
     if (loading || userLoading) {
         return <Loader />;
@@ -209,10 +237,10 @@ const Messenger = () => {
             <div className="messenger">
                 <div className="chatMenu">
                     <div className="chatMenuWrapper">
-                        <h3 className="chatMenuInput">Sellers</h3>
+                        <h3 className="chatMenuInput">{user?.role === "buyer" ? "Sellers" : "Buyers"}</h3>
                         {conversations?.map(c => (
                             <div key={c._id} className="conversation-wrapper" onClick={(e) => { setCurrentChat(c); addActiveClass(e) }}>
-                                <Conversations conversation={c} currentUser={user} friendsData={friendsData} onlineStatus={checkOnlineStatus(c.members)} />
+                                <Conversations conversation={c} currentUser={user} friendsData={friendsData} onlineStatus={checkOnlineStatus(c.members)} lastActive={lastActive} />
                             </div>
                         ))}
                     </div>
@@ -221,8 +249,14 @@ const Messenger = () => {
                     <div className="chatBoxWrapper">
                         {currentChat ? (
                             <>
-                                <div className="chatFriendName">
-                                    <h3>{currentFriendName}</h3>
+                                <div className="chatBoxTopHeader w-100 d-flex justify-content-start align-items-center position-relative p-1" style={{borderBottom: "1px solid #d5d5d5"}}>
+                                    <img src={currentFriendPicture} alt={currentFriendName} width={50} height={50} style={{borderRadius: "50%"}}/>
+                                    <div className="d-flex flex-column ml-2">
+                                        <p className="m-0 font-weight-bold">{currentFriendName}</p>
+                                        <p className="m-0" style={{ right: "10px", fontSize: "13px", top: "35px" }}>
+                                            {checkOnlineStatus(currentChat.members) ? "Active Now" : `Last active: ${formatDistanceToNow(new Date(lastActive || currentFriendActiveTime), { addSuffix: true })}`}
+                                        </p>
+                                    </div>
                                 </div>
                                 <div className="chatBoxTop">
                                     {messagesLoading ? (

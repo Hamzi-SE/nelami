@@ -12,7 +12,9 @@ exports.createMessage = async (req, res, next) => {
             const { conversationId } = req.body;
             const conversation = await Conversation.findById(conversationId);
             if (conversation) {
-                conversation.lastMessage = savedMessage.createdAt;
+                conversation.lastMessage = savedMessage.text;
+                conversation.lastMessageTime = savedMessage.createdAt;
+                conversation.lastMessageSender = savedMessage.sender;
                 await conversation.save();
             }
         }
