@@ -77,7 +77,7 @@ const Conversations = ({ currentUser, conversation, friendsData, onlineStatus, l
             </div>
             <div className="conversation-user-details">
                 <span className="d-none d-md-flex conversation-name">{friend?.name}</span>
-                <p className="m-0 conversation-last-message">{(arrivalMessage?.sender === friendId ? friend?.name.split(" ")[0] : conversation.lastMessageSender !== friendId ? "You: " : friend?.name.split(" ")[0]) + " " + (lastMessage?.text || conversation.lastMessage)}</p>
+                <p className="m-0 conversation-last-message">{conversation?.lastMessage ? (arrivalMessage?.sender === friendId ? friend?.name.split(" ")[0] : conversation.lastMessageSender !== friendId ? "You: " : friend?.name.split(" ")[0]) + " " + (lastMessage?.text || conversation.lastMessage) : ""}</p>
                 <p className={`m-0 conversation-last-time ${onlineStatus ? 'conversation-active-now' : ""}`}>{onlineStatus ? "Active Now" : `Last active: ${formatTimestamp(lastActiveState)}`}</p>
             </div>
         </div>
