@@ -47,9 +47,6 @@ const CategoryPage = () => {
     const startIndex = Math.min((currentPage - 1) * resultsPerPage + 1, filteredTotalProducts);
     const endIndex = Math.min(currentPage * resultsPerPage, filteredTotalProducts);
 
-    console.log(startIndex);
-    console.log(endIndex);
-
     if (loading) {
         return <Loader />;
     }
