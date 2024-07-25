@@ -83,8 +83,9 @@ export const messagesReducer = createReducer(messagesInitialState, (builder) => 
             state.messages = action.payload;
             state.loading = false;
         })
-        .addCase('GET_CONVERSATION_FAIL', (state, action) => {
+        .addCase('GET_MESSAGES_FAIL', (state, action) => {
             state.loading = false;
             state.error = action.payload;
+            state.messages = []
         });
 });
