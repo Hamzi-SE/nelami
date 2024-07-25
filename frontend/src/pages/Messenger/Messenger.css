@@ -193,6 +193,12 @@ div.conversation.active {
         padding: 5px 2px;
     }
 
+    .conversation-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     .conversation {
         flex-direction: column;
         align-items: flex-start !important;

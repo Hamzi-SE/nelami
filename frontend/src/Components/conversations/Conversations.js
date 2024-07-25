@@ -2,32 +2,21 @@ import { formatDistanceToNow } from "date-fns";
 import "./conversations.css";
 import { useState, useEffect } from "react";
 import { socket } from "../../helpers/SocketConnect";
+import { useDispatch } from "react-redux";
 
 const Conversations = ({ currentUser, conversation, friendsData, onlineStatus, lastActive }) => {
     const friendId = conversation.members.find(m => m !== currentUser._id);
     const friend = friendsData[friendId];
-    console.log(conversation)
+    const dispatch = useDispatch()
 
     const [lastActiveState, setLastActiveState] = useState(friend?.lastActive || null);
-    const [arrivalMessage, setArrivalMessage] = useState(null)
-    const [lastMessage, setLastMessage] = useState(null)
     const [, forceUpdate] = useState(0); // Dummy state to trigger re-render
 
     useEffect(() => {
         socket.on("getMessage", (data) => {
-            setArrivalMessage({
-                sender: data.senderId,
-                text: data.text,
-                createdAt: Date.now(),
-            });
+            dispatch({ type: "UPDATE_CONVERSATION_LAST_MESSAGE", payload: { conversationId: data.conversationId, lastMessage: data.text, lastMessageSender: data.senderId } });
         });
     });
-
-    useEffect(() => {
-        arrivalMessage &&
-            conversation?.members.includes(arrivalMessage.sender) &&
-            setLastMessage(arrivalMessage)
-    }, [arrivalMessage, conversation]);
 
     useEffect(() => {
         if (friend?.lastActive) {
@@ -77,7 +66,13 @@ const Conversations = ({ currentUser, conversation, friendsData, onlineStatus, l
             </div>
             <div className="conversation-user-details">
                 <span className="d-none d-md-flex conversation-name">{friend?.name}</span>
-                <p className="m-0 conversation-last-message">{conversation?.lastMessage ? (arrivalMessage?.sender === friendId ? friend?.name.split(" ")[0] : conversation.lastMessageSender !== friendId ? "You: " : friend?.name.split(" ")[0]) + " " + (lastMessage?.text || conversation.lastMessage) : ""}</p>
+                <p className="m-0 conversation-last-message">
+                {conversation?.lastMessage
+                    ? conversation.lastMessageSender === currentUser._id
+                        ? `You: ${conversation.lastMessage}`
+                        : friend?.name ? friend.name.split(" ")[0] + `: ${conversation.lastMessage}` : "Unknown"
+                    : "No message"}
+                </p>
                 <p className={`m-0 conversation-last-time ${onlineStatus ? 'conversation-active-now' : ""}`}>{onlineStatus ? "Active Now" : `Last active: ${formatTimestamp(lastActiveState)}`}</p>
             </div>
         </div>

@@ -61,7 +61,18 @@ export const conversationsReducer = createReducer(conversationsInitialState, (bu
             state.loading = false;
             state.conversations = null; 
             state.error = action.payload;
-        });
+        })
+        .addCase('UPDATE_CONVERSATION_LAST_MESSAGE', (state, action) => {
+            state.conversations = state.conversations.map(conversation =>
+                conversation._id === action.payload.conversationId
+                    ? {
+                        ...conversation,
+                        lastMessage: action.payload.lastMessage,
+                        lastMessageSender: action.payload.lastMessageSender,
+                    }
+                    : conversation
+            );
+        })
 });
 
 

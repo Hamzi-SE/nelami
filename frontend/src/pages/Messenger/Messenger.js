@@ -42,6 +42,7 @@ const Messenger = () => {
                 sender: data.senderId,
                 text: data.text,
                 createdAt: Date.now(),
+                conversationId: data.conversationId
             });
         });
     });
@@ -49,8 +50,9 @@ const Messenger = () => {
     useEffect(() => {
         arrivalMessage &&
             currentChat?.members.includes(arrivalMessage.sender) &&
-            setMessages((prev) => [...prev, arrivalMessage]);
-    }, [arrivalMessage, currentChat]);
+            setMessages((prev) => [...prev, arrivalMessage])  &&
+            dispatch({ type: "UPDATE_CONVERSATION_LAST_MESSAGE", payload: { conversationId: currentChat._id, lastMessage: arrivalMessage.text, lastMessageSender: arrivalMessage.sender } });
+    }, [arrivalMessage, currentChat, dispatch]);
 
     useEffect(() => {
         socket.emit("addUser", user?._id);
@@ -162,6 +164,7 @@ const Messenger = () => {
             senderId: user?._id,
             receiverId,
             text: newMessage,
+            conversationId: currentChat._id
         });
 
         const res = await customFetch(`/api/v1/message/new`, {
@@ -176,6 +179,7 @@ const Messenger = () => {
             toast.error(data.message);
         } else {
             setMessages([...messages, data.savedMessage]);
+            dispatch({ type: "UPDATE_CONVERSATION_LAST_MESSAGE", payload: { conversationId: currentChat._id, lastMessage: newMessage, lastMessageSender: user._id } });
             setNewMessage("");
         }
 
@@ -224,7 +228,7 @@ const Messenger = () => {
     }, [currentChat, currentChat?.members, lastActive]);
 
 
-    if (loading || userLoading) {
+    if (userLoading) {
         return <Loader />;
     } else if (!userLoading && !isAuthenticated) {
         toast.error("Login to access messenger")
@@ -238,7 +242,7 @@ const Messenger = () => {
                 <div className="chatMenu">
                     <div className="chatMenuWrapper">
                         <h3 className="chatMenuInput">{user?.role === "buyer" ? "Sellers" : "Buyers"}</h3>
-                        {conversations?.map(c => (
+                        {loading ? <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "80%", width: "100%"}}><ClipLoader size={50} color={"#1877f2"} /></div> : conversations?.map(c => (
                             <div key={c._id} className="conversation-wrapper" onClick={(e) => { setCurrentChat(c); addActiveClass(e) }}>
                                 <Conversations conversation={c} currentUser={user} friendsData={friendsData} onlineStatus={checkOnlineStatus(c.members)} lastActive={lastActive} />
                             </div>

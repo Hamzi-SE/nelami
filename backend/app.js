@@ -102,10 +102,10 @@ io.on("connection", (socket) => {
         }
     })
 
-    socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+    socket.on("sendMessage", ({ senderId, receiverId, text, conversationId }) => {
         const user = getUser(receiverId);
         io.to(user?.socketId).emit("getMessage", {
-            senderId, text
+            senderId, text, conversationId
         })
     })
 
