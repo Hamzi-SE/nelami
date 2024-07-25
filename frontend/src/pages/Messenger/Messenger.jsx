@@ -3,8 +3,8 @@ import { toast } from "react-hot-toast";
 import "./Messenger.css";
 import Conversations from "../../Components/conversations/Conversations";
 import Message from "../../Components/message/Message";
-import Picker from 'emoji-picker-react';
-import { ClipLoader, PulseLoader } from 'react-spinners';
+import Picker from "emoji-picker-react";
+import { ClipLoader, PulseLoader } from "react-spinners";
 import MetaData from "../../utils/MetaData";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../Components/Loader/Loader";
@@ -15,10 +15,10 @@ import { formatDistanceToNow } from "date-fns";
 
 const Messenger = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate()
-    const { user, loading: userLoading, isAuthenticated } = useSelector(state => state.user);
-    const { loading, conversations } = useSelector(state => state.conversations);
-    const messagesLoading = useSelector(state => state.messages.loading);
+    const navigate = useNavigate();
+    const { user, loading: userLoading, isAuthenticated } = useSelector((state) => state.user);
+    const { loading, conversations } = useSelector((state) => state.conversations);
+    const messagesLoading = useSelector((state) => state.messages.loading);
     const [showPicker, setShowPicker] = useState(false);
     const [currentChat, setCurrentChat] = useState(null);
     const [currentFriendName, setCurrentFriendName] = useState("");
@@ -42,7 +42,7 @@ const Messenger = () => {
                 sender: data.senderId,
                 text: data.text,
                 createdAt: Date.now(),
-                conversationId: data.conversationId
+                conversationId: data.conversationId,
             });
         });
     });
@@ -50,19 +50,26 @@ const Messenger = () => {
     useEffect(() => {
         arrivalMessage &&
             currentChat?.members.includes(arrivalMessage.sender) &&
-            setMessages((prev) => [...prev, arrivalMessage])  &&
-            dispatch({ type: "UPDATE_CONVERSATION_LAST_MESSAGE", payload: { conversationId: currentChat._id, lastMessage: arrivalMessage.text, lastMessageSender: arrivalMessage.sender } });
+            setMessages((prev) => [...prev, arrivalMessage]) &&
+            dispatch({
+                type: "UPDATE_CONVERSATION_LAST_MESSAGE",
+                payload: {
+                    conversationId: currentChat._id,
+                    lastMessage: arrivalMessage.text,
+                    lastMessageSender: arrivalMessage.sender,
+                },
+            });
     }, [arrivalMessage, currentChat, dispatch]);
 
     useEffect(() => {
         socket.emit("addUser", user?._id);
-        socket.on("getUsers", users => {
+        socket.on("getUsers", (users) => {
             setLiveUsers(users);
-        })
+        });
     }, [user]);
 
     const onEmojiClick = (event, emojiObject) => {
-        setNewMessage(prevInput => prevInput + emojiObject.emoji);
+        setNewMessage((prevInput) => prevInput + emojiObject.emoji);
         setShowPicker(false);
     };
 
@@ -76,17 +83,20 @@ const Messenger = () => {
                 },
             });
             const data = await res.json();
-    
+
             if (res.status !== 200) {
                 dispatch({ type: "GET_ALL_CONVERSATIONS_FAIL", payload: data.message });
                 toast.error(data.message);
             } else {
-                dispatch({ type: "GET_ALL_CONVERSATIONS_SUCCESS", payload: data.conversations });
+                dispatch({
+                    type: "GET_ALL_CONVERSATIONS_SUCCESS",
+                    payload: data.conversations,
+                });
                 // Fetch avatars and friends data
                 const avatars = {};
                 const friends = {};
                 for (const conversation of data.conversations) {
-                    const friendId = conversation.members.find(m => m !== user?._id);
+                    const friendId = conversation.members.find((m) => m !== user?._id);
                     if (!friends[friendId]) {
                         const res = await customFetch(`/api/v1/user/${friendId}`, {
                             method: "GET",
@@ -103,7 +113,10 @@ const Messenger = () => {
                 }
                 setUserAvatars(avatars);
                 setFriendsData(friends);
-                setUserAvatars(prevAvatars =>({...prevAvatars, [user?._id]: user?.avatar.url}))
+                setUserAvatars((prevAvatars) => ({
+                    ...prevAvatars,
+                    [user?._id]: user?.avatar.url,
+                }));
             }
         };
         getConversations();
@@ -120,7 +133,7 @@ const Messenger = () => {
                     },
                 });
                 const data = await res.json();
-    
+
                 if (res.status !== 200) {
                     dispatch({ type: "GET_MESSAGES_FAIL", payload: data.message });
                     toast.error(data.message);
@@ -133,7 +146,7 @@ const Messenger = () => {
             }
         };
         if (currentChat) {
-            const friendId = currentChat.members.find(m => m !== user?._id);
+            const friendId = currentChat.members.find((m) => m !== user?._id);
             setCurrentFriendName(friendsData[friendId]?.name || "");
             setCurrentFriendActiveTime(friendsData[friendId]?.lastActive || null);
             setCurrentFriendPicture(friendsData[friendId]?.avatar?.url || "");
@@ -150,9 +163,7 @@ const Messenger = () => {
 
         setMsgSending(true);
 
-        const receiverId = currentChat.members.find(
-            (member) => member !== user?._id
-        );
+        const receiverId = currentChat.members.find((member) => member !== user?._id);
 
         const message = {
             sender: user?._id,
@@ -164,7 +175,7 @@ const Messenger = () => {
             senderId: user?._id,
             receiverId,
             text: newMessage,
-            conversationId: currentChat._id
+            conversationId: currentChat._id,
         });
 
         const res = await customFetch(`/api/v1/message/new`, {
@@ -179,7 +190,14 @@ const Messenger = () => {
             toast.error(data.message);
         } else {
             setMessages([...messages, data.savedMessage]);
-            dispatch({ type: "UPDATE_CONVERSATION_LAST_MESSAGE", payload: { conversationId: currentChat._id, lastMessage: newMessage, lastMessageSender: user._id } });
+            dispatch({
+                type: "UPDATE_CONVERSATION_LAST_MESSAGE",
+                payload: {
+                    conversationId: currentChat._id,
+                    lastMessage: newMessage,
+                    lastMessageSender: user._id,
+                },
+            });
             setNewMessage("");
         }
 
@@ -202,9 +220,9 @@ const Messenger = () => {
     };
 
     const checkOnlineStatus = (members) => {
-        const friendId = members.find(m => m !== user?._id);
-        return !!liveUsers.find(user => user.userId === friendId)
-    }
+        const friendId = members.find((m) => m !== user?._id);
+        return !!liveUsers.find((user) => user.userId === friendId);
+    };
 
     useEffect(() => {
         const handleUpdateLastActive = ({ userId, lastActive }) => {
@@ -213,26 +231,25 @@ const Messenger = () => {
             }
         };
 
-        socket.on('updateLastActive', handleUpdateLastActive);
+        socket.on("updateLastActive", handleUpdateLastActive);
 
         // Set up interval to force re-render
         const intervalId = setInterval(() => {
-            forceUpdate(prev => prev + 1); // Increment dummy state
+            forceUpdate((prev) => prev + 1); // Increment dummy state
         }, 60000); // Update every minute
 
         // Cleanup listener and interval on unmount
         return () => {
-            socket.off('updateLastActive', handleUpdateLastActive);
+            socket.off("updateLastActive", handleUpdateLastActive);
             clearInterval(intervalId);
         };
     }, [currentChat, currentChat?.members, lastActive]);
 
-
     if (userLoading) {
         return <Loader />;
     } else if (!userLoading && !isAuthenticated) {
-        toast.error("Login to access messenger")
-        return navigate("/login", { replace: true })
+        toast.error("Login to access messenger");
+        return navigate("/login", { replace: true });
     }
 
     return (
@@ -241,24 +258,74 @@ const Messenger = () => {
             <div className="messenger">
                 <div className="chatMenu">
                     <div className="chatMenuWrapper">
-                        <h3 className="chatMenuInput">{user?.role === "buyer" ? "Sellers" : "Buyers"}</h3>
-                        {loading ? <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "80%", width: "100%"}}><ClipLoader size={50} color={"#1877f2"} /></div> : conversations?.map(c => (
-                            <div key={c._id} className="conversation-wrapper" onClick={(e) => { setCurrentChat(c); addActiveClass(e) }}>
-                                <Conversations conversation={c} currentUser={user} friendsData={friendsData} onlineStatus={checkOnlineStatus(c.members)} lastActive={lastActive} />
+                        <h3 className="chatMenuInput">
+                            {user?.role === "buyer" ? "Sellers" : "Buyers"}
+                        </h3>
+                        {loading ? (
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    height: "80%",
+                                    width: "100%",
+                                }}
+                            >
+                                <ClipLoader size={50} color={"#1877f2"} />
                             </div>
-                        ))}
+                        ) : (
+                            conversations?.map((c) => (
+                                <div
+                                    key={c._id}
+                                    className="conversation-wrapper"
+                                    onClick={(e) => {
+                                        setCurrentChat(c);
+                                        addActiveClass(e);
+                                    }}
+                                >
+                                    <Conversations
+                                        conversation={c}
+                                        currentUser={user}
+                                        friendsData={friendsData}
+                                        onlineStatus={checkOnlineStatus(c.members)}
+                                        lastActive={lastActive}
+                                    />
+                                </div>
+                            ))
+                        )}
                     </div>
                 </div>
                 <div className="chatBox">
                     <div className="chatBoxWrapper">
                         {currentChat ? (
                             <>
-                                <div className="chatBoxTopHeader w-100 d-flex justify-content-start align-items-center position-relative p-1" style={{borderBottom: "1px solid #d5d5d5"}}>
-                                    <img src={currentFriendPicture} alt={currentFriendName} width={50} height={50} style={{borderRadius: "50%"}}/>
+                                <div
+                                    className="chatBoxTopHeader w-100 d-flex justify-content-start align-items-center position-relative p-1"
+                                    style={{ borderBottom: "1px solid #d5d5d5" }}
+                                >
+                                    <img
+                                        src={currentFriendPicture}
+                                        alt={currentFriendName}
+                                        width={50}
+                                        height={50}
+                                        style={{ borderRadius: "50%" }}
+                                    />
                                     <div className="d-flex flex-column ml-2">
-                                        <p className="m-0 font-weight-bold">{currentFriendName}</p>
-                                        <p className="m-0" style={{ right: "10px", fontSize: "13px", top: "35px" }}>
-                                            {checkOnlineStatus(currentChat.members) ? "Active Now" : `Last active: ${formatDistanceToNow(new Date(lastActive || currentFriendActiveTime), { addSuffix: true })}`}
+                                        <p className="m-0 font-weight-bold">
+                                            {currentFriendName}
+                                        </p>
+                                        <p
+                                            className="m-0"
+                                            style={{
+                                                right: "10px",
+                                                fontSize: "13px",
+                                                top: "35px",
+                                            }}
+                                        >
+                                            {checkOnlineStatus(currentChat.members)
+                                                ? "Active Now"
+                                                : `Last active: ${formatDistanceToNow(new Date(lastActive || currentFriendActiveTime),{ addSuffix: true })}`
+                                            }
                                         </p>
                                     </div>
                                 </div>
@@ -266,27 +333,60 @@ const Messenger = () => {
                                     {messagesLoading ? (
                                         <div className="w-100 h-100 d-flex justify-content-center align-items-center">
                                             <ClipLoader size={100} color={"#1877f2"} />
-                                        </div>) : messages.map(m => (
-                                        <div key={m._id}>
-                                            <Message message={m} own={m.sender === user?._id} userAvatars={userAvatars} />
                                         </div>
-                                    ))}
+                                    ) : (
+                                        messages.length > 0 ? (
+                                        messages.map((m) => (
+                                            <div key={m._id}>
+                                                <Message
+                                                    message={m}
+                                                    own={m.sender === user?._id}
+                                                    userAvatars={userAvatars}
+                                                />
+                                            </div>
+                                        ))
+                                        ) : <span className="noMessages">Start your conversation with {currentFriendName}</span>
+                                    )}
                                     <div ref={scrollRef}></div>
                                 </div>
-                                <div className="chatBoxBottom" style={{ position: "relative" }}>
+                                <div
+                                    className="chatBoxBottom"
+                                    style={{ position: "relative" }}
+                                >
                                     <img
-                                        className="emoji-icon" ref={chatEmojiRef}
+                                        className="emoji-icon"
+                                        ref={chatEmojiRef}
                                         src="https://icons.getbootstrap.com/assets/icons/emoji-smile.svg"
                                         alt="emoji"
-                                        onClick={() => setShowPicker(val => !val)} />
+                                        onClick={() => setShowPicker((val) => !val)}
+                                    />
                                     {showPicker && <Picker onEmojiClick={onEmojiClick} />}
-                                    <textarea className="chatMessageInput" placeholder="Type a message" name="newMessage" value={newMessage} onChange={(e) => setNewMessage(e.target.value)}></textarea>
-                                    <button className={`chatSubmitButton d-flex justify-content-center align-items-center ${msgSending && 'pe-none disabled'}`} onClick={sendMessage}>
-                                        {msgSending ? <PulseLoader size={5} color="white" /> : "Send"}
+                                    <textarea
+                                        className="chatMessageInput"
+                                        placeholder="Type a message"
+                                        name="newMessage"
+                                        value={newMessage}
+                                        onChange={(e) => setNewMessage(e.target.value)}
+                                    ></textarea>
+                                    <button
+                                        className={`chatSubmitButton d-flex justify-content-center align-items-center ${
+                                            msgSending && "pe-none disabled"
+                                        }`}
+                                        onClick={sendMessage}
+                                    >
+                                        {msgSending ? (
+                                            <PulseLoader size={5} color="white" />
+                                        ) : (
+                                            "Send"
+                                        )}
                                     </button>
                                 </div>
-                            </>) : <span className="noConversationText">Open a Conversation to Start a Chat</span>
-                        }
+                            </>
+                        ) : (
+                            <span className="noConversationText">
+                                Open a Conversation to Start a Chat
+                            </span>
+                        )}
                     </div>
                 </div>
             </div>

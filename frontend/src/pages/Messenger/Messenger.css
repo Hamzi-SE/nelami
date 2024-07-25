@@ -83,6 +83,12 @@
     border-radius: 10px;
 }
 
+.chatBoxTop .noMessages {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90%;
+}
 
 
 .chatBoxBottom {
