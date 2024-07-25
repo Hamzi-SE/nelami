@@ -11,7 +11,7 @@ import StatsDashboard from "./StatsDashboard/StatsDashboard";
 import Profile from "./Profile/Profile";
 import AllUsers from "./AllUsers/AllUsers";
 import AllProducts from "./AllProducts/AllProducts";
-import ApprovalProducts from "./ApprovalProducts/ApprovalProducts.js";
+import ApprovalProducts from "./ApprovalProducts/ApprovalProducts";
 import Settings from "./Settings/Settings";
 import MetaData from "../../utils/MetaData";
 import { useSelector, useDispatch } from "react-redux";
