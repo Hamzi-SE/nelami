@@ -31,6 +31,7 @@ const Messenger = () => {
     const [lastActive, setLastActive] = useState(null); // State to track last active time
     const [, forceUpdate] = useState(0); // Dummy state to trigger re-render
     const [msgSending, setMsgSending] = useState(false);
+    const [typingStatuses, setTypingStatuses] = useState({});
     const [userAvatars, setUserAvatars] = useState({});
     const [friendsData, setFriendsData] = useState({});
     const scrollRef = useRef();
@@ -46,6 +47,38 @@ const Messenger = () => {
             });
         });
     });
+
+    useEffect(() => {
+        socket.on("isTyping", ({ senderId, isTyping, conversationId }) => {
+            setTypingStatuses((prev) => ({
+                ...prev,
+                [conversationId]: isTyping,
+            }));
+        });
+    }, [currentChat])
+
+    useEffect(() => {
+        if (newMessage.trim() !== "") {
+            socket.emit("typing", {
+                conversationId: currentChat?._id,
+                senderId: user?._id,
+                receiverId: currentChat?.members.find((m) => m !== user?._id),
+                isTyping: true,
+            });
+        } else if (newMessage?.trim() === "") {
+            socket.emit("typing", {
+                conversationId: currentChat?._id,
+                senderId: user?._id,
+                receiverId: currentChat?.members.find((m) => m !== user?._id),
+                isTyping: false,
+            });
+
+            setTypingStatuses((prev) => ({
+                ...prev,
+                [currentChat?._id] : false,
+            }))
+        }
+    }, [newMessage, currentChat, user?._id]);
 
     useEffect(() => {
         arrivalMessage &&
@@ -178,7 +211,7 @@ const Messenger = () => {
             conversationId: currentChat._id,
         });
 
-        const res = await customFetch(`/api/v1/message/new`, {
+        const res = await customFetch("/api/v1/message/new", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -289,6 +322,7 @@ const Messenger = () => {
                                         friendsData={friendsData}
                                         onlineStatus={checkOnlineStatus(c.members)}
                                         lastActive={lastActive}
+                                        typingStatuses={typingStatuses}
                                     />
                                 </div>
                             ))
@@ -349,6 +383,7 @@ const Messenger = () => {
                                     )}
                                     <div ref={scrollRef}></div>
                                 </div>
+                                    { typingStatuses[currentChat?._id] && <p className="m-0 pl-3">{currentFriendName.split(" ")[0]} is typing...</p> }
                                 <div
                                     className="chatBoxBottom"
                                     style={{ position: "relative" }}

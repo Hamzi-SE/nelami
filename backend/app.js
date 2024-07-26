@@ -115,6 +115,11 @@ io.on("connection", (socket) => {
         // io.emit("removeUserFromLiveUsers", users)
     })
 
+    socket.on("typing", ({ senderId, receiverId, isTyping, conversationId }) => {
+        const user = getUser(receiverId);
+        io.to(user?.socketId).emit("isTyping", { senderId, isTyping, conversationId })
+    })
+
     socket.on("disconnect", async () => {
         await removeUser(null, socket.id)
         io.emit("getUsers", users)

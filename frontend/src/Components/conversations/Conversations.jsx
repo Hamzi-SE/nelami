@@ -4,17 +4,31 @@ import { useState, useEffect } from "react";
 import { socket } from "../../helpers/SocketConnect";
 import { useDispatch } from "react-redux";
 
-const Conversations = ({ currentUser, conversation, friendsData, onlineStatus, lastActive }) => {
-    const friendId = conversation.members.find(m => m !== currentUser._id);
+const Conversations = ({
+    currentUser,
+    conversation,
+    friendsData,
+    onlineStatus,
+    lastActive,
+    typingStatuses,
+}) => {
+    const friendId = conversation.members.find((m) => m !== currentUser._id);
     const friend = friendsData[friendId];
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     const [lastActiveState, setLastActiveState] = useState(friend?.lastActive || null);
     const [, forceUpdate] = useState(0); // Dummy state to trigger re-render
 
     useEffect(() => {
         socket.on("getMessage", (data) => {
-            dispatch({ type: "UPDATE_CONVERSATION_LAST_MESSAGE", payload: { conversationId: data.conversationId, lastMessage: data.text, lastMessageSender: data.senderId } });
+            dispatch({
+                type: "UPDATE_CONVERSATION_LAST_MESSAGE",
+                payload: {
+                    conversationId: data.conversationId,
+                    lastMessage: data.text,
+                    lastMessageSender: data.senderId,
+                },
+            });
         });
     });
 
@@ -44,16 +58,16 @@ const Conversations = ({ currentUser, conversation, friendsData, onlineStatus, l
             }
         };
 
-        socket.on('updateLastActive', handleUpdateLastActive);
+        socket.on("updateLastActive", handleUpdateLastActive);
 
         // Set up interval to force re-render
         const intervalId = setInterval(() => {
-            forceUpdate(prev => prev + 1); // Increment dummy state
+            forceUpdate((prev) => prev + 1); // Increment dummy state
         }, 60000); // Update every minute
 
         // Cleanup listener and interval on unmount
         return () => {
-            socket.off('updateLastActive', handleUpdateLastActive);
+            socket.off("updateLastActive", handleUpdateLastActive);
             clearInterval(intervalId);
         };
     }, [friendId, friend?.lastActive, conversation?.members]);
@@ -61,19 +75,33 @@ const Conversations = ({ currentUser, conversation, friendsData, onlineStatus, l
     return (
         <div className="conversation">
             <div className="img-group position-relative conversation-img-wrapper">
-                <img src={friend?.avatar.url} alt={friend?.name} className="conversation-img" />
+                <img
+                    src={friend?.avatar.url}
+                    alt={friend?.name}
+                    className="conversation-img"
+                />
                 {onlineStatus && <div className="user-online"></div>}
             </div>
             <div className="conversation-user-details">
                 <span className="d-none d-md-flex conversation-name">{friend?.name}</span>
                 <p className="m-0 conversation-last-message">
-                {conversation?.lastMessage
-                    ? conversation.lastMessageSender === currentUser._id
-                        ? `You: ${conversation.lastMessage}`
-                        : friend?.name ? friend.name.split(" ")[0] + `: ${conversation.lastMessage}` : "Unknown"
-                    : "No message"}
+                    {typingStatuses[conversation._id]
+                        ? `${friend?.name.split(" ")[0]} is typing...`
+                        : conversation?.lastMessage
+                        ? conversation.lastMessageSender === currentUser._id
+                            ? `You: ${conversation.lastMessage}`
+                            : `${friend?.name?.split(" ")[0]}: ${conversation.lastMessage}`
+                        : "No message"}
                 </p>
-                <p className={`m-0 conversation-last-time ${onlineStatus ? 'conversation-active-now' : ""}`}>{onlineStatus ? "Active Now" : `Last active: ${formatTimestamp(lastActiveState)}`}</p>
+                <p
+                    className={`m-0 conversation-last-time ${
+                        onlineStatus ? "conversation-active-now" : ""
+                    }`}
+                >
+                    {onlineStatus
+                        ? "Active Now"
+                        : `Last active: ${formatTimestamp(lastActiveState)}`}
+                </p>
             </div>
         </div>
     );
