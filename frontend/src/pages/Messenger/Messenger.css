@@ -169,7 +169,8 @@ div.conversation.active {
     }
 
     .chatMenuInput {
-        display: none;
+        width: 100%;
+        padding-left: 1rem;
     }
 
     .chatBox {
