@@ -32,6 +32,7 @@
     -webkit-line-clamp: 1;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-weight: 500;
 }
 
 .conversation-active-now {
@@ -71,17 +72,14 @@
 
 @media screen and (max-width: 476px) {
     .conversation-name {
-        font-size: small;
-    }
-    .conversation-user-details {
-        font-size: small
-    }
+        font-size: 1rem;
+    }  
 
-    .conversation-user-details {
-        display: none;
+    .conversation-last-message {
+        font-size: 0.9rem;
     }
 
     .conversation-last-time {
-        display: none;
+        font-size: 0.9rem;
     }
 }

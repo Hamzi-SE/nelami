@@ -206,8 +206,6 @@ div.conversation.active {
     }
 
     .conversation {
-        flex-direction: column;
-        align-items: flex-start !important;
         padding: 5px 2px !important;
         margin-top: 5px !important;
     }
@@ -236,6 +234,6 @@ div.conversation.active {
     }
 
     .messageText {
-        max-width: 165px !important;
+        max-width: 15rem !important;
     }
 }

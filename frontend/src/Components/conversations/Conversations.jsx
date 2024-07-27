@@ -84,15 +84,19 @@ const Conversations = ({
                     {onlineStatus && <div className="user-online"></div>}
                 </div>
                 <div className="conversation-user-details">
-                    <span className="d-none d-md-flex conversation-name">{friend?.name}</span>
+                    <span className="d-md-flex conversation-name">{friend?.name}</span>
                     <p className="m-0 conversation-last-message">
                         {typingStatuses[conversation._id]
-                            ? `${friend?.name.split(" ")[0]} is typing...`
+                            ? `${friend?.name?.split(' ')[0]} is typing...`
                             : conversation?.lastMessage
-                            ? conversation.lastMessageSender === currentUser._id
-                                ? `You: ${conversation.lastMessage}`
-                                : `${friend?.name?.split(" ")[0]}: ${conversation.lastMessage}`
-                            : "No message"}
+                            ? <>
+                                {conversation.lastMessageSender === currentUser._id
+                                    ? <span className="font-weight-bold">You: </span>
+                                    : <span className="font-weight-bold">{friend?.name?.split(' ')[0]}: </span>
+                                }
+                                {conversation.lastMessage}
+                              </>
+                            : 'No message'}
                     </p>
                     <p
                         className={`m-0 conversation-last-time ${

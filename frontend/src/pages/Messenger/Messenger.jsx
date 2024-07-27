@@ -12,6 +12,7 @@ import customFetch from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import { socket } from "../../helpers/SocketConnect";
 import { formatDistanceToNow } from "date-fns";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const Messenger = () => {
     const dispatch = useDispatch();
@@ -34,8 +35,20 @@ const Messenger = () => {
     const [typingStatuses, setTypingStatuses] = useState({});
     const [userAvatars, setUserAvatars] = useState({});
     const [friendsData, setFriendsData] = useState({});
+    const [isMobileView, setIsMobileView] = useState(false); // State for mobile view
     const scrollRef = useRef();
     const chatEmojiRef = useRef();
+
+    useEffect(() => {
+        // Check if the device is mobile
+        const handleResize = () => {
+            setIsMobileView(window.innerWidth <= 768);
+        };
+
+        handleResize(); // Check initially
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     useEffect(() => {
         socket.on("getMessage", (data) => {
@@ -55,7 +68,7 @@ const Messenger = () => {
                 [conversationId]: isTyping,
             }));
         });
-    }, [currentChat])
+    }, [currentChat]);
 
     useEffect(() => {
         if (newMessage.trim() !== "") {
@@ -75,8 +88,8 @@ const Messenger = () => {
 
             setTypingStatuses((prev) => ({
                 ...prev,
-                [currentChat?._id] : false,
-            }))
+                [currentChat?._id]: false,
+            }));
         }
     }, [newMessage, currentChat, user?._id]);
 
@@ -244,6 +257,8 @@ const Messenger = () => {
     }, [messages]);
 
     const addActiveClass = (e) => {
+        if (isMobileView) return
+        
         const allConversations = document.querySelectorAll(".conversation");
         allConversations.forEach((conversation) => {
             conversation.classList.remove("active");
@@ -278,6 +293,10 @@ const Messenger = () => {
         };
     }, [currentChat, currentChat?.members, lastActive]);
 
+    const handleBackToConversations = () => {
+        setCurrentChat(null);
+    };
+
     if (userLoading) {
         return <Loader />;
     } else if (!userLoading && !isAuthenticated) {
@@ -289,7 +308,10 @@ const Messenger = () => {
         <>
             <MetaData title="Messenger - Nelami" />
             <div className="messenger">
-                <div className="chatMenu">
+                <div
+                    className="chatMenu"
+                    style={{ display: isMobileView && currentChat ? "none" : "" }}
+                >
                     <div className="chatMenuWrapper">
                         <h3 className="chatMenuInput">
                             {user?.role === "buyer" ? "Sellers" : "Buyers"}
@@ -306,7 +328,7 @@ const Messenger = () => {
                             >
                                 <ClipLoader size={50} color={"#1877f2"} />
                             </div>
-                        ) : (
+                        ) : conversations?.length > 0 ? (
                             conversations?.map((c) => (
                                 <div
                                     key={c._id}
@@ -326,10 +348,17 @@ const Messenger = () => {
                                     />
                                 </div>
                             ))
+                        ) : (
+                            <h4 className="d-flex w-100 h-75 justify-content-center align-items-center">
+                                You don't have any conversations
+                            </h4>
                         )}
                     </div>
                 </div>
-                <div className="chatBox">
+                <div
+                    className="chatBox"
+                    style={{ display: isMobileView && !currentChat ? "none" : "" }}
+                >
                     <div className="chatBoxWrapper">
                         {currentChat ? (
                             <>
@@ -337,6 +366,13 @@ const Messenger = () => {
                                     className="chatBoxTopHeader w-100 d-flex justify-content-start align-items-center position-relative p-1"
                                     style={{ borderBottom: "1px solid #d5d5d5" }}
                                 >
+                                    {isMobileView && (
+                                        <IoMdArrowRoundBack
+                                            size={20}
+                                            className="mx-2"
+                                            onClick={handleBackToConversations}
+                                        />
+                                    )}
                                     <img
                                         src={currentFriendPicture}
                                         alt={currentFriendName}
@@ -358,7 +394,7 @@ const Messenger = () => {
                                         >
                                             {checkOnlineStatus(currentChat.members)
                                                 ? "Active Now"
-                                                : `Last active: ${formatDistanceToNow(new Date(lastActive || currentFriendActiveTime),{ addSuffix: true })}`
+                                                : `Last active: ${formatDistanceToNow(new Date(lastActive || currentFriendActiveTime), { addSuffix: true })}`
                                             }
                                         </p>
                                     </div>
@@ -368,8 +404,7 @@ const Messenger = () => {
                                         <div className="w-100 h-100 d-flex justify-content-center align-items-center">
                                             <ClipLoader size={100} color={"#1877f2"} />
                                         </div>
-                                    ) : (
-                                        messages.length > 0 ? (
+                                    ) : messages.length > 0 ? (
                                         messages.map((m) => (
                                             <div key={m._id}>
                                                 <Message
@@ -379,11 +414,18 @@ const Messenger = () => {
                                                 />
                                             </div>
                                         ))
-                                        ) : <span className="noMessages">Start your conversation with {currentFriendName}</span>
+                                    ) : (
+                                        <span className="noMessages">
+                                            Start your conversation with {currentFriendName}
+                                        </span>
                                     )}
                                     <div ref={scrollRef}></div>
                                 </div>
-                                    { typingStatuses[currentChat?._id] && <p className="m-0 pl-3">{currentFriendName.split(" ")[0]} is typing...</p> }
+                                {typingStatuses[currentChat?._id] && (
+                                    <p className="m-0 pl-3">
+                                        {currentFriendName.split(" ")[0]} is typing...
+                                    </p>
+                                )}
                                 <div
                                     className="chatBoxBottom"
                                     style={{ position: "relative" }}
