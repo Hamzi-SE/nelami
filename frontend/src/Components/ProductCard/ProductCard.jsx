@@ -156,8 +156,7 @@ const ProductCard = (props) => {
       </div>
 
 
-      {product && <div className=" col-md-12 col-sm-12 p-0 ">
-        <div className="card overflow-hidden">
+      {product && <div className="card overflow-hidden">
           <Link to={`/Product/${product._id}`}>
             <div className="item-card-img">
               <div className={`arrow-ribbon ${product.bidStatus === "Expired" ? "expired-label" : "bg-primary"}`}>{product.bidStatus}</div>
@@ -189,7 +188,7 @@ const ProductCard = (props) => {
                   </h4>
                 </div>
                 <div className="product-card-desc d-flex justify-content-start align-items-center">
-                  <IoLocationOutline /> {product.location.province}
+                  <IoLocationOutline /> {product.location.city} - {product.location.province}
                 </div>
               </div>
             </div>
@@ -202,14 +201,14 @@ const ProductCard = (props) => {
                     <Tippy content="Chat With Seller">
                       <button data-toggle="modal" data-target={`#chatModal-${index}`}><BsChatSquareText /></button>
                     </Tippy>
-                    <Tippy content="Add To Wishlist">
+                    {user?.role !== "seller" && <Tippy content="Add To Wishlist">
                       <button onClick={ () => toast.promise(addToWishlistHandler(), {
                           loading: added ? "Removing..." : "Adding...",
                           success: added ? "Removed from wishlist" : "Added to wishlist",
                           error: (err) => err.message
                         })
                       }>{added ? <FaHeart /> : <FiHeart />}</button>
-                    </Tippy>
+                    </Tippy>}
                     <Tippy content={`${bidCount <= 1 ? `${bidCount} bid` : `${bidCount} bids`}`}>
                       <button> <FiUsers /></button>
                     </Tippy>
@@ -226,7 +225,6 @@ const ProductCard = (props) => {
             </div>
           </div>
         </div>
-      </div>
       }
     </>
 
