@@ -73,37 +73,39 @@ const Conversations = ({
     }, [friendId, friend?.lastActive, conversation?.members]);
 
     return (
-        <div className="conversation">
-            <div className="img-group position-relative conversation-img-wrapper">
-                <img
-                    src={friend?.avatar.url}
-                    alt={friend?.name}
-                    className="conversation-img"
-                />
-                {onlineStatus && <div className="user-online"></div>}
+        friend && (
+            <div className="conversation">
+                <div className="img-group position-relative conversation-img-wrapper">
+                    <img
+                        src={friend?.avatar.url}
+                        alt={friend?.name}
+                        className="conversation-img"
+                    />
+                    {onlineStatus && <div className="user-online"></div>}
+                </div>
+                <div className="conversation-user-details">
+                    <span className="d-none d-md-flex conversation-name">{friend?.name}</span>
+                    <p className="m-0 conversation-last-message">
+                        {typingStatuses[conversation._id]
+                            ? `${friend?.name.split(" ")[0]} is typing...`
+                            : conversation?.lastMessage
+                            ? conversation.lastMessageSender === currentUser._id
+                                ? `You: ${conversation.lastMessage}`
+                                : `${friend?.name?.split(" ")[0]}: ${conversation.lastMessage}`
+                            : "No message"}
+                    </p>
+                    <p
+                        className={`m-0 conversation-last-time ${
+                            onlineStatus ? "conversation-active-now" : ""
+                        }`}
+                    >
+                        {onlineStatus
+                            ? "Active Now"
+                            : `Last active: ${formatTimestamp(lastActiveState)}`}
+                    </p>
+                </div>
             </div>
-            <div className="conversation-user-details">
-                <span className="d-none d-md-flex conversation-name">{friend?.name}</span>
-                <p className="m-0 conversation-last-message">
-                    {typingStatuses[conversation._id]
-                        ? `${friend?.name.split(" ")[0]} is typing...`
-                        : conversation?.lastMessage
-                        ? conversation.lastMessageSender === currentUser._id
-                            ? `You: ${conversation.lastMessage}`
-                            : `${friend?.name?.split(" ")[0]}: ${conversation.lastMessage}`
-                        : "No message"}
-                </p>
-                <p
-                    className={`m-0 conversation-last-time ${
-                        onlineStatus ? "conversation-active-now" : ""
-                    }`}
-                >
-                    {onlineStatus
-                        ? "Active Now"
-                        : `Last active: ${formatTimestamp(lastActiveState)}`}
-                </p>
-            </div>
-        </div>
+        )
     );
 };
 
