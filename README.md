@@ -12,6 +12,7 @@ Nelami is an innovative platform designed to connect buyers and sellers through 
 - **Payment Integration**: Secure payment processing for transactions.
 - **Admin Dashboard**: Interactive admin interface for managing products and users.
 - **Responsive Design**: Optimized for both desktop and mobile platforms.
+- **Messaging**: Real-time messaging between users.
 
 ## Technologies Used
 
