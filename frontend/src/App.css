@@ -5399,6 +5399,45 @@ dd {
 }
 
 /*--banners--*/
+.banner-1 {
+  background: url("https://res.cloudinary.com/dwnvcgdsy/image/upload/v1661528861/biddingwebsiteavatars/auction_pzewrr.webp") center center;
+}
+
+.bannerimg {
+  background: url(https://res.cloudinary.com/dwnvcgdsy/image/upload/v1661528469/biddingwebsiteavatars/banner2_jp08xz.webp) center center;
+}
+
+.home-search-banner {
+  padding: 5em 0px !important;
+}
+
+.header-search-input {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  justify-content: center;
+  align-items: flex-start;
+  column-gap: 1em;
+}
+
+.header-search-input>div {
+  border-radius: 4px !important;
+  overflow: hidden;
+}
+
+
+@media screen and (max-width: 840px) {
+  .header-search-input>.form-group {
+      width: 100%;
+  }
+
+  .header-search-input {
+      width: 100%;
+      flex-direction: column !important;
+      align-items: center;
+      flex-wrap: wrap;
+  }
+}
+
 .banner1 .carousel-inner img {
   width: 100%;
   max-height: 460px;
