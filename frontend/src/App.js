@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { Navigate, Routes, Route, useLocation } from "react-router-dom";
 import { Toaster } from "react-hot-toast"
 import { useDispatch, useSelector } from "react-redux"
@@ -10,52 +10,6 @@ import Header from "./Components/Header/Header";
 import Footer from "./Components/Footer/Footer";
 import MetaData from "./utils/MetaData";
 
-// Page Imports
-import Home from "./pages/Home/Home";
-import Login from "./pages/Login/Login";
-import SignUp from "./pages/SignUp/SignUp";
-import OTPValidation from "./pages/SignUp/OTPValidation";
-import Logout from "./pages/Logout/Logout";
-import Error from "./pages/Error/Error";
-import Dashboard from "./pages/Dashboard/Dashboard";
-import SellerProfile from "./pages/SellerProfile/SellerProfile";
-import ProductsPage from "./pages/ProductsPage/ProductsPage";
-import EditProfile from "./pages/Dashboard/Profile/EditProfile";
-import SingleProduct from "./pages/SingleProduct/SingleProduct";
-import ProductForms from "./pages/ProductForms/ProductsForms";
-import EditProduct from "./pages/Dashboard/MyProducts/EditProduct";
-import ViewProductBidders from "./pages/Dashboard/MyProducts/ViewProductBidders";
-import DeleteProduct from "./pages/Dashboard/MyProducts/DeleteProduct";
-import CategoryPage from "./pages/CategoryPage/CategoryPage";
-import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword/ResetPassword";
-import PackagesPricing from "./pages/PackagesPricing/PackagesPricing";
-import Checkout from "./pages/Checkout/Checkout";
-
-// Admin Imports
-import AdminLogin from "./pages/Login/AdminLogin";
-import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
-import AdminEditProfile from "./pages/AdminDashboard/Profile/EditProfile";
-import DeleteUser from "./pages/AdminDashboard/AllUsers/DeleteUser";
-
-// Form Imports
-import CarForm from "./pages/ProductForms/Vehicles/CarForm";
-import BikeForm from "./pages/ProductForms/Vehicles/BikeForm";
-import BusesForm from "./pages/ProductForms/Vehicles/BusesForm";
-import RickshawForm from "./pages/ProductForms/Vehicles/RickshawForm";
-import TractorForm from "./pages/ProductForms/Vehicles/TractorForm";
-import OthersForm from "./pages/ProductForms/Vehicles/OthersForm";
-import LandForm from "./pages/ProductForms/Properties/LandForm";
-import HouseForm from "./pages/ProductForms/Properties/HouseForm";
-import ApartmentForm from "./pages/ProductForms/Properties/ApartmentForm";
-import ShopForm from "./pages/ProductForms/Properties/ShopForm";
-import PortionForm from "./pages/ProductForms/Properties/PortionForm";
-import MiscForm from "./pages/ProductForms/Misc/MiscForm";
-
-// Messenger
-import Messenger from "./pages/Messenger/Messenger";
-import Contact from "./pages/Contact/Contact";
-
 import { getData } from "./helpers/GetData";
 import { callProfile } from "./helpers/CallProfile";
 import customFetch from "./utils/api";
@@ -63,83 +17,110 @@ import customFetch from "./utils/api";
 import "./App.css";
 import Loader from "./Components/Loader/Loader";
 
+// Page Imports
+const Home = lazy(() => import("./pages/Home/Home"));
+const Login = lazy(() => import("./pages/Login/Login"));
+const SignUp = lazy(() => import("./pages/SignUp/SignUp"));
+const OTPValidation = lazy(() => import("./pages/SignUp/OTPValidation"));
+const Logout = lazy(() => import("./pages/Logout/Logout"));
+const Error = lazy(() => import("./pages/Error/Error"));
+const Dashboard = lazy(() => import("./pages/Dashboard/Dashboard"));
+const SellerProfile = lazy(() => import("./pages/SellerProfile/SellerProfile"));
+const ProductsPage = lazy(() => import("./pages/ProductsPage/ProductsPage"));
+const EditProfile = lazy(() => import("./pages/Dashboard/Profile/EditProfile"));
+const SingleProduct = lazy(() => import("./pages/SingleProduct/SingleProduct"));
+const ProductForms = lazy(() => import("./pages/ProductForms/ProductsForms"));
+const EditProduct = lazy(() => import("./pages/Dashboard/MyProducts/EditProduct"));
+const ViewProductBidders = lazy(() => import("./pages/Dashboard/MyProducts/ViewProductBidders"));
+const DeleteProduct = lazy(() => import("./pages/Dashboard/MyProducts/DeleteProduct"));
+const CategoryPage = lazy(() => import("./pages/CategoryPage/CategoryPage"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword/ForgotPassword"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword/ResetPassword"));
+const PackagesPricing = lazy(() => import("./pages/PackagesPricing/PackagesPricing"));
+const Checkout = lazy(() => import("./pages/Checkout/Checkout"));
+
+// Admin Imports
+const AdminLogin = lazy(() => import("./pages/Login/AdminLogin"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard/AdminDashboard"));
+const AdminEditProfile = lazy(() => import("./pages/AdminDashboard/Profile/EditProfile"));
+const DeleteUser = lazy(() => import("./pages/AdminDashboard/AllUsers/DeleteUser"));
+
+// Form Imports
+const CarForm = lazy(() => import("./pages/ProductForms/Vehicles/CarForm"));
+const BikeForm = lazy(() => import("./pages/ProductForms/Vehicles/BikeForm"));
+const BusesForm = lazy(() => import("./pages/ProductForms/Vehicles/BusesForm"));
+const RickshawForm = lazy(() => import("./pages/ProductForms/Vehicles/RickshawForm"));
+const TractorForm = lazy(() => import("./pages/ProductForms/Vehicles/TractorForm"));
+const OthersForm = lazy(() => import("./pages/ProductForms/Vehicles/OthersForm"));
+const LandForm = lazy(() => import("./pages/ProductForms/Properties/LandForm"));
+const HouseForm = lazy(() => import("./pages/ProductForms/Properties/HouseForm"));
+const ApartmentForm = lazy(() => import("./pages/ProductForms/Properties/ApartmentForm"));
+const ShopForm = lazy(() => import("./pages/ProductForms/Properties/ShopForm"));
+const PortionForm = lazy(() => import("./pages/ProductForms/Properties/PortionForm"));
+const MiscForm = lazy(() => import("./pages/ProductForms/Misc/MiscForm"));
+
+// Messenger
+const Messenger = lazy(() => import("./pages/Messenger/Messenger"));
+const Contact = lazy(() => import("./pages/Contact/Contact"));
+
 const Routing = ({ isAuthenticated, loading, stripeApiKey }) => {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Login />} />
-      <Route path="/signup" element={isAuthenticated ? <Navigate to="/" /> : <SignUp />} />
-      <Route path="/user/validate" element={<OTPValidation />} />
-      <Route path="/logout" element={isAuthenticated ? <Logout /> : <Navigate to="/" />} />
-
-      {/* Dashboard */}
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/EditProfile" element={<EditProfile />} />
-      <Route path="/user/product/edit/:id" element={<EditProduct />} />
-      <Route path="/user/product/bids/all/:id" element={<ViewProductBidders />} />
-      <Route path="/user/product/delete/:id" element={<DeleteProduct />} />
-      <Route path="/user/forgot-password" element={<ForgotPassword />} />
-      <Route path="/user/password/reset/:token" element={<ResetPassword />} />
-
-      {/* Admin Dashboard */}
-      <Route path="/admin/login" element={<AdminLogin />} />
-      <Route path="/admin/dashboard" element={<AdminDashboard />} />
-      <Route path="/admin/EditProfile" element={<AdminEditProfile />} />
-      <Route path="/admin/DeleteUser/:id" element={<DeleteUser />} />
-
-      {/* Search Results */}
-      <Route path="/products" element={<ProductsPage />} />
-
-      {/* Seller Profile */}
-      <Route path="/user/:id" element={<SellerProfile />} />
-
-      <Route path="/categories/:category" element={<CategoryPage />} />
-      <Route path="/product/:id" element={<SingleProduct />} />
-      <Route path="/product/new" element={<ProductForms />} />
-      <Route path="/product/new/car" element={<CarForm />} />
-      <Route path="/product/new/bike" element={<BikeForm />} />
-      <Route path="/product/new/bus" element={<BusesForm />} />
-      <Route path="/product/new/rickshaw" element={<RickshawForm />} />
-      <Route path="/product/new/tractor" element={<TractorForm />} />
-      <Route path="/product/new/other-vehicle" element={<OthersForm />} />
-      <Route path="/product/new/land" element={<LandForm />} />
-      <Route path="/product/new/house" element={<HouseForm />} />
-      <Route path="/product/new/apartment" element={<ApartmentForm />} />
-      <Route path="/product/new/shop" element={<ShopForm />} />
-      <Route path="/product/new/portion" element={<PortionForm />} />
-      <Route path="/product/new/misc" element={<MiscForm />} />
-
-      {/* Packages Page */}
-      <Route path="/packages" element={<PackagesPricing />} />
-
-      {/* Checkout Page */}
-      {stripeApiKey && (
+    <Suspense fallback={<Loader />}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Login />} />
+        <Route path="/signup" element={isAuthenticated ? <Navigate to="/" /> : <SignUp />} />
+        <Route path="/user/validate" element={<OTPValidation />} />
+        <Route path="/logout" element={isAuthenticated ? <Logout /> : <Navigate to="/" />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/EditProfile" element={<EditProfile />} />
+        <Route path="/user/product/edit/:id" element={<EditProduct />} />
+        <Route path="/user/product/bids/all/:id" element={<ViewProductBidders />} />
+        <Route path="/user/product/delete/:id" element={<DeleteProduct />} />
+        <Route path="/user/forgot-password" element={<ForgotPassword />} />
+        <Route path="/user/password/reset/:token" element={<ResetPassword />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/EditProfile" element={<AdminEditProfile />} />
+        <Route path="/admin/DeleteUser/:id" element={<DeleteUser />} />
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/user/:id" element={<SellerProfile />} />
+        <Route path="/categories/:category" element={<CategoryPage />} />
+        <Route path="/product/:id" element={<SingleProduct />} />
+        <Route path="/product/new" element={<ProductForms />} />
+        <Route path="/product/new/car" element={<CarForm />} />
+        <Route path="/product/new/bike" element={<BikeForm />} />
+        <Route path="/product/new/bus" element={<BusesForm />} />
+        <Route path="/product/new/rickshaw" element={<RickshawForm />} />
+        <Route path="/product/new/tractor" element={<TractorForm />} />
+        <Route path="/product/new/other-vehicle" element={<OthersForm />} />
+        <Route path="/product/new/land" element={<LandForm />} />
+        <Route path="/product/new/house" element={<HouseForm />} />
+        <Route path="/product/new/apartment" element={<ApartmentForm />} />
+        <Route path="/product/new/shop" element={<ShopForm />} />
+        <Route path="/product/new/portion" element={<PortionForm />} />
+        <Route path="/product/new/misc" element={<MiscForm />} />
+        <Route path="/packages" element={<PackagesPricing />} />
+        {stripeApiKey && (
+          <Route
+            path="/checkout"
+            element={
+              <Elements stripe={loadStripe(stripeApiKey)}>
+                <Checkout />
+              </Elements>
+            }
+          />
+        )}
         <Route
-          path="/checkout"
+          path="/messenger"
           element={
-            <Elements stripe={loadStripe(stripeApiKey)}>
-              <Checkout />
-            </Elements>
+            loading ? <Loader /> : isAuthenticated ? <Messenger /> : <Navigate to="/login" replace />
           }
         />
-      )}
-
-      {/* Messenger */}
-      <Route 
-        path="/messenger" 
-        element={
-          loading 
-            ? <Loader /> 
-            : isAuthenticated 
-              ? <Messenger /> 
-              : <Navigate to="/login" replace />
-        } 
-      />
-      <Route path="/contact" element={<Contact />} />
-
-      {/* Error */}
-      <Route path="*" element={<Error />} />
-    </Routes>
+        <Route path="/contact" element={<Contact />} />
+        <Route path="*" element={<Error />} />
+      </Routes>
+    </Suspense>
   );
 };
 
