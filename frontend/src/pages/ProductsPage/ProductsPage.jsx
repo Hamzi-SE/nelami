@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import ProductCard from "../../Components/ProductCard/ProductCard";
-import { useSelector, useDispatch } from "react-redux";
-import Pagination from "react-js-pagination";
-import CountUp from "react-countup";
-import "./ProductsPage.css";
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import ProductCard from '../../Components/ProductCard/ProductCard'
+import { useSelector, useDispatch } from 'react-redux'
+import Pagination from 'react-js-pagination'
+import CountUp from 'react-countup'
+import './ProductsPage.css'
 
 // Cities Import
 
@@ -17,140 +17,145 @@ import {
   getSindhCitiesDropList,
   getBalochistanCitiesDropList,
   getKPKCitiesDropList,
-} from "../../utils/PakCitiesData";
-import MetaData from "../../utils/MetaData";
-import Loader from "../../Components/Loader/Loader";
-import customFetch from "../../utils/api";
+} from '../../utils/PakCitiesData'
+import MetaData from '../../utils/MetaData'
+import Loader from '../../Components/Loader/Loader'
+import customFetch from '../../utils/api'
 
 const ProductsPage = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { loading, products } = useSelector((state) => state.products);
-  const { data } = useSelector((state) => state.data);
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const { loading, products } = useSelector((state) => state.products)
+  const { data } = useSelector((state) => state.data)
   // get all queries from url
-  const [searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams()
 
-  const [city, setCity] = useState(searchParams.get("city") || "");
-  const [province, setProvince] = useState(searchParams.get("province") || "");
-  const [category, setCategory] = useState(searchParams.get("category") || "");
-  const [keyword, setKeyword] = useState(searchParams.get("keyword") || "");
+  const [city, setCity] = useState(searchParams.get('city') || '')
+  const [province, setProvince] = useState(searchParams.get('province') || '')
+  const [category, setCategory] = useState(searchParams.get('category') || '')
+  const [keyword, setKeyword] = useState(searchParams.get('keyword') || '')
 
-  const [fromPrice, setFromPrice] = useState(searchParams.get("price[gte]") || "");
-  const [toPrice, setToPrice] = useState(searchParams.get("price[lte]") || "");
+  const [fromPrice, setFromPrice] = useState(
+    searchParams.get('price[gte]') || ''
+  )
+  const [toPrice, setToPrice] = useState(searchParams.get('price[lte]') || '')
 
-  const [resultsPerPage, setResultsPerPage] = useState(12);
+  const [resultsPerPage, setResultsPerPage] = useState(12)
   const [currentPage, setCurrentPage] = useState(
-    parseInt(searchParams.get("page")) || 1
-  );
-  const [totalProducts, setTotalProducts] = useState(0);
+    parseInt(searchParams.get('page')) || 1
+  )
+  const [totalProducts, setTotalProducts] = useState(0)
   const [getParamCategory, setGetParamCategory] = useState(
-    searchParams.get("category") || ""
-  );
-  const [sortBy, setSortBy] = useState(searchParams.get("sortBy") || "1"); // Default sort by Latest
+    searchParams.get('category') || ''
+  )
+  const [sortBy, setSortBy] = useState(searchParams.get('sortBy') || '1') // Default sort by Latest
 
   const getAllSearchProducts = async () => {
-    dispatch({ type: "ALL_PRODUCTS_REQUEST" });
+    dispatch({ type: 'ALL_PRODUCTS_REQUEST' })
     try {
-      let link = `/api/v1/products?page=${currentPage}`;
+      let link = `/api/v1/products?page=${currentPage}`
       if (keyword) {
-        link += `&keyword=${keyword}`;
+        link += `&keyword=${keyword}`
       }
       if (category) {
-        link.includes("?") ? (link += "&") : (link += "?");
-        link += `category=${category}`;
+        link.includes('?') ? (link += '&') : (link += '?')
+        link += `category=${category}`
       }
       if (province) {
-        link.includes("?") ? (link += "&") : (link += "?");
-        link += `province=${province}`;
+        link.includes('?') ? (link += '&') : (link += '?')
+        link += `province=${province}`
       }
       if (province && city) {
-        link.includes("?") ? (link += "&") : (link += "?");
-        link += `city=${city}`;
+        link.includes('?') ? (link += '&') : (link += '?')
+        link += `city=${city}`
       }
       if (fromPrice) {
-        link += `&price[gte]=${fromPrice}`;
+        link += `&price[gte]=${fromPrice}`
       }
       if (toPrice) {
-        link += `&price[lte]=${toPrice}`;
+        link += `&price[lte]=${toPrice}`
       }
       if (sortBy) {
-        link += `&sortBy=${sortBy}`;
+        link += `&sortBy=${sortBy}`
       }
 
       const res = await customFetch(link, {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      });
-      updateUrl();
-      const data = await res.json();
-      dispatch({ type: "ALL_PRODUCTS_SUCCESS", payload: data.products });
-      setResultsPerPage(data.resultsPerPage);
-      setTotalProducts(data.productsCount);
+      })
+      updateUrl()
+      const data = await res.json()
+      dispatch({ type: 'ALL_PRODUCTS_SUCCESS', payload: data.products })
+      setResultsPerPage(data.resultsPerPage)
+      setTotalProducts(data.productsCount)
     } catch (error) {
-      dispatch({ type: "ALL_PRODUCTS_FAIL", payload: error.message });
+      dispatch({ type: 'ALL_PRODUCTS_FAIL', payload: error.message })
     }
-  };
-
-  const updateUrl = () => {
-    let link = `/products?page=${currentPage}`;
-    if (keyword) {
-      link += `&keyword=${keyword}`;
-    }
-    if (province) {
-      link.includes("?") ? (link += "&") : (link += "?");
-      link += `province=${province}`;
-    }
-    if (category) {
-      link.includes("?") ? (link += "&") : (link += "?");
-      link += `category=${category}`;
-    }
-    if (province && city) {
-      link.includes("?") ? (link += "&") : (link += "?");
-      link += `city=${city}`;
-    }
-    if (fromPrice) {
-      link += `&price[gte]=${fromPrice}`;
-    }
-    if (toPrice) {
-      link += `&price[lte]=${toPrice}`;
-    }
-    if (sortBy) {
-      link += `&sortBy=${sortBy}`;
-    }
-    navigate(link);
-  };
-
-  const setCurrentPageNo = (e) => {
-    setCurrentPage(e);
-  };
-
-  const applyFilters = () => {
-    setCurrentPage(1); // Reset to page 1 whenever a new filter is applied
-    getAllSearchProducts(1);
-  };
-  
-  const handleSearch = () => {
-    setCurrentPage(1); // Reset to page 1 whenever a new search is performed
-    getAllSearchProducts(1);
-  };
-
-  useEffect(() => {
-    getAllSearchProducts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, sortBy]);
-
-  useEffect(() => {
-    setGetParamCategory(searchParams.get("category") || "");
-  }, [searchParams]);
-
-  if (loading) {
-    return <Loader />;
   }
 
-  const startIndex = Math.min((currentPage - 1) * resultsPerPage + 1, totalProducts);
-  const endIndex = Math.min(currentPage * resultsPerPage, totalProducts);
+  const updateUrl = () => {
+    let link = `/products?page=${currentPage}`
+    if (keyword) {
+      link += `&keyword=${keyword}`
+    }
+    if (province) {
+      link.includes('?') ? (link += '&') : (link += '?')
+      link += `province=${province}`
+    }
+    if (category) {
+      link.includes('?') ? (link += '&') : (link += '?')
+      link += `category=${category}`
+    }
+    if (province && city) {
+      link.includes('?') ? (link += '&') : (link += '?')
+      link += `city=${city}`
+    }
+    if (fromPrice) {
+      link += `&price[gte]=${fromPrice}`
+    }
+    if (toPrice) {
+      link += `&price[lte]=${toPrice}`
+    }
+    if (sortBy) {
+      link += `&sortBy=${sortBy}`
+    }
+    navigate(link)
+  }
+
+  const setCurrentPageNo = (e) => {
+    setCurrentPage(e)
+  }
+
+  const applyFilters = () => {
+    setCurrentPage(1) // Reset to page 1 whenever a new filter is applied
+    getAllSearchProducts(1)
+  }
+
+  const handleSearch = () => {
+    setCurrentPage(1) // Reset to page 1 whenever a new search is performed
+    getAllSearchProducts(1)
+  }
+
+  useEffect(() => {
+    getAllSearchProducts()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, sortBy])
+
+  useEffect(() => {
+    setGetParamCategory(searchParams.get('category') || '')
+  }, [searchParams])
+
+  if (loading) {
+    return <Loader />
+  }
+
+  const startIndex = Math.min(
+    (currentPage - 1) * resultsPerPage + 1,
+    totalProducts
+  )
+  const endIndex = Math.min(currentPage * resultsPerPage, totalProducts)
 
   return (
     <>
@@ -170,9 +175,9 @@ const ProductsPage = () => {
                           end={totalProducts}
                           useEasing={true}
                         />
-                      </span>{" "}
-                      Auctions Running{" "}
-                      {getParamCategory ? `In ${getParamCategory}` : ""} Right
+                      </span>{' '}
+                      Auctions Running{' '}
+                      {getParamCategory ? `In ${getParamCategory}` : ''} Right
                       Now on Nelami
                     </h1>
                   </div>
@@ -195,7 +200,7 @@ const ProductsPage = () => {
                           className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option"
                           data-placeholder="Select Category"
                           onChange={async (e) => {
-                            setCategory(e.target.value);
+                            setCategory(e.target.value)
                           }}
                         >
                           <optgroup label="Categories">
@@ -213,7 +218,7 @@ const ProductsPage = () => {
                         <select
                           id="province"
                           name="province"
-                          value={province ? province : ""}
+                          value={province ? province : ''}
                           onChange={(e) => setProvince(e.target.value)}
                           className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option"
                           data-placeholder="Select"
@@ -225,12 +230,12 @@ const ProductsPage = () => {
                       </div>
 
                       {/* Islamabad CITIES DROPLIST */}
-                      {province === "Islamabad" && (
+                      {province === 'Islamabad' && (
                         <div className="form-group">
                           <select
                             id="islamabad-sectors"
                             name="city"
-                            value={province && city ? city : ""}
+                            value={province && city ? city : ''}
                             onChange={(e) => setCity(e.target.value)}
                             className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option"
                             required
@@ -242,12 +247,12 @@ const ProductsPage = () => {
                       )}
 
                       {/* PUNJAB CITIES DROPLIST */}
-                      {province === "Punjab" && (
+                      {province === 'Punjab' && (
                         <div className="form-group">
                           <select
                             id="punjab-cities"
                             name="city"
-                            value={city ? city : ""}
+                            value={city ? city : ''}
                             onChange={(e) => setCity(e.target.value)}
                             className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option"
                             required
@@ -258,12 +263,12 @@ const ProductsPage = () => {
                         </div>
                       )}
                       {/* KPK CITIES DROPLIST */}
-                      {province === "Khyber Pakhtunkhwa" && (
+                      {province === 'Khyber Pakhtunkhwa' && (
                         <div className="form-group">
                           <select
                             id="kpk-cities"
                             name="city"
-                            value={city ? city : ""}
+                            value={city ? city : ''}
                             onChange={(e) => setCity(e.target.value)}
                             className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option"
                             required
@@ -274,12 +279,12 @@ const ProductsPage = () => {
                         </div>
                       )}
                       {/* Sindh CITIES DROPLIST */}
-                      {province === "Sindh" && (
+                      {province === 'Sindh' && (
                         <div className="form-group">
                           <select
                             id="sindh-cities"
                             name="city"
-                            value={city ? city : ""}
+                            value={city ? city : ''}
                             onChange={(e) => setCity(e.target.value)}
                             className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option"
                             required
@@ -290,12 +295,12 @@ const ProductsPage = () => {
                         </div>
                       )}
                       {/* Balochistan CITIES DROPLIST */}
-                      {province === "Balochistan" && (
+                      {province === 'Balochistan' && (
                         <div className="form-group">
                           <select
                             id="balochistan-cities"
                             name="city"
-                            value={city ? city : ""}
+                            value={city ? city : ''}
                             onChange={(e) => setCity(e.target.value)}
                             className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option"
                             required
@@ -306,12 +311,12 @@ const ProductsPage = () => {
                         </div>
                       )}
                       {/* Azad Kashmir CITIES DROPLIST */}
-                      {province === "Azad Kashmir" && (
+                      {province === 'Azad Kashmir' && (
                         <div className="form-group">
                           <select
                             id="AzadKashmir-cities"
                             name="city"
-                            value={city ? city : ""}
+                            value={city ? city : ''}
                             onChange={(e) => setCity(e.target.value)}
                             className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option"
                             required
@@ -322,12 +327,12 @@ const ProductsPage = () => {
                         </div>
                       )}
                       {/* Northern Areas CITIES DROPLIST */}
-                      {province === "Northern Areas" && (
+                      {province === 'Northern Areas' && (
                         <div className="form-group">
                           <select
                             id="northern-areas-cities"
                             name="city"
-                            value={city ? city : ""}
+                            value={city ? city : ''}
                             onChange={(e) => setCity(e.target.value)}
                             className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option"
                             required
@@ -409,13 +414,13 @@ const ProductsPage = () => {
                     <div className="item2-gl-nav d-flex align-items-center justify-content-between">
                       {getParamCategory ? (
                         <h6 className="mb-0 mt-2">
-                          Showing <b>{startIndex}</b> to <b>{endIndex}</b> of{" "}
-                          <b>{totalProducts}</b> results in{" "}
+                          Showing <b>{startIndex}</b> to <b>{endIndex}</b> of{' '}
+                          <b>{totalProducts}</b> results in{' '}
                           <b>{getParamCategory}</b>
                         </h6>
                       ) : (
                         <h6 className="mb-0">
-                          Showing <b>{startIndex}</b> to <b>{endIndex}</b> of{" "}
+                          Showing <b>{startIndex}</b> to <b>{endIndex}</b> of{' '}
                           <b>{totalProducts}</b> results
                         </h6>
                       )}
@@ -445,7 +450,7 @@ const ProductsPage = () => {
                               >
                                 <ProductCard product={product} index={index} />
                               </div>
-                            );
+                            )
                           })
                         ) : (
                           <h3 className="w-100 text-center">
@@ -482,7 +487,7 @@ const ProductsPage = () => {
       </section>
       {/* <!--/Add Listing--> */}
     </>
-  );
-};
+  )
+}
 
-export default ProductsPage;
+export default ProductsPage

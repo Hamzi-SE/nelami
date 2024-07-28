@@ -48,7 +48,9 @@
 }
 
 .card {
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  box-shadow:
+    rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }
 
 .card-body {
@@ -64,10 +66,8 @@
   height: 42px;
 }
 
-
 .card-auction-complete {
   font-size: 14px;
-
 }
 
 .timer-wrapper {
@@ -87,7 +87,7 @@
   right: 0;
   top: 0;
   bottom: 0;
-  content: "";
+  content: '';
   right: -15px;
   border-top: 15px solid transparent;
   border-bottom: 15px solid transparent;
@@ -102,7 +102,7 @@
   margin-bottom: 10px;
 }
 
-.user-wrapper>img {
+.user-wrapper > img {
   border-radius: 50%;
   width: 8%;
   margin-right: 10px;

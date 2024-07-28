@@ -1,18 +1,18 @@
-import React, { useEffect, useState, useMemo } from "react";
-import 'tippy.js/dist/tippy.css';
-import { IoCarSportSharp } from "react-icons/io5";
-import { MdDevicesOther } from 'react-icons/md';
-import { BiBuildingHouse } from "react-icons/bi";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState, useMemo } from 'react'
+import 'tippy.js/dist/tippy.css'
+import { IoCarSportSharp } from 'react-icons/io5'
+import { MdDevicesOther } from 'react-icons/md'
+import { BiBuildingHouse } from 'react-icons/bi'
+import { Link, useNavigate } from 'react-router-dom'
 
 // CSS
-import "./Home.css"
+import './Home.css'
 
 // Sliders
-import FeaturedSlider from "./FeaturedSlider"
-import VehiclesSlider from "./VehiclesSlider"
-import PropertySlider from "./PropertySlider"
-import MiscProductSlider from "./MiscProductSlider"
+import FeaturedSlider from './FeaturedSlider'
+import VehiclesSlider from './VehiclesSlider'
+import PropertySlider from './PropertySlider'
+import MiscProductSlider from './MiscProductSlider'
 
 // Utils Import
 import {
@@ -24,98 +24,107 @@ import {
   getSindhCitiesDropList,
   getBalochistanCitiesDropList,
   getKPKCitiesDropList,
-} from "../../utils/PakCitiesData";
-import { useDispatch, useSelector } from "react-redux";
-import customFetch from "../../utils/api";
-import Loader from "../../Components/Loader/Loader";
+} from '../../utils/PakCitiesData'
+import { useDispatch, useSelector } from 'react-redux'
+import customFetch from '../../utils/api'
+import Loader from '../../Components/Loader/Loader'
 
 const Home = () => {
-  const dispatch = useDispatch();
-  const { data } = useSelector(state => state.data);
-  const navigate = useNavigate();
-  const [keyword, setKeyword] = useState("");
-  const [province, setProvince] = useState("");
-  const [city, setCity] = useState("");
-  const [category, setCategory] = useState("");
+  const dispatch = useDispatch()
+  const { data } = useSelector((state) => state.data)
+  const navigate = useNavigate()
+  const [keyword, setKeyword] = useState('')
+  const [province, setProvince] = useState('')
+  const [city, setCity] = useState('')
+  const [category, setCategory] = useState('')
 
-  const [featuredProducts, setFeaturedProducts] = useState([]);
-  const [vehicles, setVehicles] = useState([]);
-  const [properties, setProperties] = useState([]);
-  const [miscProducts, setMiscProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [featuredProducts, setFeaturedProducts] = useState([])
+  const [vehicles, setVehicles] = useState([])
+  const [properties, setProperties] = useState([])
+  const [miscProducts, setMiscProducts] = useState([])
+  const [loading, setLoading] = useState(true)
 
   const getAllSearchProducts = async () => {
-    let link = `/products`;
+    let link = `/products`
     if (keyword) {
-      link += `?keyword=${keyword}`;
+      link += `?keyword=${keyword}`
     }
     if (province) {
-      link.includes("?") ? (link += "&") : (link += "?");
-      link += `province=${province}`;
+      link.includes('?') ? (link += '&') : (link += '?')
+      link += `province=${province}`
     }
     if (city) {
-      link.includes("?") ? (link += "&") : (link += "?");
-      link += `city=${city}`;
+      link.includes('?') ? (link += '&') : (link += '?')
+      link += `city=${city}`
     }
     if (category) {
-      link.includes("?") ? (link += "&") : (link += "?");
-      link += `category=${category}`;
+      link.includes('?') ? (link += '&') : (link += '?')
+      link += `category=${category}`
     }
-    navigate(link);
-  };
+    navigate(link)
+  }
 
   useEffect(() => {
     const fetchProducts = async () => {
-      dispatch({ type: "ALL_PRODUCTS_REQUEST" });
+      dispatch({ type: 'ALL_PRODUCTS_REQUEST' })
       try {
-        const [featuredRes, vehiclesRes, propertiesRes, miscRes] = await Promise.all([
-          customFetch(`/api/v1/products`),
-          customFetch(`/api/v1/products?category=Vehicles`),
-          customFetch(`/api/v1/products?category=Property`),
-          customFetch(`/api/v1/products?category=MiscProducts`)
-        ]);
+        const [featuredRes, vehiclesRes, propertiesRes, miscRes] =
+          await Promise.all([
+            customFetch(`/api/v1/products`),
+            customFetch(`/api/v1/products?category=Vehicles`),
+            customFetch(`/api/v1/products?category=Property`),
+            customFetch(`/api/v1/products?category=MiscProducts`),
+          ])
 
-        const [featuredData, vehiclesData, propertiesData, miscData] = await Promise.all([
-          featuredRes.json(),
-          vehiclesRes.json(),
-          propertiesRes.json(),
-          miscRes.json()
-        ]);
+        const [featuredData, vehiclesData, propertiesData, miscData] =
+          await Promise.all([
+            featuredRes.json(),
+            vehiclesRes.json(),
+            propertiesRes.json(),
+            miscRes.json(),
+          ])
 
-        setFeaturedProducts(featuredData.products);
-        setVehicles(vehiclesData.products);
-        setProperties(propertiesData.products);
-        setMiscProducts(miscData.products);
-        dispatch({ type: "ALL_PRODUCTS_SUCCESS", payload: featuredData.products });
+        setFeaturedProducts(featuredData.products)
+        setVehicles(vehiclesData.products)
+        setProperties(propertiesData.products)
+        setMiscProducts(miscData.products)
+        dispatch({
+          type: 'ALL_PRODUCTS_SUCCESS',
+          payload: featuredData.products,
+        })
       } catch (error) {
-        console.error("Error fetching products: ", error);
-        dispatch({ type: "ALL_PRODUCTS_FAIL", payload: error.message });
+        console.error('Error fetching products: ', error)
+        dispatch({ type: 'ALL_PRODUCTS_FAIL', payload: error.message })
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetchProducts();
-  }, [dispatch]);
+    fetchProducts()
+  }, [dispatch])
 
-  const featuredSliderMemo = useMemo(() => (
-    <FeaturedSlider products={featuredProducts} />
-  ), [featuredProducts]);
+  const featuredSliderMemo = useMemo(
+    () => <FeaturedSlider products={featuredProducts} />,
+    [featuredProducts]
+  )
 
-  const vehiclesSliderMemo = useMemo(() => (
-    <VehiclesSlider products={vehicles} />
-  ), [vehicles]);
+  const vehiclesSliderMemo = useMemo(
+    () => <VehiclesSlider products={vehicles} />,
+    [vehicles]
+  )
 
-  const propertySliderMemo = useMemo(() => (
-    <PropertySlider products={properties} />
-  ), [properties]);
+  const propertySliderMemo = useMemo(
+    () => <PropertySlider products={properties} />,
+    [properties]
+  )
 
-  const miscProductSliderMemo = useMemo(() => (
-    <MiscProductSlider products={miscProducts} />
-  ), [miscProducts]);
+  const miscProductSliderMemo = useMemo(
+    () => <MiscProductSlider products={miscProducts} />,
+    [miscProducts]
+  )
 
   if (loading) {
-    return <Loader />;
+    return <Loader />
   }
 
   return (
@@ -128,36 +137,72 @@ const Home = () => {
             <div className="container">
               <div className="text-center text-white">
                 <h1>Nelami Auction Website</h1>
-                <p style={{ marginBottom: "1.5rem", fontSize: "16px", fontWeight: "500" }}>We fetch the best value for your valuables.</p>
+                <p
+                  style={{
+                    marginBottom: '1.5rem',
+                    fontSize: '16px',
+                    fontWeight: '500',
+                  }}
+                >
+                  We fetch the best value for your valuables.
+                </p>
               </div>
               <div className="row">
                 <div className="col-sm-12 mx-auto">
                   <div className="search-background mb-0">
                     <div className="form row g-0 header-search-input">
                       <div className="form-group">
-                        <input type="text" className="form-control input-lg border-end-0" value={keyword} id="text" placeholder="Search Products" onChange={(e) => setKeyword(e.target.value)} />
+                        <input
+                          type="text"
+                          className="form-control input-lg border-end-0"
+                          value={keyword}
+                          id="text"
+                          placeholder="Search Products"
+                          onChange={(e) => setKeyword(e.target.value)}
+                        />
                       </div>
                       <div className="form-group">
-                        <select className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option" data-placeholder="Select Category" onChange={(e) => setCategory(e.target.value)}>
+                        <select
+                          className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option"
+                          data-placeholder="Select Category"
+                          onChange={(e) => setCategory(e.target.value)}
+                        >
                           <optgroup label="Categories">
                             <option>Select Category</option>
                             <option value="Vehicles">Vehicles</option>
                             <option value="Property">Properties</option>
-                            <option value="MiscProducts">Miscellaneous Products</option>
+                            <option value="MiscProducts">
+                              Miscellaneous Products
+                            </option>
                           </optgroup>
                         </select>
                       </div>
                       {/* PRONVINCES LIST */}
                       <div className="form-group">
-                        <select id="province" name="province" value={province} onChange={(e) => setProvince(e.target.value)} className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option" data-placeholder="Select" required>
+                        <select
+                          id="province"
+                          name="province"
+                          value={province}
+                          onChange={(e) => setProvince(e.target.value)}
+                          className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option"
+                          data-placeholder="Select"
+                          required
+                        >
                           <option>Select Province</option>
                           {getProvinceDropList(data)}
                         </select>
                       </div>
                       {/* Islamabad CITIES DROPLIST */}
-                      {province === "Islamabad" && (
+                      {province === 'Islamabad' && (
                         <div className="form-group">
-                          <select id="pubjab-cities" name="city" value={city} onChange={(e) => setCity(e.target.value)} className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option" required>
+                          <select
+                            id="pubjab-cities"
+                            name="city"
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                            className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option"
+                            required
+                          >
                             <option value="" disabled defaultValue>
                               Select Sector
                             </option>
@@ -166,9 +211,16 @@ const Home = () => {
                         </div>
                       )}
                       {/* PUNJAB CITIES DROPLIST */}
-                      {province === "Punjab" && (
+                      {province === 'Punjab' && (
                         <div className="form-group">
-                          <select id="pubjab-cities" name="city" value={city} onChange={(e) => setCity(e.target.value)} className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option" required>
+                          <select
+                            id="pubjab-cities"
+                            name="city"
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                            className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option"
+                            required
+                          >
                             <option value="" disabled defaultValue>
                               Select City
                             </option>
@@ -177,9 +229,16 @@ const Home = () => {
                         </div>
                       )}
                       {/* KPK CITIES DROPLIST */}
-                      {province === "Khyber Pakhtunkhwa" && (
+                      {province === 'Khyber Pakhtunkhwa' && (
                         <div className="form-group">
-                          <select id="kpk-cities" name="city" value={city} onChange={(e) => setCity(e.target.value)} className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option" required>
+                          <select
+                            id="kpk-cities"
+                            name="city"
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                            className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option"
+                            required
+                          >
                             <option value="" disabled defaultValue>
                               Select City
                             </option>
@@ -188,9 +247,16 @@ const Home = () => {
                         </div>
                       )}
                       {/* Sindh CITIES DROPLIST */}
-                      {province === "Sindh" && (
+                      {province === 'Sindh' && (
                         <div className="form-group">
-                          <select id="sindh-cities" name="city" value={city} onChange={(e) => setCity(e.target.value)} className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option" required>
+                          <select
+                            id="sindh-cities"
+                            name="city"
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                            className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option"
+                            required
+                          >
                             <option value="" disabled defaultValue>
                               Select City
                             </option>
@@ -199,9 +265,16 @@ const Home = () => {
                         </div>
                       )}
                       {/* Balochistan CITIES DROPLIST */}
-                      {province === "Balochistan" && (
+                      {province === 'Balochistan' && (
                         <div className="form-group">
-                          <select id="balochistan-cities" name="city" value={city} onChange={(e) => setCity(e.target.value)} className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option" required>
+                          <select
+                            id="balochistan-cities"
+                            name="city"
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                            className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option"
+                            required
+                          >
                             <option value="" disabled defaultValue>
                               Select City
                             </option>
@@ -210,9 +283,16 @@ const Home = () => {
                         </div>
                       )}
                       {/* Azad Kashmir CITIES DROPLIST */}
-                      {province === "Azad Kashmir" && (
+                      {province === 'Azad Kashmir' && (
                         <div className="form-group">
-                          <select id="AzadKashmir-cities" name="city" value={city} onChange={(e) => setCity(e.target.value)} className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option" required>
+                          <select
+                            id="AzadKashmir-cities"
+                            name="city"
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                            className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option"
+                            required
+                          >
                             <option value="" disabled defaultValue>
                               Select City
                             </option>
@@ -221,9 +301,16 @@ const Home = () => {
                         </div>
                       )}
                       {/* Northern Areas CITIES DROPLIST */}
-                      {province === "Northern Areas" && (
+                      {province === 'Northern Areas' && (
                         <div className="form-group">
-                          <select id="northern-areas-cities" name="city" value={city} onChange={(e) => setCity(e.target.value)} className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option" required>
+                          <select
+                            id="northern-areas-cities"
+                            name="city"
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                            className="form-control select2-show-search border-bottom-0 w-100 product-page-category-search-option"
+                            required
+                          >
                             <option value="" disabled defaultValue>
                               Select City
                             </option>
@@ -232,7 +319,13 @@ const Home = () => {
                         </div>
                       )}
                       <div className="">
-                        <button type="button" className="btn btn-lg btn-block btn-secondary" onClick={getAllSearchProducts}>Search</button>
+                        <button
+                          type="button"
+                          className="btn btn-lg btn-block btn-secondary"
+                          onClick={getAllSearchProducts}
+                        >
+                          Search
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -289,19 +382,25 @@ const Home = () => {
       </section>
 
       <div className="container products-slider home-products-slider home-vehicles-slider">
-        <h1 className="text-center home-products-slider-header">Top Vehicles</h1>
+        <h1 className="text-center home-products-slider-header">
+          Top Vehicles
+        </h1>
         {vehiclesSliderMemo}
       </div>
       <div className="container products-slider home-products-slider home-properties-slider">
-        <h1 className="text-center home-products-slider-header">Top Properties</h1>
+        <h1 className="text-center home-products-slider-header">
+          Top Properties
+        </h1>
         {propertySliderMemo}
       </div>
       <div className="container products-slider home-products-slider home-misc-slider">
-        <h1 className="text-center home-products-slider-header">Top Miscellaneous Items</h1>
+        <h1 className="text-center home-products-slider-header">
+          Top Miscellaneous Items
+        </h1>
         {miscProductSliderMemo}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

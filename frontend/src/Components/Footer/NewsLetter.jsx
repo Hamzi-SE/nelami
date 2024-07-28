@@ -1,12 +1,12 @@
-import React from "react";
-import MailchimpFormContainer from "../MailchimpFormContainer/MailchimpFormContainer";
+import React from 'react'
+import MailchimpFormContainer from '../MailchimpFormContainer/MailchimpFormContainer'
 
 const NewsLetter = () => {
   return (
     <>
       <MailchimpFormContainer />
     </>
-  );
-};
+  )
+}
 
-export default NewsLetter;
+export default NewsLetter

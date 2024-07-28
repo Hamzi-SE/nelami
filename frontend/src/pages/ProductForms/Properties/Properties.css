@@ -1,4 +1,3 @@
-
 .productForm .product-dataform .productform-images {
   display: flex !important;
   column-gap: 2em;
@@ -19,12 +18,11 @@
   transform: scale(3.4);
   margin: -84px 0px 48px -150px;
   z-index: 9;
-
 }
 
 .productForm .product-dataform .productform-images input::before {
   border: 1px solid red;
-  content: "\f03e";
+  content: '\f03e';
   width: 16%;
   height: 50px;
   position: absolute;
@@ -60,18 +58,14 @@
   filter: contrast(0.5);
 }
 
-.productForm .product-dataform .productform-images .img-upload-icon>svg {
+.productForm .product-dataform .productform-images .img-upload-icon > svg {
   font-size: 80px;
   color: black;
 }
 
-
-
-
-
 /* MOBILE MEDIA QUERY */
 @media screen and (max-width: 490px) {
-  .productForm .product-dataform .productform-images{
+  .productForm .product-dataform .productform-images {
     flex-direction: column;
   }
 }

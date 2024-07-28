@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { IoCarSportSharp, IoBusOutline } from "react-icons/io5";
-import { FaTractor } from "react-icons/fa";
-import { BiBuildingHouse } from "react-icons/bi";
-import { FiChevronRight } from "react-icons/fi"
-import { GrBike } from "react-icons/gr";
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { IoCarSportSharp, IoBusOutline } from 'react-icons/io5'
+import { FaTractor } from 'react-icons/fa'
+import { BiBuildingHouse } from 'react-icons/bi'
+import { FiChevronRight } from 'react-icons/fi'
+import { GrBike } from 'react-icons/gr'
 
-import "./ProductsFroms.css";
-import MetaData from "../../utils/MetaData";
+import './ProductsFroms.css'
+import MetaData from '../../utils/MetaData'
 
 const ProductsForms = () => {
-  const [activeIndex, setActiveIndex] = useState();
+  const [activeIndex, setActiveIndex] = useState()
 
   const handleActiveCategory = (e) => {
-    setActiveIndex(e.currentTarget.dataset.index);
-  };
+    setActiveIndex(e.currentTarget.dataset.index)
+  }
 
   return (
     <>
@@ -22,7 +22,9 @@ const ProductsForms = () => {
       <div className="container product-forms-wrapper product-forms-all">
         <div className="row">
           <div className="col-12">
-            <h2 className="m-2 p-3 text-center my-5"><b>POST YOUR AD</b></h2>
+            <h2 className="m-2 p-3 text-center my-5">
+              <b>POST YOUR AD</b>
+            </h2>
           </div>
         </div>
         <div className="row product-form-block">
@@ -30,7 +32,11 @@ const ProductsForms = () => {
             <h4 className="p-3 m-2">CHOOSE A CATEGORY</h4>
           </div>
           <div className="col-md-4 categories-list categories-list-wrapper categories-select p-0">
-            <div data-index={1} onClick={handleActiveCategory} className="category-block category-group">
+            <div
+              data-index={1}
+              onClick={handleActiveCategory}
+              className="category-block category-group"
+            >
               <div className="category-icon d-flex justify-content-center align-items-center">
                 <IoCarSportSharp />
               </div>
@@ -39,7 +45,11 @@ const ProductsForms = () => {
                 <FiChevronRight />
               </div>
             </div>
-            <div data-index={2} onClick={handleActiveCategory} className="category-block category-group">
+            <div
+              data-index={2}
+              onClick={handleActiveCategory}
+              className="category-block category-group"
+            >
               <div className="category-icon d-flex justify-content-center align-items-center">
                 <BiBuildingHouse />
               </div>
@@ -48,7 +58,11 @@ const ProductsForms = () => {
                 <FiChevronRight />
               </div>
             </div>
-            <div data-index={3} onClick={handleActiveCategory} className="category-block category-group">
+            <div
+              data-index={3}
+              onClick={handleActiveCategory}
+              className="category-block category-group"
+            >
               <div className="category-icon d-flex justify-content-center align-items-center">
                 <BiBuildingHouse />
               </div>
@@ -178,7 +192,9 @@ const ProductsForms = () => {
                     <div className="subcategory-icon d-flex justify-content-center align-items-center">
                       <BiBuildingHouse />
                     </div>
-                    <div className="subcategory-name">Shops - Offices - Commercial Space</div>
+                    <div className="subcategory-name">
+                      Shops - Offices - Commercial Space
+                    </div>
                     <div className="open-arrow-icon">
                       {/* <FiChevronRight /> */}
                     </div>
@@ -194,9 +210,7 @@ const ProductsForms = () => {
                       {/* <FiChevronRight /> */}
                     </div>
                   </Link>
-
                 </div>
-
               </div>
             )}
             {/* eslint-disable-next-line*/}
@@ -222,7 +236,7 @@ const ProductsForms = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default ProductsForms;
+export default ProductsForms

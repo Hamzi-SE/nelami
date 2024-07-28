@@ -1,15 +1,15 @@
 .product-pic-img {
-    height: 130px !important;
-    overflow: hidden !important;
-    margin: auto !important;
+  height: 130px !important;
+  overflow: hidden !important;
+  margin: auto !important;
 }
 
 .profile-pic img {
-    max-width: 250px !important;
-    width: 100% !important;
+  max-width: 250px !important;
+  width: 100% !important;
 }
 
 .editForm-not-editable {
-    cursor: not-allowed;
-    text-transform: capitalize
+  cursor: not-allowed;
+  text-transform: capitalize;
 }

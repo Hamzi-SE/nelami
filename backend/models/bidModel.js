@@ -1,21 +1,21 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 
 const bidSchema = new mongoose.Schema({
   bidItem: {
     type: mongoose.Schema.ObjectId,
-    ref: "Product",
+    ref: 'Product',
     required: true,
   },
   bidders: [
     {
       user: {
         type: mongoose.Schema.ObjectId,
-        ref: "User",
+        ref: 'User',
         required: true,
       },
       price: {
         type: Number,
-        required: [true, "Please enter your bid price"],
+        required: [true, 'Please enter your bid price'],
       },
       bidAt: {
         type: Date,
@@ -23,15 +23,15 @@ const bidSchema = new mongoose.Schema({
       },
     },
   ],
-});
+})
 
 bidSchema.methods.createBid = async function (user, price) {
   try {
-    this.bidders = await this.bidders.concat({ user, price });
-    return this.bidders;
+    this.bidders = await this.bidders.concat({ user, price })
+    return this.bidders
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}
 
-module.exports = mongoose.model("Bid", bidSchema);
+module.exports = mongoose.model('Bid', bidSchema)

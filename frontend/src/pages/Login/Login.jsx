@@ -1,56 +1,55 @@
-import React, { useState } from "react";
-import { toast } from "react-hot-toast";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import MetaData from "../../utils/MetaData";
-import { useDispatch, useSelector } from "react-redux";
-import Loader from "../../Components/Loader/Loader";
-import customFetch from "../../utils/api";
-import { socket } from "../../helpers/SocketConnect";
+import React, { useState } from 'react'
+import { toast } from 'react-hot-toast'
+import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import MetaData from '../../utils/MetaData'
+import { useDispatch, useSelector } from 'react-redux'
+import Loader from '../../Components/Loader/Loader'
+import customFetch from '../../utils/api'
+import { socket } from '../../helpers/SocketConnect'
 
 const Login = () => {
-  const { loading } = useSelector(state => state.user);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { loading } = useSelector((state) => state.user)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (!email || !password) {
-      toast.error("Please Fill All Fields");
-      return;
+      toast.error('Please Fill All Fields')
+      return
     }
 
-    dispatch({ type: "LOGIN_USER_REQUEST" })
+    dispatch({ type: 'LOGIN_USER_REQUEST' })
 
-    const res = await customFetch("/api/v1/login", {
-      method: "POST",
+    const res = await customFetch('/api/v1/login', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         email,
         password,
       }),
-    });
+    })
 
-    const data = await res.json();
+    const data = await res.json()
 
     if (res.status === 200) {
-      dispatch({ type: "LOGIN_USER_SUCCESS", payload: data.user })
-      socket.emit("addUser", data.user?._id);
-      toast.success("Logged In Successfully");
-      navigate("/", { replace: true });
-      window.scrollTo(0, 0);
+      dispatch({ type: 'LOGIN_USER_SUCCESS', payload: data.user })
+      socket.emit('addUser', data.user?._id)
+      toast.success('Logged In Successfully')
+      navigate('/', { replace: true })
+      window.scrollTo(0, 0)
     } else {
-      dispatch({ type: "LOGIN_USER_FAIL", payload: data.message })
-      toast.error(data.message);
+      dispatch({ type: 'LOGIN_USER_FAIL', payload: data.message })
+      toast.error(data.message)
     }
-  };
+  }
 
   if (loading) {
     return <Loader />
@@ -73,7 +72,10 @@ const Login = () => {
                   <li className="breadcrumb-item">
                     <Link to="/products">Pages</Link>
                   </li>
-                  <li className="breadcrumb-item active text-white" aria-current="page">
+                  <li
+                    className="breadcrumb-item active text-white"
+                    aria-current="page"
+                  >
                     Login
                   </li>
                 </ol>
@@ -117,29 +119,61 @@ const Login = () => {
                         </div> */}
                         {/* <hr className="divider" /> */}
                         <div className="form-group">
-                          <label className="form-label text-dark">Email address</label>
-                          <input type="email" className="form-control" placeholder="Enter email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                          <label className="form-label text-dark">
+                            Email address
+                          </label>
+                          <input
+                            type="email"
+                            className="form-control"
+                            placeholder="Enter email"
+                            name="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                          />
                         </div>
                         <div className="form-group">
-                          <label className="form-label text-dark">Password</label>
-                          <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                          <label className="form-label text-dark">
+                            Password
+                          </label>
+                          <input
+                            type="password"
+                            className="form-control"
+                            id="exampleInputPassword1"
+                            placeholder="Password"
+                            name="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                          />
                         </div>
                         <div className="form-group">
                           <label className="custom-control form-checkbox">
-                            <Link to="/user/forgot-password" className="float-end small text-dark mt-1">
+                            <Link
+                              to="/user/forgot-password"
+                              className="float-end small text-dark mt-1"
+                            >
                               Forgot Password?
                             </Link>
-                            <input type="checkbox" className="custom-control-input" />
-                            <span className="custom-control-label text-dark">Remember me</span>
+                            <input
+                              type="checkbox"
+                              className="custom-control-input"
+                            />
+                            <span className="custom-control-label text-dark">
+                              Remember me
+                            </span>
                           </label>
                         </div>
                         <div className="form-footer mt-2">
-                          <button type="submit" className="btn btn-primary btn-block" onClick={handleSubmit}>
+                          <button
+                            type="submit"
+                            className="btn btn-primary btn-block"
+                            onClick={handleSubmit}
+                          >
                             Login
                           </button>
                         </div>
                         <div className="text-center  mt-3 text-dark">
-                          Don't have account yet? <Link to="/Signup">Sign Up</Link>
+                          Don't have account yet?{' '}
+                          <Link to="/Signup">Sign Up</Link>
                         </div>
                       </div>
                     </div>
@@ -152,7 +186,7 @@ const Login = () => {
       </section>
       {/* <!--/Login-Section--> */}
     </>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

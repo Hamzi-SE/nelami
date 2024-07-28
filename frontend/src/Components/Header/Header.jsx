@@ -1,8 +1,8 @@
-import Topbar from "./Topbar";
-import Navbar from "./Navbar";
-import MobileHeader from "./MobileHeader";
+import Topbar from './Topbar'
+import Navbar from './Navbar'
+import MobileHeader from './MobileHeader'
 
-import React from "react";
+import React from 'react'
 
 const Header = () => {
   return (
@@ -13,7 +13,7 @@ const Header = () => {
         <Navbar />
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

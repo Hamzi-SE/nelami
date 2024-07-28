@@ -1,85 +1,85 @@
 .conversation {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    cursor: pointer;
-    margin-top: 20px;
-    border-bottom: 1px solid rgb(195, 178, 178);
-    width: 90%;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  margin-top: 20px;
+  border-bottom: 1px solid rgb(195, 178, 178);
+  width: 90%;
 }
 
 .conversation:hover {
-    background-color: rgb(245, 243, 243);
+  background-color: rgb(245, 243, 243);
 }
 
 .conversation-img-wrapper {
-    min-width: 40px;
+  min-width: 40px;
 }
 
 .conversation-last-message {
-    font-size: 13px;
-    display: -webkit-box !important;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  font-size: 13px;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .conversation-last-time {
-    font-size: 13px;
-    display: -webkit-box !important;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-weight: 500;
+  font-size: 13px;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
 }
 
 .conversation-active-now {
-    color: #08bc08;
+  color: #08bc08;
 }
 
 .conversation-img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 1px solid rgb(122, 122, 122);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgb(122, 122, 122);
 }
 
 .conversation-name {
-    font-weight: 500;
+  font-weight: 500;
 }
 
 .conversation-user-details {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-left: 20px;
 }
 
 .user-online {
-    width: 12px;
-    height: 12px;
-    border: 1px solid #08bc08;
-    background: #08bc08;
-    border-radius: 50%;
-    position: absolute;
-    right: 22px;
-    top: 0;
+  width: 12px;
+  height: 12px;
+  border: 1px solid #08bc08;
+  background: #08bc08;
+  border-radius: 50%;
+  position: absolute;
+  right: 22px;
+  top: 0;
 }
 
 @media screen and (max-width: 476px) {
-    .conversation-name {
-        font-size: 1rem;
-    }  
+  .conversation-name {
+    font-size: 1rem;
+  }
 
-    .conversation-last-message {
-        font-size: 0.9rem;
-    }
+  .conversation-last-message {
+    font-size: 0.9rem;
+  }
 
-    .conversation-last-time {
-        font-size: 0.9rem;
-    }
+  .conversation-last-time {
+    font-size: 0.9rem;
+  }
 }

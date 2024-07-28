@@ -1,58 +1,57 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { toast } from "react-hot-toast";
-import Loader from "../../Components/Loader/Loader";
-import MetaData from "../../utils/MetaData";
-import customFetch from "../../utils/api";
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { toast } from 'react-hot-toast'
+import Loader from '../../Components/Loader/Loader'
+import MetaData from '../../utils/MetaData'
+import customFetch from '../../utils/api'
 
 const OTPValidation = () => {
-  const { loading, token } = useSelector(state => state.user);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { loading, token } = useSelector((state) => state.user)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const email = searchParams.get('email');
+  const location = useLocation()
+  const searchParams = new URLSearchParams(location.search)
+  const email = searchParams.get('email')
 
-  const [otp, setOtp] = useState("");
+  const [otp, setOtp] = useState('')
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (!email || !otp) {
-      toast.error("Please Fill All Fields");
-      return;
+      toast.error('Please Fill All Fields')
+      return
     }
 
     // dispatch({ type: "LOGIN_USER_REQUEST" })
 
-    const res = await customFetch("/api/v1/OTPValidation", {
-      method: "POST",
+    const res = await customFetch('/api/v1/OTPValidation', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         email,
         otp,
-        token
+        token,
       }),
-    });
+    })
 
-    const data = await res.json();
-    
+    const data = await res.json()
 
     if (res.status === 200) {
-        dispatch({ type: "SIGNUP_USER_SUCCESS", payload: data.user})
+      dispatch({ type: 'SIGNUP_USER_SUCCESS', payload: data.user })
 
-      toast.success("Email Verified Successfully");
-      navigate("/dashboard", { replace: true });
-      window.scrollTo(0, 0);
+      toast.success('Email Verified Successfully')
+      navigate('/dashboard', { replace: true })
+      window.scrollTo(0, 0)
     } else {
-    //   dispatch({ type: "LOGIN_USER_FAIL", payload: data.message })
-      toast.error(data.message);
+      //   dispatch({ type: "LOGIN_USER_FAIL", payload: data.message })
+      toast.error(data.message)
     }
-  };
+  }
 
   if (loading) {
     return <Loader />
@@ -75,7 +74,10 @@ const OTPValidation = () => {
                   <li className="breadcrumb-item">
                     <Link to="/otp-validation">OTP Validation</Link>
                   </li>
-                  <li className="breadcrumb-item active text-white" aria-current="page">
+                  <li
+                    className="breadcrumb-item active text-white"
+                    aria-current="page"
+                  >
                     OTP Validation
                   </li>
                 </ol>
@@ -96,7 +98,9 @@ const OTPValidation = () => {
                   <div className="col-xl-12 col-md-12 col-md-12">
                     <div className="card mb-0">
                       <div className="card-header">
-                        <h3 className="card-title">OTP Validation to your Account</h3>
+                        <h3 className="card-title">
+                          OTP Validation to your Account
+                        </h3>
                       </div>
                       <div className="card-body">
                         {/* <div className="text-center">
@@ -118,19 +122,27 @@ const OTPValidation = () => {
                           </div>
                         </div> */}
                         {/* <hr className="divider" /> */}
-                        
-                        
+
                         <div className="form-group">
                           <label className="form-label text-dark">OTP</label>
-                          <input type="number" className="form-control" placeholder="OTP" value={otp} onChange={(e) => setOtp(e.target.value)} />
+                          <input
+                            type="number"
+                            className="form-control"
+                            placeholder="OTP"
+                            value={otp}
+                            onChange={(e) => setOtp(e.target.value)}
+                          />
                         </div>
 
                         <div className="form-footer mt-2">
-                          <button type="submit" className="btn btn-primary btn-block" onClick={handleSubmit}>
+                          <button
+                            type="submit"
+                            className="btn btn-primary btn-block"
+                            onClick={handleSubmit}
+                          >
                             Validate
                           </button>
                         </div>
-                        
                       </div>
                     </div>
                   </div>
@@ -142,7 +154,7 @@ const OTPValidation = () => {
       </section>
       {/* <!--/OTP Validation-Section--> */}
     </>
-  );
-};
+  )
+}
 
-export default OTPValidation;
+export default OTPValidation

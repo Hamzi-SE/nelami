@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 const BottomFooter = () => {
   return (
@@ -7,14 +7,12 @@ const BottomFooter = () => {
       {/* <!--Footer Section--> */}
       <section className="footer">
         <footer className="bg-dark text-white">
-
           <div className="bg-dark text-white p-0">
             <div className="container">
               <div className="row d-flex">
                 <div className="col-lg-12 col-sm-12  mt-2 mb-2 text-center ">
                   Copyright © 2024 Nelami. All rights reserved.
                 </div>
-
               </div>
             </div>
           </div>
@@ -34,7 +32,7 @@ const BottomFooter = () => {
       </section>
       {/* <!--/Footer Section--> */}
     </>
-  );
-};
+  )
+}
 
-export default BottomFooter;
+export default BottomFooter

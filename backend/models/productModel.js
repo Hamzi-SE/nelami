@@ -1,28 +1,28 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 
 const productSchema = new mongoose.Schema({
   tag: {
     type: String,
-    default: "Normal",
-    enum: ["Normal", "Hot", "Super Hot"],
+    default: 'Normal',
+    enum: ['Normal', 'Hot', 'Super Hot'],
   },
   status: {
     type: String,
-    default: "Pending",
-    enum: ["Pending", "Approved", "Rejected"],
+    default: 'Pending',
+    enum: ['Pending', 'Approved', 'Rejected'],
   },
   title: {
     type: String,
-    required: [true, "Please Enter product Name"],
+    required: [true, 'Please Enter product Name'],
     trim: true,
   },
   description: {
     type: String,
-    required: [true, "Please Enter product Description"],
+    required: [true, 'Please Enter product Description'],
   },
   furnished: {
     type: String,
-    enum: ["Furnished", "Unfurnished"],
+    enum: ['Furnished', 'Unfurnished'],
   },
   bedrooms: {
     type: String,
@@ -35,7 +35,7 @@ const productSchema = new mongoose.Schema({
   },
   constructionState: {
     type: String,
-    enum: ["Grey Structure", "Finished"],
+    enum: ['Grey Structure', 'Finished'],
   },
   type: {
     type: String,
@@ -66,15 +66,15 @@ const productSchema = new mongoose.Schema({
   },
   areaUnit: {
     type: String,
-    enum: ["Kanal", "Marla", "Square Feet", "Square Meter", "Square Yards"],
+    enum: ['Kanal', 'Marla', 'Square Feet', 'Square Meter', 'Square Yards'],
   },
   area: {
     type: Number,
   },
   price: {
     type: Number,
-    required: [true, "Please Enter product Price"],
-    maxLength: [10, "Price cannot exceed 10 digits"],
+    required: [true, 'Please Enter product Price'],
+    maxLength: [10, 'Price cannot exceed 10 digits'],
   },
   images: {
     featuredImg: {
@@ -109,21 +109,33 @@ const productSchema = new mongoose.Schema({
         type: String,
       },
     },
-
   },
   category: {
     type: String,
-    required: [true, "Please Enter Product Category"],
-    enum: ["Property", "Vehicles", "MiscProducts"],
+    required: [true, 'Please Enter Product Category'],
+    enum: ['Property', 'Vehicles', 'MiscProducts'],
   },
   subCategory: {
     type: String,
-    required: [true, "Please Enter Product Sub-Category"],
-    enum: ["Land & Plots", "Houses", "Apartments & Flats", "Shops - Offices - Commercial Space", "Portions & Floors", "Cars", "Bikes", "Buses, Vans & Trucks", "Rickshaw & Chingchi", "Tractors & Trailer", "Other Vehicles", "Other Products"],
+    required: [true, 'Please Enter Product Sub-Category'],
+    enum: [
+      'Land & Plots',
+      'Houses',
+      'Apartments & Flats',
+      'Shops - Offices - Commercial Space',
+      'Portions & Floors',
+      'Cars',
+      'Bikes',
+      'Buses, Vans & Trucks',
+      'Rickshaw & Chingchi',
+      'Tractors & Trailer',
+      'Other Vehicles',
+      'Other Products',
+    ],
   },
   location: {
     province: {
-      type: "String",
+      type: 'String',
       required: true,
     },
     city: {
@@ -133,18 +145,18 @@ const productSchema = new mongoose.Schema({
   },
   user: {
     type: mongoose.Schema.ObjectId,
-    ref: "User",
+    ref: 'User',
     required: true,
   },
   bidStatus: {
     type: String,
     required: true,
-    default: "Live",
-    enum: ["Live", "Pending", "Expired"],
+    default: 'Live',
+    enum: ['Live', 'Pending', 'Expired'],
   },
   bidTime: {
     type: String,
-    required: [true, "Please specify your bid time"],
+    required: [true, 'Please specify your bid time'],
   },
   endDate: {
     type: Date,
@@ -152,16 +164,17 @@ const productSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-  }
-});
-
+  },
+})
 
 //Calculating End Date
-productSchema.pre("save", async function (next) {
-  if (!this.isModified("bidTime")) {
-    next();
+productSchema.pre('save', async function (next) {
+  if (!this.isModified('bidTime')) {
+    next()
   }
-  this.endDate = new Date(new Date().getTime() + ((Number(this.bidTime)) * 24 * 60 * 60 * 1000));
-});
+  this.endDate = new Date(
+    new Date().getTime() + Number(this.bidTime) * 24 * 60 * 60 * 1000
+  )
+})
 
-module.exports = mongoose.model("Product", productSchema);
+module.exports = mongoose.model('Product', productSchema)

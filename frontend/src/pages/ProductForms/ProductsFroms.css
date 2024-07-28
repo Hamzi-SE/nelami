@@ -1,6 +1,8 @@
 .product-form-block {
   background: white;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  box-shadow:
+    rgba(0, 0, 0, 0.16) 0px 3px 6px,
+    rgba(0, 0, 0, 0.23) 0px 3px 6px;
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid #838383;
@@ -41,7 +43,6 @@
   border: none;
 }
 
-
 .product-forms-wrapper .subcategory-block a {
   display: flex;
   justify-content: space-between;
@@ -69,7 +70,6 @@
 .product-forms-wrapper .open-arrow-icon svg {
   font-size: 20px;
 }
-
 
 .product-forms-wrapper svg {
   font-size: 30px;

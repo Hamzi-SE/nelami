@@ -1,6 +1,6 @@
-import React from "react";
-import Newsletter from "./NewsLetter";
-import BottomFooter from "./BottomFooter";
+import React from 'react'
+import Newsletter from './NewsLetter'
+import BottomFooter from './BottomFooter'
 
 const Footer = () => {
   return (
@@ -8,7 +8,7 @@ const Footer = () => {
       <Newsletter />
       <BottomFooter />
     </>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer
