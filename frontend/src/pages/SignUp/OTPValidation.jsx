@@ -63,7 +63,7 @@ const OTPValidation = () => {
       <MetaData title="OTP Validation - Nelami" />
       {/* <!--Breadcrumb Section--> */}
       <section>
-        <div className="bannerimg cover-image bg-background3" data-bs-image-src="../assets/images/banners/banner2.jpg">
+        <div className="bannerimg cover-image bg-background3">
           <div className="header-text mb-0">
             <div className="container">
               <div className="text-center text-white ">

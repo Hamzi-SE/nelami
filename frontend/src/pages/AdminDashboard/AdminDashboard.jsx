@@ -57,7 +57,7 @@ const AdminDashboard = () => {
             <MetaData title="Admin Dashboard" />
             {/* <!--Breadcrumb--> */}
             <section>
-                <div className="bannerimg cover-image bg-background3" data-bs-image-src="https://res.cloudinary.com/dwnvcgdsy/image/upload/v1661528469/biddingwebsiteavatars/banner2_jp08xz.webp">
+                <div className="bannerimg cover-image bg-background3">
                     <div className="header-text mb-0">
                         <div className="container">
                             <div className="text-center text-white ">

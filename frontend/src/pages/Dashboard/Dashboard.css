@@ -60,7 +60,7 @@
 }
 
 .bannerimg {
-    background: url(https://res.cloudinary.com/dwnvcgdsy/image/upload/v1661528469/biddingwebsiteavatars/banner2_jp08xz.webp) center center;
+    background: url("../../../public/bannerimg.webp") center center;
 }
 
 .smallcol {

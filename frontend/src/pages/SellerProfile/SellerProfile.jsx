@@ -55,7 +55,7 @@ const SellerProfile = () => {
     return (
         <>
             <div className="header-2 single-Seller-Page">
-                <div className="banner-1 cover-image sptb-2 bg-background" data-bs-image-src="../assets/images/banners/banner1.jpg">
+                <div className="banner-1 cover-image sptb-2 bg-background">
                     <div className="header-text1 mb-0">
                         <div className="container">
                             <div className="row">
