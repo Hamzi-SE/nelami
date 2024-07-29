@@ -4,3 +4,122 @@
   align-items: center;
   column-gap: 1em;
 }
+
+.user-dashboard .side-menu li button,
+.admin-dashboard .side-menu li button {
+  text-align: start !important;
+  width: 100% !important;
+  border-left: 0px !important;
+}
+
+.profile-pic-img img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.card-body .rdt_TableHead {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.card-body .rdt_TableHead .rdt_TableHeadRow > div {
+  border-top: 1px solid rgb(211, 211, 211);
+  border-right: 1px solid rgb(211, 211, 211);
+  border-left: 1px solid rgb(211, 211, 211);
+}
+
+/* .card-body .rdt_TableHeadRow>div:last-child {
+    flex: 1.4 !important;
+} */
+
+.card-body .rdt_TableRow {
+  border-bottom-width: 0px !important;
+  font-size: 14px;
+  color: #212529;
+}
+
+/* .card-body .rdt_TableRow #cell-6-undefined>button:last-child {
+    width: 27px !important;
+    height: 27px !important;
+} */
+
+/* .card-body .rdt_TableRow #cell-6-undefined>button:last-child>svg {
+    margin-left: -6px !important;
+    margin-top: -3px !important;
+} */
+
+.card-body .rdt_TableBody .rdt_TableRow .rdt_TableCell {
+  border: 1px solid rgb(211, 211, 211);
+}
+
+.card-body .rdt_TableBody .rdt_TableRow .rdt_TableCell img {
+  max-height: 65px;
+  object-fit: cover;
+  margin: 8px 0px;
+}
+
+.slide {
+  cursor: pointer;
+}
+
+.bannerimg {
+  background: url('../../../public/bannerimg.webp') center center;
+}
+
+.smallcol {
+  max-width: 100px;
+  text-align: left;
+}
+
+.largecol {
+  width: 250px;
+  text-align: left;
+}
+
+.filter-btns button {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  color: black !important;
+}
+
+.filter-btns button:hover {
+  color: #fff !important;
+}
+
+.filter-btns button:focus {
+  outline: none;
+  background-color: #6862ff;
+  color: #fff !important;
+}
+
+.side-menu__item {
+  background: #f9faff !important;
+  color: #6963ff !important;
+  border-right: 2px solid #6963ff !important;
+  border: none;
+}
+
+.side-menu__item:hover {
+  background: linear-gradient(to right, #3ba2ff, #6963ff) !important;
+  color: #fff !important;
+  cursor: pointer !important;
+}
+
+.side-menu__item.active-component {
+  background: linear-gradient(to right, #3ba2ff, #6963ff) !important;
+  color: #fff !important;
+}
+
+.side-menu__item:hover .side-menu__label,
+.side-menu__item:hover svg {
+  color: #fff !important;
+}
+
+/* .active-component {
+    background: linear-gradient(to right, #3ba2ff, #6963ff) !important;
+    color: #fff !important;
+} */
