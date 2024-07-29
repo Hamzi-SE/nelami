@@ -578,6 +578,7 @@ const PortionForm = () => {
                             </div>
                             <input
                               type="file"
+                              accept="image/*"
                               name="featuredImg"
                               onChange={handleInputChange}
                               className="form-control"
@@ -596,6 +597,7 @@ const PortionForm = () => {
                             </div>
                             <input
                               type="file"
+                              accept="image/*"
                               name="imageOne"
                               onChange={handleInputChange}
                               className="form-control"
@@ -614,6 +616,7 @@ const PortionForm = () => {
                             </div>
                             <input
                               type="file"
+                              accept="image/*"
                               name="imageTwo"
                               onChange={handleInputChange}
                               className="form-control"
@@ -632,6 +635,7 @@ const PortionForm = () => {
                             </div>
                             <input
                               type="file"
+                              accept="image/*"
                               name="imageThree"
                               onChange={handleInputChange}
                               className="form-control"

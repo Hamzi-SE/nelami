@@ -487,6 +487,7 @@ const EditProfile = () => {
                         className="form-control"
                         name="avatar"
                         type="file"
+                        accept="image/*"
                         onChange={handleChange}
                       />
                     </div>

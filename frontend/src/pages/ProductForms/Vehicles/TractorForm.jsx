@@ -256,6 +256,7 @@ const TractorForm = () => {
                             </div>
                             <input
                               type="file"
+                              accept="image/*"
                               name="featuredImg"
                               onChange={handleInputChange}
                               className="form-control"
@@ -273,6 +274,7 @@ const TractorForm = () => {
                             </div>
                             <input
                               type="file"
+                              accept="image/*"
                               name="imageOne"
                               onChange={handleInputChange}
                               className="form-control"
@@ -290,6 +292,7 @@ const TractorForm = () => {
                             </div>
                             <input
                               type="file"
+                              accept="image/*"
                               name="imgTwo"
                               onChange={handleInputChange}
                               className="form-control"
@@ -307,6 +310,7 @@ const TractorForm = () => {
                             </div>
                             <input
                               type="file"
+                              accept="image/*"
                               name="imageThree"
                               onChange={handleInputChange}
                               className="form-control"

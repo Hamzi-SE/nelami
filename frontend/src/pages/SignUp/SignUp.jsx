@@ -323,7 +323,7 @@ const SignUp = () => {
 
                         {/* <div className="form-group">
                           <label className="form-label text-dark">Profile Pic</label>
-                          <input type="file" name="avatar" onChange={handleChange} className="form-control" />
+                          <input type="file" accept="image/*" name="avatar" onChange={handleChange} className="form-control" />
                         </div> */}
 
                         {/* <div className="form-group">
