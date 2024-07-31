@@ -1,23 +1,60 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { NavLink, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import Loader from '../Loader/Loader'
+import './TopBar.css'
+import customFetch from '../../utils/api'
+import { ClipLoader } from 'react-spinners'
 
 const Topbar = () => {
-  const { user, isAuthenticated, loading } = useSelector((state) => state.user)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [notifications, setNotifications] = useState([])
+  const [loadingNotifications, setLoadingNotifications] = useState(false)
+  const [error, setError] = useState(null)
 
-  if (loading) {
-    return <Loader />
+  const location = useLocation()
+  const { user, isAuthenticated } = useSelector((state) => state.user)
+
+  useEffect(() => {
+    if (isDropdownOpen) {
+      const fetchNotifications = async () => {
+        setLoadingNotifications(true)
+        setError(null)
+        try {
+          const response = await customFetch('/api/v1/notification/all', {
+            method: 'GET',
+            'Content-Type': 'application/json',
+          })
+          if (!response.ok) {
+            throw new Error('Failed to fetch notifications')
+          }
+          const data = await response.json()
+          setNotifications(data.notifications)
+        } catch (err) {
+          setError(err.message)
+        } finally {
+          setLoadingNotifications(false)
+        }
+      }
+
+      fetchNotifications()
+    }
+  }, [isDropdownOpen])
+
+  useEffect(() => {
+    setIsDropdownOpen(false)
+  }, [location])
+
+  const handleDropdownToggle = () => {
+    setIsDropdownOpen(!isDropdownOpen)
   }
 
   return (
     <>
       {/* <!--Topbar--> */}
-
       <div className="top-bar">
         <div className="container">
           <div className="row">
-            <div className="col-xl-8 col-lg-8 col-sm-4 col-7">
+            <div className="col-xl-6 col-lg-6 col-sm-4 col-7">
               <div className="top-bar-left d-flex">
                 <div className="clearfix">
                   <ul className="socials">
@@ -57,7 +94,7 @@ const Topbar = () => {
                 </div>
               </div>
             </div>
-            <div className="col-xl-4 col-lg-4 col-sm-8 col-5">
+            <div className="col-xl-6 col-lg-6 col-sm-8 col-5">
               <div className="top-bar-right">
                 <ul className="custom">
                   {isAuthenticated || (
@@ -74,6 +111,52 @@ const Topbar = () => {
                         <i className="fa fa-sign-in me-1"></i>
                         <span>Login</span>
                       </NavLink>
+                    </li>
+                  )}
+                  {isAuthenticated && user?.role !== 'admin' && (
+                    <li className="dropdown">
+                      <div className="notification-dropdown">
+                        <button
+                          className="dropdown-toggle text-dark"
+                          onClick={handleDropdownToggle}
+                        >
+                          <i className="fa fa-bell me-1"></i>
+                          <span>Notifications</span>
+                        </button>
+                        {isDropdownOpen && (
+                          <ul
+                            className={`dropdown-menu ${isDropdownOpen ? 'show' : ''}`}
+                          >
+                            {loadingNotifications ? (
+                              <li className="d-flex justify-content-center align-items-center">
+                                <ClipLoader size={24} color="blue" />
+                              </li>
+                            ) : error ? (
+                              <li>Error: {error}</li>
+                            ) : notifications.length === 0 ? (
+                              <li className="d-flex justify-content-center align-items-center">
+                                No notifications
+                              </li>
+                            ) : (
+                              notifications.map((notification, index) => (
+                                <li key={index}>
+                                  {notification.link ? (
+                                    <NavLink to={notification.link}>
+                                      <i className="fa fa-external-link me-1"></i>{' '}
+                                      {notification.message}
+                                    </NavLink>
+                                  ) : (
+                                    <>
+                                      <i class="fa-solid fa-envelope-open me-1"></i>
+                                      {notification.message}
+                                    </>
+                                  )}
+                                </li>
+                              ))
+                            )}
+                          </ul>
+                        )}
+                      </div>
                     </li>
                   )}
                   {isAuthenticated && user?.role !== 'admin' && (
@@ -96,7 +179,7 @@ const Topbar = () => {
                     <li className="dropdown">
                       <NavLink to="/admin/Dashboard" className="text-dark show">
                         <i className="fa fa-home me-1"></i>
-                        <span>Dashboard</span>
+                        <span>Admin Dashboard</span>
                       </NavLink>
                     </li>
                   )}

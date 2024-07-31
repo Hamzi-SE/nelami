@@ -1,4 +1,4 @@
-import Topbar from './Topbar'
+import TopBar from './TopBar'
 import Navbar from './Navbar'
 import MobileHeader from './MobileHeader'
 
@@ -8,7 +8,7 @@ const Header = () => {
   return (
     <>
       <div className="header-main">
-        <Topbar />
+        <TopBar />
         <MobileHeader />
         <Navbar />
       </div>

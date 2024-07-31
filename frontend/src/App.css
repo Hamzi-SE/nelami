@@ -2390,7 +2390,7 @@ ul.dropdown-menu li.dropdown ul.dropdown-menu {
 
 .top-bar .dropdown-menu.show {
   display: block;
-  margin: 11px 0 0 0 !important;
+  margin: 11px 0 0 0;
 }
 
 .form-control {
