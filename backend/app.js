@@ -34,6 +34,7 @@ const messages = require('./routes/messageRoutes')
 const data = require('./routes/dataRoutes')
 const stats = require('./routes/statRoutes')
 const payment = require('./routes/paymentRoutes')
+const notification = require('./routes/notificationRoutes')
 
 app.use('/api/v1', user)
 app.use('/api/v1', product)
@@ -43,6 +44,7 @@ app.use('/api/v1', messages)
 app.use('/api/v1', data)
 app.use('/api/v1', stats)
 app.use('/api/v1', payment)
+app.use('/api/v1', notification)
 
 // MIDDLEWARE FOR ERROR
 app.use(errorMiddleware)

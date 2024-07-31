@@ -27,9 +27,18 @@ module.exports = (err, req, res, next) => {
     err = new ErrorHandler(message, 400)
   }
 
+  // Handling Mongoose Validation Error
+  if (err.name == 'ValidationError') {
+    const missingFields = Object.keys(err.errors)
+      .map((field) => `${field}`)
+      .join(', ')
+    const message = `Missing or invalid fields: ${missingFields}`
+    err = new ErrorHandler(message, 400)
+  }
+
   res.status(err.statusCode).json({
     success: false,
-    error: err.stack,
+    error: process.env.NODE_ENV === 'development' ? err.stack : undefined,
     message: err.message,
   })
 }

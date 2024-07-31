@@ -1,9 +1,11 @@
 const Conversation = require('../models/conversationModel')
 const Message = require('../models/messageModel')
 const sendEmail = require('../utils/sendEmail')
+const ErrorHandler = require('../utils/errorHandler')
+const catchAsyncErrors = require('../middleware/catchAsyncErrors')
 
 // Add
-exports.createMessage = async (req, res, next) => {
+exports.createMessage = catchAsyncErrors(async (req, res, next) => {
   const messageObj = new Message(req.body)
 
   try {
@@ -23,14 +25,12 @@ exports.createMessage = async (req, res, next) => {
       savedMessage,
     })
   } catch (err) {
-    res.status(500).json({
-      message: err.message,
-    })
+    return next(new ErrorHandler(err.message, 500))
   }
-}
+})
 
 // Get all messages
-exports.getAllMessages = async (req, res, next) => {
+exports.getAllMessages = catchAsyncErrors(async (req, res, next) => {
   try {
     const messages = await Message.find({
       conversationId: req.params.conversationId,
@@ -41,14 +41,12 @@ exports.getAllMessages = async (req, res, next) => {
       messages,
     })
   } catch (err) {
-    res.status(500).json({
-      message: err.message,
-    })
+    return next(new ErrorHandler(err.message, 500))
   }
-}
+})
 
 //Send Mail to Admin (Contact Page)
-exports.sendMailToAdmin = async (req, res, next) => {
+exports.sendMailToAdmin = catchAsyncErrors(async (req, res, next) => {
   const { name, email, message } = req.body
 
   const emailData = { name, email, message }
@@ -63,9 +61,6 @@ exports.sendMailToAdmin = async (req, res, next) => {
       message: 'Email sent successfully. We will get back to you soon.',
     })
   } catch (err) {
-    console.log('Error in sending Email:', err)
-    res.status(500).json({
-      message: err.message,
-    })
+    return next(new ErrorHandler(err.message, 500))
   }
-}
+})
