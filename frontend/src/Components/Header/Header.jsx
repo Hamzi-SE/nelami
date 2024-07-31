@@ -1,4 +1,4 @@
-import TopBar from './TopBar'
+import TopBar from './TopBar.jsx'
 import Navbar from './Navbar'
 import MobileHeader from './MobileHeader'
 

@@ -5,7 +5,7 @@ import './TopBar.css'
 import customFetch from '../../utils/api'
 import { ClipLoader } from 'react-spinners'
 
-const Topbar = () => {
+const TopBar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [notifications, setNotifications] = useState([])
   const [loadingNotifications, setLoadingNotifications] = useState(false)
@@ -201,4 +201,4 @@ const Topbar = () => {
   )
 }
 
-export default Topbar
+export default TopBar
