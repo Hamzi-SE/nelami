@@ -57,3 +57,10 @@
 .notification-dropdown .dropdown-menu.show {
   display: block;
 }
+
+/* media query for mobile */
+@media (max-width: 568px) {
+  .notification-dropdown .dropdown-toggle span {
+    display: none;
+  }
+}
