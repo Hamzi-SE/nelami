@@ -229,6 +229,30 @@ const SingleProduct = () => {
     <h1 className="auction-complete">Auction Ended!</h1>
   )
 
+  let highestBid = 0
+  let highestBidder = null
+
+  const getHighestBidder = () => {
+    if (!bidders || bidders.length === 0) {
+      return null
+    }
+
+    bidders.forEach((bidderGroup) => {
+      bidderGroup.bidders.forEach((bid) => {
+        if (bid.price > highestBid) {
+          highestBid = bid.price
+          highestBidder = bid.user
+        }
+      })
+    })
+
+    return highestBidder
+  }
+
+  if (product?.bidStatus === 'Expired') {
+    highestBidder = getHighestBidder()
+  }
+
   if (loading || conversationLoading) {
     return <Loader />
   }
@@ -680,9 +704,10 @@ const SingleProduct = () => {
 
                 {/* <!-- Button trigger modal --> */}
                 {auctionTimeRemaining < 0 ||
-                product?.bidStatus === 'Expired' ? (
+                (product?.bidStatus === 'Expired' && bidders?.length > 0) ? (
                   <h3 className="text-warning text-center">
-                    Bidding has ended for this product
+                    <i class="fa fa-crown"></i> {highestBidder?.name} won the
+                    bid with a price of Rs. {highestBid.toLocaleString()}
                   </h3>
                 ) : (
                   <button
@@ -773,6 +798,16 @@ const SingleProduct = () => {
                                     <div
                                       key={index}
                                       className="bidder-data d-flex my-3"
+                                      style={{
+                                        border:
+                                          index === 0
+                                            ? '2px solid #FFD700'
+                                            : index === 1
+                                              ? '2px solid #C0C0C0'
+                                              : index === 2
+                                                ? '2px solid #cd7f32'
+                                                : '',
+                                      }}
                                     >
                                       <div className="userindex">
                                         <span>{index + 1}</span>{' '}

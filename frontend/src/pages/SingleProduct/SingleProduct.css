@@ -295,6 +295,8 @@
   gap: 5px;
   align-items: Center;
   justify-content: center;
+  padding: 4px 8px;
+  border-radius: 20px;
 }
 
 .userindex {
