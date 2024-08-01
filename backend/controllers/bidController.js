@@ -2,6 +2,8 @@ const Bid = require('../models/bidModel')
 const Product = require('../models/productModel')
 const ErrorHandler = require('../utils/errorHandler')
 const catchAsyncErrors = require('../middleware/catchAsyncErrors')
+const Notification = require('../models/notificationModel')
+const eventEmitter = require('../utils/eventEmitter')
 
 // Create new Bid
 exports.newBid = catchAsyncErrors(async (req, res, next) => {
@@ -34,8 +36,19 @@ exports.newBid = catchAsyncErrors(async (req, res, next) => {
 
   // Check if a bid already exists for this product and user
   let bid = await Bid.findOne({ bidItem: productId })
+  let outbidBidders = []
 
   if (bid) {
+    // Determine the new highest bid
+    const highestBid = Math.max(price, ...bid.bidders.map((b) => b.price))
+
+    // Find bidders who are outbid (i.e., their bids are less than the new highest bid)
+    outbidBidders = bid.bidders.filter(
+      (bidder) =>
+        bidder.price < highestBid &&
+        bidder.user.toString() !== userId.toString()
+    )
+
     // Check if the user has already placed a bid
     const userBid = bid.bidders.find(
       (bidder) => bidder.user.toString() === userId.toString()
@@ -70,6 +83,21 @@ exports.newBid = catchAsyncErrors(async (req, res, next) => {
       newPresentBid: newBid,
     })
   }
+
+  // Create and emit notifications for outbid bidders asynchronously
+  process.nextTick(async () => {
+    const notificationPromises = outbidBidders.map(async (outbidder) => {
+      const notification = new Notification({
+        userId: outbidder.user,
+        message: `You have been outbid on the product: ${product.title.substring(0, 20)}...`,
+        link: `/product/${productId}`,
+      })
+      await notification.save()
+      eventEmitter.emit('notificationCreated', notification)
+    })
+
+    await Promise.all(notificationPromises)
+  })
 })
 
 //Get Single Product Bids

@@ -3,11 +3,12 @@ import { toast } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import customFetch from '../../utils/api'
-import { socket } from '../../helpers/SocketConnect'
+import { useSocket } from '../../hooks/useSocket'
 
 const Logout = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const socket = useSocket()
 
   const { user } = useSelector((state) => state.user)
 

@@ -19,6 +19,7 @@ import {
   userReducer,
 } from './reducers/userReducer'
 import { packageReducer, paymentReducer } from './reducers/packageReducers'
+import { notificationReducer } from './reducers/notificationReducers'
 
 const store = configureStore({
   reducer: {
@@ -40,6 +41,7 @@ const store = configureStore({
     conversations: conversationsReducer,
     package: packageReducer,
     payment: paymentReducer,
+    notifications: notificationReducer,
   },
 })
 

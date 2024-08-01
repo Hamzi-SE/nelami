@@ -1,51 +1,113 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import './TopBar.css'
 import customFetch from '../../utils/api'
 import { ClipLoader } from 'react-spinners'
+import { useSocket } from '../../hooks/useSocket'
+import toast from 'react-hot-toast'
 
 const TopBar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const [notifications, setNotifications] = useState([])
-  const [loadingNotifications, setLoadingNotifications] = useState(false)
-  const [error, setError] = useState(null)
+  const { user, isAuthenticated } = useSelector((state) => state.user)
+  const { notifications, loading, error } = useSelector(
+    (state) => state.notifications
+  )
 
   const location = useLocation()
-  const { user, isAuthenticated } = useSelector((state) => state.user)
+  const dispatch = useDispatch()
+  const socket = useSocket()
 
   useEffect(() => {
-    if (isDropdownOpen) {
-      const fetchNotifications = async () => {
-        setLoadingNotifications(true)
-        setError(null)
-        try {
-          const response = await customFetch('/api/v1/notification/all', {
-            method: 'GET',
+    // Fetch notifications once per page load
+    const fetchNotifications = async () => {
+      dispatch({ type: 'GET_NOTIFICATIONS_REQUEST' })
+      try {
+        const response = await customFetch('/api/v1/notification/all', {
+          method: 'GET',
+          headers: {
             'Content-Type': 'application/json',
-          })
-          if (!response.ok) {
-            throw new Error('Failed to fetch notifications')
-          }
-          const data = await response.json()
-          setNotifications(data.notifications)
-        } catch (err) {
-          setError(err.message)
-        } finally {
-          setLoadingNotifications(false)
-        }
+          },
+        })
+        const data = await response.json()
+        dispatch({
+          type: 'GET_NOTIFICATIONS_SUCCESS',
+          payload: data.notifications,
+        })
+      } catch (err) {
+        dispatch({ type: 'GET_NOTIFICATIONS_FAIL', payload: err.message })
       }
+    }
 
+    if (isAuthenticated) {
       fetchNotifications()
     }
-  }, [isDropdownOpen])
+  }, [dispatch, isAuthenticated])
 
   useEffect(() => {
     setIsDropdownOpen(false)
   }, [location])
 
+  useEffect(() => {
+    // Setup WebSocket listener for notifications
+    const handleNotification = (notification) => {
+      dispatch({ type: 'ADD_NOTIFICATION', payload: notification })
+      playNotificationSound()
+    }
+
+    if (isAuthenticated) {
+      socket.on('getNotification', handleNotification)
+    }
+
+    // Cleanup function to remove the WebSocket listener
+    return () => {
+      if (isAuthenticated) {
+        socket.off('getNotification', handleNotification)
+      }
+    }
+  }, [dispatch, isAuthenticated, socket])
+
   const handleDropdownToggle = () => {
     setIsDropdownOpen(!isDropdownOpen)
+  }
+
+  const playNotificationSound = () => {
+    const audio = new Audio('/notification-sound.mp3')
+    audio.play().catch((error) => {
+      console.error('Error playing audio:', error)
+    })
+  }
+
+  const handleMarkAsRead = async (notificationId) => {
+    try {
+      const response = await customFetch('/api/v1/notification/mark-as-read', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ notificationId }),
+      })
+      const data = await response.json()
+      if (response.ok) {
+        dispatch({
+          type: 'MARK_NOTIFICATION_AS_READ',
+          payload: data.notification._id,
+        })
+      } else {
+        toast.error(
+          data?.message || 'Failed to mark as read. Please try again.'
+        )
+        dispatch({
+          type: 'MARK_NOTIFICATION_AS_READ_FAIL',
+          payload: data.message,
+        })
+      }
+    } catch (error) {
+      dispatch({
+        type: 'MARK_NOTIFICATION_AS_READ_FAIL',
+        payload: error.message,
+      })
+    }
   }
 
   return (
@@ -122,34 +184,71 @@ const TopBar = () => {
                         >
                           <i className="fa fa-bell me-1"></i>
                           <span>Notifications</span>
+                          {notifications?.filter(
+                            (notification) => !notification.read
+                          ).length > 0 && (
+                            <p className="badge bg-danger text-white notifications-count">
+                              {
+                                notifications?.filter(
+                                  (notification) => !notification.read
+                                ).length
+                              }
+                            </p>
+                          )}
                         </button>
                         {isDropdownOpen && (
                           <ul
                             className={`dropdown-menu ${isDropdownOpen ? 'show' : ''}`}
                           >
-                            {loadingNotifications ? (
+                            {loading ? (
                               <li className="d-flex justify-content-center align-items-center">
                                 <ClipLoader size={24} color="blue" />
                               </li>
                             ) : error ? (
                               <li>Error: {error}</li>
-                            ) : notifications.length === 0 ? (
+                            ) : notifications?.length === 0 ? (
                               <li className="d-flex justify-content-center align-items-center">
                                 No notifications
                               </li>
                             ) : (
-                              notifications.map((notification, index) => (
-                                <li key={index}>
+                              notifications?.map((notification, index) => (
+                                <li
+                                  key={index}
+                                  style={{
+                                    fontWeight: !notification.read
+                                      ? 'bold'
+                                      : '',
+                                  }}
+                                >
                                   {notification.link ? (
-                                    <NavLink to={notification.link}>
+                                    <NavLink
+                                      to={notification.link}
+                                      style={{
+                                        fontWeight: !notification.read
+                                          ? 'bold'
+                                          : '',
+                                      }}
+                                    >
                                       <i className="fa fa-external-link me-1"></i>{' '}
                                       {notification.message}
                                     </NavLink>
                                   ) : (
-                                    <>
-                                      <i class="fa-solid fa-envelope-open me-1"></i>
+                                    <div>
+                                      <i className="fa-solid fa-envelope-open me-1"></i>
                                       {notification.message}
-                                    </>
+                                    </div>
+                                  )}
+                                  {/* mark as read button */}
+                                  {!notification.read && (
+                                    <button
+                                      title="Mark as read"
+                                      className="btn btn-sm btn-primary"
+                                      onClick={() =>
+                                        handleMarkAsRead(notification._id)
+                                      }
+                                    >
+                                      <i className="fa fa-check text-white"></i>{' '}
+                                    </button>
                                   )}
                                 </li>
                               ))

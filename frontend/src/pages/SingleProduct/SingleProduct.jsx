@@ -706,8 +706,8 @@ const SingleProduct = () => {
                 {auctionTimeRemaining < 0 ||
                 (product?.bidStatus === 'Expired' && bidders?.length > 0) ? (
                   <h3 className="text-warning text-center">
-                    <i class="fa fa-crown"></i> {highestBidder?.name} won the
-                    bid with a price of Rs. {highestBid.toLocaleString()}
+                    <i className="fa fa-crown"></i> {highestBidder?.name} won
+                    the bid with a price of Rs. {highestBid.toLocaleString()}
                   </h3>
                 ) : product?.bidStatus === 'Expired' &&
                   bidders?.length === 0 ? (

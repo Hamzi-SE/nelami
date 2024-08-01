@@ -11,6 +11,6 @@ const { isAuthenticatedUser } = require('../middleware/auth')
 
 router.route('/notification/new').post(createNotification)
 router.route('/notification/all').get(isAuthenticatedUser, getNotifications)
-router.route('/notification/mark-as-read/:id').get(markAsRead)
+router.route('/notification/mark-as-read').put(isAuthenticatedUser, markAsRead)
 
 module.exports = router

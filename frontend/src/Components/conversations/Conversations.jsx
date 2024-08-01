@@ -1,8 +1,8 @@
 import { formatDistanceToNow } from 'date-fns'
 import './conversations.css'
 import { useState, useEffect } from 'react'
-import { socket } from '../../helpers/SocketConnect'
 import { useDispatch } from 'react-redux'
+import { useSocket } from '../../hooks/useSocket'
 
 const Conversations = ({
   currentUser,
@@ -15,6 +15,7 @@ const Conversations = ({
   const friendId = conversation.members.find((m) => m !== currentUser._id)
   const friend = friendsData[friendId]
   const dispatch = useDispatch()
+  const socket = useSocket()
 
   const [lastActiveState, setLastActiveState] = useState(
     friend?.lastActive || null
@@ -72,7 +73,7 @@ const Conversations = ({
       socket.off('updateLastActive', handleUpdateLastActive)
       clearInterval(intervalId)
     }
-  }, [friendId, friend?.lastActive, conversation?.members])
+  }, [friendId, friend?.lastActive, conversation?.members, socket])
 
   return (
     friend && (

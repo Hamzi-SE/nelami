@@ -6,12 +6,13 @@ import MetaData from '../../utils/MetaData'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../../Components/Loader/Loader'
 import customFetch from '../../utils/api'
-import { socket } from '../../helpers/SocketConnect'
+import { useSocket } from '../../hooks/useSocket'
 
 const Login = () => {
   const { loading } = useSelector((state) => state.user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const socket = useSocket()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')

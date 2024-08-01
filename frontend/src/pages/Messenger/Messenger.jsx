@@ -10,13 +10,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import Loader from '../../Components/Loader/Loader'
 import customFetch from '../../utils/api'
 import { useNavigate } from 'react-router-dom'
-import { socket } from '../../helpers/SocketConnect'
 import { formatDistanceToNow } from 'date-fns'
 import { IoMdArrowRoundBack } from 'react-icons/io'
+import { useSocket } from '../../hooks/useSocket'
 
 const Messenger = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const socket = useSocket()
   const {
     user,
     loading: userLoading,
@@ -72,7 +73,7 @@ const Messenger = () => {
         [conversationId]: isTyping,
       }))
     })
-  }, [currentChat])
+  }, [currentChat, socket])
 
   useEffect(() => {
     if (newMessage.trim() !== '') {
@@ -95,7 +96,7 @@ const Messenger = () => {
         [currentChat?._id]: false,
       }))
     }
-  }, [newMessage, currentChat, user?._id])
+  }, [newMessage, currentChat, user?._id, socket])
 
   useEffect(() => {
     arrivalMessage &&
@@ -116,7 +117,7 @@ const Messenger = () => {
     socket.on('getUsers', (users) => {
       setLiveUsers(users)
     })
-  }, [user])
+  }, [user, socket])
 
   const onEmojiClick = (event, emojiObject) => {
     setNewMessage((prevInput) => prevInput + emojiObject.emoji)
@@ -297,7 +298,7 @@ const Messenger = () => {
       socket.off('updateLastActive', handleUpdateLastActive)
       clearInterval(intervalId)
     }
-  }, [currentChat, currentChat?.members, lastActive])
+  }, [currentChat, currentChat?.members, lastActive, socket])
 
   const handleBackToConversations = () => {
     setCurrentChat(null)

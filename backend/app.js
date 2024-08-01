@@ -6,6 +6,8 @@ const bodyParser = require('body-parser')
 const { Server } = require('socket.io')
 const { createServer } = require('http')
 const User = require('./models/userModel')
+const ErrorHandler = require('./utils/errorHandler')
+const eventEmitter = require('./utils/eventEmitter')
 require('./utils/cloudinary')
 const dotenv = require('dotenv')
 dotenv.config({ path: 'config/config.env' })
@@ -35,7 +37,6 @@ const data = require('./routes/dataRoutes')
 const stats = require('./routes/statRoutes')
 const payment = require('./routes/paymentRoutes')
 const notification = require('./routes/notificationRoutes')
-const ErrorHandler = require('./utils/errorHandler')
 
 app.use('/api/v1', user)
 app.use('/api/v1', product)
@@ -112,6 +113,13 @@ const removeUser = async (userId, socketId) => {
 const getUser = (userId) => {
   return users.find((user) => user.userId === userId)
 }
+
+eventEmitter.on('notificationCreated', (notification) => {
+  const user = getUser(notification.userId.toString())
+  if (user) {
+    io.to(user.socketId).emit('getNotification', notification)
+  }
+})
 
 io.on('connection', (socket) => {
   socket.on('addUser', async (userId) => {
