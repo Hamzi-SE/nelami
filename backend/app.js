@@ -35,6 +35,7 @@ const data = require('./routes/dataRoutes')
 const stats = require('./routes/statRoutes')
 const payment = require('./routes/paymentRoutes')
 const notification = require('./routes/notificationRoutes')
+const ErrorHandler = require('./utils/errorHandler')
 
 app.use('/api/v1', user)
 app.use('/api/v1', product)
@@ -45,6 +46,20 @@ app.use('/api/v1', data)
 app.use('/api/v1', stats)
 app.use('/api/v1', payment)
 app.use('/api/v1', notification)
+
+// testing api
+app.get('/health', (req, res, next) => {
+  res.status(200).json({
+    success: true,
+    message: 'Server is healthy',
+  })
+})
+
+// unknown route handler
+app.all('*', (req, res, next) => {
+  const error = new ErrorHandler(`Route ${req.originalUrl} not found`, 404)
+  next(error)
+})
 
 // MIDDLEWARE FOR ERROR
 app.use(errorMiddleware)
