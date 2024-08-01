@@ -709,6 +709,11 @@ const SingleProduct = () => {
                     <i class="fa fa-crown"></i> {highestBidder?.name} won the
                     bid with a price of Rs. {highestBid.toLocaleString()}
                   </h3>
+                ) : product?.bidStatus === 'Expired' &&
+                  bidders?.length === 0 ? (
+                  <h3 className="text-warning text-center">
+                    This bidding has been expired with no bidders
+                  </h3>
                 ) : (
                   <button
                     type="button"
@@ -833,7 +838,11 @@ const SingleProduct = () => {
                           )
                         })
                       ) : (
-                        <h4>No bidders yet on this product</h4>
+                        <h4 className="text-center">
+                          No bidders{' '}
+                          {product?.bidStatus !== 'Expired' ? 'yet' : ''} on
+                          this product
+                        </h4>
                       )}
                     </li>
                   </ul>
