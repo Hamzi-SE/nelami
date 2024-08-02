@@ -43,6 +43,7 @@ const store = configureStore({
     payment: paymentReducer,
     notifications: notificationReducer,
   },
+  devTools: process.env.NODE_ENV !== 'production',
 })
 
 export default store
