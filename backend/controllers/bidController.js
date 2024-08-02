@@ -89,7 +89,7 @@ exports.newBid = catchAsyncErrors(async (req, res, next) => {
     const notificationPromises = outbidBidders.map(async (outbidder) => {
       const notification = new Notification({
         userId: outbidder.user,
-        message: `You have been outbid on the product: ${product.title.substring(0, 20)}...`,
+        message: `${req.user.name.split(' ')[0]} has outbid you on the product: ${product.title.substring(0, 20)}...`,
         link: `/product/${productId}`,
       })
       await notification.save()
