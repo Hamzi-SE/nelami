@@ -5448,11 +5448,11 @@ dd {
 
 /*--banners--*/
 .banner-1 {
-  background: url('../public/banner-1.webp') center center;
+  background: url('/banner-1.webp') center center;
 }
 
 .bannerimg {
-  background: url('../public/bannerimg.webp') center center;
+  background: url('/bannerimg.webp') center center;
 }
 
 .home-search-banner {

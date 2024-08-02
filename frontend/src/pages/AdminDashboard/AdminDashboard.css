@@ -66,7 +66,7 @@
 }
 
 .bannerimg {
-  background: url('../../../public/bannerimg.webp') center center;
+  background: url('/bannerimg.webp') center center;
 }
 
 .smallcol {
