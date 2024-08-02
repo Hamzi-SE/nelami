@@ -94,10 +94,33 @@ const SingleProduct = () => {
     }
   }
 
+  const getBidders = async () => {
+    // setLoading(true);
+    try {
+      const res = await customFetch(`/api/v1/bid/product/${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+
+      try {
+        const data = await res.json()
+        setBidders(data.bids)
+      } catch (error) {
+        console.log(error)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+
+    // setLoading(false);
+  }
+
   useEffect(() => {
+    getBidders()
     getSingleProduct()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [id])
 
   const handleBidSubmit = async (e) => {
     dispatch({ type: 'BID_REQUEST' })
@@ -151,34 +174,6 @@ const SingleProduct = () => {
     document.getElementsByClassName('modal-backdrop')[0].remove()
     document.getElementById('bidModal').classList.remove('show')
   }
-
-  const getBidders = async () => {
-    // setLoading(true);
-    try {
-      const res = await customFetch(`/api/v1/bid/product/${id}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-
-      try {
-        const data = await res.json()
-        setBidders(data.bids)
-      } catch (error) {
-        console.log(error)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-
-    // setLoading(false);
-  }
-
-  useEffect(() => {
-    getBidders()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const startConversation = async () => {
     dispatch({ type: 'CREATE_CONVERSATION_REQUEST' })
