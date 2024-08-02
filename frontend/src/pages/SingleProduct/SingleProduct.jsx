@@ -5,6 +5,7 @@ import './SingleProduct.css'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 //Slider
 import { Slide } from 'react-slideshow-image'
@@ -39,7 +40,9 @@ const SingleProduct = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { user } = useSelector((state) => state.user)
-  const { loading, product } = useSelector((state) => state.singleProduct)
+  const { loading, product, error } = useSelector(
+    (state) => state.singleProduct
+  )
   const conversationLoading = useSelector((state) => state.conversation.loading)
   const { id } = useParams()
   const [seller, setSeller] = useState({})
@@ -50,6 +53,7 @@ const SingleProduct = () => {
 
   const getSingleProduct = async () => {
     dispatch({ type: 'SINGLE_PRODUCT_REQUEST' })
+
     try {
       const res = await customFetch(`/api/v1/products/${id}`, {
         method: 'GET',
@@ -58,48 +62,35 @@ const SingleProduct = () => {
         },
       })
 
-      try {
-        const data = await res.json()
+      const data = await res.json()
+
+      if (data?.product) {
         dispatch({ type: 'SINGLE_PRODUCT_SUCCESS', payload: data.product })
         setSeller(data.product.user)
 
-        //Push Images to array
-        if (data.product.images.featuredImg) {
-          setProductImages((oldArray) => [
-            ...oldArray,
-            data.product.images.featuredImg.url,
-          ])
-        }
-        if (data.product.images.imageOne) {
-          setProductImages((oldArray) => [
-            ...oldArray,
-            data.product.images.imageOne.url,
-          ])
-        }
-        if (data.product.images.imageTwo) {
-          setProductImages((oldArray) => [
-            ...oldArray,
-            data.product.images.imageTwo.url,
-          ])
-        }
-        if (data.product.images.imageThree) {
-          setProductImages((oldArray) => [
-            ...oldArray,
-            data.product.images.imageThree.url,
-          ])
-        }
+        // Clear previous images and push new images to the array
+        setProductImages(
+          [
+            data.product.images.featuredImg?.url,
+            data.product.images.imageOne?.url,
+            data.product.images.imageTwo?.url,
+            data.product.images.imageThree?.url,
+          ].filter(Boolean)
+        ) // Filter out any undefined or null values
 
-        //Calculate & set the time remaining for the auction
-        setAuctionTimeRemaining(
-          new Date(data.product.endDate).getTime() - new Date().getTime()
-        )
-      } catch (error) {
-        dispatch({ type: 'SINGLE_PRODUCT_FAIL', payload: error })
-        console.log(error)
+        // Calculate & set the time remaining for the auction
+        const endDate = new Date(data.product.endDate).getTime()
+        const currentTime = new Date().getTime()
+        setAuctionTimeRemaining(endDate - currentTime)
+      } else {
+        // Handle case when product is not found in the response
+        dispatch({ type: 'SINGLE_PRODUCT_FAIL', payload: 'Product not found' })
       }
     } catch (error) {
-      dispatch({ type: 'SINGLE_PRODUCT_FAIL', payload: error })
-      console.log(error)
+      dispatch({
+        type: 'SINGLE_PRODUCT_FAIL',
+        payload: error.message || 'An error occurred',
+      })
     }
   }
 
@@ -260,7 +251,7 @@ const SingleProduct = () => {
   return (
     <>
       <MetaData
-        title={product?.title + ' - Nelami'}
+        title={!product ? 'Product Not Found' : product?.title + ' - Nelami'}
         description={product?.description}
       />
       {/* <!-- Modal --> */}
@@ -854,7 +845,22 @@ const SingleProduct = () => {
           </div>
         </div>
       ) : (
-        <h3 className="text-center my-5">Product Not Found</h3>
+        <div className="product-not-found-container d-flex flex-column my-3 h-100 w-100 justify-content-center align-items-center">
+          <img
+            src="/page_not_found.svg"
+            alt="Product Not Found"
+            style={{ maxWidth: '100%', height: 'auto' }}
+          />
+          {/* error */}
+          {error && (
+            <h2 className="my-5">
+              Reason: <strong>{error}</strong>
+            </h2>
+          )}
+          <Link to="/" className="btn btn-primary my-3">
+            Go to Home Page
+          </Link>
+        </div>
       )}
     </>
   )

@@ -314,3 +314,10 @@
   color: #fff;
   font-weight: 500;
 }
+
+.product-not-found-container {
+  background-color: #f8f9fa;
+  min-height: 75vh;
+  text-align: center;
+  padding: 50px;
+}
