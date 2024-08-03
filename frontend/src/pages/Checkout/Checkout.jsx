@@ -150,7 +150,7 @@ const Checkout = () => {
 
   useEffect(() => {
     if (userLoading) {
-      ;<Loader />
+      return <Loader />
     }
     if (!userLoading && !isAuthenticated) {
       toast.error(`Please Login to upgrade your plan`)
