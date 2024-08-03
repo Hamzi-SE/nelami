@@ -24,7 +24,7 @@ const Logout = () => {
     const data = await res.json()
 
     if (res.status === 200) {
-      socket.emit('removeUserFromLiveUsers', user?._id)
+      socket && socket.emit('removeUserFromLiveUsers', user?._id)
       document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
       dispatch({ type: 'LOGOUT_USER_SUCCESS' })
       dispatch({ type: 'RESET_ACTIVE_COMPONENT' })

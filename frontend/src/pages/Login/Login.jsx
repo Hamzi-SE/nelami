@@ -42,7 +42,7 @@ const Login = () => {
 
     if (res.status === 200) {
       dispatch({ type: 'LOGIN_USER_SUCCESS', payload: data.user })
-      socket.emit('addUser', data.user?._id)
+      socket && socket.emit('addUser', data.user?._id)
       toast.success('Logged In Successfully')
       navigate('/', { replace: true })
       window.scrollTo(0, 0)
