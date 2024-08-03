@@ -1,4 +1,3 @@
-// src/contexts/SocketContext.js
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import io from 'socket.io-client'
 import { useSelector } from 'react-redux'
@@ -12,26 +11,26 @@ export const SocketProvider = ({ children }) => {
   const { user, isAuthenticated, loading } = useSelector((state) => state.user)
 
   useEffect(() => {
-    // Initialize the socket connection
-    const socketInstance = io.connect(process.env.REACT_APP_SOCKET_URL, {
-      transports: ['websocket', 'polling'],
-      reconnection: true,
-      reconnectionAttempts: Infinity,
-      reconnectionDelay: 2000,
-    })
+    // Initialize the socket connection only when not loading and user is authenticated
+    if (!loading && isAuthenticated) {
+      const socketInstance = io.connect(process.env.REACT_APP_SOCKET_URL, {
+        transports: ['websocket', 'polling'],
+        reconnection: true,
+        reconnectionAttempts: Infinity,
+        reconnectionDelay: 2000,
+      })
 
-    // Set the socket instance
-    setSocket(socketInstance)
+      // Set the socket instance
+      setSocket(socketInstance)
 
-    socketInstance.on('connect', () => {
-      if (isAuthenticated && !loading) {
+      socketInstance.on('connect', () => {
         socketInstance.emit('addUser', user?._id)
-      }
-    })
+      })
 
-    // Clean up on component unmount
-    return () => {
-      socketInstance.disconnect()
+      // Clean up on component unmount
+      return () => {
+        socketInstance.disconnect()
+      }
     }
   }, [isAuthenticated, loading, user?._id])
 

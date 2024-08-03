@@ -55,13 +55,13 @@ const TopBar = () => {
       playNotificationSound()
     }
 
-    if (isAuthenticated) {
+    if (isAuthenticated && socket) {
       socket.on('getNotification', handleNotification)
     }
 
     // Cleanup function to remove the WebSocket listener
     return () => {
-      if (isAuthenticated) {
+      if (isAuthenticated && socket) {
         socket.off('getNotification', handleNotification)
       }
     }
