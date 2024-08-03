@@ -16,7 +16,8 @@ export const SocketProvider = ({ children }) => {
     const socketInstance = io.connect(process.env.REACT_APP_SOCKET_URL, {
       transports: ['websocket', 'polling'],
       reconnection: true,
-      reconnectionAttempts: 5,
+      reconnectionAttempts: Infinity,
+      reconnectionDelay: 2000,
     })
 
     // Set the socket instance
