@@ -4,6 +4,7 @@ const Data = require('../models/dataModel')
 const User = require('../models/userModel')
 const Notification = require('../models/notificationModel')
 const ErrorHandler = require('../utils/errorHandler')
+const eventEmitter = require('../utils/eventEmitter')
 dotenv.config({ path: 'config/config.env' })
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
