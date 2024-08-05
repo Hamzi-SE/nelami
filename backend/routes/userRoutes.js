@@ -15,7 +15,6 @@ const {
   addProductToWishlist,
   getWishlistItems,
   getSellerDetails,
-  upgradeUserPackage,
 } = require('../controllers/userController')
 const { isAuthenticatedUser, authorizeRole } = require('../middleware/auth')
 
@@ -42,8 +41,6 @@ router.route('/me/update').put(isAuthenticatedUser, updateProfile)
 
 router.route('/addToWishlist').post(isAuthenticatedUser, addProductToWishlist)
 router.route('/getWishlist').get(isAuthenticatedUser, getWishlistItems)
-
-router.route('/upgradePlan').put(isAuthenticatedUser, upgradeUserPackage)
 
 router
   .route('/admin/users')

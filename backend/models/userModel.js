@@ -73,6 +73,16 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    paymentDetails: [
+      {
+        sessionId: { type: String },
+        customerId: { type: String },
+        paymentStatus: { type: String },
+        paymentDate: { type: Date },
+        price: { type: Number },
+        paymentId: { type: String },
+      },
+    ],
 
     resetPasswordToken: String,
     resetPasswordExpire: Date,

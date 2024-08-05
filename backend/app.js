@@ -2,7 +2,6 @@ const express = require('express')
 const errorMiddleware = require('./middleware/error')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
-const bodyParser = require('body-parser')
 const { Server } = require('socket.io')
 const { createServer } = require('http')
 const User = require('./models/userModel')
@@ -15,10 +14,11 @@ dotenv.config({ path: 'config/config.env' })
 const app = express()
 const socketServer = createServer(app)
 
-app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }))
+// raw data is required for stripe webhook
+app.use('/api/v1/payment/stripe/webhook', express.raw({ type: '*/*' }))
 app.use(cookieParser())
 app.use(express.json({ limit: '50mb' }))
-app.use(express.urlencoded({ limit: '50mb', extended: true }))
+app.use(express.urlencoded({ extended: true, limit: '50mb' }))
 app.use(
   cors({
     origin: process.env.FRONTEND_URL || 'http://localhost:3000',

@@ -1,18 +1,15 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react'
-import { Navigate, Routes, Route, useLocation } from 'react-router-dom'
+import React, { lazy, Suspense, useEffect } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
-import { Elements } from '@stripe/react-stripe-js'
-import { loadStripe } from '@stripe/stripe-js'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 
 // Component Imports
-import Header from './Components/Header/Header'
 import Footer from './Components/Footer/Footer'
+import Header from './Components/Header/Header'
 import MetaData from './utils/MetaData'
 
-import { getData } from './helpers/GetData'
 import { callProfile } from './helpers/CallProfile'
-import customFetch from './utils/api'
+import { getData } from './helpers/GetData'
 
 import './App.css'
 import Loader from './Components/Loader/Loader'
@@ -48,6 +45,8 @@ const PackagesPricing = lazy(
   () => import('./pages/PackagesPricing/PackagesPricing')
 )
 const Checkout = lazy(() => import('./pages/Checkout/Checkout'))
+const PaymentSuccess = lazy(() => import('./pages/Payment/PaymentSuccess'))
+const PaymentFail = lazy(() => import('./pages/Payment/PaymentFail'))
 
 // Admin Imports
 const AdminLogin = lazy(() => import('./pages/Login/AdminLogin'))
@@ -91,7 +90,7 @@ const MiscForm = lazy(() => import('./pages/ProductForms/Misc/MiscForm'))
 const Messenger = lazy(() => import('./pages/Messenger/Messenger'))
 const Contact = lazy(() => import('./pages/Contact/Contact'))
 
-const Routing = ({ isAuthenticated, loading, stripeApiKey }) => {
+const Routing = ({ isAuthenticated, loading }) => {
   return (
     <Suspense fallback={<Loader />}>
       <Routes>
@@ -141,16 +140,10 @@ const Routing = ({ isAuthenticated, loading, stripeApiKey }) => {
         <Route path="/product/new/portion" element={<PortionForm />} />
         <Route path="/product/new/misc" element={<MiscForm />} />
         <Route path="/packages" element={<PackagesPricing />} />
-        {stripeApiKey && (
-          <Route
-            path="/checkout"
-            element={
-              <Elements stripe={loadStripe(stripeApiKey)}>
-                <Checkout />
-              </Elements>
-            }
-          />
-        )}
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/payment-success" element={<PaymentSuccess />} />
+        <Route path="/payment-fail" element={<PaymentFail />} />
+
         <Route
           path="/messenger"
           element={
@@ -174,24 +167,6 @@ function App() {
   const dispatch = useDispatch()
   const location = useLocation()
   const { isAuthenticated, loading } = useSelector((state) => state.user)
-  const [stripeApiKey, setStripeApiKey] = useState('')
-
-  const getStripeApiKey = async () => {
-    try {
-      const res = await customFetch('/api/v1/stripeapikey', {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      })
-      const data = await res.json()
-      if (res.status === 200) {
-        setStripeApiKey(data.stripeApiKey)
-      } else {
-        console.log(data?.message || 'Error loading Stripe api key')
-      }
-    } catch (error) {
-      console.log(error?.message)
-    }
-  }
 
   useEffect(() => {
     if (location.pathname === '/messenger') {
@@ -206,7 +181,6 @@ function App() {
   useEffect(() => {
     callProfile(dispatch)
     getData(dispatch)
-    getStripeApiKey()
   }, [dispatch])
 
   return (
@@ -214,11 +188,7 @@ function App() {
       <Toaster />
       <Header />
       <MetaData title="Nelami" />
-      <Routing
-        isAuthenticated={isAuthenticated}
-        loading={loading}
-        stripeApiKey={stripeApiKey}
-      />
+      <Routing isAuthenticated={isAuthenticated} loading={loading} />
       <Footer />
     </>
   )

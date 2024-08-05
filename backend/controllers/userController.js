@@ -480,35 +480,6 @@ exports.getWishlistItems = catchAsyncErrors(async (req, res, next) => {
   })
 })
 
-//Upgrade User Package
-exports.upgradeUserPackage = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findById(req.user.id)
-  console.log('JERE')
-
-  if (!user) {
-    return next(new ErrorHandler(`Please Login to Upgrade Package`))
-  }
-
-  const newPlan = req.body.userPlan
-
-  user.userPackage = newPlan
-  await user.save()
-
-  const notification = new Notification({
-    userId: req.user.id,
-    message: `Congratulations! Your package has been upgraded to ${newPlan}.`,
-  })
-
-  await notification.save()
-
-  eventEmitter.emit('notificationCreated', notification)
-
-  res.status(200).json({
-    success: true,
-    message: 'Package is upgraded',
-  })
-})
-
 // Delete User --Admin
 exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.params.id)
