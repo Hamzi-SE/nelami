@@ -129,26 +129,6 @@ exports.processPayment = catchAsyncErrors(async (req, res, next) => {
       new ErrorHandler(`Payment processing failed: ${error.message}`, 500)
     )
   }
-
-  // try {
-  //   // Create Stripe payment intent
-  //   const myPayment = await stripe.paymentIntents.create({
-  //     amount: packagePrice,
-  //     currency: 'pkr',
-  //     metadata: {
-  //       company: 'Nelami',
-  //       package: packageName,
-  //     },
-  //   })
-
-  //   res
-  //     .status(200)
-  //     .json({ success: true, client_secret: myPayment.client_secret })
-  // } catch (error) {
-  //   return next(
-  //     new ErrorHandler(`Payment processing failed: ${error.message}`, 500)
-  //   )
-  // }
 })
 
 exports.sendStripeApiKey = catchAsyncErrors(async (req, res, next) => {
@@ -217,10 +197,16 @@ exports.stripeWebhook = catchAsyncErrors(async (req, res, next) => {
 })
 
 exports.getSession = catchAsyncErrors(async (req, res, next) => {
-  const session = await stripe.checkout.sessions.retrieve(req.query.session_id)
+  try {
+    const session = await stripe.checkout.sessions.retrieve(
+      req.query.session_id
+    )
 
-  res.status(200).json({
-    success: true,
-    session,
-  })
+    res.status(200).json({
+      success: true,
+      session,
+    })
+  } catch (error) {
+    return next(new ErrorHandler(`Invalid session ID`, 500))
+  }
 })
