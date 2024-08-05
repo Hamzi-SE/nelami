@@ -310,10 +310,10 @@ exports.deleteProduct = catchAsyncErrors(async (req, res, next) => {
   // Delete all the bids of the product
   const bidDocument = await Bid.findOne({ bidItem: req.params.id })
   if (bidDocument) {
-    await bidDocument.remove()
+    await bidDocument.deleteOne()
   }
 
-  await product.remove()
+  await product.deleteOne()
 
   res.status(200).json({
     success: true,

@@ -3,16 +3,13 @@ const catchAsyncErrors = require('../middleware/catchAsyncErrors')
 const { sendToken, createActivationToken } = require('../utils/jwtToken')
 const sendEmail = require('../utils/sendEmail')
 const crypto = require('crypto')
-// const { cloudinary } = require("../utils/cloudinary");
-const cloudinaryy = require('cloudinary')
+const { cloudinary } = require('../utils/cloudinary')
 const jwt = require('jsonwebtoken')
 
 const User = require('../models/userModel')
 const Product = require('../models/productModel')
 const Bid = require('../models/bidModel')
 const Conversation = require('../models/conversationModel')
-const Notification = require('../models/notificationModel')
-const eventEmitter = require('../utils/eventEmitter')
 
 // Register User
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
@@ -324,8 +321,8 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
 // update User Profile
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
   const { name, address, phoneNo, city, store, aboutInfo } = req.body
-  // console.log(req.body);
-  if (!name || !address || !phoneNo || !city) {
+
+  if (!name || !phoneNo || !city) {
     return next(new ErrorHandler('Please Fill All Required Fields', 400))
   }
   let newUserData = {}
@@ -357,28 +354,31 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
   }
 
   if (req.body.avatar !== '') {
-    const user = await User.findById(req.user.id)
+    try {
+      const user = await User.findById(req.user.id)
+      if (!user) {
+        return next(new ErrorHandler('User not found', 404))
+      }
 
-    const imageId = user.avatar.public_id
+      const imageId = user.avatar.public_id
 
-    await cloudinaryy.v2.uploader.destroy(imageId)
+      if (imageId) {
+        await cloudinary.uploader.destroy(imageId)
+      }
 
-    const myCloud = await cloudinaryy.v2.uploader.upload(
-      req.body.avatar,
-      {
+      const myCloud = await cloudinary.uploader.upload(req.body.avatar, {
         upload_preset: 'ml_default',
         width: 300,
         height: 300,
         crop: 'scale',
-      },
-      (err, result) => {
-        console.log(err)
-      }
-    )
+      })
 
-    newUserData.avatar = {
-      public_id: myCloud.public_id,
-      url: myCloud.secure_url,
+      newUserData.avatar = {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+      }
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500))
     }
   }
 
@@ -490,57 +490,39 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
     )
   }
 
-  //Removing from Conversations Model
-  const conversations = await Conversation.find({
-    members: { $in: req.params.id },
-  })
-  if (conversations.length > 0) {
-    conversations.forEach(async (conversation) => {
-      await conversation.remove()
-    })
-  }
+  // Removing from Conversations Model
+  await Conversation.deleteMany({ members: { $in: req.params.id } })
+
+  // Removing all bids of this user
+  await Bid.updateMany(
+    { 'bidders.user': req.params.id },
+    { $pull: { bidders: { user: req.params.id } } }
+  )
 
   //remove from product model
   const products = await Product.find({ user: req.params.id })
-  if (products.length > 0) {
-    products.forEach(async (product) => {
-      console.log(product)
 
-      //Removing all bids of the product
-      const bidDocument = await Bid.findOne({ bidItem: product._id })
-      if (bidDocument) {
-        await bidDocument.remove()
-      }
+  for (const product of products) {
+    // Removing all bids of the product
+    await Bid.deleteOne({ bidItem: product._id })
 
-      if (product?.images?.featuredImg) {
-        await cloudinaryy.v2.uploader.destroy(
-          product?.images?.featuredImg?.public_id
-        )
+    // Deleting images from Cloudinary
+    const images = product.images || {}
+    for (const key in images) {
+      if (images[key]?.public_id) {
+        await cloudinary.uploader.destroy(images[key].public_id)
       }
-      if (product?.images?.imageOne) {
-        await cloudinaryy.v2.uploader.destroy(
-          product?.images?.imageOne?.public_id
-        )
-      }
-      if (product?.images?.imageTwo) {
-        await cloudinaryy.v2.uploader.destroy(
-          product?.images?.imageTwo?.public_id
-        )
-      }
-      if (product?.images?.imageThree) {
-        await cloudinaryy.v2.uploader.destroy(
-          product?.images?.imageThree?.public_id
-        )
-      }
-      await product.remove()
-    })
+    }
+
+    // Removing the product
+    await product.deleteOne()
   }
 
-  // const imageId = user.avatar.public_id;
+  const imageId = user?.avatar?.public_id
 
-  // await cloudinary.v2.uploader.destroy(imageId);
+  imageId && (await cloudinary.uploader.destroy(imageId))
 
-  await user.remove()
+  await user?.deleteOne()
 
   res.status(200).json({
     success: true,

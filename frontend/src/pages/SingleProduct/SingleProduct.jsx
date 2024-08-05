@@ -225,9 +225,9 @@ const SingleProduct = () => {
 
     bidders.forEach((bidderGroup) => {
       bidderGroup.bidders.forEach((bid) => {
-        if (bid.price > highestBid) {
-          highestBid = bid.price
-          highestBidder = bid.user
+        if (bid?.price > highestBid) {
+          highestBid = bid?.price
+          highestBidder = bid?.user
         }
       })
     })
@@ -405,7 +405,7 @@ const SingleProduct = () => {
                       <div className="d-flex justify-content-between">
                         <h4>
                           <b>Bid Posted By: </b>
-                          {seller.name}
+                          {seller?.name}
                         </h4>
                         <header className="description-header seller-badges d-flex justify-content-between">
                           {product?.user?.userPackage === 'Free' && (
@@ -614,8 +614,8 @@ const SingleProduct = () => {
                       <div className="user-img">
                         <img
                           src={
-                            seller.avatar
-                              ? seller.avatar.url
+                            seller?.avatar
+                              ? seller?.avatar.url
                               : 'https://i.postimg.cc/mD9SJc41/149071.png'
                           }
                           alt="seller"
@@ -624,7 +624,7 @@ const SingleProduct = () => {
                       <div className="name-detail">
                         <div className="lead">
                           <h4 className="m-0">
-                            <b>{seller.name}</b>
+                            <b>{seller?.name}</b>
                           </h4>
                           Phone No: <b>{seller.phoneNo}</b>
                         </div>
@@ -806,13 +806,13 @@ const SingleProduct = () => {
                                       <div className="userimg">
                                         <img
                                           className="bidder-dp"
-                                          src={user.user.avatar.url}
+                                          src={user?.user?.avatar?.url}
                                           alt="user"
                                         />
                                       </div>
                                       <span className="username">
                                         {' '}
-                                        {user.user.name}{' '}
+                                        {user?.user?.name}{' '}
                                       </span>
                                       <div className="price">
                                         <b>Rs. {user.price.toLocaleString()}</b>

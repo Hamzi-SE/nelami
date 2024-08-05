@@ -1,22 +1,17 @@
 const { cloudinary } = require('./cloudinary')
+const ErrorHandler = require('./errorHandler')
 
 const uploadImagetoCloudinary = async (image) => {
-  const uploadedResponse = await cloudinary.uploader.upload(
-    image,
-    {
+  try {
+    const uploadedResponse = await cloudinary.uploader.upload(image, {
       upload_preset: 'bdwebproducts',
       format: 'webp',
       quality: 70,
-    },
-    (err, result) => {
-      if (err) {
-        return next(new ErrorHandler('Error uploading image', 500))
-      }
-      return result
-    }
-  )
-
-  return uploadedResponse
+    })
+    return uploadedResponse
+  } catch (err) {
+    return next(new ErrorHandler(`Error uploading image: ${err?.message}`, 500))
+  }
 }
 
 module.exports = uploadImagetoCloudinary
