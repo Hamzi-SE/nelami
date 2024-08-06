@@ -48,6 +48,7 @@ const SingleProduct = () => {
   const [bidders, setBidders] = useState([])
   const [auctionTimeRemaining, setAuctionTimeRemaining] = useState()
   const [productImages, setProductImages] = useState([])
+  const [biddersLoading, setBiddersLoading] = useState(false)
 
   const getSingleProduct = async () => {
     dispatch({ type: 'SINGLE_PRODUCT_REQUEST' })
@@ -93,7 +94,7 @@ const SingleProduct = () => {
   }
 
   const getBidders = async () => {
-    // setLoading(true);
+    setBiddersLoading(true)
     try {
       const res = await customFetch(`/api/v1/bid/product/${id}`, {
         method: 'GET',
@@ -110,9 +111,9 @@ const SingleProduct = () => {
       }
     } catch (error) {
       console.log(error)
+    } finally {
+      setBiddersLoading(false)
     }
-
-    // setLoading(false);
   }
 
   useEffect(() => {
@@ -627,10 +628,13 @@ const SingleProduct = () => {
 
                 {/* <!-- Button trigger modal --> */}
                 {auctionTimeRemaining < 0 || (product?.bidStatus === 'Expired' && bidders?.length > 0) ? (
-                  <h3 className="text-warning text-center">
-                    <i className="fa fa-crown"></i> {highestBidder?.name} won the bid with a price of Rs.{' '}
-                    {highestBid.toLocaleString()}
-                  </h3>
+                  highestBidder &&
+                  highestBid && (
+                    <h3 className="text-warning text-center">
+                      <i className="fa fa-crown"></i> {highestBidder?.name} won the bid with a price of Rs.{' '}
+                      {highestBid.toLocaleString()}
+                    </h3>
+                  )
                 ) : product?.bidStatus === 'Expired' && bidders?.length === 0 ? (
                   <h3 className="text-warning text-center">This bidding has been expired with no bidders</h3>
                 ) : (
@@ -698,53 +702,56 @@ const SingleProduct = () => {
                       <b>Bidders</b>
                     </h5>
                   </div>
-                  <ul className="unorder-list mt-4">
-                    <li>
-                      {bidders.length !== 0 ? (
-                        bidders.map((bidder, index) => {
-                          return (
-                            <div key={index}>
-                              {bidder.bidders
-                                .sort((a, b) => b.price - a.price)
-                                .map((user, index) => {
-                                  return (
-                                    <div
-                                      key={index}
-                                      className="bidder-data d-flex my-3"
-                                      style={{
-                                        border:
-                                          index === 0
-                                            ? '2px solid #FFD700'
-                                            : index === 1
-                                              ? '2px solid #C0C0C0'
-                                              : index === 2
-                                                ? '2px solid #cd7f32'
-                                                : '',
-                                      }}
-                                    >
-                                      <div className="userindex">
-                                        <span>{index + 1}</span>{' '}
+                  {biddersLoading && <p>Loading...</p>}
+                  {!biddersLoading && (
+                    <ul className="unorder-list mt-4">
+                      <li>
+                        {bidders.length !== 0 ? (
+                          bidders.map((bidder, index) => {
+                            return (
+                              <div key={index}>
+                                {bidder.bidders
+                                  .sort((a, b) => b.price - a.price)
+                                  .map((user, index) => {
+                                    return (
+                                      <div
+                                        key={index}
+                                        className="bidder-data d-flex my-3"
+                                        style={{
+                                          border:
+                                            index === 0
+                                              ? '2px solid #FFD700'
+                                              : index === 1
+                                                ? '2px solid #C0C0C0'
+                                                : index === 2
+                                                  ? '2px solid #cd7f32'
+                                                  : '',
+                                        }}
+                                      >
+                                        <div className="userindex">
+                                          <span>{index + 1}</span>{' '}
+                                        </div>
+                                        <div className="userimg">
+                                          <img className="bidder-dp" src={user?.user?.avatar?.url} alt="user" />
+                                        </div>
+                                        <span className="username"> {user?.user?.name} </span>
+                                        <div className="price">
+                                          <b>Rs. {user.price.toLocaleString()}</b>
+                                        </div>
                                       </div>
-                                      <div className="userimg">
-                                        <img className="bidder-dp" src={user?.user?.avatar?.url} alt="user" />
-                                      </div>
-                                      <span className="username"> {user?.user?.name} </span>
-                                      <div className="price">
-                                        <b>Rs. {user.price.toLocaleString()}</b>
-                                      </div>
-                                    </div>
-                                  )
-                                })}
-                            </div>
-                          )
-                        })
-                      ) : (
-                        <h4 className="text-center">
-                          No bidders {product?.bidStatus !== 'Expired' ? 'yet' : ''} on this product
-                        </h4>
-                      )}
-                    </li>
-                  </ul>
+                                    )
+                                  })}
+                              </div>
+                            )
+                          })
+                        ) : (
+                          <h4 className="text-center">
+                            No bidders {product?.bidStatus !== 'Expired' ? 'yet' : ''} on this product
+                          </h4>
+                        )}
+                      </li>
+                    </ul>
+                  )}
                 </div>
               </div>
 

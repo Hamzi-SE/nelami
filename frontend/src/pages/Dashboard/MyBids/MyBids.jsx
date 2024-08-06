@@ -11,6 +11,7 @@ const MyBids = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { loading } = useSelector((state) => state.bids)
+  const { user } = useSelector((state) => state.user)
   const [userBids, setUserBids] = useState([])
 
   const callUserBids = async () => {
@@ -52,6 +53,14 @@ const MyBids = () => {
     {
       name: 'Product Price',
       selector: (row) => 'Rs. ' + row.bidItem?.price,
+    },
+    {
+      name: 'Your Bid',
+      selector: (row) => 'Rs. ' + row.bidders?.find((bidder) => bidder.user === user._id)?.price,
+    },
+    {
+      name: 'Bid Status',
+      selector: (row) => row.bidItem?.bidStatus,
     },
     {
       name: 'Product Link',

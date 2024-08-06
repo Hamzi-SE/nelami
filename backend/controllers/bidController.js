@@ -114,7 +114,7 @@ exports.getUserBids = catchAsyncErrors(async (req, res, next) => {
 
   const bids = await Bid.find({ 'bidders.user': user }).populate({
     path: 'bidItem',
-    select: 'title price images',
+    select: 'title price images bidStatus',
   })
 
   res.status(200).json({
