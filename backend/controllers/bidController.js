@@ -8,9 +8,7 @@ const eventEmitter = require('../utils/eventEmitter')
 // Create new Bid
 exports.newBid = catchAsyncErrors(async (req, res, next) => {
   if (req.user.role === 'Seller') {
-    return next(
-      new ErrorHandler(`Role: ${req.user.role} cannot bid on this product`, 401)
-    )
+    return next(new ErrorHandler(`Role: ${req.user.role} cannot bid on this product`, 401))
   }
 
   const userId = req.user._id
@@ -25,9 +23,7 @@ exports.newBid = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(productId)
 
   if (!product) {
-    return next(
-      new ErrorHandler(`Product not found with id: ${productId}`, 404)
-    )
+    return next(new ErrorHandler(`Product not found with id: ${productId}`, 404))
   }
 
   if (product.endDate < Date.now()) {
@@ -44,15 +40,11 @@ exports.newBid = catchAsyncErrors(async (req, res, next) => {
 
     // Find bidders who are outbid (i.e., their bids are less than the new highest bid)
     outbidBidders = bid.bidders.filter(
-      (bidder) =>
-        bidder.price < highestBid &&
-        bidder.user.toString() !== userId.toString()
+      (bidder) => bidder.price < highestBid && bidder.user.toString() !== userId.toString()
     )
 
     // Check if the user has already placed a bid
-    const userBid = bid.bidders.find(
-      (bidder) => bidder.user.toString() === userId.toString()
-    )
+    const userBid = bid.bidders.find((bidder) => bidder.user.toString() === userId.toString())
 
     if (userBid) {
       // Update the existing bid price

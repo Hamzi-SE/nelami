@@ -20,8 +20,7 @@ const initializeSocket = (app) => {
   let users = []
 
   const addUser = async (userId, socketId) => {
-    !users.some((user) => user.userId === userId) &&
-      users.push({ userId, socketId })
+    !users.some((user) => user.userId === userId) && users.push({ userId, socketId })
     await User.findByIdAndUpdate(userId, { lastActive: Date.now() })
   }
 
@@ -69,17 +68,14 @@ const initializeSocket = (app) => {
       }
     })
 
-    socket.on(
-      'sendMessage',
-      ({ senderId, receiverId, text, conversationId }) => {
-        const user = getUser(receiverId)
-        io.to(user?.socketId).emit('getMessage', {
-          senderId,
-          text,
-          conversationId,
-        })
-      }
-    )
+    socket.on('sendMessage', ({ senderId, receiverId, text, conversationId }) => {
+      const user = getUser(receiverId)
+      io.to(user?.socketId).emit('getMessage', {
+        senderId,
+        text,
+        conversationId,
+      })
+    })
 
     socket.on('removeUserFromLiveUsers', async (userId) => {
       await removeUser(userId, null)
@@ -87,17 +83,14 @@ const initializeSocket = (app) => {
       // io.emit("removeUserFromLiveUsers", users)
     })
 
-    socket.on(
-      'typing',
-      ({ senderId, receiverId, isTyping, conversationId }) => {
-        const user = getUser(receiverId)
-        io.to(user?.socketId).emit('isTyping', {
-          senderId,
-          isTyping,
-          conversationId,
-        })
-      }
-    )
+    socket.on('typing', ({ senderId, receiverId, isTyping, conversationId }) => {
+      const user = getUser(receiverId)
+      io.to(user?.socketId).emit('isTyping', {
+        senderId,
+        isTyping,
+        conversationId,
+      })
+    })
 
     socket.on('disconnect', async () => {
       await removeUser(null, socket.id)

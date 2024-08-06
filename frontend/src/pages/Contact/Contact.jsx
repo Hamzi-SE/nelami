@@ -60,10 +60,7 @@ const Contact = () => {
                 <li className="breadcrumb-item">
                   <Link to="/">Home</Link>
                 </li>
-                <li
-                  className="breadcrumb-item active text-white"
-                  aria-current="page"
-                >
+                <li className="breadcrumb-item active text-white" aria-current="page">
                   Contact
                 </li>
               </ol>
@@ -117,11 +114,7 @@ const Contact = () => {
                         required
                       ></textarea>
                     </div>
-                    <button
-                      type="submit"
-                      className={`btn btn-primary ${loading ? 'disabled' : ''}`}
-                      disabled={loading}
-                    >
+                    <button type="submit" className={`btn btn-primary ${loading ? 'disabled' : ''}`} disabled={loading}>
                       {loading ? 'Sending...' : 'Send Message'}
                     </button>
                   </form>
@@ -139,8 +132,8 @@ const Contact = () => {
           <div className="section-title text-center">
             <h1>Contact Information</h1>
             <p>
-              If you have any questions or need assistance, please reach out to
-              us through the following contact details:
+              If you have any questions or need assistance, please reach out to us through the following contact
+              details:
             </p>
           </div>
           <div className="row text-center">
@@ -148,30 +141,21 @@ const Contact = () => {
               <div className="support-service bg-primary">
                 <i className="fa fa-phone"></i>
                 <h6>+92 315-608-8777</h6>
-                <p>
-                  Our customer support team is available 24/7 to assist you with
-                  any queries or issues.
-                </p>
+                <p>Our customer support team is available 24/7 to assist you with any queries or issues.</p>
               </div>
             </div>
             <div className="col-xl-4 col-lg-12 col-md-12 mb-4">
               <div className="support-service bg-secondary">
                 <i className="fa fa-clock"></i>
                 <h6>Mon-Sat (10:00 AM - 7:00 PM)</h6>
-                <p>
-                  Our office hours are Monday through Saturday. Feel free to
-                  contact us during these hours.
-                </p>
+                <p>Our office hours are Monday through Saturday. Feel free to contact us during these hours.</p>
               </div>
             </div>
             <div className="col-xl-4 col-lg-12 col-md-12 mb-4">
               <div className="support-service bg-warning">
                 <i className="fa fa-envelope"></i>
                 <h6>nelami@ihamza.dev</h6>
-                <p>
-                  For general inquiries or feedback, email us at the above
-                  address, and we'll get back to you soon.
-                </p>
+                <p>For general inquiries or feedback, email us at the above address, and we'll get back to you soon.</p>
               </div>
             </div>
           </div>

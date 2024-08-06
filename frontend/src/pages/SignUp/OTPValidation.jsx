@@ -74,10 +74,7 @@ const OTPValidation = () => {
                   <li className="breadcrumb-item">
                     <Link to="/otp-validation">OTP Validation</Link>
                   </li>
-                  <li
-                    className="breadcrumb-item active text-white"
-                    aria-current="page"
-                  >
+                  <li className="breadcrumb-item active text-white" aria-current="page">
                     OTP Validation
                   </li>
                 </ol>
@@ -98,9 +95,7 @@ const OTPValidation = () => {
                   <div className="col-xl-12 col-md-12 col-md-12">
                     <div className="card mb-0">
                       <div className="card-header">
-                        <h3 className="card-title">
-                          OTP Validation to your Account
-                        </h3>
+                        <h3 className="card-title">OTP Validation to your Account</h3>
                       </div>
                       <div className="card-body">
                         {/* <div className="text-center">
@@ -135,11 +130,7 @@ const OTPValidation = () => {
                         </div>
 
                         <div className="form-footer mt-2">
-                          <button
-                            type="submit"
-                            className="btn btn-primary btn-block"
-                            onClick={handleSubmit}
-                          >
+                          <button type="submit" className="btn btn-primary btn-block" onClick={handleSubmit}>
                             Validate
                           </button>
                         </div>

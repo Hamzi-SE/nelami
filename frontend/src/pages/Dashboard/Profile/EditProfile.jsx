@@ -116,15 +116,10 @@ const EditProfile = () => {
                   title=""
                   data-bs-original-title="online"
                 ></span>
-                {user.avatar && (
-                  <img src={user.avatar.url} className="brround" alt="user" />
-                )}
+                {user.avatar && <img src={user.avatar.url} className="brround" alt="user" />}
               </div>
               <h3 className="mt-3 mb-0 font-weight-semibold">{user.name}</h3>
-              <h3
-                className="mt-3 mb-0 font-weight-semibold text-success"
-                style={{ textTransform: 'capitalize' }}
-              >
+              <h3 className="mt-3 mb-0 font-weight-semibold text-success" style={{ textTransform: 'capitalize' }}>
                 {user.role}
               </h3>
             </div>
@@ -269,11 +264,7 @@ const EditProfile = () => {
             </div>
           </div>
           <div className="card-footer">
-            <button
-              type="submit"
-              className="btn btn-primary"
-              onClick={handleUpdate}
-            >
+            <button type="submit" className="btn btn-primary" onClick={handleUpdate}>
               {loading ? 'Updating...' : 'Update'}
             </button>
             <button

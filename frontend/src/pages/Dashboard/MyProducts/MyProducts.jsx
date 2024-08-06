@@ -6,11 +6,7 @@ import DataTable from 'react-data-table-component'
 import './MyProducts.css'
 
 // Icons
-import {
-  HiOutlinePencilAlt,
-  HiOutlineTrash,
-  HiOutlineEye,
-} from 'react-icons/hi'
+import { HiOutlinePencilAlt, HiOutlineTrash, HiOutlineEye } from 'react-icons/hi'
 import customFetch from '../../../utils/api'
 
 const MyProducts = () => {
@@ -48,9 +44,7 @@ const MyProducts = () => {
   const columns = [
     {
       name: 'Image',
-      selector: (row) => (
-        <img src={row.images.featuredImg.url} width={100} alt="productImg" />
-      ),
+      selector: (row) => <img src={row.images.featuredImg.url} width={100} alt="productImg" />,
     },
     {
       name: 'Product Name',
@@ -115,12 +109,7 @@ const MyProducts = () => {
             data-icon="view"
             data-index={i}
             className="btn btn-sm btn-primary"
-            onClick={() =>
-              window.open(
-                `${process.env.REACT_APP_URL}/product/` + row._id,
-                '_blank'
-              )
-            }
+            onClick={() => window.open(`${process.env.REACT_APP_URL}/product/` + row._id, '_blank')}
           >
             <HiOutlineEye />
           </button>
@@ -129,12 +118,7 @@ const MyProducts = () => {
             data-icon="bidders"
             data-index={i}
             className="btn btn-sm btn-primary"
-            onClick={() =>
-              window.open(
-                `${process.env.REACT_APP_URL}/user/product/bids/all/` + row._id,
-                '_blank'
-              )
-            }
+            onClick={() => window.open(`${process.env.REACT_APP_URL}/user/product/bids/all/` + row._id, '_blank')}
           >
             <i className="fa-solid fa-user-group"></i>
           </button>
@@ -209,52 +193,28 @@ const MyProducts = () => {
           <div className="card-body">
             <div className="row">
               <div className="filter-btns mb-3">
-                <button
-                  data-filter="allProducts"
-                  className="btn btn-primary"
-                  onClick={handleFilterBtnClick}
-                >
+                <button data-filter="allProducts" className="btn btn-primary" onClick={handleFilterBtnClick}>
                   {' '}
                   All Products{' '}
                 </button>
                 {/* <button data-filter="featured" className="btn btn-primary" onClick={handleFilterBtnClick}> Featured </button> */}
-                <button
-                  data-filter="live"
-                  className="btn btn-primary"
-                  onClick={handleFilterBtnClick}
-                >
+                <button data-filter="live" className="btn btn-primary" onClick={handleFilterBtnClick}>
                   {' '}
                   Live{' '}
                 </button>
-                <button
-                  data-filter="expired"
-                  className="btn btn-primary"
-                  onClick={handleFilterBtnClick}
-                >
+                <button data-filter="expired" className="btn btn-primary" onClick={handleFilterBtnClick}>
                   {' '}
                   Expired{' '}
                 </button>
-                <button
-                  data-filter="vehicles"
-                  className="btn btn-primary"
-                  onClick={handleFilterBtnClick}
-                >
+                <button data-filter="vehicles" className="btn btn-primary" onClick={handleFilterBtnClick}>
                   {' '}
                   Vehicles{' '}
                 </button>
-                <button
-                  data-filter="properties"
-                  className="btn btn-primary"
-                  onClick={handleFilterBtnClick}
-                >
+                <button data-filter="properties" className="btn btn-primary" onClick={handleFilterBtnClick}>
                   {' '}
                   Properties{' '}
                 </button>
-                <button
-                  data-filter="miscProducts"
-                  className="btn btn-primary"
-                  onClick={handleFilterBtnClick}
-                >
+                <button data-filter="miscProducts" className="btn btn-primary" onClick={handleFilterBtnClick}>
                   {' '}
                   Misc Products{' '}
                 </button>

@@ -57,10 +57,7 @@ const AdminDashboard = () => {
                   <li className="breadcrumb-item">
                     <Link to="/">Home</Link>
                   </li>
-                  <li
-                    className="breadcrumb-item active text-white"
-                    aria-current="page"
-                  >
+                  <li className="breadcrumb-item active text-white" aria-current="page">
                     Admin Dashboard
                   </li>
                 </ol>
@@ -90,21 +87,10 @@ const AdminDashboard = () => {
                         title=""
                         data-bs-original-title="online"
                       ></span>
-                      {user?.avatar && (
-                        <img
-                          src={user?.avatar?.url}
-                          className="brround"
-                          alt="admin"
-                        />
-                      )}
+                      {user?.avatar && <img src={user?.avatar?.url} className="brround" alt="admin" />}
                     </div>
-                    <h3 className="mt-3 mb-0 font-weight-semibold">
-                      {user?.name}
-                    </h3>
-                    <h3
-                      className="mt-3 mb-0 font-weight-semibold text-success"
-                      style={{ textTransform: 'capitalize' }}
-                    >
+                    <h3 className="mt-3 mb-0 font-weight-semibold">{user?.name}</h3>
+                    <h3 className="mt-3 mb-0 font-weight-semibold text-success" style={{ textTransform: 'capitalize' }}>
                       {user?.role}
                     </h3>
                   </div>
@@ -112,27 +98,17 @@ const AdminDashboard = () => {
                 <aside className="app-sidebar doc-sidebar my-dash">
                   <div className="app-sidebar__user clearfix">
                     <ul className="side-menu">
-                      <li
-                        data-component={'statsDashboard'}
-                        onClick={handleActiveComponent}
-                        className="slide"
-                      >
+                      <li data-component={'statsDashboard'} onClick={handleActiveComponent} className="slide">
                         <button
                           className={`side-menu__item ${activeComponent === 'statsDashboard' ? 'active-component' : ''}`}
                           data-bs-toggle="slide"
                         >
                           <i className="fa-solid fa-chart-line"></i>
-                          <span className="side-menu__label">
-                            Stats Overview
-                          </span>
+                          <span className="side-menu__label">Stats Overview</span>
                           <i className="angle fa fa-angle-right"></i>
                         </button>
                       </li>
-                      <li
-                        data-component={'profile'}
-                        onClick={handleActiveComponent}
-                        className="slide"
-                      >
+                      <li data-component={'profile'} onClick={handleActiveComponent} className="slide">
                         <button
                           className={`side-menu__item ${activeComponent === 'profile' ? 'active-component' : ''}`}
                           data-bs-toggle="slide"
@@ -143,11 +119,7 @@ const AdminDashboard = () => {
                         </button>
                       </li>
 
-                      <li
-                        data-component={'allUsers'}
-                        onClick={handleActiveComponent}
-                        className="slide"
-                      >
+                      <li data-component={'allUsers'} onClick={handleActiveComponent} className="slide">
                         <button
                           className={`side-menu__item ${activeComponent === 'allUsers' ? 'active-component' : ''}`}
                           data-bs-toggle="slide"
@@ -158,11 +130,7 @@ const AdminDashboard = () => {
                         </button>
                       </li>
 
-                      <li
-                        data-component={'allProducts'}
-                        onClick={handleActiveComponent}
-                        className="slide"
-                      >
+                      <li data-component={'allProducts'} onClick={handleActiveComponent} className="slide">
                         <button
                           className={`side-menu__item ${activeComponent === 'allProducts' ? 'active-component' : ''}`}
                           data-bs-toggle="slide"
@@ -173,45 +141,29 @@ const AdminDashboard = () => {
                         </button>
                       </li>
 
-                      <li
-                        data-component={'approvalProducts'}
-                        onClick={handleActiveComponent}
-                        className="slide"
-                      >
+                      <li data-component={'approvalProducts'} onClick={handleActiveComponent} className="slide">
                         <button
                           className={`side-menu__item ${activeComponent === 'approvalProducts' ? 'active-component' : ''}`}
                           data-bs-toggle="slide"
                         >
                           <i className="fa-solid fa-square-check"></i>
-                          <span className="side-menu__label">
-                            Approval Products
-                          </span>
+                          <span className="side-menu__label">Approval Products</span>
                           <i className="angle fa fa-angle-right"></i>
                         </button>
                       </li>
 
-                      <li
-                        data-component={'editFeatures'}
-                        onClick={handleActiveComponent}
-                        className="slide"
-                      >
+                      <li data-component={'editFeatures'} onClick={handleActiveComponent} className="slide">
                         <button
                           className={`side-menu__item ${activeComponent === 'editFeatures' ? 'active-component' : ''}`}
                           data-bs-toggle="slide"
                         >
                           <i className="fa-regular fa-pen-to-square"></i>
-                          <span className="side-menu__label">
-                            Edit Features
-                          </span>
+                          <span className="side-menu__label">Edit Features</span>
                           <i className="angle fa fa-angle-right"></i>
                         </button>
                       </li>
 
-                      <li
-                        data-component={'settings'}
-                        onClick={handleActiveComponent}
-                        className="slide"
-                      >
+                      <li data-component={'settings'} onClick={handleActiveComponent} className="slide">
                         <button
                           className={`side-menu__item ${activeComponent === 'settings' ? 'active-component' : ''}`}
                           data-bs-toggle="slide"

@@ -11,8 +11,8 @@ const PaymentFail = () => {
           <div className="alert alert-danger text-center py-5">
             <h2 className="alert-heading mb-4">Payment Failed</h2>
             <p className="lead mb-4">
-              Unfortunately, your payment could not be processed. Please try
-              again or contact support if the issue persists.
+              Unfortunately, your payment could not be processed. Please try again or contact support if the issue
+              persists.
             </p>
             <hr />
             <p className="mb-4">
@@ -22,10 +22,7 @@ const PaymentFail = () => {
               </a>
               .
             </p>
-            <button
-              className="btn btn-primary mt-4"
-              onClick={() => navigate('/')}
-            >
+            <button className="btn btn-primary mt-4" onClick={() => navigate('/')}>
               Go to Home
             </button>
           </div>

@@ -117,17 +117,13 @@ describe('Register User', () => {
 
     await registerUser(mockReq, mockRes, mockNext)
 
-    expect(mockNext).toHaveBeenCalledWith(
-      new ErrorHandler('Please Fill All Required Fields', 400)
-    )
+    expect(mockNext).toHaveBeenCalledWith(new ErrorHandler('Please Fill All Required Fields', 400))
   })
 
   it('should register a new user', async () => {
     jest.spyOn(User, 'create').mockResolvedValueOnce(mockUser)
     jest.spyOn(bcrypt, 'hash').mockResolvedValueOnce('hashedPassword')
-    jest
-      .spyOn(mockUser, 'save')
-      .mockImplementationOnce(() => Promise.resolve(mockUser))
+    jest.spyOn(mockUser, 'save').mockImplementationOnce(() => Promise.resolve(mockUser))
 
     const mockReq = mockRequest()
     const mockRes = mockResponse()
@@ -166,9 +162,7 @@ describe('Register User', () => {
 
     await registerUser(mockReq, mockResponse(), mockNext)
 
-    expect(mockNext).toHaveBeenCalledWith(
-      new ErrorHandler('Password does not match', 400)
-    )
+    expect(mockNext).toHaveBeenCalledWith(new ErrorHandler('Password does not match', 400))
   })
 
   it('should handle role seller and no store', async () => {
@@ -177,9 +171,7 @@ describe('Register User', () => {
 
     await registerUser(mockReq, mockResponse(), mockNext)
 
-    expect(mockNext).toHaveBeenCalledWith(
-      new ErrorHandler('Seller must enter store name', 400)
-    )
+    expect(mockNext).toHaveBeenCalledWith(new ErrorHandler('Seller must enter store name', 400))
   })
 })
 
@@ -201,9 +193,7 @@ describe('OTP Validation', () => {
 
     await OTPValidation(mockReq, mockRes, mockNext)
 
-    expect(mockNext).toHaveBeenCalledWith(
-      new ErrorHandler('Please enter Email & OTP both', 400)
-    )
+    expect(mockNext).toHaveBeenCalledWith(new ErrorHandler('Please enter Email & OTP both', 400))
   })
 
   it('should throw an error if user is not found', async () => {
@@ -214,9 +204,7 @@ describe('OTP Validation', () => {
 
     await OTPValidation(mockReq, mockRes, mockNext)
 
-    expect(mockNext).toHaveBeenCalledWith(
-      new ErrorHandler('Incorrect Email or OTP', 400)
-    )
+    expect(mockNext).toHaveBeenCalledWith(new ErrorHandler('Incorrect Email or OTP', 400))
   })
 
   it('should throw an error if email is already verified', async () => {
@@ -229,9 +217,7 @@ describe('OTP Validation', () => {
 
     await OTPValidation(mockReq, mockRes, mockNext)
 
-    expect(mockNext).toHaveBeenCalledWith(
-      new ErrorHandler('Email is already verified', 400)
-    )
+    expect(mockNext).toHaveBeenCalledWith(new ErrorHandler('Email is already verified', 400))
   })
 
   it('should throw an error if OTP is incorrect', async () => {
@@ -243,9 +229,7 @@ describe('OTP Validation', () => {
 
     await OTPValidation(mockReq, mockRes, mockNext)
 
-    expect(mockNext).toHaveBeenCalledWith(
-      new ErrorHandler('Incorrect Email or OTP', 400)
-    )
+    expect(mockNext).toHaveBeenCalledWith(new ErrorHandler('Incorrect Email or OTP', 400))
   })
 })
 
@@ -274,9 +258,7 @@ describe('Login User', () => {
 
     await loginUser(mockReq, res, mockNext)
 
-    expect(mockNext).toHaveBeenCalledWith(
-      new ErrorHandler('Please enter Email & Password both', 400)
-    )
+    expect(mockNext).toHaveBeenCalledWith(new ErrorHandler('Please enter Email & Password both', 400))
   })
 
   it('should handle incorrect email', async () => {
@@ -288,9 +270,7 @@ describe('Login User', () => {
 
     await loginUser(req, res, mockNext)
 
-    expect(mockNext).toHaveBeenCalledWith(
-      new ErrorHandler('Incorrect Email or Password', 401)
-    )
+    expect(mockNext).toHaveBeenCalledWith(new ErrorHandler('Incorrect Email or Password', 401))
   })
 
   it('should require email verification', async () => {
@@ -304,9 +284,7 @@ describe('Login User', () => {
 
     await loginUser(req, res, mockNext)
 
-    expect(mockNext).toHaveBeenCalledWith(
-      new ErrorHandler('Please Verify Your Email to Login', 401)
-    )
+    expect(mockNext).toHaveBeenCalledWith(new ErrorHandler('Please Verify Your Email to Login', 401))
   })
 
   // it("should reject incorrect password", async () => {
@@ -391,9 +369,7 @@ describe('Forget Password', () => {
 
     await forgotPassword(mockReq, mockRes, mockNext)
 
-    expect(mockNext).toHaveBeenCalledWith(
-      new ErrorHandler('User Not Found', 404)
-    )
+    expect(mockNext).toHaveBeenCalledWith(new ErrorHandler('User Not Found', 404))
   })
 })
 
@@ -431,12 +407,7 @@ describe('Reset Password', () => {
 
     await resetPassword(req, res, mockNext)
 
-    expect(mockNext).toHaveBeenCalledWith(
-      new ErrorHandler(
-        'Reset Password Token is invalid or has been expired',
-        400
-      )
-    )
+    expect(mockNext).toHaveBeenCalledWith(new ErrorHandler('Reset Password Token is invalid or has been expired', 400))
   })
 
   it('should handle mismatched passwords', async () => {
@@ -459,9 +430,7 @@ describe('Reset Password', () => {
 
     await resetPassword(req, res, mockNext)
 
-    expect(mockNext).toHaveBeenCalledWith(
-      new ErrorHandler('Password does not password', 400)
-    )
+    expect(mockNext).toHaveBeenCalledWith(new ErrorHandler('Password does not password', 400))
   })
 
   it('should successfully reset password', async () => {
@@ -644,9 +613,7 @@ describe('Update Profile', () => {
 
     await updateProfile(mockReq, mockRes, mockNext)
 
-    expect(mockNext).toHaveBeenCalledWith(
-      new ErrorHandler('Please Fill All Required Fields', 400)
-    )
+    expect(mockNext).toHaveBeenCalledWith(new ErrorHandler('Please Fill All Required Fields', 400))
   })
 
   it('should successfully update profile', async () => {
@@ -665,9 +632,7 @@ describe('Update Profile', () => {
       select: jest.fn().mockResolvedValue(mockUser),
     }))
 
-    jest
-      .spyOn(User, 'findOne')
-      .mockResolvedValueOnce({ email: 'test@gmail.com' })
+    jest.spyOn(User, 'findOne').mockResolvedValueOnce({ email: 'test@gmail.com' })
 
     const req = mockRequest()
     const res = mockResponse()
@@ -709,10 +674,7 @@ describe('Get Single User', () => {
     await getSingleUser(req, res, mockNext)
 
     expect(mockNext).toHaveBeenCalledWith(
-      new ErrorHandler(
-        'User does not exist with Id: 60f6a33b8b1f7a0015f2f3b1',
-        400
-      )
+      new ErrorHandler('User does not exist with Id: 60f6a33b8b1f7a0015f2f3b1', 400)
     )
   })
 

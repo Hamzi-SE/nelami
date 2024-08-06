@@ -7,9 +7,7 @@ const MiscProductSlider = ({ products }) => {
 
   useEffect(() => {
     // Filters misc products by category and sets them to state
-    setMiscProducts(
-      products.filter((product) => product.category === 'MiscProducts')
-    )
+    setMiscProducts(products.filter((product) => product.category === 'MiscProducts'))
   }, [products]) // Correctly listen to changes in products
 
   // useMemo to shuffle and slice misc products only when they change

@@ -1,23 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { bidReducer, bidsReducer } from './reducers/bidReducers'
-import {
-  conversationReducer,
-  conversationsReducer,
-  messagesReducer,
-} from './reducers/conversationReducers'
+import { conversationReducer, conversationsReducer, messagesReducer } from './reducers/conversationReducers'
 import { dashboardReducer } from './reducers/dashboardReducer'
 import { dataReducer, featureReducer } from './reducers/dataReducer'
-import {
-  productReducer,
-  productsReducer,
-  singleProductReducer,
-} from './reducers/productReducers'
-import {
-  forgotPasswordReducer,
-  profileReducer,
-  sellerReducer,
-  userReducer,
-} from './reducers/userReducer'
+import { productReducer, productsReducer, singleProductReducer } from './reducers/productReducers'
+import { forgotPasswordReducer, profileReducer, sellerReducer, userReducer } from './reducers/userReducer'
 import { packageReducer, paymentReducer } from './reducers/packageReducers'
 import { notificationReducer } from './reducers/notificationReducers'
 

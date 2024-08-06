@@ -40,9 +40,7 @@ const SingleProduct = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { user } = useSelector((state) => state.user)
-  const { loading, product, error } = useSelector(
-    (state) => state.singleProduct
-  )
+  const { loading, product, error } = useSelector((state) => state.singleProduct)
   const conversationLoading = useSelector((state) => state.conversation.loading)
   const { id } = useParams()
   const [seller, setSeller] = useState({})
@@ -141,9 +139,7 @@ const SingleProduct = () => {
         type: 'BID_FAIL',
         payload: `Minimum Bid Amount Should Be Greater Than ${product.price}`,
       })
-      return toast.error(
-        `Minimum Bid Amount Should Be Greater Than ${product.price}`
-      )
+      return toast.error(`Minimum Bid Amount Should Be Greater Than ${product.price}`)
     }
     try {
       const res = await customFetch(`/api/v1/bid/product/new/${id}`, {
@@ -211,9 +207,7 @@ const SingleProduct = () => {
     navigate(`/messenger`, { replace: true })
   }
 
-  const Completionist = () => (
-    <h1 className="auction-complete">Auction Ended!</h1>
-  )
+  const Completionist = () => <h1 className="auction-complete">Auction Ended!</h1>
 
   let highestBid = 0
   let highestBidder = null
@@ -263,39 +257,20 @@ const SingleProduct = () => {
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
                 <div className="user-wrapper">
-                  <img
-                    src={product?.user?.avatar?.url}
-                    alt="avatar"
-                    className="avatar-small"
-                  />
+                  <img src={product?.user?.avatar?.url} alt="avatar" className="avatar-small" />
                   <h3>{product?.user?.name}</h3>
                 </div>
               </h5>
-              <button
-                type="button"
-                className="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div className="modal-body">
-              Do you want to start a chat with {product?.user?.name} ?
-            </div>
+            <div className="modal-body">Do you want to start a chat with {product?.user?.name} ?</div>
             <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-dismiss="modal"
-              >
+              <button type="button" className="btn btn-secondary" data-dismiss="modal">
                 Cancel
               </button>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={startConversation}
-              >
+              <button type="button" className="btn btn-primary" onClick={startConversation}>
                 Yes
               </button>
             </div>
@@ -420,8 +395,7 @@ const SingleProduct = () => {
                           )}
                           {product?.user?.userPackage === 'Platinum' && (
                             <button type="button" className="btn btn-primary">
-                              <b>Platinum</b>{' '}
-                              <i className="fa-solid fa-gem"></i>
+                              <b>Platinum</b> <i className="fa-solid fa-gem"></i>
                             </button>
                           )}
                         </header>
@@ -436,16 +410,12 @@ const SingleProduct = () => {
                       <h4>Description</h4>
                     </div>
                     <div>
-                      <p className="product-description">
-                        {product.description}
-                      </p>
+                      <p className="product-description">{product.description}</p>
                     </div>
                     <hr />
                     <div className="block-title">
                       <h4>Price</h4>
-                      <p className="product-price">
-                        Rs.{product.price.toLocaleString()}
-                      </p>
+                      <p className="product-price">Rs.{product.price.toLocaleString()}</p>
                     </div>
                     <hr />
                     {product?.features && product?.features.length !== 0 && (
@@ -469,13 +439,11 @@ const SingleProduct = () => {
                           <div className="info-group">
                             {product?.furnished === 'furnished' ? (
                               <>
-                                <i className="fa-solid fa-circle-check"></i>{' '}
-                                <div className="lead">Furnished</div>
+                                <i className="fa-solid fa-circle-check"></i> <div className="lead">Furnished</div>
                               </>
                             ) : (
                               <>
-                                <i className="fa-solid fa-circle-xmark"></i>{' '}
-                                <div className="lead">Unfurnished</div>
+                                <i className="fa-solid fa-circle-xmark"></i> <div className="lead">Unfurnished</div>
                               </>
                             )}
                           </div>
@@ -484,36 +452,28 @@ const SingleProduct = () => {
                         {product?.bedrooms && (
                           <div className="info-group">
                             <IoBedOutline />
-                            <div className="lead">
-                              {product?.bedrooms} bedrooms
-                            </div>
+                            <div className="lead">{product?.bedrooms} bedrooms</div>
                           </div>
                         )}
 
                         {product?.bathrooms && (
                           <div className="info-group">
                             <i className="fa-solid fa-sink"></i>
-                            <div className="lead">
-                              {product?.bathrooms} Bathrooms
-                            </div>
+                            <div className="lead">{product?.bathrooms} Bathrooms</div>
                           </div>
                         )}
 
                         {product?.noOfStoreys && (
                           <div className="info-group">
                             <i className="fa-solid fa-arrow-turn-up"></i>
-                            <div className="lead">
-                              {product?.noOfStoreys} Storeys
-                            </div>
+                            <div className="lead">{product?.noOfStoreys} Storeys</div>
                           </div>
                         )}
 
                         {product?.constructionState && (
                           <div className="info-group">
                             <i className="fa-solid fa-circle-info"></i>
-                            <div className="lead">
-                              {product?.constructionState}
-                            </div>
+                            <div className="lead">{product?.constructionState}</div>
                           </div>
                         )}
 
@@ -548,27 +508,21 @@ const SingleProduct = () => {
                         {product?.kmsDriven && (
                           <div className="info-group">
                             <i className="fa-solid fa-circle-info"></i>
-                            <div className="lead">
-                              Driven: {product?.kmsDriven}Km
-                            </div>
+                            <div className="lead">Driven: {product?.kmsDriven}Km</div>
                           </div>
                         )}
 
                         {product?.fuelType && (
                           <div className="info-group">
                             <i className="fa-solid fa-circle-info"></i>
-                            <div className="lead">
-                              Fuel Type: {product?.fuelType}
-                            </div>
+                            <div className="lead">Fuel Type: {product?.fuelType}</div>
                           </div>
                         )}
 
                         {product?.floorLevel && (
                           <div className="info-group">
                             <i className="fa-regular fa-building"></i>
-                            <div className="lead">
-                              {product?.floorLevel} Floor Level
-                            </div>
+                            <div className="lead">{product?.floorLevel} Floor Level</div>
                           </div>
                         )}
 
@@ -589,20 +543,13 @@ const SingleProduct = () => {
                         <h4>Location</h4>
                         {product.location && (
                           <p>
-                            {product.location.province} -{' '}
-                            {product.location.city}
+                            {product.location.province} - {product.location.city}
                           </p>
                         )}
                       </div>
                       <div className="store-location">
                         {product.location && (
-                          <MapComponent
-                            cityName={
-                              product.location?.province +
-                              ' ' +
-                              product.location?.city
-                            }
-                          />
+                          <MapComponent cityName={product.location?.province + ' ' + product.location?.city} />
                         )}
                       </div>
                     </div>
@@ -613,11 +560,7 @@ const SingleProduct = () => {
                     <div className="user-detail d-flex mt-1">
                       <div className="user-img">
                         <img
-                          src={
-                            seller?.avatar
-                              ? seller?.avatar.url
-                              : 'https://i.postimg.cc/mD9SJc41/149071.png'
-                          }
+                          src={seller?.avatar ? seller?.avatar.url : 'https://i.postimg.cc/mD9SJc41/149071.png'}
                           alt="seller"
                         />
                       </div>
@@ -629,16 +572,12 @@ const SingleProduct = () => {
                           Phone No: <b>{seller.phoneNo}</b>
                         </div>
                         <div className="mt-2">
-                          {seller.aboutInfo ||
-                            '----------No about information of this seller----------'}
+                          {seller.aboutInfo || '----------No about information of this seller----------'}
                         </div>
                       </div>
                       <div className="d-flex justify-content-center align-items-center flex-column">
                         <button type="button" className="btn btn-primary w-100">
-                          <b
-                            data-toggle="modal"
-                            data-target={`#chatModalSeller`}
-                          >
+                          <b data-toggle="modal" data-target={`#chatModalSeller`}>
                             Message
                           </b>
                         </button>
@@ -682,24 +621,18 @@ const SingleProduct = () => {
                     </Countdown>
                   )}
                 </div>
-                <h3
-                  className={`text-center m-3 ${product?.bidStatus === 'Live' ? 'text-success' : 'text-danger'} `}
-                >
+                <h3 className={`text-center m-3 ${product?.bidStatus === 'Live' ? 'text-success' : 'text-danger'} `}>
                   <b>Bid Status: {product.bidStatus}</b>
                 </h3>
 
                 {/* <!-- Button trigger modal --> */}
-                {auctionTimeRemaining < 0 ||
-                (product?.bidStatus === 'Expired' && bidders?.length > 0) ? (
+                {auctionTimeRemaining < 0 || (product?.bidStatus === 'Expired' && bidders?.length > 0) ? (
                   <h3 className="text-warning text-center">
-                    <i className="fa fa-crown"></i> {highestBidder?.name} won
-                    the bid with a price of Rs. {highestBid.toLocaleString()}
+                    <i className="fa fa-crown"></i> {highestBidder?.name} won the bid with a price of Rs.{' '}
+                    {highestBid.toLocaleString()}
                   </h3>
-                ) : product?.bidStatus === 'Expired' &&
-                  bidders?.length === 0 ? (
-                  <h3 className="text-warning text-center">
-                    This bidding has been expired with no bidders
-                  </h3>
+                ) : product?.bidStatus === 'Expired' && bidders?.length === 0 ? (
+                  <h3 className="text-warning text-center">This bidding has been expired with no bidders</h3>
                 ) : (
                   <button
                     type="button"
@@ -727,12 +660,7 @@ const SingleProduct = () => {
                           <h3 className="modal-title" id="bidModalLabel">
                             Place Bid
                           </h3>
-                          <button
-                            type="button"
-                            className="close"
-                            data-dismiss="modal"
-                            aria-label="Close"
-                          >
+                          <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
                         </div>
@@ -740,9 +668,7 @@ const SingleProduct = () => {
                           <div className="modal-body">
                             <h4>Enter Your Bid Amount</h4>
                             <div className="d-flex">
-                              <h3 className="m-0 d-flex align-items-end justify-content-center">
-                                Rs.{' '}
-                              </h3>
+                              <h3 className="m-0 d-flex align-items-end justify-content-center">Rs. </h3>
                               <input
                                 type="number"
                                 value={bidAmount}
@@ -753,11 +679,7 @@ const SingleProduct = () => {
                             </div>
                           </div>
                           <div className="modal-footer">
-                            <button
-                              type="button"
-                              className="btn btn-secondary"
-                              data-dismiss="modal"
-                            >
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">
                               Close
                             </button>
                             <button type="submit" className="btn btn-primary">
@@ -804,16 +726,9 @@ const SingleProduct = () => {
                                         <span>{index + 1}</span>{' '}
                                       </div>
                                       <div className="userimg">
-                                        <img
-                                          className="bidder-dp"
-                                          src={user?.user?.avatar?.url}
-                                          alt="user"
-                                        />
+                                        <img className="bidder-dp" src={user?.user?.avatar?.url} alt="user" />
                                       </div>
-                                      <span className="username">
-                                        {' '}
-                                        {user?.user?.name}{' '}
-                                      </span>
+                                      <span className="username"> {user?.user?.name} </span>
                                       <div className="price">
                                         <b>Rs. {user.price.toLocaleString()}</b>
                                       </div>
@@ -825,9 +740,7 @@ const SingleProduct = () => {
                         })
                       ) : (
                         <h4 className="text-center">
-                          No bidders{' '}
-                          {product?.bidStatus !== 'Expired' ? 'yet' : ''} on
-                          this product
+                          No bidders {product?.bidStatus !== 'Expired' ? 'yet' : ''} on this product
                         </h4>
                       )}
                     </li>
@@ -841,11 +754,7 @@ const SingleProduct = () => {
         </div>
       ) : (
         <div className="product-not-found-container d-flex flex-column my-3 h-100 w-100 justify-content-center align-items-center">
-          <img
-            src="/page_not_found.svg"
-            alt="Product Not Found"
-            style={{ maxWidth: '100%', height: 'auto' }}
-          />
+          <img src="/page_not_found.svg" alt="Product Not Found" style={{ maxWidth: '100%', height: 'auto' }} />
           {/* error */}
           {error && (
             <h2 className="my-5">

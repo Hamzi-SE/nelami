@@ -19,15 +19,12 @@ const SuccessPage = () => {
 
       if (sessionId) {
         try {
-          const res = await customFetch(
-            `/api/v1/payment/stripe/session?session_id=${sessionId}`,
-            {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            }
-          )
+          const res = await customFetch(`/api/v1/payment/stripe/session?session_id=${sessionId}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
 
           const data = await res.json()
 
@@ -62,33 +59,24 @@ const SuccessPage = () => {
 
   return (
     <div className="container my-5 py-5">
-      {session.status === 'complete' && (
-        <Confetti recycle={false} numberOfPieces={1000} />
-      )}
+      {session.status === 'complete' && <Confetti recycle={false} numberOfPieces={1000} />}
       <div className="row justify-content-center">
         <div className="col-12 col-md-10 col-lg-8 text-center">
           <div className="alert alert-success my-5 py-5">
             <h1 className="alert-heading">Payment Successful!</h1>
-            <p className="lead">
-              Thank you for your purchase. Your payment was processed
-              successfully.
-            </p>
+            <p className="lead">Thank you for your purchase. Your payment was processed successfully.</p>
             <hr />
             <p>
               <strong>Session ID:</strong> {session.id}
             </p>
             <p>
-              <strong>Amount:</strong> {session.amount_total / 100}{' '}
-              {session.currency.toUpperCase()}
+              <strong>Amount:</strong> {session.amount_total / 100} {session.currency.toUpperCase()}
             </p>
             <p>
               <strong>Status:</strong> {session.payment_status}
             </p>
             {/* Add more details as needed */}
-            <button
-              className="btn btn-primary mt-4"
-              onClick={() => navigate('/')}
-            >
+            <button className="btn btn-primary mt-4" onClick={() => navigate('/')}>
               Go to Home
             </button>
           </div>

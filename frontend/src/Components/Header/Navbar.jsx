@@ -63,11 +63,7 @@ const Navbar = () => {
                   >
                     Categories
                   </NavLink>
-                  <ul
-                    className="dropdown-menu"
-                    role="menu"
-                    aria-labelledby="menu1"
-                  >
+                  <ul className="dropdown-menu" role="menu" aria-labelledby="menu1">
                     <li role="menuitem">
                       <Link to="/categories/Vehicles">Vehicles</Link>
                     </li>
@@ -75,15 +71,11 @@ const Navbar = () => {
                       <Link to="/categories/Property">Properties</Link>
                     </li>
                     <li role="menuitem">
-                      <Link to="/categories/MiscProducts">
-                        Miscellaneous Products
-                      </Link>
+                      <Link to="/categories/MiscProducts">Miscellaneous Products</Link>
                     </li>
                   </ul>
                 </li>
-                {(isAuthenticated
-                  ? user?.role === 'seller' || user?.role === 'admin'
-                  : true) && (
+                {(isAuthenticated ? user?.role === 'seller' || user?.role === 'admin' : true) && (
                   <li role="menuitem" aria-haspopup="true">
                     <NavLink to="/Packages">Packages</NavLink>
                   </li>
@@ -91,11 +83,7 @@ const Navbar = () => {
                 <li role="menuitem" aria-haspopup="true">
                   <NavLink to="/Contact">Contact</NavLink>
                 </li>
-                <li
-                  role="menuitem"
-                  aria-haspopup="true"
-                  className="d-lg-none mt-5 pb-5 mt-lg-0"
-                >
+                <li role="menuitem" aria-haspopup="true" className="d-lg-none mt-5 pb-5 mt-lg-0">
                   <span>
                     <NavLink className="btn btn-secondary" to="/product/new">
                       Post Free Ad

@@ -68,9 +68,7 @@ const MyWishlist = () => {
   const columns = [
     {
       name: 'Product Image',
-      selector: (row) => (
-        <img src={row.images?.featuredImg.url} width={120} alt="productImg" />
-      ),
+      selector: (row) => <img src={row.images?.featuredImg.url} width={120} alt="productImg" />,
     },
     {
       name: 'Product Name',

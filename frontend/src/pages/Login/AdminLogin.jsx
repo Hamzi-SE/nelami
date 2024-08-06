@@ -87,9 +87,7 @@ const AdminLogin = () => {
                       </div>
                       <div className="card-body">
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Email address
-                          </label>
+                          <label className="form-label text-dark">Email address</label>
                           <input
                             type="email"
                             className="form-control"
@@ -100,9 +98,7 @@ const AdminLogin = () => {
                           />
                         </div>
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Password
-                          </label>
+                          <label className="form-label text-dark">Password</label>
                           <input
                             type="password"
                             className="form-control"
@@ -115,11 +111,7 @@ const AdminLogin = () => {
                         </div>
 
                         <div className="form-footer mt-2">
-                          <button
-                            type="submit"
-                            className="btn btn-primary btn-block"
-                            onClick={handleSubmit}
-                          >
+                          <button type="submit" className="btn btn-primary btn-block" onClick={handleSubmit}>
                             Login
                           </button>
                         </div>

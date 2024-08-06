@@ -9,9 +9,7 @@ dotenv.config({ path: 'config/config.env' })
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 const endpointSecret =
-  process.env.NODE_ENV === 'production'
-    ? process.env.STRIPE_WEBHOOK_SECRET_PROD
-    : process.env.STRIPE_WEBHOOK_SECRET_DEV
+  process.env.NODE_ENV === 'production' ? process.env.STRIPE_WEBHOOK_SECRET_PROD : process.env.STRIPE_WEBHOOK_SECRET_DEV
 
 // Constants for package IDs
 const GOLD_PACKAGE_ID = 2
@@ -64,9 +62,7 @@ exports.processPayment = catchAsyncErrors(async (req, res, next) => {
 
   // Prevent downgrading or selecting the same package
   if (plans[user.userPackage] >= plans[packageName]) {
-    return next(
-      new ErrorHandler(`You already have ${user.userPackage} package`, 400)
-    )
+    return next(new ErrorHandler(`You already have ${user.userPackage} package`, 400))
   }
 
   try {
@@ -125,9 +121,7 @@ exports.processPayment = catchAsyncErrors(async (req, res, next) => {
     })
     res.status(200).json({ success: true, sessionUrl: session.url })
   } catch (error) {
-    return next(
-      new ErrorHandler(`Payment processing failed: ${error.message}`, 500)
-    )
+    return next(new ErrorHandler(`Payment processing failed: ${error.message}`, 500))
   }
 })
 
@@ -198,9 +192,7 @@ exports.stripeWebhook = catchAsyncErrors(async (req, res, next) => {
 
 exports.getSession = catchAsyncErrors(async (req, res, next) => {
   try {
-    const session = await stripe.checkout.sessions.retrieve(
-      req.query.session_id
-    )
+    const session = await stripe.checkout.sessions.retrieve(req.query.session_id)
 
     res.status(200).json({
       success: true,

@@ -9,9 +9,7 @@ import customFetch from '../../utils/api'
 
 const SellerProfile = () => {
   const dispatch = useDispatch()
-  const { seller, products, loading } = useSelector(
-    (state) => state.sellerProfile
-  )
+  const { seller, products, loading } = useSelector((state) => state.sellerProfile)
   const { id } = useParams()
   const navigate = useNavigate()
   const callSellerProfile = async () => {
@@ -67,29 +65,16 @@ const SellerProfile = () => {
               <div className="row">
                 <div className="col-xl-8 col-lg-12 col-md-12 d-block mx-auto">
                   <div className="text-center">
-                    <h1 className="text-white text-uppercase">
-                      Seller Profile
-                    </h1>
+                    <h1 className="text-white text-uppercase">Seller Profile</h1>
                     <div className="card-body text-center item-user">
                       <div className="profile-pic">
                         <div className="profile-pic-img">
-                          {seller?.avatar && (
-                            <img
-                              src={seller?.avatar?.url}
-                              className="brround"
-                              alt="user"
-                            />
-                          )}
+                          {seller?.avatar && <img src={seller?.avatar?.url} className="brround" alt="user" />}
                         </div>
-                        <h3 className="mt-3 mb-0 font-weight-semibold">
-                          {seller?.name}
-                        </h3>
+                        <h3 className="mt-3 mb-0 font-weight-semibold">{seller?.name}</h3>
                         <p>{seller?.aboutInfo}</p>
                         <h5>{seller?.userPackage} User</h5>
-                        <h3
-                          className="mt-3 mb-0 font-weight-semibold"
-                          style={{ textTransform: 'capitalize' }}
-                        >
+                        <h3 className="mt-3 mb-0 font-weight-semibold" style={{ textTransform: 'capitalize' }}>
                           {seller?.store}
                         </h3>
                       </div>
@@ -113,10 +98,7 @@ const SellerProfile = () => {
                     {products?.length !== 0 ? (
                       products?.map((product, index) => {
                         return (
-                          <div
-                            key={index}
-                            className="product-wrapper col-xl-3 col-lg-4 col-md-6 col-sm-12"
-                          >
+                          <div key={index} className="product-wrapper col-xl-3 col-lg-4 col-md-6 col-sm-12">
                             <ProductCard product={product} index={index} />
                           </div>
                         )

@@ -91,11 +91,7 @@ const Settings = () => {
                 </div>
               </div>
               <div className="card-footer">
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  onClick={updatePassword}
-                >
+                <button type="submit" className="btn btn-primary" onClick={updatePassword}>
                   Update Password
                 </button>
               </div>

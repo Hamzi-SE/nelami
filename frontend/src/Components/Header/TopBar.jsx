@@ -10,9 +10,7 @@ import toast from 'react-hot-toast'
 const TopBar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const { user, isAuthenticated } = useSelector((state) => state.user)
-  const { notifications, loading, error } = useSelector(
-    (state) => state.notifications
-  )
+  const { notifications, loading, error } = useSelector((state) => state.notifications)
 
   const location = useLocation()
   const dispatch = useDispatch()
@@ -94,9 +92,7 @@ const TopBar = () => {
           payload: data.notification._id,
         })
       } else {
-        toast.error(
-          data?.message || 'Failed to mark as read. Please try again.'
-        )
+        toast.error(data?.message || 'Failed to mark as read. Please try again.')
         dispatch({
           type: 'MARK_NOTIFICATION_AS_READ_FAIL',
           payload: data.message,
@@ -121,34 +117,22 @@ const TopBar = () => {
                 <div className="clearfix">
                   <ul className="socials">
                     <li>
-                      <a
-                        className="social-icon text-dark"
-                        href="https://www.facebook.com"
-                      >
+                      <a className="social-icon text-dark" href="https://www.facebook.com">
                         <i className="fa-brands fa-facebook-f"></i>
                       </a>
                     </li>
                     <li>
-                      <a
-                        className="social-icon text-dark"
-                        href="https://www.twitter.com"
-                      >
+                      <a className="social-icon text-dark" href="https://www.twitter.com">
                         <i className="fa-brands fa-twitter"></i>
                       </a>
                     </li>
                     <li>
-                      <a
-                        className="social-icon text-dark"
-                        href="https://www.linkedin.com"
-                      >
+                      <a className="social-icon text-dark" href="https://www.linkedin.com">
                         <i className="fa-brands fa-linkedin-in"></i>
                       </a>
                     </li>
                     <li>
-                      <a
-                        className="social-icon text-dark"
-                        href="https://myaccount.google.com"
-                      >
+                      <a className="social-icon text-dark" href="https://myaccount.google.com">
                         <i className="fa-brands fa-google-plus-g"></i>
                       </a>
                     </li>
@@ -178,28 +162,17 @@ const TopBar = () => {
                   {isAuthenticated && user?.role !== 'admin' && (
                     <li className="dropdown">
                       <div className="notification-dropdown">
-                        <button
-                          className="dropdown-toggle text-dark"
-                          onClick={handleDropdownToggle}
-                        >
+                        <button className="dropdown-toggle text-dark" onClick={handleDropdownToggle}>
                           <i className="fa fa-bell me-1"></i>
                           <span>Notifications</span>
-                          {notifications?.filter(
-                            (notification) => !notification.read
-                          ).length > 0 && (
+                          {notifications?.filter((notification) => !notification.read).length > 0 && (
                             <p className="badge bg-danger text-white notifications-count">
-                              {
-                                notifications?.filter(
-                                  (notification) => !notification.read
-                                ).length
-                              }
+                              {notifications?.filter((notification) => !notification.read).length}
                             </p>
                           )}
                         </button>
                         {isDropdownOpen && (
-                          <ul
-                            className={`dropdown-menu ${isDropdownOpen ? 'show' : ''}`}
-                          >
+                          <ul className={`dropdown-menu ${isDropdownOpen ? 'show' : ''}`}>
                             {loading ? (
                               <li className="d-flex justify-content-center align-items-center">
                                 <ClipLoader size={24} color="blue" />
@@ -207,30 +180,23 @@ const TopBar = () => {
                             ) : error ? (
                               <li>Error: {error}</li>
                             ) : notifications?.length === 0 ? (
-                              <li className="d-flex justify-content-center align-items-center">
-                                No notifications
-                              </li>
+                              <li className="d-flex justify-content-center align-items-center">No notifications</li>
                             ) : (
                               notifications?.map((notification, index) => (
                                 <li
                                   key={index}
                                   style={{
-                                    fontWeight: !notification.read
-                                      ? 'bold'
-                                      : '',
+                                    fontWeight: !notification.read ? 'bold' : '',
                                   }}
                                 >
                                   {notification.link ? (
                                     <NavLink
                                       to={notification.link}
                                       style={{
-                                        fontWeight: !notification.read
-                                          ? 'bold'
-                                          : '',
+                                        fontWeight: !notification.read ? 'bold' : '',
                                       }}
                                     >
-                                      <i className="fa fa-external-link me-1"></i>{' '}
-                                      {notification.message}
+                                      <i className="fa fa-external-link me-1"></i> {notification.message}
                                     </NavLink>
                                   ) : (
                                     <div>
@@ -243,9 +209,7 @@ const TopBar = () => {
                                     <button
                                       title="Mark as read"
                                       className="btn btn-sm btn-primary"
-                                      onClick={() =>
-                                        handleMarkAsRead(notification._id)
-                                      }
+                                      onClick={() => handleMarkAsRead(notification._id)}
                                     >
                                       <i className="fa fa-check text-white"></i>{' '}
                                     </button>

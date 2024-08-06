@@ -4,11 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ClipLoader } from 'react-spinners'
 
 // Icons
-import {
-  HiOutlinePencilAlt,
-  HiOutlineTrash,
-  HiOutlineEye,
-} from 'react-icons/hi'
+import { HiOutlinePencilAlt, HiOutlineTrash, HiOutlineEye } from 'react-icons/hi'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
 
@@ -108,15 +104,8 @@ const ApprovalProducts = () => {
             <Button variant="danger" onClick={() => setShow(false)}>
               Close
             </Button>
-            <Button
-              variant="primary"
-              onClick={() => handleProductApproval(approvalProducts[index])}
-            >
-              {productLoading ? (
-                <ClipLoader size={20} color="white" />
-              ) : (
-                'Approve'
-              )}
+            <Button variant="primary" onClick={() => handleProductApproval(approvalProducts[index])}>
+              {productLoading ? <ClipLoader size={20} color="white" /> : 'Approve'}
             </Button>
           </Modal.Footer>
         </Modal>
@@ -132,9 +121,7 @@ const ApprovalProducts = () => {
   const columns = [
     {
       name: 'Image',
-      selector: (row) => (
-        <img src={row.images.featuredImg.url} width={100} alt="productImg" />
-      ),
+      selector: (row) => <img src={row.images.featuredImg.url} width={100} alt="productImg" />,
     },
     {
       name: 'Product Name',
@@ -199,9 +186,7 @@ const ApprovalProducts = () => {
           </div>
           <div className="card-body">
             <div className="row">
-              <h5 className="text-info">
-                Total Products For Approval: {approvalProductsCount}
-              </h5>
+              <h5 className="text-info">Total Products For Approval: {approvalProductsCount}</h5>
               <DataTable
                 columns={columns}
                 data={approvalProducts}

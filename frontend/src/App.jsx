@@ -27,63 +27,35 @@ const ProductsPage = lazy(() => import('./pages/ProductsPage/ProductsPage'))
 const EditProfile = lazy(() => import('./pages/Dashboard/Profile/EditProfile'))
 const SingleProduct = lazy(() => import('./pages/SingleProduct/SingleProduct'))
 const ProductForms = lazy(() => import('./pages/ProductForms/ProductsForms'))
-const EditProduct = lazy(
-  () => import('./pages/Dashboard/MyProducts/EditProduct')
-)
-const ViewProductBidders = lazy(
-  () => import('./pages/Dashboard/MyProducts/ViewProductBidders')
-)
-const DeleteProduct = lazy(
-  () => import('./pages/Dashboard/MyProducts/DeleteProduct')
-)
+const EditProduct = lazy(() => import('./pages/Dashboard/MyProducts/EditProduct'))
+const ViewProductBidders = lazy(() => import('./pages/Dashboard/MyProducts/ViewProductBidders'))
+const DeleteProduct = lazy(() => import('./pages/Dashboard/MyProducts/DeleteProduct'))
 const CategoryPage = lazy(() => import('./pages/CategoryPage/CategoryPage'))
-const ForgotPassword = lazy(
-  () => import('./pages/ForgotPassword/ForgotPassword')
-)
+const ForgotPassword = lazy(() => import('./pages/ForgotPassword/ForgotPassword'))
 const ResetPassword = lazy(() => import('./pages/ResetPassword/ResetPassword'))
-const PackagesPricing = lazy(
-  () => import('./pages/PackagesPricing/PackagesPricing')
-)
+const PackagesPricing = lazy(() => import('./pages/PackagesPricing/PackagesPricing'))
 const Checkout = lazy(() => import('./pages/Checkout/Checkout'))
 const PaymentSuccess = lazy(() => import('./pages/Payment/PaymentSuccess'))
 const PaymentFail = lazy(() => import('./pages/Payment/PaymentFail'))
 
 // Admin Imports
 const AdminLogin = lazy(() => import('./pages/Login/AdminLogin'))
-const AdminDashboard = lazy(
-  () => import('./pages/AdminDashboard/AdminDashboard')
-)
-const AdminEditProfile = lazy(
-  () => import('./pages/AdminDashboard/Profile/EditProfile')
-)
-const DeleteUser = lazy(
-  () => import('./pages/AdminDashboard/AllUsers/DeleteUser')
-)
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard/AdminDashboard'))
+const AdminEditProfile = lazy(() => import('./pages/AdminDashboard/Profile/EditProfile'))
+const DeleteUser = lazy(() => import('./pages/AdminDashboard/AllUsers/DeleteUser'))
 
 // Form Imports
 const CarForm = lazy(() => import('./pages/ProductForms/Vehicles/CarForm'))
 const BikeForm = lazy(() => import('./pages/ProductForms/Vehicles/BikeForm'))
 const BusesForm = lazy(() => import('./pages/ProductForms/Vehicles/BusesForm'))
-const RickshawForm = lazy(
-  () => import('./pages/ProductForms/Vehicles/RickshawForm')
-)
-const TractorForm = lazy(
-  () => import('./pages/ProductForms/Vehicles/TractorForm')
-)
-const OthersForm = lazy(
-  () => import('./pages/ProductForms/Vehicles/OthersForm')
-)
+const RickshawForm = lazy(() => import('./pages/ProductForms/Vehicles/RickshawForm'))
+const TractorForm = lazy(() => import('./pages/ProductForms/Vehicles/TractorForm'))
+const OthersForm = lazy(() => import('./pages/ProductForms/Vehicles/OthersForm'))
 const LandForm = lazy(() => import('./pages/ProductForms/Properties/LandForm'))
-const HouseForm = lazy(
-  () => import('./pages/ProductForms/Properties/HouseForm')
-)
-const ApartmentForm = lazy(
-  () => import('./pages/ProductForms/Properties/ApartmentForm')
-)
+const HouseForm = lazy(() => import('./pages/ProductForms/Properties/HouseForm'))
+const ApartmentForm = lazy(() => import('./pages/ProductForms/Properties/ApartmentForm'))
 const ShopForm = lazy(() => import('./pages/ProductForms/Properties/ShopForm'))
-const PortionForm = lazy(
-  () => import('./pages/ProductForms/Properties/PortionForm')
-)
+const PortionForm = lazy(() => import('./pages/ProductForms/Properties/PortionForm'))
 const MiscForm = lazy(() => import('./pages/ProductForms/Misc/MiscForm'))
 
 // Messenger
@@ -95,26 +67,14 @@ const Routing = ({ isAuthenticated, loading }) => {
     <Suspense fallback={<Loader />}>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route
-          path="/login"
-          element={isAuthenticated ? <Navigate to="/" /> : <Login />}
-        />
-        <Route
-          path="/signup"
-          element={isAuthenticated ? <Navigate to="/" /> : <SignUp />}
-        />
+        <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Login />} />
+        <Route path="/signup" element={isAuthenticated ? <Navigate to="/" /> : <SignUp />} />
         <Route path="/user/validate" element={<OTPValidation />} />
-        <Route
-          path="/logout"
-          element={isAuthenticated ? <Logout /> : <Navigate to="/" />}
-        />
+        <Route path="/logout" element={isAuthenticated ? <Logout /> : <Navigate to="/" />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/EditProfile" element={<EditProfile />} />
         <Route path="/user/product/edit/:id" element={<EditProduct />} />
-        <Route
-          path="/user/product/bids/all/:id"
-          element={<ViewProductBidders />}
-        />
+        <Route path="/user/product/bids/all/:id" element={<ViewProductBidders />} />
         <Route path="/user/product/delete/:id" element={<DeleteProduct />} />
         <Route path="/user/forgot-password" element={<ForgotPassword />} />
         <Route path="/user/password/reset/:token" element={<ResetPassword />} />
@@ -146,15 +106,7 @@ const Routing = ({ isAuthenticated, loading }) => {
 
         <Route
           path="/messenger"
-          element={
-            loading ? (
-              <Loader />
-            ) : isAuthenticated ? (
-              <Messenger />
-            ) : (
-              <Navigate to="/login" replace />
-            )
-          }
+          element={loading ? <Loader /> : isAuthenticated ? <Messenger /> : <Navigate to="/login" replace />}
         />
         <Route path="/contact" element={<Contact />} />
         <Route path="*" element={<Error />} />

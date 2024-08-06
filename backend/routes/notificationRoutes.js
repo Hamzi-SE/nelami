@@ -2,11 +2,7 @@ const express = require('express')
 
 const router = express.Router()
 
-const {
-  createNotification,
-  getNotifications,
-  markAsRead,
-} = require('../controllers/notificationController')
+const { createNotification, getNotifications, markAsRead } = require('../controllers/notificationController')
 const { isAuthenticatedUser } = require('../middleware/auth')
 
 router.route('/notification/new').post(createNotification)

@@ -32,11 +32,7 @@ const ProductsForms = () => {
             <h4 className="p-3 m-2">CHOOSE A CATEGORY</h4>
           </div>
           <div className="col-md-4 categories-list categories-list-wrapper categories-select p-0">
-            <div
-              data-index={1}
-              onClick={handleActiveCategory}
-              className="category-block category-group"
-            >
+            <div data-index={1} onClick={handleActiveCategory} className="category-block category-group">
               <div className="category-icon d-flex justify-content-center align-items-center">
                 <IoCarSportSharp />
               </div>
@@ -45,11 +41,7 @@ const ProductsForms = () => {
                 <FiChevronRight />
               </div>
             </div>
-            <div
-              data-index={2}
-              onClick={handleActiveCategory}
-              className="category-block category-group"
-            >
+            <div data-index={2} onClick={handleActiveCategory} className="category-block category-group">
               <div className="category-icon d-flex justify-content-center align-items-center">
                 <BiBuildingHouse />
               </div>
@@ -58,11 +50,7 @@ const ProductsForms = () => {
                 <FiChevronRight />
               </div>
             </div>
-            <div
-              data-index={3}
-              onClick={handleActiveCategory}
-              className="category-block category-group"
-            >
+            <div data-index={3} onClick={handleActiveCategory} className="category-block category-group">
               <div className="category-icon d-flex justify-content-center align-items-center">
                 <BiBuildingHouse />
               </div>
@@ -86,9 +74,7 @@ const ProductsForms = () => {
 
                     <div className="subcategory-name">Cars</div>
 
-                    <div className="open-arrow-icon">
-                      {/* <FiChevronRight /> */}
-                    </div>
+                    <div className="open-arrow-icon">{/* <FiChevronRight /> */}</div>
                   </Link>
                 </div>
                 <div className="subcategory-block">
@@ -97,9 +83,7 @@ const ProductsForms = () => {
                       <GrBike />
                     </div>
                     <div className="subcategory-name">Bikes</div>
-                    <div className="open-arrow-icon">
-                      {/* <FiChevronRight /> */}
-                    </div>
+                    <div className="open-arrow-icon">{/* <FiChevronRight /> */}</div>
                   </Link>
                 </div>
                 <div className="subcategory-block">
@@ -108,9 +92,7 @@ const ProductsForms = () => {
                       <IoBusOutline />
                     </div>
                     <div className="subcategory-name">Buses, Vans & Trucks</div>
-                    <div className="open-arrow-icon">
-                      {/* <FiChevronRight /> */}
-                    </div>
+                    <div className="open-arrow-icon">{/* <FiChevronRight /> */}</div>
                   </Link>
                 </div>
                 <div className="subcategory-block">
@@ -119,9 +101,7 @@ const ProductsForms = () => {
                       <IoCarSportSharp />
                     </div>
                     <div className="subcategory-name">Rickshaw & Chingchi</div>
-                    <div className="open-arrow-icon">
-                      {/* <FiChevronRight /> */}
-                    </div>
+                    <div className="open-arrow-icon">{/* <FiChevronRight /> */}</div>
                   </Link>
                 </div>
                 <div className="subcategory-block">
@@ -130,9 +110,7 @@ const ProductsForms = () => {
                       <FaTractor />
                     </div>
                     <div className="subcategory-name">Tractors & Trailer</div>
-                    <div className="open-arrow-icon">
-                      {/* <FiChevronRight /> */}
-                    </div>
+                    <div className="open-arrow-icon">{/* <FiChevronRight /> */}</div>
                   </Link>
                 </div>
                 <div className="subcategory-block">
@@ -141,9 +119,7 @@ const ProductsForms = () => {
                       <IoCarSportSharp />
                     </div>
                     <div className="subcategory-name">Other Vehicles</div>
-                    <div className="open-arrow-icon">
-                      {/* <FiChevronRight /> */}
-                    </div>
+                    <div className="open-arrow-icon">{/* <FiChevronRight /> */}</div>
                   </Link>
                 </div>
               </div>
@@ -160,9 +136,7 @@ const ProductsForms = () => {
                       <BiBuildingHouse />
                     </div>
                     <div className="subcategory-name">Land & Plots</div>
-                    <div className="open-arrow-icon">
-                      {/* <FiChevronRight /> */}
-                    </div>
+                    <div className="open-arrow-icon">{/* <FiChevronRight /> */}</div>
                   </Link>
                 </div>
                 <div className="subcategory-block">
@@ -171,9 +145,7 @@ const ProductsForms = () => {
                       <BiBuildingHouse />
                     </div>
                     <div className="subcategory-name">Houses</div>
-                    <div className="open-arrow-icon">
-                      {/* <FiChevronRight /> */}
-                    </div>
+                    <div className="open-arrow-icon">{/* <FiChevronRight /> */}</div>
                   </Link>
                 </div>
                 <div className="subcategory-block">
@@ -182,9 +154,7 @@ const ProductsForms = () => {
                       <BiBuildingHouse />
                     </div>
                     <div className="subcategory-name">Apartments & Flats</div>
-                    <div className="open-arrow-icon">
-                      {/* <FiChevronRight /> */}
-                    </div>
+                    <div className="open-arrow-icon">{/* <FiChevronRight /> */}</div>
                   </Link>
                 </div>
                 <div className="subcategory-block">
@@ -192,12 +162,8 @@ const ProductsForms = () => {
                     <div className="subcategory-icon d-flex justify-content-center align-items-center">
                       <BiBuildingHouse />
                     </div>
-                    <div className="subcategory-name">
-                      Shops - Offices - Commercial Space
-                    </div>
-                    <div className="open-arrow-icon">
-                      {/* <FiChevronRight /> */}
-                    </div>
+                    <div className="subcategory-name">Shops - Offices - Commercial Space</div>
+                    <div className="open-arrow-icon">{/* <FiChevronRight /> */}</div>
                   </Link>
                 </div>
                 <div className="subcategory-block">
@@ -206,9 +172,7 @@ const ProductsForms = () => {
                       <BiBuildingHouse />
                     </div>
                     <div className="subcategory-name">Portions & Floors</div>
-                    <div className="open-arrow-icon">
-                      {/* <FiChevronRight /> */}
-                    </div>
+                    <div className="open-arrow-icon">{/* <FiChevronRight /> */}</div>
                   </Link>
                 </div>
               </div>
@@ -222,9 +186,7 @@ const ProductsForms = () => {
                       <BiBuildingHouse />
                     </div>
                     <div className="subcategory-name">Other Product</div>
-                    <div className="open-arrow-icon">
-                      {/* <FiChevronRight /> */}
-                    </div>
+                    <div className="open-arrow-icon">{/* <FiChevronRight /> */}</div>
                   </Link>
                 </div>
               </div>

@@ -1,10 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {
-  createMessage,
-  getAllMessages,
-  sendMailToAdmin,
-} = require('../controllers/messageController')
+const { createMessage, getAllMessages, sendMailToAdmin } = require('../controllers/messageController')
 
 router.route('/message/new').post(createMessage)
 

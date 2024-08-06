@@ -98,15 +98,10 @@ const EditProfile = () => {
                   title=""
                   data-bs-original-title="online"
                 ></span>
-                {user.avatar && (
-                  <img src={user.avatar.url} className="brround" alt="user" />
-                )}
+                {user.avatar && <img src={user.avatar.url} className="brround" alt="user" />}
               </div>
               <h3 className="mt-3 mb-0 font-weight-semibold">{user.name}</h3>
-              <h3
-                className="mt-3 mb-0 font-weight-semibold text-success"
-                style={{ textTransform: 'capitalize' }}
-              >
+              <h3 className="mt-3 mb-0 font-weight-semibold text-success" style={{ textTransform: 'capitalize' }}>
                 {user.role}
               </h3>
             </div>
@@ -200,9 +195,7 @@ const EditProfile = () => {
                     </option>
                     <option value="Islamabad">Islamabad</option>
 
-                    <option value="Ahmed Nager Chatha">
-                      Ahmed Nager Chatha
-                    </option>
+                    <option value="Ahmed Nager Chatha">Ahmed Nager Chatha</option>
                     <option value="Ahmadpur East">Ahmadpur East</option>
                     <option value="Ali Khan Abad">Ali Khan Abad</option>
                     <option value="Alipur">Alipur</option>
@@ -357,9 +350,7 @@ const EditProfile = () => {
                     <option value="Tangwani">Tangwani</option>
                     <option value="Tando Adam Khan">Tando Adam Khan</option>
                     <option value="Tando Allahyar">Tando Allahyar</option>
-                    <option value="Tando Muhammad Khan">
-                      Tando Muhammad Khan
-                    </option>
+                    <option value="Tando Muhammad Khan">Tando Muhammad Khan</option>
                     <option value="Thatta">Thatta</option>
                     <option value="Umerkot">Umerkot</option>
                     <option value="Warah">Warah</option>
@@ -497,11 +488,7 @@ const EditProfile = () => {
             </div>
           </div>
           <div className="card-footer">
-            <button
-              type="submit"
-              className="btn btn-primary"
-              onClick={handleUpdate}
-            >
+            <button type="submit" className="btn btn-primary" onClick={handleUpdate}>
               {updating ? 'Updating...' : 'Update'}
             </button>
             <button

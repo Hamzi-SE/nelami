@@ -13,16 +13,10 @@ const Message = ({ message, own, userAvatars }) => {
   return (
     <div className={own ? 'message own' : 'message'}>
       <div className="messageTop">
-        <img
-          className="messageImg"
-          src={getAvatar(message.sender)}
-          alt="user"
-        />
+        <img className="messageImg" src={getAvatar(message.sender)} alt="user" />
         <p className="messageText m-0">{message.text}</p>
       </div>
-      <div className="messageBottom m-0">
-        {formatTimestamp(message.createdAt)}
-      </div>
+      <div className="messageBottom m-0">{formatTimestamp(message.createdAt)}</div>
     </div>
   )
 }

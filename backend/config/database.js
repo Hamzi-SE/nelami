@@ -5,9 +5,7 @@ const connectDatabase = () => {
     .set('strictQuery', false)
     .connect(process.env.DB_URI)
     .then((res) => {
-      console.log(
-        `Database Connected Successfully with ${res.connection.db.databaseName}`
-      )
+      console.log(`Database Connected Successfully with ${res.connection.db.databaseName}`)
     })
     .catch((err) => console.log(err))
 }

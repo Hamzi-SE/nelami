@@ -4,22 +4,13 @@ import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSocket } from '../../hooks/useSocket'
 
-const Conversations = ({
-  currentUser,
-  conversation,
-  friendsData,
-  onlineStatus,
-  lastActive,
-  typingStatuses,
-}) => {
+const Conversations = ({ currentUser, conversation, friendsData, onlineStatus, lastActive, typingStatuses }) => {
   const friendId = conversation.members.find((m) => m !== currentUser._id)
   const friend = friendsData[friendId]
   const dispatch = useDispatch()
   const socket = useSocket()
 
-  const [lastActiveState, setLastActiveState] = useState(
-    friend?.lastActive || null
-  )
+  const [lastActiveState, setLastActiveState] = useState(friend?.lastActive || null)
   const [, forceUpdate] = useState(0) // Dummy state to trigger re-render
 
   useEffect(() => {
@@ -79,11 +70,7 @@ const Conversations = ({
     friend && (
       <div className="conversation">
         <div className="img-group position-relative conversation-img-wrapper">
-          <img
-            src={friend?.avatar.url}
-            alt={friend?.name}
-            className="conversation-img"
-          />
+          <img src={friend?.avatar.url} alt={friend?.name} className="conversation-img" />
           {onlineStatus && <div className="user-online"></div>}
         </div>
         <div className="conversation-user-details">
@@ -96,9 +83,7 @@ const Conversations = ({
                 {conversation.lastMessageSender === currentUser._id ? (
                   <span className="font-weight-bold">You: </span>
                 ) : (
-                  <span className="font-weight-bold">
-                    {friend?.name?.split(' ')[0]}:{' '}
-                  </span>
+                  <span className="font-weight-bold">{friend?.name?.split(' ')[0]}: </span>
                 )}
                 {conversation.lastMessage}
               </>
@@ -106,14 +91,8 @@ const Conversations = ({
               'No message'
             )}
           </p>
-          <p
-            className={`m-0 conversation-last-time ${
-              onlineStatus ? 'conversation-active-now' : ''
-            }`}
-          >
-            {onlineStatus
-              ? 'Active Now'
-              : `Last active: ${formatTimestamp(lastActiveState)}`}
+          <p className={`m-0 conversation-last-time ${onlineStatus ? 'conversation-active-now' : ''}`}>
+            {onlineStatus ? 'Active Now' : `Last active: ${formatTimestamp(lastActiveState)}`}
           </p>
         </div>
       </div>

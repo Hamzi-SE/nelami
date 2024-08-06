@@ -60,11 +60,7 @@ const StatsDashboard = () => {
                       <h3>
                         Total Products <br />{' '}
                         <span>
-                          <CountUp
-                            duration={0.6}
-                            useEasing={true}
-                            end={stats.totalProducts}
-                          />
+                          <CountUp duration={0.6} useEasing={true} end={stats.totalProducts} />
                         </span>
                       </h3>
                     </div>
@@ -78,11 +74,7 @@ const StatsDashboard = () => {
                       <h3>
                         Placed Bids <br />{' '}
                         <span>
-                          <CountUp
-                            duration={0.6}
-                            useEasing={true}
-                            end={stats.totalBids}
-                          />
+                          <CountUp duration={0.6} useEasing={true} end={stats.totalBids} />
                         </span>
                       </h3>
                     </div>
@@ -96,11 +88,7 @@ const StatsDashboard = () => {
                       <h3>
                         Auction Ended <br />{' '}
                         <span>
-                          <CountUp
-                            duration={0.6}
-                            useEasing={true}
-                            end={stats.totalEndedBids}
-                          />
+                          <CountUp duration={0.6} useEasing={true} end={stats.totalEndedBids} />
                         </span>
                       </h3>
                     </div>
@@ -114,11 +102,7 @@ const StatsDashboard = () => {
                       <h3>
                         Ongoing Auction <br />{' '}
                         <span>
-                          <CountUp
-                            duration={0.6}
-                            useEasing={true}
-                            end={stats.totalOngoingBids}
-                          />
+                          <CountUp duration={0.6} useEasing={true} end={stats.totalOngoingBids} />
                         </span>
                       </h3>
                     </div>
@@ -133,11 +117,7 @@ const StatsDashboard = () => {
                         Vehicles <br />{' '}
                         <span>
                           {' '}
-                          <CountUp
-                            duration={0.6}
-                            useEasing={true}
-                            end={stats.totalVehicles}
-                          />
+                          <CountUp duration={0.6} useEasing={true} end={stats.totalVehicles} />
                         </span>
                       </h3>
                     </div>
@@ -151,11 +131,7 @@ const StatsDashboard = () => {
                       <h3>
                         Lands <br />{' '}
                         <span>
-                          <CountUp
-                            duration={0.6}
-                            useEasing={true}
-                            end={stats.totalProperties}
-                          />
+                          <CountUp duration={0.6} useEasing={true} end={stats.totalProperties} />
                         </span>
                       </h3>
                     </div>
@@ -169,11 +145,7 @@ const StatsDashboard = () => {
                       <h3>
                         Miscellaneous <br />{' '}
                         <span>
-                          <CountUp
-                            duration={0.6}
-                            useEasing={true}
-                            end={stats.totalMiscProducts}
-                          />
+                          <CountUp duration={0.6} useEasing={true} end={stats.totalMiscProducts} />
                         </span>
                       </h3>
                     </div>

@@ -42,15 +42,11 @@ router.route('/me/update').put(isAuthenticatedUser, updateProfile)
 router.route('/addToWishlist').post(isAuthenticatedUser, addProductToWishlist)
 router.route('/getWishlist').get(isAuthenticatedUser, getWishlistItems)
 
-router
-  .route('/admin/users')
-  .get(isAuthenticatedUser, authorizeRole('admin'), getAllUser)
+router.route('/admin/users').get(isAuthenticatedUser, authorizeRole('admin'), getAllUser)
 
 router.route('/user/:id').get(isAuthenticatedUser, getSingleUser)
 // .put(isAuthenticatedUser, authorizeRole("admin"), updateUserRole)
 
-router
-  .route('/admin/user/:id')
-  .delete(isAuthenticatedUser, authorizeRole('admin'), deleteUser)
+router.route('/admin/user/:id').delete(isAuthenticatedUser, authorizeRole('admin'), deleteUser)
 
 module.exports = router

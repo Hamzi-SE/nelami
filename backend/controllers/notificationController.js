@@ -42,12 +42,7 @@ exports.markAsRead = catchAsyncErrors(async (req, res, next) => {
 
   // check if this notification belongs to this user
   if (notification.userId.toString() !== req.user.id) {
-    return next(
-      new ErrorHandler(
-        'You are not authorized to mark this notification as read',
-        401
-      )
-    )
+    return next(new ErrorHandler('You are not authorized to mark this notification as read', 401))
   }
 
   notification.read = true

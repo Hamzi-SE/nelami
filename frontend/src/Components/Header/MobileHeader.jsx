@@ -53,10 +53,7 @@ const MobileHeader = () => {
             </button>
             <span className="smllogo">
               <Link to="/">
-                <img
-                  src="https://i.postimg.cc/q7LJxFWx/3c03db78-b11b-46a7-a3e0-e45762a7b991.jpg"
-                  alt="logo"
-                />
+                <img src="https://i.postimg.cc/q7LJxFWx/3c03db78-b11b-46a7-a3e0-e45762a7b991.jpg" alt="logo" />
               </Link>
             </span>
             <a href="tel:+92-315-6088777" className="callusbtn">

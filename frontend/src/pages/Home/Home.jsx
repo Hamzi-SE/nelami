@@ -68,21 +68,19 @@ const Home = () => {
     const fetchProducts = async () => {
       dispatch({ type: 'ALL_PRODUCTS_REQUEST' })
       try {
-        const [featuredRes, vehiclesRes, propertiesRes, miscRes] =
-          await Promise.all([
-            customFetch(`/api/v1/products`),
-            customFetch(`/api/v1/products?category=Vehicles`),
-            customFetch(`/api/v1/products?category=Property`),
-            customFetch(`/api/v1/products?category=MiscProducts`),
-          ])
+        const [featuredRes, vehiclesRes, propertiesRes, miscRes] = await Promise.all([
+          customFetch(`/api/v1/products`),
+          customFetch(`/api/v1/products?category=Vehicles`),
+          customFetch(`/api/v1/products?category=Property`),
+          customFetch(`/api/v1/products?category=MiscProducts`),
+        ])
 
-        const [featuredData, vehiclesData, propertiesData, miscData] =
-          await Promise.all([
-            featuredRes.json(),
-            vehiclesRes.json(),
-            propertiesRes.json(),
-            miscRes.json(),
-          ])
+        const [featuredData, vehiclesData, propertiesData, miscData] = await Promise.all([
+          featuredRes.json(),
+          vehiclesRes.json(),
+          propertiesRes.json(),
+          miscRes.json(),
+        ])
 
         setFeaturedProducts(featuredData.products)
         setVehicles(vehiclesData.products)
@@ -103,25 +101,13 @@ const Home = () => {
     fetchProducts()
   }, [dispatch])
 
-  const featuredSliderMemo = useMemo(
-    () => <FeaturedSlider products={featuredProducts} />,
-    [featuredProducts]
-  )
+  const featuredSliderMemo = useMemo(() => <FeaturedSlider products={featuredProducts} />, [featuredProducts])
 
-  const vehiclesSliderMemo = useMemo(
-    () => <VehiclesSlider products={vehicles} />,
-    [vehicles]
-  )
+  const vehiclesSliderMemo = useMemo(() => <VehiclesSlider products={vehicles} />, [vehicles])
 
-  const propertySliderMemo = useMemo(
-    () => <PropertySlider products={properties} />,
-    [properties]
-  )
+  const propertySliderMemo = useMemo(() => <PropertySlider products={properties} />, [properties])
 
-  const miscProductSliderMemo = useMemo(
-    () => <MiscProductSlider products={miscProducts} />,
-    [miscProducts]
-  )
+  const miscProductSliderMemo = useMemo(() => <MiscProductSlider products={miscProducts} />, [miscProducts])
 
   if (loading) {
     return <Loader />
@@ -171,9 +157,7 @@ const Home = () => {
                             <option>Select Category</option>
                             <option value="Vehicles">Vehicles</option>
                             <option value="Property">Properties</option>
-                            <option value="MiscProducts">
-                              Miscellaneous Products
-                            </option>
+                            <option value="MiscProducts">Miscellaneous Products</option>
                           </optgroup>
                         </select>
                       </div>
@@ -339,9 +323,7 @@ const Home = () => {
       {/* <!--/Sliders Section--> */}
 
       <div className="container products-slider home-products-slider home-featured-slider">
-        <h1 className="text-center home-products-slider-header">
-          Featured Products
-        </h1>
+        <h1 className="text-center home-products-slider-header">Featured Products</h1>
         {featuredSliderMemo}
       </div>
 
@@ -382,21 +364,15 @@ const Home = () => {
       </section>
 
       <div className="container products-slider home-products-slider home-vehicles-slider">
-        <h1 className="text-center home-products-slider-header">
-          Top Vehicles
-        </h1>
+        <h1 className="text-center home-products-slider-header">Top Vehicles</h1>
         {vehiclesSliderMemo}
       </div>
       <div className="container products-slider home-products-slider home-properties-slider">
-        <h1 className="text-center home-products-slider-header">
-          Top Properties
-        </h1>
+        <h1 className="text-center home-products-slider-header">Top Properties</h1>
         {propertySliderMemo}
       </div>
       <div className="container products-slider home-products-slider home-misc-slider">
-        <h1 className="text-center home-products-slider-header">
-          Top Miscellaneous Items
-        </h1>
+        <h1 className="text-center home-products-slider-header">Top Miscellaneous Items</h1>
         {miscProductSliderMemo}
       </div>
     </>

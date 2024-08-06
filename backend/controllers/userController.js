@@ -13,28 +13,9 @@ const Conversation = require('../models/conversationModel')
 
 // Register User
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
-  const {
-    name,
-    email,
-    password,
-    confirmPassword,
-    role,
-    address,
-    phoneNo,
-    city,
-    store,
-    aboutInfo,
-  } = req.body
+  const { name, email, password, confirmPassword, role, address, phoneNo, city, store, aboutInfo } = req.body
 
-  if (
-    !name ||
-    !email ||
-    !password ||
-    !confirmPassword ||
-    !role ||
-    !phoneNo ||
-    !city
-  ) {
+  if (!name || !email || !password || !confirmPassword || !role || !phoneNo || !city) {
     return next(new ErrorHandler('Please Fill All Required Fields', 400))
   }
 
@@ -112,20 +93,13 @@ exports.OTPValidation = catchAsyncErrors(async (req, res, next) => {
   }
 
   if (!token) {
-    return next(
-      new ErrorHandler(
-        'Something went wrong while activating your account. Please try again.',
-        400
-      )
-    )
+    return next(new ErrorHandler('Something went wrong while activating your account. Please try again.', 400))
   }
 
   const newUser = jwt.verify(token, process.env.ACTIVATION_SECRET)
 
   if (!newUser) {
-    return next(
-      new ErrorHandler('Invalid Token or Token has been expired', 400)
-    )
+    return next(new ErrorHandler('Invalid Token or Token has been expired', 400))
   }
 
   if (newUser.activationCode !== otp) {
@@ -241,10 +215,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
 // Reset Password
 exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
   // creating token hash
-  const resetPasswordToken = crypto
-    .createHash('sha256')
-    .update(req.params.token)
-    .digest('hex')
+  const resetPasswordToken = crypto.createHash('sha256').update(req.params.token).digest('hex')
 
   const user = await User.findOne({
     resetPasswordToken,
@@ -252,12 +223,7 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
   })
 
   if (!user) {
-    return next(
-      new ErrorHandler(
-        'Reset Password Token is invalid or has been expired',
-        400
-      )
-    )
+    return next(new ErrorHandler('Reset Password Token is invalid or has been expired', 400))
   }
 
   if (req.body.password !== req.body.confirmPassword) {
@@ -413,9 +379,7 @@ exports.getSingleUser = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.params.id)
 
   if (!user) {
-    return next(
-      new ErrorHandler(`User does not exist with Id: ${req.params.id}`)
-    )
+    return next(new ErrorHandler(`User does not exist with Id: ${req.params.id}`))
   }
 
   res.status(200).json({
@@ -439,9 +403,7 @@ exports.addProductToWishlist = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(productId)
 
   if (!product) {
-    return next(
-      new ErrorHandler(`Product does not exist with Id: ${productId}`, 404)
-    )
+    return next(new ErrorHandler(`Product does not exist with Id: ${productId}`, 404))
   }
 
   const index = user.wishlist.indexOf(productId)
@@ -485,19 +447,14 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.params.id)
 
   if (!user) {
-    return next(
-      new ErrorHandler(`User does not exist with Id: ${req.params.id}`, 400)
-    )
+    return next(new ErrorHandler(`User does not exist with Id: ${req.params.id}`, 400))
   }
 
   // Removing from Conversations Model
   await Conversation.deleteMany({ members: { $in: req.params.id } })
 
   // Removing all bids of this user
-  await Bid.updateMany(
-    { 'bidders.user': req.params.id },
-    { $pull: { bidders: { user: req.params.id } } }
-  )
+  await Bid.updateMany({ 'bidders.user': req.params.id }, { $pull: { bidders: { user: req.params.id } } })
 
   //remove from product model
   const products = await Product.find({ user: req.params.id })

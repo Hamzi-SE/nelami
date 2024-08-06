@@ -18,11 +18,7 @@ const Messenger = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const socket = useSocket()
-  const {
-    user,
-    loading: userLoading,
-    isAuthenticated,
-  } = useSelector((state) => state.user)
+  const { user, loading: userLoading, isAuthenticated } = useSelector((state) => state.user)
   const { loading, conversations } = useSelector((state) => state.conversations)
   const messagesLoading = useSelector((state) => state.messages.loading)
   const [showPicker, setShowPicker] = useState(false)
@@ -214,9 +210,7 @@ const Messenger = () => {
 
     setMsgSending(true)
 
-    const receiverId = currentChat.members.find(
-      (member) => member !== user?._id
-    )
+    const receiverId = currentChat.members.find((member) => member !== user?._id)
 
     const message = {
       sender: user?._id,
@@ -315,14 +309,9 @@ const Messenger = () => {
     <>
       <MetaData title="Messenger - Nelami" />
       <div className="messenger">
-        <div
-          className="chatMenu"
-          style={{ display: isMobileView && currentChat ? 'none' : '' }}
-        >
+        <div className="chatMenu" style={{ display: isMobileView && currentChat ? 'none' : '' }}>
           <div className="chatMenuWrapper">
-            <h3 className="chatMenuInput">
-              {user?.role === 'buyer' ? 'Sellers' : 'Buyers'}
-            </h3>
+            <h3 className="chatMenuInput">{user?.role === 'buyer' ? 'Sellers' : 'Buyers'}</h3>
             {loading ? (
               <div
                 style={{
@@ -362,10 +351,7 @@ const Messenger = () => {
             )}
           </div>
         </div>
-        <div
-          className="chatBox"
-          style={{ display: isMobileView && !currentChat ? 'none' : '' }}
-        >
+        <div className="chatBox" style={{ display: isMobileView && !currentChat ? 'none' : '' }}>
           <div className="chatBoxWrapper">
             {currentChat ? (
               <>
@@ -374,11 +360,7 @@ const Messenger = () => {
                   style={{ borderBottom: '1px solid #d5d5d5' }}
                 >
                   {isMobileView && (
-                    <IoMdArrowRoundBack
-                      size={20}
-                      className="mx-2"
-                      onClick={handleBackToConversations}
-                    />
+                    <IoMdArrowRoundBack size={20} className="mx-2" onClick={handleBackToConversations} />
                   )}
                   <img
                     src={currentFriendPicture}
@@ -411,24 +393,16 @@ const Messenger = () => {
                   ) : messages.length > 0 ? (
                     messages.map((m) => (
                       <div key={m._id}>
-                        <Message
-                          message={m}
-                          own={m.sender === user?._id}
-                          userAvatars={userAvatars}
-                        />
+                        <Message message={m} own={m.sender === user?._id} userAvatars={userAvatars} />
                       </div>
                     ))
                   ) : (
-                    <span className="noMessages">
-                      Start your conversation with {currentFriendName}
-                    </span>
+                    <span className="noMessages">Start your conversation with {currentFriendName}</span>
                   )}
                   <div ref={scrollRef}></div>
                 </div>
                 {typingStatuses[currentChat?._id] && (
-                  <p className="m-0 pl-3">
-                    {currentFriendName.split(' ')[0]} is typing...
-                  </p>
+                  <p className="m-0 pl-3">{currentFriendName.split(' ')[0]} is typing...</p>
                 )}
                 <div className="chatBoxBottom" style={{ position: 'relative' }}>
                   <img
@@ -452,18 +426,12 @@ const Messenger = () => {
                     }`}
                     onClick={sendMessage}
                   >
-                    {msgSending ? (
-                      <PulseLoader size={5} color="white" />
-                    ) : (
-                      'Send'
-                    )}
+                    {msgSending ? <PulseLoader size={5} color="white" /> : 'Send'}
                   </button>
                 </div>
               </>
             ) : (
-              <span className="noConversationText">
-                Open a Conversation to Start a Chat
-              </span>
+              <span className="noConversationText">Open a Conversation to Start a Chat</span>
             )}
           </div>
         </div>

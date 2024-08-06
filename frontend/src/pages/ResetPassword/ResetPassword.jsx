@@ -83,11 +83,7 @@ const ResetPassword = () => {
               </div>
 
               <div className="form-footer mt-2">
-                <button
-                  type="submit"
-                  className="btn btn-primary btn-block"
-                  onClick={handleSubmit}
-                >
+                <button type="submit" className="btn btn-primary btn-block" onClick={handleSubmit}>
                   {loading ? 'Loading...' : 'Reset Password'}
                 </button>
               </div>

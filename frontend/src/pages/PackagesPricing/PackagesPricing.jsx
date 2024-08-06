@@ -73,12 +73,7 @@ const PackagesPricing = () => {
                       onClick={() =>
                         index === 0
                           ? navigate('/SignUp')
-                          : handlePackageClick(
-                              pkg.name,
-                              pkg.price,
-                              pkg.description,
-                              index + 1
-                            )
+                          : handlePackageClick(pkg.name, pkg.price, pkg.description, index + 1)
                       }
                     >
                       {index === 0 ? 'Get Started for Free' : 'Purchase'}
@@ -103,11 +98,7 @@ const PackagesPricing = () => {
                   <li>Get in touch with us</li>
                   <li>Get a quote</li>
                 </ul>
-                <button
-                  type="button"
-                  className="btn btn-lg btn-block btn-primary"
-                  onClick={() => navigate('/contact')}
-                >
+                <button type="button" className="btn btn-lg btn-block btn-primary" onClick={() => navigate('/contact')}>
                   Contact Us
                 </button>
               </div>

@@ -54,28 +54,17 @@ const CustomForm = ({ status, message, onValidated }) => {
           <div className="col-lg-7 col-xl-6 col-md-12">
             <div className="sub-newsletter">
               <h3 className="mb-2 mc__title">
-                <i className="fa fa-paper-plane me-2"></i> Subscribe To Our
-                Newsletter
+                <i className="fa fa-paper-plane me-2"></i> Subscribe To Our Newsletter
               </h3>
-              <p className="mb-0">
-                Get in touch with our latest offers and products
-              </p>
+              <p className="mb-0">Get in touch with our latest offers and products</p>
               {/* Error and sending status messages */}
               {status === 'success' && (
-                <div
-                  className="mc__alert mc__alert--success"
-                  dangerouslySetInnerHTML={{ __html: message }}
-                />
+                <div className="mc__alert mc__alert--success" dangerouslySetInnerHTML={{ __html: message }} />
               )}
 
-              {status === 'sending' && (
-                <div className="mc__alert mc__alert--sending">sending...</div>
-              )}
+              {status === 'sending' && <div className="mc__alert mc__alert--sending">sending...</div>}
               {status === 'error' && (
-                <div
-                  className="mc__alert mc__alert--error"
-                  dangerouslySetInnerHTML={{ __html: message }}
-                />
+                <div className="mc__alert mc__alert--error" dangerouslySetInnerHTML={{ __html: message }} />
               )}
             </div>
           </div>
@@ -93,11 +82,7 @@ const CustomForm = ({ status, message, onValidated }) => {
               ) : null}
               <div className="input-group-text border-0 bg-transparent p-0 ">
                 {status === 'success' ? (
-                  <button
-                    className="mc__button btn btn-primary btn-lg br-te-7 br-be-7"
-                    type="submit"
-                    disabled
-                  >
+                  <button className="mc__button btn btn-primary btn-lg br-te-7 br-be-7" type="submit" disabled>
                     Success!
                   </button>
                 ) : (

@@ -35,19 +35,13 @@ const ProductsPage = () => {
   const [category, setCategory] = useState(searchParams.get('category') || '')
   const [keyword, setKeyword] = useState(searchParams.get('keyword') || '')
 
-  const [fromPrice, setFromPrice] = useState(
-    searchParams.get('price[gte]') || ''
-  )
+  const [fromPrice, setFromPrice] = useState(searchParams.get('price[gte]') || '')
   const [toPrice, setToPrice] = useState(searchParams.get('price[lte]') || '')
 
   const [resultsPerPage, setResultsPerPage] = useState(12)
-  const [currentPage, setCurrentPage] = useState(
-    parseInt(searchParams.get('page')) || 1
-  )
+  const [currentPage, setCurrentPage] = useState(parseInt(searchParams.get('page')) || 1)
   const [totalProducts, setTotalProducts] = useState(0)
-  const [getParamCategory, setGetParamCategory] = useState(
-    searchParams.get('category') || ''
-  )
+  const [getParamCategory, setGetParamCategory] = useState(searchParams.get('category') || '')
   const [sortBy, setSortBy] = useState(searchParams.get('sortBy') || '1') // Default sort by Latest
 
   const getAllSearchProducts = async () => {
@@ -151,10 +145,7 @@ const ProductsPage = () => {
     return <Loader />
   }
 
-  const startIndex = Math.min(
-    (currentPage - 1) * resultsPerPage + 1,
-    totalProducts
-  )
+  const startIndex = Math.min((currentPage - 1) * resultsPerPage + 1, totalProducts)
   const endIndex = Math.min(currentPage * resultsPerPage, totalProducts)
 
   return (
@@ -170,15 +161,9 @@ const ProductsPage = () => {
                   <div className="text-center text-white">
                     <h1 className="">
                       <span className="font-weight-bold">
-                        <CountUp
-                          duration={0.8}
-                          end={totalProducts}
-                          useEasing={true}
-                        />
+                        <CountUp duration={0.8} end={totalProducts} useEasing={true} />
                       </span>{' '}
-                      Auctions Running{' '}
-                      {getParamCategory ? `In ${getParamCategory}` : ''} Right
-                      Now on Nelami
+                      Auctions Running {getParamCategory ? `In ${getParamCategory}` : ''} Right Now on Nelami
                     </h1>
                   </div>
 
@@ -207,9 +192,7 @@ const ProductsPage = () => {
                             <option value="">Select Category</option>
                             <option value="Vehicles">Vehicles</option>
                             <option value="Property">Properties</option>
-                            <option value="MiscProducts">
-                              Miscellaneous Products
-                            </option>
+                            <option value="MiscProducts">Miscellaneous Products</option>
                           </optgroup>
                         </select>
                       </div>
@@ -344,11 +327,7 @@ const ProductsPage = () => {
                       )}
 
                       <div className="">
-                        <button
-                          type="button"
-                          className="btn btn-lg btn-block btn-secondary"
-                          onClick={handleSearch}
-                        >
+                        <button type="button" className="btn btn-lg btn-block btn-secondary" onClick={handleSearch}>
                           Search
                         </button>
                       </div>
@@ -395,10 +374,7 @@ const ProductsPage = () => {
                 </div>
 
                 <div className="card-footer">
-                  <button
-                    className="btn btn-secondary btn-block"
-                    onClick={applyFilters}
-                  >
+                  <button className="btn btn-secondary btn-block" onClick={applyFilters}>
                     Apply Filter
                   </button>
                 </div>
@@ -414,14 +390,12 @@ const ProductsPage = () => {
                     <div className="item2-gl-nav d-flex align-items-center justify-content-between">
                       {getParamCategory ? (
                         <h6 className="mb-0 mt-2">
-                          Showing <b>{startIndex}</b> to <b>{endIndex}</b> of{' '}
-                          <b>{totalProducts}</b> results in{' '}
+                          Showing <b>{startIndex}</b> to <b>{endIndex}</b> of <b>{totalProducts}</b> results in{' '}
                           <b>{getParamCategory}</b>
                         </h6>
                       ) : (
                         <h6 className="mb-0">
-                          Showing <b>{startIndex}</b> to <b>{endIndex}</b> of{' '}
-                          <b>{totalProducts}</b> results
+                          Showing <b>{startIndex}</b> to <b>{endIndex}</b> of <b>{totalProducts}</b> results
                         </h6>
                       )}
                       <div className="d-flex select2-sm align-items-center">
@@ -444,18 +418,13 @@ const ProductsPage = () => {
                         {products?.length !== 0 ? (
                           products?.map((product, index) => {
                             return (
-                              <div
-                                key={index}
-                                className="product-wrapper col-lg-4 col-md-6 col-sm-12"
-                              >
+                              <div key={index} className="product-wrapper col-lg-4 col-md-6 col-sm-12">
                                 <ProductCard product={product} index={index} />
                               </div>
                             )
                           })
                         ) : (
-                          <h3 className="w-100 text-center">
-                            No Products Matched Your Search
-                          </h3>
+                          <h3 className="w-100 text-center">No Products Matched Your Search</h3>
                         )}
                       </div>
                     </div>

@@ -50,9 +50,7 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
 
   // upload images to cloudinary
   if (!featuredImg) {
-    return next(
-      new ErrorHandler('Featured Image is required to post an AD', 401)
-    )
+    return next(new ErrorHandler('Featured Image is required to post an AD', 401))
   }
 
   req.body.location = {
@@ -102,10 +100,7 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
 exports.getAllProducts = catchAsyncErrors(async (req, res) => {
   const resultsPerPage = 12
 
-  const apiFeature = new ApiFeatures(
-    Product.find({ status: 'Approved', bidStatus: 'Live' }),
-    req.query
-  )
+  const apiFeature = new ApiFeatures(Product.find({ status: 'Approved', bidStatus: 'Live' }), req.query)
     .search()
     .filter()
     .sort()
@@ -138,10 +133,7 @@ exports.getAllProducts = catchAsyncErrors(async (req, res) => {
 
 // Get All Products --Admin
 exports.getAllProductsAdmin = catchAsyncErrors(async (req, res) => {
-  const apiFeature = new ApiFeatures(
-    Product.find({ status: 'Approved' }),
-    req.query
-  )
+  const apiFeature = new ApiFeatures(Product.find({ status: 'Approved' }), req.query)
   const products = await apiFeature.query
     .populate({
       path: 'user',
@@ -292,13 +284,8 @@ exports.deleteProduct = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler('Product Not Found', 404))
   }
 
-  if (
-    product.user.toString() !== req.user.id.toString() &&
-    req.user.role !== 'admin'
-  ) {
-    return next(
-      new ErrorHandler(`You are not allowed to delete this product`, 403)
-    )
+  if (product.user.toString() !== req.user.id.toString() && req.user.role !== 'admin') {
+    return next(new ErrorHandler(`You are not allowed to delete this product`, 403))
   }
 
   if (product.status !== 'Approved') {

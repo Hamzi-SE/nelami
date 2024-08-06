@@ -29,9 +29,7 @@ export const notificationReducer = createReducer(initialState, (builder) => {
     .addCase('MARK_NOTIFICATION_AS_READ', (state, action) => {
       const notificationId = action.payload
       state.notifications = state.notifications.map((notification) =>
-        notification._id === notificationId
-          ? { ...notification, read: true }
-          : notification
+        notification._id === notificationId ? { ...notification, read: true } : notification
       )
     })
     .addCase('MARK_NOTIFICATION_AS_READ_FAIL', (state, action) => {

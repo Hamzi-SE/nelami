@@ -10,11 +10,7 @@ const MailchimpFormContainer = () => {
       <MailchimpSubscribe
         url={postUrl}
         render={({ subscribe, status, message }) => (
-          <CustomForm
-            status={status}
-            message={message}
-            onValidated={(formData) => subscribe(formData)}
-          />
+          <CustomForm status={status} message={message} onValidated={(formData) => subscribe(formData)} />
         )}
       />
     </div>

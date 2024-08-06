@@ -44,10 +44,7 @@ const CategoryPage = () => {
     getAllProducts()
   }, [category, currentPage, sortBy])
 
-  const startIndex = Math.min(
-    (currentPage - 1) * resultsPerPage + 1,
-    filteredTotalProducts
-  )
+  const startIndex = Math.min((currentPage - 1) * resultsPerPage + 1, filteredTotalProducts)
   const endIndex = Math.min(currentPage * resultsPerPage, filteredTotalProducts)
 
   if (loading) {
@@ -72,10 +69,7 @@ const CategoryPage = () => {
                       <li className="breadcrumb-item">
                         <Link to="/products">Products</Link>
                       </li>
-                      <li
-                        className="breadcrumb-item active text-white"
-                        aria-current="page"
-                      >
+                      <li className="breadcrumb-item active text-white" aria-current="page">
                         {category}
                       </li>
                     </ol>
@@ -98,8 +92,7 @@ const CategoryPage = () => {
                     <div className="item2-gl">
                       <div className="item2-gl-nav d-flex align-items-center justify-content-between">
                         <h6 className="mb-0 mt-2">
-                          Showing <b>{startIndex}</b> to <b>{endIndex}</b> of{' '}
-                          <b>{filteredTotalProducts}</b> results in{' '}
+                          Showing <b>{startIndex}</b> to <b>{endIndex}</b> of <b>{filteredTotalProducts}</b> results in{' '}
                           <b>{category}</b>
                         </h6>
                         <div className="d-flex select2-sm align-items-center">
@@ -122,10 +115,7 @@ const CategoryPage = () => {
                           {products.length !== 0 ? (
                             products.map((product, index) => {
                               return (
-                                <div
-                                  key={index}
-                                  className="product-wrapper col-lg-4 col-md-6 col-sm-12"
-                                >
+                                <div key={index} className="product-wrapper col-lg-4 col-md-6 col-sm-12">
                                   <ProductCard product={product} />
                                 </div>
                               )

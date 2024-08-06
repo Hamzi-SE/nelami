@@ -1,10 +1,12 @@
 const Agenda = require('agenda')
 const User = require('../models/userModel')
 const Product = require('../models/productModel')
+const Notification = require('../models/notificationModel')
 const Bid = require('../models/bidModel')
 const dotenv = require('dotenv')
 const moment = require('moment')
 const sendEmail = require('../utils/sendEmail')
+const eventEmitter = require('../utils/eventEmitter')
 
 dotenv.config({ path: './config/config.env' })
 
@@ -31,10 +33,7 @@ agenda.define('expire and notify winner', async (job) => {
       return // Exit if no bidders
     }
 
-    const highestBid = bidProduct.bidders.reduce(
-      (prev, current) => (prev.price > current.price ? prev : current),
-      0
-    )
+    const highestBid = bidProduct.bidders.reduce((prev, current) => (prev.price > current.price ? prev : current), 0)
     const highestBidUserId = String(highestBid.user)
     const highestBidUser = await User.findById(highestBidUserId)
 
@@ -49,6 +48,15 @@ agenda.define('expire and notify winner', async (job) => {
       },
       frontendUrl: process.env.FRONTEND_URL,
     }
+
+    // Send notification
+    const notification = new Notification({
+      userId: highestBidUser._id,
+      message: `Congratulations! You have won the auction for ${product.title}.`,
+      link: `/product/${product._id}`,
+    })
+    await notification.save()
+    eventEmitter.emit('notificationCreated', notification)
 
     try {
       await sendEmail({

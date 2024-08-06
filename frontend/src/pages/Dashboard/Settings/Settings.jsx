@@ -85,9 +85,7 @@ const Settings = () => {
                           <div className="col-md-3 seller-upgrade-package-div">
                             <div className="form-group m-0">
                               <Link to="/packages">
-                                <button className="form-control seller-upgrade-package-button">
-                                  Upgrade Package
-                                </button>
+                                <button className="form-control seller-upgrade-package-button">Upgrade Package</button>
                               </Link>
                             </div>
                           </div>
@@ -135,11 +133,7 @@ const Settings = () => {
                 </div>
               </div>
               <div className="card-footer">
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  onClick={updatePassword}
-                >
+                <button type="submit" className="btn btn-primary" onClick={updatePassword}>
                   {loading ? 'Updating...' : 'Update Password'}
                 </button>
               </div>

@@ -25,18 +25,13 @@ const ProductCard = (props) => {
   const navigate = useNavigate()
 
   // check if the product is already added to wishlist
-  const [added, setAdded] = useState(
-    user?.wishlist?.includes(product?._id) ? true : false
-  )
+  const [added, setAdded] = useState(user?.wishlist?.includes(product?._id) ? true : false)
 
   const [bidCount, setBidCount] = useState(0)
 
-  let remainingTime =
-    new Date(product?.endDate).getTime() - new Date().getTime()
+  let remainingTime = new Date(product?.endDate).getTime() - new Date().getTime()
 
-  const Completionist = () => (
-    <span className="card-auction-complete">Auction Ended!</span>
-  )
+  const Completionist = () => <span className="card-auction-complete">Auction Ended!</span>
 
   const getBidsCount = async () => {
     const res = await customFetch(`/api/v1/bid/product/${product?._id}`, {
@@ -46,9 +41,7 @@ const ProductCard = (props) => {
       },
     })
     const data = await res.json()
-    data?.bids && data?.bids[0]?.bidders?.length
-      ? setBidCount(data?.bids[0]?.bidders?.length)
-      : setBidCount(0)
+    data?.bids && data?.bids[0]?.bidders?.length ? setBidCount(data?.bids[0]?.bidders?.length) : setBidCount(0)
     return
   }
 
@@ -144,39 +137,20 @@ const ProductCard = (props) => {
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
                 <div className="user-wrapper">
-                  <img
-                    src={product?.user?.avatar?.url}
-                    alt="avatar"
-                    className="avatar-small"
-                  />
+                  <img src={product?.user?.avatar?.url} alt="avatar" className="avatar-small" />
                   <h3>{product?.user?.name}</h3>
                 </div>
               </h5>
-              <button
-                type="button"
-                className="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div className="modal-body">
-              Do you want to start a chat with {product?.user?.name} ?
-            </div>
+            <div className="modal-body">Do you want to start a chat with {product?.user?.name} ?</div>
             <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-dismiss="modal"
-              >
+              <button type="button" className="btn btn-secondary" data-dismiss="modal">
                 Cancel
               </button>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={startConversation}
-              >
+              <button type="button" className="btn btn-primary" onClick={startConversation}>
                 Yes
               </button>
             </div>
@@ -188,17 +162,11 @@ const ProductCard = (props) => {
         <div className="card overflow-hidden">
           <Link to={`/Product/${product._id}`}>
             <div className="item-card-img">
-              <div
-                className={`arrow-ribbon ${product.bidStatus === 'Expired' ? 'expired-label' : 'bg-primary'}`}
-              >
+              <div className={`arrow-ribbon ${product.bidStatus === 'Expired' ? 'expired-label' : 'bg-primary'}`}>
                 {product.bidStatus}
               </div>
               <div className="item-card-imgs">
-                <img
-                  src={product.images.featuredImg.url}
-                  alt="img"
-                  className="cover-image"
-                />
+                <img src={product.images.featuredImg.url} alt="img" className="cover-image" />
               </div>
               {product.bidStatus === 'Live' && (
                 <div className="item-card7-overlaytext">
@@ -226,18 +194,12 @@ const ProductCard = (props) => {
               <div className="product-card">
                 <p>{product.category}</p>
                 <div className="text-dark mt-2">
-                  <h4
-                    className="font-weight-semibold product-title mt-1"
-                    title={product.title}
-                  >
-                    {product.title.length > 40
-                      ? product.title.substring(0, 40) + '...'
-                      : product.title}
+                  <h4 className="font-weight-semibold product-title mt-1" title={product.title}>
+                    {product.title.length > 40 ? product.title.substring(0, 40) + '...' : product.title}
                   </h4>
                 </div>
                 <div className="product-card-desc d-flex justify-content-start align-items-center">
-                  <IoLocationOutline /> {product.location.city} -{' '}
-                  {product.location.province}
+                  <IoLocationOutline /> {product.location.city} - {product.location.province}
                 </div>
               </div>
             </div>
@@ -248,10 +210,7 @@ const ProductCard = (props) => {
                 <h4 className="text-dark font-weight-semibold mb-0 mt-0">
                   <div className="product-actions">
                     <Tippy content="Chat With Seller">
-                      <button
-                        data-toggle="modal"
-                        data-target={`#chatModal-${index}`}
-                      >
+                      <button data-toggle="modal" data-target={`#chatModal-${index}`}>
                         <BsChatSquareText />
                       </button>
                     </Tippy>
@@ -261,9 +220,7 @@ const ProductCard = (props) => {
                           onClick={() =>
                             toast.promise(addToWishlistHandler(), {
                               loading: added ? 'Removing...' : 'Adding...',
-                              success: added
-                                ? 'Removed from wishlist'
-                                : 'Added to wishlist',
+                              success: added ? 'Removed from wishlist' : 'Added to wishlist',
                               error: (err) => err.message,
                             })
                           }
@@ -272,9 +229,7 @@ const ProductCard = (props) => {
                         </button>
                       </Tippy>
                     )}
-                    <Tippy
-                      content={`${bidCount <= 1 ? `${bidCount} bid` : `${bidCount} bids`}`}
-                    >
+                    <Tippy content={`${bidCount <= 1 ? `${bidCount} bid` : `${bidCount} bids`}`}>
                       <button>
                         {' '}
                         <FiUsers />

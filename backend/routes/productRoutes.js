@@ -16,26 +16,14 @@ const { isAuthenticatedUser, authorizeRole } = require('../middleware/auth')
 const router = express.Router()
 
 router.route('/products').get(getAllProducts)
-router
-  .route('/productsAdmin')
-  .get(isAuthenticatedUser, authorizeRole('admin'), getAllProductsAdmin)
-router
-  .route('/approvalProductsAdmin')
-  .get(isAuthenticatedUser, authorizeRole('admin'), getApprovalProductsAdmin)
-router
-  .route('/approveProduct/:id')
-  .put(isAuthenticatedUser, authorizeRole('admin'), approveProduct)
-router
-  .route('/getApprovalProducts')
-  .get(isAuthenticatedUser, authorizeRole('seller'), getApprovalProductsSeller)
+router.route('/productsAdmin').get(isAuthenticatedUser, authorizeRole('admin'), getAllProductsAdmin)
+router.route('/approvalProductsAdmin').get(isAuthenticatedUser, authorizeRole('admin'), getApprovalProductsAdmin)
+router.route('/approveProduct/:id').put(isAuthenticatedUser, authorizeRole('admin'), approveProduct)
+router.route('/getApprovalProducts').get(isAuthenticatedUser, authorizeRole('seller'), getApprovalProductsSeller)
 
-router
-  .route('/products/me/all')
-  .get(isAuthenticatedUser, authorizeRole('seller'), getUserAllProducts)
+router.route('/products/me/all').get(isAuthenticatedUser, authorizeRole('seller'), getUserAllProducts)
 
-router
-  .route('/product/new')
-  .post(isAuthenticatedUser, authorizeRole('seller'), createProduct)
+router.route('/product/new').post(isAuthenticatedUser, authorizeRole('seller'), createProduct)
 
 router
   .route('/product/:id')

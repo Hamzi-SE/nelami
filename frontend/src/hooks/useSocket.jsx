@@ -34,9 +34,7 @@ export const SocketProvider = ({ children }) => {
     }
   }, [isAuthenticated, loading, user?._id])
 
-  return (
-    <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
-  )
+  return <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
 }
 
 // Custom hook to use the socket

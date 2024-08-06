@@ -183,31 +183,28 @@ const forgotPasswordInitialState = {
   error: null,
 }
 
-export const forgotPasswordReducer = createReducer(
-  forgotPasswordInitialState,
-  (builder) => {
-    builder
-      .addCase('FORGOT_PASSWORD_REQUEST', (state) => {
-        state.loading = true
-      })
-      .addCase('FORGOT_PASSWORD_SUCCESS', (state, action) => {
-        state.loading = false
-        state.message = action.payload
-      })
-      .addCase('FORGOT_PASSWORD_FAIL', (state, action) => {
-        state.loading = false
-        state.error = action.payload
-      })
-      .addCase('RESET_PASSWORD_REQUEST', (state) => {
-        state.loading = true
-      })
-      .addCase('RESET_PASSWORD_SUCCESS', (state, action) => {
-        state.loading = false
-        state.message = action.payload
-      })
-      .addCase('RESET_PASSWORD_FAIL', (state, action) => {
-        state.loading = false
-        state.error = action.payload
-      })
-  }
-)
+export const forgotPasswordReducer = createReducer(forgotPasswordInitialState, (builder) => {
+  builder
+    .addCase('FORGOT_PASSWORD_REQUEST', (state) => {
+      state.loading = true
+    })
+    .addCase('FORGOT_PASSWORD_SUCCESS', (state, action) => {
+      state.loading = false
+      state.message = action.payload
+    })
+    .addCase('FORGOT_PASSWORD_FAIL', (state, action) => {
+      state.loading = false
+      state.error = action.payload
+    })
+    .addCase('RESET_PASSWORD_REQUEST', (state) => {
+      state.loading = true
+    })
+    .addCase('RESET_PASSWORD_SUCCESS', (state, action) => {
+      state.loading = false
+      state.message = action.payload
+    })
+    .addCase('RESET_PASSWORD_FAIL', (state, action) => {
+      state.loading = false
+      state.error = action.payload
+    })
+})

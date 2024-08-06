@@ -62,9 +62,7 @@ const DeleteProduct = () => {
     <>
       <Modal show={true} backdrop="static" keyboard={false}>
         <Modal.Header closeButton>
-          <Modal.Title>
-            Are You Sure You want to Delete this Product
-          </Modal.Title>
+          <Modal.Title>Are You Sure You want to Delete this Product</Modal.Title>
         </Modal.Header>
         <Modal.Body></Modal.Body>
         <Modal.Footer>

@@ -49,14 +49,7 @@ class ApiFeatures {
     const queryCopy = { ...this.queryStr }
 
     // Removing Some Fields For Category
-    const removeFields = [
-      'keyword',
-      'page',
-      'limit',
-      'province',
-      'city',
-      'sortBy',
-    ]
+    const removeFields = ['keyword', 'page', 'limit', 'province', 'city', 'sortBy']
     removeFields.forEach((key) => delete queryCopy[key])
 
     // Filter For Price

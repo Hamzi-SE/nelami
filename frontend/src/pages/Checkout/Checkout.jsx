@@ -56,8 +56,7 @@ const Checkout = () => {
     } catch (error) {
       dispatch({
         type: 'PLAN_PAYMENT_FAIL',
-        payload:
-          error?.message || "There's an issue while processing the payment",
+        payload: error?.message || "There's an issue while processing the payment",
       })
       payBtn.current.disabled = false
       toast.error(error.message || 'Payment processing error')
@@ -98,10 +97,7 @@ const Checkout = () => {
               height="120"
             />
             <h2 className="mb-3">Checkout</h2>
-            <p className="lead mb-4">
-              You will be redirected to a secure payment page to complete your
-              transaction.
-            </p>
+            <p className="lead mb-4">You will be redirected to a secure payment page to complete your transaction.</p>
             <hr />
           </div>
 
@@ -131,12 +127,7 @@ const Checkout = () => {
 
               <div className="text-center">
                 <form onSubmit={submitHandler}>
-                  <button
-                    type="submit"
-                    className="btn btn-primary btn-lg"
-                    ref={payBtn}
-                    disabled={loading}
-                  >
+                  <button type="submit" className="btn btn-primary btn-lg" ref={payBtn} disabled={loading}>
                     {loading ? 'Processing...' : 'Proceed to Payment'}
                   </button>
                 </form>

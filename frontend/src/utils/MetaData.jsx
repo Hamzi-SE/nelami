@@ -13,10 +13,7 @@ const MetaData = ({ title, description }) => {
             : 'Nelami is a platform where you can buy, sell, auction and bid for vehicles, properties and other items.'
         }
       />
-      <meta
-        name="keywords"
-        content="Nelami, Buy, Sell, Auction, Bidding, Vehicles, Properties, Items"
-      />
+      <meta name="keywords" content="Nelami, Buy, Sell, Auction, Bidding, Vehicles, Properties, Items" />
       <link rel="canonical" href="https://nelami.ihamza.dev/" />
     </Helmet>
   )

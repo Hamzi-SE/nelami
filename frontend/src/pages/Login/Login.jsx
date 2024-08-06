@@ -73,10 +73,7 @@ const Login = () => {
                   <li className="breadcrumb-item">
                     <Link to="/products">Pages</Link>
                   </li>
-                  <li
-                    className="breadcrumb-item active text-white"
-                    aria-current="page"
-                  >
+                  <li className="breadcrumb-item active text-white" aria-current="page">
                     Login
                   </li>
                 </ol>
@@ -120,9 +117,7 @@ const Login = () => {
                         </div> */}
                         {/* <hr className="divider" /> */}
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Email address
-                          </label>
+                          <label className="form-label text-dark">Email address</label>
                           <input
                             type="email"
                             className="form-control"
@@ -133,9 +128,7 @@ const Login = () => {
                           />
                         </div>
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Password
-                          </label>
+                          <label className="form-label text-dark">Password</label>
                           <input
                             type="password"
                             className="form-control"
@@ -148,33 +141,20 @@ const Login = () => {
                         </div>
                         <div className="form-group">
                           <label className="custom-control form-checkbox">
-                            <Link
-                              to="/user/forgot-password"
-                              className="float-end small text-dark mt-1"
-                            >
+                            <Link to="/user/forgot-password" className="float-end small text-dark mt-1">
                               Forgot Password?
                             </Link>
-                            <input
-                              type="checkbox"
-                              className="custom-control-input"
-                            />
-                            <span className="custom-control-label text-dark">
-                              Remember me
-                            </span>
+                            <input type="checkbox" className="custom-control-input" />
+                            <span className="custom-control-label text-dark">Remember me</span>
                           </label>
                         </div>
                         <div className="form-footer mt-2">
-                          <button
-                            type="submit"
-                            className="btn btn-primary btn-block"
-                            onClick={handleSubmit}
-                          >
+                          <button type="submit" className="btn btn-primary btn-block" onClick={handleSubmit}>
                             Login
                           </button>
                         </div>
                         <div className="text-center  mt-3 text-dark">
-                          Don't have account yet?{' '}
-                          <Link to="/Signup">Sign Up</Link>
+                          Don't have account yet? <Link to="/Signup">Sign Up</Link>
                         </div>
                       </div>
                     </div>

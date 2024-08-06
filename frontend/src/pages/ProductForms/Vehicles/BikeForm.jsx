@@ -90,15 +90,7 @@ const BikeForm = () => {
     e.preventDefault()
 
     // POST PRODUCT
-    PostProduct(
-      dispatch,
-      navigate,
-      featuredImg,
-      imageOne,
-      imageTwo,
-      imageThree,
-      productData
-    )
+    PostProduct(dispatch, navigate, featuredImg, imageOne, imageTwo, imageThree, productData)
   }
 
   const getYearDropList = () => {
@@ -156,9 +148,7 @@ const BikeForm = () => {
                         onSubmit={handleSubmit}
                       >
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Product Title
-                          </label>
+                          <label className="form-label text-dark">Product Title</label>
                           <input
                             type="text"
                             className="form-control"
@@ -169,9 +159,7 @@ const BikeForm = () => {
                           />
                         </div>
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Description
-                          </label>
+                          <label className="form-label text-dark">Description</label>
                           <textarea
                             className="form-control"
                             maxlength="5000"
@@ -238,9 +226,7 @@ const BikeForm = () => {
                         </div>
 
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Set a Starting Price
-                          </label>
+                          <label className="form-label text-dark">Set a Starting Price</label>
                           <input
                             type="number"
                             name="price"
@@ -252,9 +238,7 @@ const BikeForm = () => {
                         </div>
 
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Kilometers Driven
-                          </label>
+                          <label className="form-label text-dark">Kilometers Driven</label>
                           <input
                             type="number"
                             name="kmsDriven"
@@ -267,14 +251,10 @@ const BikeForm = () => {
 
                         <div className="productform-images">
                           <div className="form-group">
-                            <label className="form-label text-dark">
-                              Upload Featured Image
-                            </label>
+                            <label className="form-label text-dark">Upload Featured Image</label>
                             <div className="img-upload-icon">
                               <BiImageAdd />
-                              {featuredImg && (
-                                <img src={featuredImg} alt="featuredImg" />
-                              )}
+                              {featuredImg && <img src={featuredImg} alt="featuredImg" />}
                             </div>
                             <input
                               type="file"
@@ -286,14 +266,10 @@ const BikeForm = () => {
                             />
                           </div>
                           <div className="form-group">
-                            <label className="form-label text-dark">
-                              Upload Image 1
-                            </label>
+                            <label className="form-label text-dark">Upload Image 1</label>
                             <div className="img-upload-icon">
                               <BiImageAdd />
-                              {imageOne && (
-                                <img src={imageOne} alt="ImageOne" />
-                              )}
+                              {imageOne && <img src={imageOne} alt="ImageOne" />}
                             </div>
                             <input
                               type="file"
@@ -305,14 +281,10 @@ const BikeForm = () => {
                             />
                           </div>
                           <div className="form-group">
-                            <label className="form-label text-dark">
-                              Upload Image 2
-                            </label>
+                            <label className="form-label text-dark">Upload Image 2</label>
                             <div className="img-upload-icon">
                               <BiImageAdd />
-                              {imageTwo && (
-                                <img src={imageTwo} alt="ImageTwo" />
-                              )}
+                              {imageTwo && <img src={imageTwo} alt="ImageTwo" />}
                             </div>
                             <input
                               type="file"
@@ -324,14 +296,10 @@ const BikeForm = () => {
                             />
                           </div>
                           <div className="form-group">
-                            <label className="form-label text-dark">
-                              Upload Image 3
-                            </label>
+                            <label className="form-label text-dark">Upload Image 3</label>
                             <div className="img-upload-icon">
                               <BiImageAdd />
-                              {imageThree && (
-                                <img src={imageThree} alt="imageThree" />
-                              )}
+                              {imageThree && <img src={imageThree} alt="imageThree" />}
                             </div>
                             <input
                               type="file"
@@ -345,9 +313,7 @@ const BikeForm = () => {
                         </div>
                         {/* PRONVINCES LIST */}
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Location
-                          </label>
+                          <label className="form-label text-dark">Location</label>
                           <select
                             id="province"
                             name="province"
@@ -371,9 +337,7 @@ const BikeForm = () => {
                         {/* Islamabad CITIES DROPLIST */}
                         {productData.province === 'Islamabad' && (
                           <div className="form-group">
-                            <label className="form-label text-dark">
-                              Sector
-                            </label>
+                            <label className="form-label text-dark">Sector</label>
                             <select
                               id="pubjab-cities"
                               name="city"
@@ -541,9 +505,7 @@ const BikeForm = () => {
                         )}
 
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Bid Time
-                          </label>
+                          <label className="form-label text-dark">Bid Time</label>
                           <select
                             id="bid-time"
                             name="bidTime"

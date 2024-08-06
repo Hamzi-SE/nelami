@@ -58,11 +58,7 @@ const StatsDashboard = () => {
       {
         backgroundColor: ['#98b3ad', '#937DC2', '#f0bb77'],
         hoverBackgroundColor: ['#98b3ad', '#937DC2', '#f0bb77'],
-        data: [
-          stats.totalVehicles,
-          stats.totalProperties,
-          stats.totalMiscProducts,
-        ],
+        data: [stats.totalVehicles, stats.totalProperties, stats.totalMiscProducts],
       },
     ],
   }
@@ -92,11 +88,7 @@ const StatsDashboard = () => {
                     <h3>
                       Total Users <br />{' '}
                       <span>
-                        <CountUp
-                          duration={0.8}
-                          useEasing={true}
-                          end={stats.totalUsers}
-                        />
+                        <CountUp duration={0.8} useEasing={true} end={stats.totalUsers} />
                       </span>
                     </h3>
                   </div>
@@ -108,11 +100,7 @@ const StatsDashboard = () => {
                     <h3>
                       Total Buyers <br />{' '}
                       <span>
-                        <CountUp
-                          duration={0.8}
-                          useEasing={true}
-                          end={stats.totalBuyers}
-                        />
+                        <CountUp duration={0.8} useEasing={true} end={stats.totalBuyers} />
                       </span>
                     </h3>
                   </div>
@@ -124,11 +112,7 @@ const StatsDashboard = () => {
                     <h3>
                       Total Sellers <br />{' '}
                       <span>
-                        <CountUp
-                          duration={0.8}
-                          useEasing={true}
-                          end={stats.totalSellers}
-                        />
+                        <CountUp duration={0.8} useEasing={true} end={stats.totalSellers} />
                       </span>
                     </h3>
                   </div>
@@ -141,11 +125,7 @@ const StatsDashboard = () => {
                     <h3>
                       Total Products <br />{' '}
                       <span>
-                        <CountUp
-                          duration={0.8}
-                          useEasing={true}
-                          end={stats.totalProducts}
-                        />
+                        <CountUp duration={0.8} useEasing={true} end={stats.totalProducts} />
                       </span>
                     </h3>
                   </div>
@@ -157,11 +137,7 @@ const StatsDashboard = () => {
                     <h3>
                       Active Bids <br />{' '}
                       <span>
-                        <CountUp
-                          duration={0.8}
-                          useEasing={true}
-                          end={stats.activeBids}
-                        />
+                        <CountUp duration={0.8} useEasing={true} end={stats.activeBids} />
                       </span>
                     </h3>
                   </div>
@@ -173,11 +149,7 @@ const StatsDashboard = () => {
                     <h3>
                       Ended Bids <br />{' '}
                       <span>
-                        <CountUp
-                          duration={0.8}
-                          useEasing={true}
-                          end={stats.endedBids}
-                        />
+                        <CountUp duration={0.8} useEasing={true} end={stats.endedBids} />
                       </span>
                     </h3>
                   </div>
@@ -189,11 +161,7 @@ const StatsDashboard = () => {
                     <h3>
                       Vehicles <br />{' '}
                       <span>
-                        <CountUp
-                          duration={0.8}
-                          useEasing={true}
-                          end={stats.totalVehicles}
-                        />
+                        <CountUp duration={0.8} useEasing={true} end={stats.totalVehicles} />
                       </span>
                     </h3>
                   </div>
@@ -205,11 +173,7 @@ const StatsDashboard = () => {
                     <h3>
                       Properties <br />{' '}
                       <span>
-                        <CountUp
-                          duration={0.8}
-                          useEasing={true}
-                          end={stats.totalProperties}
-                        />
+                        <CountUp duration={0.8} useEasing={true} end={stats.totalProperties} />
                       </span>
                     </h3>
                   </div>
@@ -221,11 +185,7 @@ const StatsDashboard = () => {
                     <h3>
                       Miscellaneous <br />{' '}
                       <span>
-                        <CountUp
-                          duration={0.8}
-                          useEasing={true}
-                          end={stats.totalMiscProducts}
-                        />
+                        <CountUp duration={0.8} useEasing={true} end={stats.totalMiscProducts} />
                       </span>
                     </h3>
                   </div>

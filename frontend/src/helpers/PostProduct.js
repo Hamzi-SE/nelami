@@ -1,15 +1,7 @@
 import { toast } from 'react-hot-toast'
 import customFetch from '../utils/api'
 
-async function PostProduct(
-  dispatch,
-  navigate,
-  featuredImg,
-  imageOne,
-  imageTwo,
-  imageThree,
-  productData
-) {
+async function PostProduct(dispatch, navigate, featuredImg, imageOne, imageTwo, imageThree, productData) {
   const {
     title,
     description,
@@ -79,9 +71,7 @@ async function PostProduct(
     if (res.status === 201) {
       dispatch({ type: 'NEW_PRODUCT_SUCCESS', payload: data.product })
       navigate('/', { replace: true })
-      toast.success(
-        'Product Sent For Approval. You will be notified once it is approved.'
-      )
+      toast.success('Product Sent For Approval. You will be notified once it is approved.')
       return
     } else if (res.status === 400) {
       dispatch({ type: 'NEW_PRODUCT_FAIL', payload: data.message })

@@ -55,9 +55,7 @@ const AllProducts = () => {
   const columns = [
     {
       name: 'Image',
-      selector: (row) => (
-        <img src={row.images.featuredImg.url} width={100} alt="productImg" />
-      ),
+      selector: (row) => <img src={row.images.featuredImg.url} width={100} alt="productImg" />,
     },
     {
       name: 'Product Name',
@@ -215,89 +213,31 @@ const AllProducts = () => {
           <div className="card-body">
             <div className="row">
               <div className="filter-btns mb-3">
-                <button
-                  data-filter="allProducts"
-                  className="btn btn-primary"
-                  onClick={handleFilterBtnClick}
-                >
+                <button data-filter="allProducts" className="btn btn-primary" onClick={handleFilterBtnClick}>
                   {' '}
                   All Products <span>{allProducts.length}</span>
                 </button>
                 {/* <button data-filter="featured" className="btn btn-primary" onClick={handleFilterBtnClick}> Featured </button> */}
-                <button
-                  data-filter="live"
-                  className="btn btn-primary"
-                  onClick={handleFilterBtnClick}
-                >
+                <button data-filter="live" className="btn btn-primary" onClick={handleFilterBtnClick}>
                   {' '}
-                  Live{' '}
-                  <span>
-                    {
-                      allProducts.filter(
-                        (product) => product.bidStatus === 'Live'
-                      ).length
-                    }
-                  </span>{' '}
+                  Live <span>{allProducts.filter((product) => product.bidStatus === 'Live').length}</span>{' '}
                 </button>
-                <button
-                  data-filter="expired"
-                  className="btn btn-primary"
-                  onClick={handleFilterBtnClick}
-                >
+                <button data-filter="expired" className="btn btn-primary" onClick={handleFilterBtnClick}>
                   {' '}
-                  Expired{' '}
-                  <span>
-                    {
-                      allProducts.filter(
-                        (product) => product.bidStatus === 'Expired'
-                      ).length
-                    }
-                  </span>
+                  Expired <span>{allProducts.filter((product) => product.bidStatus === 'Expired').length}</span>
                 </button>
-                <button
-                  data-filter="vehicles"
-                  className="btn btn-primary"
-                  onClick={handleFilterBtnClick}
-                >
+                <button data-filter="vehicles" className="btn btn-primary" onClick={handleFilterBtnClick}>
                   {' '}
-                  Vehicles{' '}
-                  <span>
-                    {
-                      allProducts.filter(
-                        (product) => product.category === 'Vehicles'
-                      ).length
-                    }
-                  </span>
+                  Vehicles <span>{allProducts.filter((product) => product.category === 'Vehicles').length}</span>
                 </button>
-                <button
-                  data-filter="properties"
-                  className="btn btn-primary"
-                  onClick={handleFilterBtnClick}
-                >
+                <button data-filter="properties" className="btn btn-primary" onClick={handleFilterBtnClick}>
                   {' '}
-                  Properties{' '}
-                  <span>
-                    {
-                      allProducts.filter(
-                        (product) => product.category === 'Property'
-                      ).length
-                    }
-                  </span>
+                  Properties <span>{allProducts.filter((product) => product.category === 'Property').length}</span>
                 </button>
-                <button
-                  data-filter="miscProducts"
-                  className="btn btn-primary"
-                  onClick={handleFilterBtnClick}
-                >
+                <button data-filter="miscProducts" className="btn btn-primary" onClick={handleFilterBtnClick}>
                   {' '}
                   Misc Products{' '}
-                  <span>
-                    {
-                      allProducts.filter(
-                        (product) => product.category === 'MiscProducts'
-                      ).length
-                    }
-                  </span>
+                  <span>{allProducts.filter((product) => product.category === 'MiscProducts').length}</span>
                 </button>
               </div>
               <DataTable

@@ -56,17 +56,7 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const {
-      name,
-      email,
-      password,
-      confirmPassword,
-      address,
-      phoneNo,
-      role,
-      city,
-      store,
-    } = user
+    const { name, email, password, confirmPassword, address, phoneNo, role, city, store } = user
 
     if (!name || !email || !password || !confirmPassword || !phoneNo || !role) {
       toast.error('Please Fill All Fields')
@@ -128,10 +118,7 @@ const SignUp = () => {
                   <li className="breadcrumb-item">
                     <Link to="/">Pages</Link>
                   </li>
-                  <li
-                    className="breadcrumb-item active text-white"
-                    aria-current="page"
-                  >
+                  <li className="breadcrumb-item active text-white" aria-current="page">
                     Register
                   </li>
                 </ol>
@@ -149,11 +136,7 @@ const SignUp = () => {
             <div className="col-lg-4 d-block mx-auto">
               <div className="row">
                 <div className="col-xl-12 col-md-12 col-md-12">
-                  <form
-                    method="POST"
-                    encType="multipart/form-data"
-                    onSubmit={handleSubmit}
-                  >
+                  <form method="POST" encType="multipart/form-data" onSubmit={handleSubmit}>
                     <div className="card mb-xl-0">
                       <div className="card-header">
                         <h3 className="card-title">Register</h3>
@@ -172,9 +155,7 @@ const SignUp = () => {
                           />
                         </div>
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Email address
-                          </label>
+                          <label className="form-label text-dark">Email address</label>
                           <input
                             type="email"
                             className="form-control"
@@ -186,9 +167,7 @@ const SignUp = () => {
                           />
                         </div>
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Password
-                          </label>
+                          <label className="form-label text-dark">Password</label>
                           <input
                             type="password"
                             className="form-control"
@@ -201,9 +180,7 @@ const SignUp = () => {
                           />
                         </div>
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Confirm Password
-                          </label>
+                          <label className="form-label text-dark">Confirm Password</label>
                           <input
                             type="password"
                             className="form-control"
@@ -216,9 +193,7 @@ const SignUp = () => {
                           />
                         </div>
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Phone No.
-                          </label>
+                          <label className="form-label text-dark">Phone No.</label>
                           <input
                             type="text"
                             className="form-control"
@@ -238,9 +213,7 @@ const SignUp = () => {
                           <select
                             id="Location"
                             className="form-control"
-                            onChange={(e) =>
-                              setUser({ ...user, city: e.target.value })
-                            }
+                            onChange={(e) => setUser({ ...user, city: e.target.value })}
                             name="city"
                             value={user.city}
                             required
@@ -262,10 +235,7 @@ const SignUp = () => {
                               onChange={handleChange}
                               checked={user.role === 'buyer'}
                             />
-                            <label
-                              className="form-check-label"
-                              htmlFor="role-buyer"
-                            >
+                            <label className="form-check-label" htmlFor="role-buyer">
                               Buyer
                             </label>
                           </div>
@@ -279,19 +249,14 @@ const SignUp = () => {
                               onChange={handleChange}
                               checked={user.role === 'seller'}
                             />
-                            <label
-                              className="form-check-label"
-                              htmlFor="role-seller"
-                            >
+                            <label className="form-check-label" htmlFor="role-seller">
                               Seller
                             </label>
                           </div>
                         </div>
                         {user.role === 'seller' && (
                           <div className="form-group">
-                            <label className="form-label text-dark">
-                              Address
-                            </label>
+                            <label className="form-label text-dark">Address</label>
                             <input
                               type="text"
                               className="form-control"
@@ -306,9 +271,7 @@ const SignUp = () => {
 
                         {user.role === 'seller' && (
                           <div className="form-group">
-                            <label className="form-label text-dark">
-                              Store Name
-                            </label>
+                            <label className="form-label text-dark">Store Name</label>
                             <input
                               type="text"
                               className="form-control"
@@ -335,10 +298,7 @@ const SignUp = () => {
                           </label>
                         </div> */}
                         <div className="form-footer mt-2">
-                          <button
-                            type="submit"
-                            className="btn btn-primary btn-block"
-                          >
+                          <button type="submit" className="btn btn-primary btn-block">
                             Create New Account
                           </button>
                         </div>

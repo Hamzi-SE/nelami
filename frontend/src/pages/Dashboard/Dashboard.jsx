@@ -33,11 +33,7 @@ const Dashboard = () => {
   if (loading) {
     return <Loader />
   } else if (!isAuthenticated) {
-    return (
-      <h1 className="text-danger text-center my-5 py-5">
-        Please Login To Access Dashboard
-      </h1>
-    )
+    return <h1 className="text-danger text-center my-5 py-5">Please Login To Access Dashboard</h1>
   }
 
   return (
@@ -54,10 +50,7 @@ const Dashboard = () => {
                   <li className="breadcrumb-item">
                     <Link to="/">Home</Link>
                   </li>
-                  <li
-                    className="breadcrumb-item active text-white"
-                    aria-current="page"
-                  >
+                  <li className="breadcrumb-item active text-white" aria-current="page">
                     My Dashboard
                   </li>
                 </ol>
@@ -87,21 +80,10 @@ const Dashboard = () => {
                         title=""
                         data-bs-original-title="online"
                       ></span>
-                      {user.avatar && (
-                        <img
-                          src={user.avatar.url}
-                          className="brround"
-                          alt="user"
-                        />
-                      )}
+                      {user.avatar && <img src={user.avatar.url} className="brround" alt="user" />}
                     </div>
-                    <h3 className="mt-3 mb-0 font-weight-semibold">
-                      {user.name}
-                    </h3>
-                    <h3
-                      className="mt-3 mb-0 font-weight-semibold text-success"
-                      style={{ textTransform: 'capitalize' }}
-                    >
+                    <h3 className="mt-3 mb-0 font-weight-semibold">{user.name}</h3>
+                    <h3 className="mt-3 mb-0 font-weight-semibold text-success" style={{ textTransform: 'capitalize' }}>
                       {user.role}
                     </h3>
                   </div>
@@ -109,27 +91,17 @@ const Dashboard = () => {
                 <aside className="app-sidebar doc-sidebar my-dash">
                   <div className="app-sidebar__user clearfix">
                     <ul className="side-menu">
-                      <li
-                        data-component={'statsDashboard'}
-                        onClick={handleActiveComponent}
-                        className="slide"
-                      >
+                      <li data-component={'statsDashboard'} onClick={handleActiveComponent} className="slide">
                         <button
                           className={`side-menu__item ${activeComponent === 'statsDashboard' ? 'active-component' : ''}`}
                           data-bs-toggle="slide"
                         >
                           <i className="fa-solid fa-chart-line"></i>
-                          <span className="side-menu__label">
-                            Stats Overview
-                          </span>
+                          <span className="side-menu__label">Stats Overview</span>
                           <i className="angle fa fa-angle-right"></i>
                         </button>
                       </li>
-                      <li
-                        data-component={'profile'}
-                        onClick={handleActiveComponent}
-                        className="slide"
-                      >
+                      <li data-component={'profile'} onClick={handleActiveComponent} className="slide">
                         <button
                           className={`side-menu__item ${activeComponent === 'profile' ? 'active-component' : ''}`}
                           data-bs-toggle="slide"
@@ -141,11 +113,7 @@ const Dashboard = () => {
                       </li>
                       {/* eslint-disable-next-line */}
                       {user.role == 'seller' && (
-                        <li
-                          data-component={'myAds'}
-                          onClick={handleActiveComponent}
-                          className="slide"
-                        >
+                        <li data-component={'myAds'} onClick={handleActiveComponent} className="slide">
                           <button
                             className={`side-menu__item ${activeComponent === 'myAds' ? 'active-component' : ''}`}
                             data-bs-toggle="slide"
@@ -158,30 +126,20 @@ const Dashboard = () => {
                       )}
                       {/* eslint-disable-next-line */}
                       {user.role == 'seller' && (
-                        <li
-                          data-component={'waitingApproval'}
-                          onClick={handleActiveComponent}
-                          className="slide"
-                        >
+                        <li data-component={'waitingApproval'} onClick={handleActiveComponent} className="slide">
                           <button
                             className={`side-menu__item ${activeComponent === 'waitingApproval' ? 'active-component' : ''}`}
                             data-bs-toggle="slide"
                           >
                             <i className="fa-solid fa-arrows-rotate"></i>
-                            <span className="side-menu__label">
-                              Waiting Approval
-                            </span>
+                            <span className="side-menu__label">Waiting Approval</span>
                             <i className="angle fa fa-angle-right"></i>
                           </button>
                         </li>
                       )}
                       {/* eslint-disable-next-line */}
                       {user.role == 'buyer' && (
-                        <li
-                          data-component={'myBids'}
-                          onClick={handleActiveComponent}
-                          className="slide"
-                        >
+                        <li data-component={'myBids'} onClick={handleActiveComponent} className="slide">
                           <button
                             className={`side-menu__item ${activeComponent === 'myBids' ? 'active-component' : ''}`}
                             data-bs-toggle="slide"
@@ -194,28 +152,18 @@ const Dashboard = () => {
                       )}
                       {/* eslint-disable-next-line */}
                       {user.role == 'buyer' && (
-                        <li
-                          data-component={'myWishlist'}
-                          onClick={handleActiveComponent}
-                          className="slide"
-                        >
+                        <li data-component={'myWishlist'} onClick={handleActiveComponent} className="slide">
                           <button
                             className={`side-menu__item ${activeComponent === 'myWishlist' ? 'active-component' : ''}`}
                             data-bs-toggle="slide"
                           >
                             <i className="fa-regular fa-heart"></i>
-                            <span className="side-menu__label">
-                              My Wishlist
-                            </span>
+                            <span className="side-menu__label">My Wishlist</span>
                             <i className="angle fa fa-angle-right"></i>
                           </button>
                         </li>
                       )}
-                      <li
-                        data-component={'safetyTips'}
-                        onClick={handleActiveComponent}
-                        className="slide"
-                      >
+                      <li data-component={'safetyTips'} onClick={handleActiveComponent} className="slide">
                         <button
                           className={`side-menu__item ${activeComponent === 'safetyTips' ? 'active-component' : ''}`}
                           data-bs-toggle="slide"
@@ -226,11 +174,7 @@ const Dashboard = () => {
                         </button>
                       </li>
 
-                      <li
-                        data-component={'settings'}
-                        onClick={handleActiveComponent}
-                        className="slide"
-                      >
+                      <li data-component={'settings'} onClick={handleActiveComponent} className="slide">
                         <button
                           className={`side-menu__item ${activeComponent === 'settings' ? 'active-component' : ''}`}
                           data-bs-toggle="slide"

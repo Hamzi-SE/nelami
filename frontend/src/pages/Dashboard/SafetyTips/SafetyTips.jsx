@@ -13,25 +13,13 @@ const SafetyTips = () => {
               <div className="card-body">
                 <ul className="list-unstyled widget-spec  mb-0">
                   <li className="">
-                    <i
-                      className="fa fa-check text-success"
-                      aria-hidden="true"
-                    ></i>{' '}
-                    Meet Seller at public Place
+                    <i className="fa fa-check text-success" aria-hidden="true"></i> Meet Seller at public Place
                   </li>
                   <li className="">
-                    <i
-                      className="fa fa-check text-success"
-                      aria-hidden="true"
-                    ></i>{' '}
-                    Check item before you buy
+                    <i className="fa fa-check text-success" aria-hidden="true"></i> Check item before you buy
                   </li>
                   <li className="">
-                    <i
-                      className="fa fa-check text-success"
-                      aria-hidden="true"
-                    ></i>{' '}
-                    Pay only after collecting item
+                    <i className="fa fa-check text-success" aria-hidden="true"></i> Pay only after collecting item
                   </li>
                 </ul>
               </div>

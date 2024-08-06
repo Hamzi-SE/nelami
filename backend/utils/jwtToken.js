@@ -5,9 +5,7 @@ const sendToken = (user, statusCode, res) => {
 
   // options for cookie
   const options = {
-    expires: new Date(
-      Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000
-    ),
+    expires: new Date(Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
     httpOnly: true,
   }
 
@@ -21,13 +19,9 @@ const sendToken = (user, statusCode, res) => {
 const createActivationToken = (user) => {
   const activationCode = Math.floor(1000 + Math.random() * 9000).toString() // 4 digit number
 
-  const token = jwt.sign(
-    { user, activationCode },
-    process.env.ACTIVATION_SECRET,
-    {
-      expiresIn: '15m',
-    }
-  )
+  const token = jwt.sign({ user, activationCode }, process.env.ACTIVATION_SECRET, {
+    expiresIn: '15m',
+  })
 
   return { token, activationCode }
 }

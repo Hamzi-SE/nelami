@@ -46,9 +46,7 @@ const WaitingApproval = () => {
   const columns = [
     {
       name: 'Image',
-      selector: (row) => (
-        <img src={row.images.featuredImg.url} width={100} alt="productImg" />
-      ),
+      selector: (row) => <img src={row.images.featuredImg.url} width={100} alt="productImg" />,
     },
     {
       name: 'Product Name',
@@ -77,9 +75,7 @@ const WaitingApproval = () => {
           </div>
           <div className="card-body">
             <div className="row">
-              <h5 className="text-info">
-                Total Products For Approval: {approvalProductsCount}
-              </h5>
+              <h5 className="text-info">Total Products For Approval: {approvalProductsCount}</h5>
               <DataTable
                 columns={columns}
                 data={approvalProducts}

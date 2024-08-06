@@ -79,11 +79,7 @@ const EditProfille = () => {
   } else if (!isAuthenticated) {
     return <h1>Please Login to access this page</h1>
   } else if (user?._id !== product?.user?._id) {
-    return (
-      <h1 className="text-center text-danger py-5 my-5">
-        You are not authorized to access this page
-      </h1>
-    )
+    return <h1 className="text-center text-danger py-5 my-5">You are not authorized to access this page</h1>
   }
 
   return (
@@ -101,20 +97,11 @@ const EditProfille = () => {
                 <div className="profile-pic">
                   <div className="product-pic-img w-50">
                     {productDetails?.images && (
-                      <img
-                        className="w-25"
-                        src={productDetails?.images.featuredImg.url}
-                        alt="product"
-                      />
+                      <img className="w-25" src={productDetails?.images.featuredImg.url} alt="product" />
                     )}
                   </div>
-                  <h3 className="mt-3 mb-0 font-weight-semibold">
-                    {productDetails.title}
-                  </h3>
-                  <h3
-                    className="mt-3 mb-0 font-weight-semibold text-success"
-                    style={{ textTransform: 'capitalize' }}
-                  >
+                  <h3 className="mt-3 mb-0 font-weight-semibold">{productDetails.title}</h3>
+                  <h3 className="mt-3 mb-0 font-weight-semibold text-success" style={{ textTransform: 'capitalize' }}>
                     {productDetails?.bidStatus}
                   </h3>
                 </div>
@@ -336,11 +323,7 @@ const EditProfille = () => {
                           type="text"
                           className="form-control editForm-not-editable"
                           title="You can not change area"
-                          value={
-                            productDetails?.area +
-                            ' ' +
-                            productDetails?.areaUnit
-                          }
+                          value={productDetails?.area + ' ' + productDetails?.areaUnit}
                           placeholder="Area"
                           readOnly="readOnly"
                         />
@@ -405,11 +388,7 @@ const EditProfille = () => {
                         <input
                           type="text"
                           className="form-control editForm-not-editable"
-                          value={
-                            productDetails?.location?.city +
-                            ', ' +
-                            productDetails?.location?.province
-                          }
+                          value={productDetails?.location?.city + ', ' + productDetails?.location?.province}
                           placeholder="Location"
                           readOnly="readOnly"
                         />
@@ -438,9 +417,7 @@ const EditProfille = () => {
                         <input
                           type="text"
                           className="form-control editForm-not-editable"
-                          value={moment(productDetails?.endDate).format(
-                            'DD-MMM-yyyy'
-                          )}
+                          value={moment(productDetails?.endDate).format('DD-MMM-yyyy')}
                           placeholder="Auction End Date"
                           readOnly="readOnly"
                         />

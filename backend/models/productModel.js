@@ -172,9 +172,7 @@ productSchema.pre('save', async function (next) {
   if (!this.isModified('bidTime')) {
     next()
   }
-  this.endDate = new Date(
-    new Date().getTime() + Number(this.bidTime) * 24 * 60 * 60 * 1000
-  )
+  this.endDate = new Date(new Date().getTime() + Number(this.bidTime) * 24 * 60 * 60 * 1000)
 })
 
 module.exports = mongoose.model('Product', productSchema)

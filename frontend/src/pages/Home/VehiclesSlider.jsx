@@ -6,9 +6,7 @@ const VehiclesSlider = ({ products }) => {
   const [vehicles, setVehicles] = useState([])
 
   useEffect(() => {
-    const filteredVehicles = products.filter(
-      (product) => product.category === 'Vehicles'
-    )
+    const filteredVehicles = products.filter((product) => product.category === 'Vehicles')
     setVehicles(filteredVehicles)
   }, [products]) // Depend on products so it updates when products change
 

@@ -187,10 +187,7 @@ const EditFeatures = () => {
           </div>
           <div className="card-body">
             <div className="row">
-              <form
-                className="col-md-12 d-flex flex-wrap"
-                onSubmit={addNewFeature}
-              >
+              <form className="col-md-12 d-flex flex-wrap" onSubmit={addNewFeature}>
                 <div className="col-md-5">
                   <div className="form-group m-0">
                     <label className="form-label text-dark">Feature</label>
@@ -212,16 +209,10 @@ const EditFeatures = () => {
                       <option value="punjabCitiesList">Punjab Cities</option>
                       <option value="sindhCitiesList">Sindh Cities</option>
                       <option value="kpkCitiesList">KPK Cities</option>
-                      <option value="balochistanCitiesList">
-                        Balochistan Cities
-                      </option>
-                      <option value="azadKashmirCitiesList">
-                        Azad Kashmir Cities
-                      </option>
+                      <option value="balochistanCitiesList">Balochistan Cities</option>
+                      <option value="azadKashmirCitiesList">Azad Kashmir Cities</option>
                       <option value="northernAreasList">Northern Areas</option>
-                      <option value="islamabadSectorsList">
-                        Islamabad Sectors
-                      </option>
+                      <option value="islamabadSectorsList">Islamabad Sectors</option>
                     </select>
                   </div>
                 </div>
@@ -260,10 +251,7 @@ const EditFeatures = () => {
           </div>
           <div className="card-body">
             <div className="row">
-              <form
-                className="col-md-12 d-flex flex-wrap"
-                onSubmit={removeFeature}
-              >
+              <form className="col-md-12 d-flex flex-wrap" onSubmit={removeFeature}>
                 <div className="col-md-5">
                   <div className="form-group m-0">
                     <label className="form-label text-dark">Features</label>
@@ -285,16 +273,10 @@ const EditFeatures = () => {
                       <option value="punjabCitiesList">Punjab Cities</option>
                       <option value="sindhCitiesList">Sindh Cities</option>
                       <option value="kpkCitiesList">KPK Cities</option>
-                      <option value="balochistanCitiesList">
-                        Balochistan Cities
-                      </option>
-                      <option value="azadKashmirCitiesList">
-                        Azad Kashmir Cities
-                      </option>
+                      <option value="balochistanCitiesList">Balochistan Cities</option>
+                      <option value="azadKashmirCitiesList">Azad Kashmir Cities</option>
                       <option value="northernAreasList">Northern Areas</option>
-                      <option value="islamabadSectorsList">
-                        Islamabad Sectors
-                      </option>
+                      <option value="islamabadSectorsList">Islamabad Sectors</option>
                     </select>
                   </div>
                 </div>
@@ -302,9 +284,7 @@ const EditFeatures = () => {
                 {itemRemove && (
                   <div className="col-md-5">
                     <div className="form-group m-0">
-                      <label className="form-label text-dark">
-                        Bid Time List
-                      </label>
+                      <label className="form-label text-dark">Bid Time List</label>
                       <select
                         id="features"
                         name="newEntry"
@@ -338,10 +318,7 @@ const EditFeatures = () => {
           </div>
           <div className="card-body">
             <div className="row">
-              <form
-                className="col-md-12 d-flex flex-wrap"
-                onSubmit={updatePackage}
-              >
+              <form className="col-md-12 d-flex flex-wrap" onSubmit={updatePackage}>
                 <div className="col-md-4">
                   <div className="form-group m-0">
                     <label className="form-label text-dark">Packages</label>
@@ -385,9 +362,7 @@ const EditFeatures = () => {
                 {newPackage && (
                   <div className="col-md-4">
                     <div className="form-group m-0">
-                      <label className="form-label text-dark">
-                        New Products Allowed
-                      </label>
+                      <label className="form-label text-dark">New Products Allowed</label>
                       <input
                         type="number"
                         name="productsAllowed"
@@ -408,9 +383,7 @@ const EditFeatures = () => {
                 {newPackage && (
                   <div className="col-md-9 mt-5">
                     <div className="form-group m-0">
-                      <label className="form-label text-dark">
-                        New Description (Comma seperated)
-                      </label>
+                      <label className="form-label text-dark">New Description (Comma seperated)</label>
                       <input
                         type="text"
                         name="description"

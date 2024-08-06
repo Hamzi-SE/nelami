@@ -54,14 +54,9 @@ const ForgotPassword = () => {
             <form onSubmit={handleSubmit}>
               <div className=" d-flex justify-content-center align-items-center flex-column row">
                 <h1>Forgot Your Password?</h1>
-                <h5>
-                  To reset your password, please enter your registered email.
-                </h5>
+                <h5>To reset your password, please enter your registered email.</h5>
                 <br />
-                <h6>
-                  We will send the password reset instructions to the email
-                  address associated with this account.
-                </h6>
+                <h6>We will send the password reset instructions to the email address associated with this account.</h6>
                 <div className="col-sm-6 col-md-6">
                   <div className="form-group">
                     <label className="form-label">Email</label>

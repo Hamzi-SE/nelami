@@ -128,15 +128,7 @@ const HouseForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     // POST PRODUCT
-    PostProduct(
-      dispatch,
-      navigate,
-      featuredImg,
-      imageOne,
-      imageTwo,
-      imageThree,
-      productData
-    )
+    PostProduct(dispatch, navigate, featuredImg, imageOne, imageTwo, imageThree, productData)
   }
 
   if (loading) {
@@ -184,9 +176,7 @@ const HouseForm = () => {
                         onSubmit={handleSubmit}
                       >
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Ad Title
-                          </label>
+                          <label className="form-label text-dark">Ad Title</label>
                           <input
                             type="text"
                             className="form-control"
@@ -197,9 +187,7 @@ const HouseForm = () => {
                           />
                         </div>
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Description
-                          </label>
+                          <label className="form-label text-dark">Description</label>
                           <textarea
                             className="form-control"
                             maxlength="5000"
@@ -211,9 +199,7 @@ const HouseForm = () => {
                           ></textarea>
                         </div>
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Furnished
-                          </label>
+                          <label className="form-label text-dark">Furnished</label>
                           <div className="available-options">
                             <div className="form-control">
                               <input
@@ -240,9 +226,7 @@ const HouseForm = () => {
                           </div>
                         </div>
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Bedrooms
-                          </label>
+                          <label className="form-label text-dark">Bedrooms</label>
                           <select
                             id="bedrooms"
                             name="bedrooms"
@@ -269,9 +253,7 @@ const HouseForm = () => {
                           </select>
                         </div>
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Bathrooms
-                          </label>
+                          <label className="form-label text-dark">Bathrooms</label>
                           <select
                             id="bathrooms"
                             name="bathrooms"
@@ -298,9 +280,7 @@ const HouseForm = () => {
                           </select>
                         </div>
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Construction State
-                          </label>
+                          <label className="form-label text-dark">Construction State</label>
                           <div className="available-options">
                             <div className="form-control">
                               <input
@@ -311,10 +291,7 @@ const HouseForm = () => {
                                 data-collection="constructionState"
                                 onChange={handleOptionsChange}
                               />
-                              <label htmlFor="Grey Structure">
-                                {' '}
-                                Grey Structure
-                              </label>
+                              <label htmlFor="Grey Structure"> Grey Structure</label>
                             </div>
                             <div className="form-control">
                               <input
@@ -330,9 +307,7 @@ const HouseForm = () => {
                           </div>
                         </div>
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Features
-                          </label>
+                          <label className="form-label text-dark">Features</label>
                           <div className="available-options">
                             <div className="form-control">
                               <input
@@ -343,10 +318,7 @@ const HouseForm = () => {
                                 data-collection="features"
                                 onChange={handleOptionsChange}
                               />
-                              <label htmlFor="Servant Quarters">
-                                {' '}
-                                Servant Quarters
-                              </label>
+                              <label htmlFor="Servant Quarters"> Servant Quarters</label>
                             </div>
                             <div className="form-control">
                               <input
@@ -357,10 +329,7 @@ const HouseForm = () => {
                                 data-collection="features"
                                 onChange={handleOptionsChange}
                               />
-                              <label htmlFor="Drawing Room">
-                                {' '}
-                                Drawing Room
-                              </label>
+                              <label htmlFor="Drawing Room"> Drawing Room</label>
                             </div>
                             <div className="form-control">
                               <input
@@ -459,10 +428,7 @@ const HouseForm = () => {
                                 data-collection="features"
                                 onChange={handleOptionsChange}
                               />
-                              <label htmlFor="Lounge or Sitting Room">
-                                {' '}
-                                Lounge or Sitting Room
-                              </label>
+                              <label htmlFor="Lounge or Sitting Room"> Lounge or Sitting Room</label>
                             </div>
                             <div className="form-control">
                               <input
@@ -473,17 +439,12 @@ const HouseForm = () => {
                                 data-collection="features"
                                 onChange={handleOptionsChange}
                               />
-                              <label htmlFor="Laundry Room">
-                                {' '}
-                                Laundry Room
-                              </label>
+                              <label htmlFor="Laundry Room"> Laundry Room</label>
                             </div>
                           </div>
                         </div>
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Area Unit
-                          </label>
+                          <label className="form-label text-dark">Area Unit</label>
                           <div className="available-options">
                             <div className="form-control">
                               <input
@@ -527,10 +488,7 @@ const HouseForm = () => {
                                 data-collection="areaUnit"
                                 onChange={handleOptionsChange}
                               />
-                              <label htmlFor="Square Meter">
-                                {' '}
-                                Square Meter
-                              </label>
+                              <label htmlFor="Square Meter"> Square Meter</label>
                             </div>
                             <div className="form-control">
                               <input
@@ -541,10 +499,7 @@ const HouseForm = () => {
                                 data-collection="areaUnit"
                                 onChange={handleOptionsChange}
                               />
-                              <label htmlFor="Square Yards">
-                                {' '}
-                                Square Yards
-                              </label>
+                              <label htmlFor="Square Yards"> Square Yards</label>
                             </div>
                           </div>
                         </div>
@@ -560,9 +515,7 @@ const HouseForm = () => {
                           />
                         </div>
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Set a Starting Price
-                          </label>
+                          <label className="form-label text-dark">Set a Starting Price</label>
                           <input
                             type="number"
                             name="price"
@@ -575,14 +528,10 @@ const HouseForm = () => {
 
                         <div className="productform-images">
                           <div className="form-group">
-                            <label className="form-label text-dark">
-                              Upload Featured Image
-                            </label>
+                            <label className="form-label text-dark">Upload Featured Image</label>
                             <div className="img-upload-icon">
                               <BiImageAdd />
-                              {featuredImg && (
-                                <img src={featuredImg} alt="featuredImg" />
-                              )}
+                              {featuredImg && <img src={featuredImg} alt="featuredImg" />}
                             </div>
                             <input
                               type="file"
@@ -594,14 +543,10 @@ const HouseForm = () => {
                             />
                           </div>
                           <div className="form-group">
-                            <label className="form-label text-dark">
-                              Upload Image 1
-                            </label>
+                            <label className="form-label text-dark">Upload Image 1</label>
                             <div className="img-upload-icon">
                               <BiImageAdd />
-                              {imageOne && (
-                                <img src={imageOne} alt="ImageOne" />
-                              )}
+                              {imageOne && <img src={imageOne} alt="ImageOne" />}
                             </div>
                             <input
                               type="file"
@@ -613,14 +558,10 @@ const HouseForm = () => {
                             />
                           </div>
                           <div className="form-group">
-                            <label className="form-label text-dark">
-                              Upload Image 2
-                            </label>
+                            <label className="form-label text-dark">Upload Image 2</label>
                             <div className="img-upload-icon">
                               <BiImageAdd />
-                              {imageTwo && (
-                                <img src={imageTwo} alt="ImageTwo" />
-                              )}
+                              {imageTwo && <img src={imageTwo} alt="ImageTwo" />}
                             </div>
                             <input
                               type="file"
@@ -632,14 +573,10 @@ const HouseForm = () => {
                             />
                           </div>
                           <div className="form-group">
-                            <label className="form-label text-dark">
-                              Upload Image 3
-                            </label>
+                            <label className="form-label text-dark">Upload Image 3</label>
                             <div className="img-upload-icon">
                               <BiImageAdd />
-                              {imageThree && (
-                                <img src={imageThree} alt="imageThree" />
-                              )}
+                              {imageThree && <img src={imageThree} alt="imageThree" />}
                             </div>
                             <input
                               type="file"
@@ -653,9 +590,7 @@ const HouseForm = () => {
                         </div>
                         {/* PRONVINCES LIST */}
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Location
-                          </label>
+                          <label className="form-label text-dark">Location</label>
                           <select
                             id="province"
                             name="province"
@@ -679,9 +614,7 @@ const HouseForm = () => {
                         {/* Islamabad CITIES DROPLIST */}
                         {productData.province === 'Islamabad' && (
                           <div className="form-group">
-                            <label className="form-label text-dark">
-                              Sector
-                            </label>
+                            <label className="form-label text-dark">Sector</label>
                             <select
                               id="pubjab-cities"
                               name="city"
@@ -849,9 +782,7 @@ const HouseForm = () => {
                         )}
 
                         <div className="form-group">
-                          <label className="form-label text-dark">
-                            Bid Time
-                          </label>
+                          <label className="form-label text-dark">Bid Time</label>
                           <select
                             id="bid-time"
                             name="bidTime"

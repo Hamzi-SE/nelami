@@ -43,11 +43,7 @@ const Logout = () => {
     // eslint-disable-next-line
   }, [])
 
-  return (
-    <h1 className="d-flex justify-content-center align-items-center">
-      Logging out...
-    </h1>
-  )
+  return <h1 className="d-flex justify-content-center align-items-center">Logging out...</h1>
 }
 
 export default Logout

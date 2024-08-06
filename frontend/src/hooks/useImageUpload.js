@@ -51,12 +51,7 @@ function useImageUpload() {
     setImageOne(previewSourceOne)
     setImageTwo(previewSourceTwo)
     setImageThree(previewSourceThree)
-  }, [
-    previewFeaturedSource,
-    previewSourceOne,
-    previewSourceTwo,
-    previewSourceThree,
-  ])
+  }, [previewFeaturedSource, previewSourceOne, previewSourceTwo, previewSourceThree])
 
   return {
     featuredImg,

@@ -124,13 +124,8 @@ const ViewProductBidders = () => {
             </div>
 
             <div className="card-body text-center item-user">
-              <h3 className="mt-3 mb-0 font-weight-semibold">
-                {product.title}
-              </h3>
-              <h3
-                className="mt-3 mb-0 font-weight-semibold text-success"
-                style={{ textTransform: 'capitalize' }}
-              >
+              <h3 className="mt-3 mb-0 font-weight-semibold">{product.title}</h3>
+              <h3 className="mt-3 mb-0 font-weight-semibold text-success" style={{ textTransform: 'capitalize' }}>
                 {product.bidStatus}
               </h3>
             </div>
@@ -142,10 +137,7 @@ const ViewProductBidders = () => {
                       <b>Bidders</b>
                     </h5>
                   </div>
-                  <div
-                    style={{ height: '300px', overflowY: 'scroll' }}
-                    className="col-md-12 col-sm-12 col-lg-12"
-                  >
+                  <div style={{ height: '300px', overflowY: 'scroll' }} className="col-md-12 col-sm-12 col-lg-12">
                     <ul className="unorder-list mt-4">
                       <li>
                         {bidders.length !== 0 ? (
@@ -164,16 +156,10 @@ const ViewProductBidders = () => {
                                     aria-labelledby="exampleModalLabel"
                                     aria-hidden="true"
                                   >
-                                    <div
-                                      className="modal-dialog"
-                                      role="document"
-                                    >
+                                    <div className="modal-dialog" role="document">
                                       <div className="modal-content">
                                         <div className="modal-header">
-                                          <h5
-                                            className="modal-title"
-                                            id="exampleModalLabel"
-                                          >
+                                          <h5 className="modal-title" id="exampleModalLabel">
                                             <div className="user-wrapper">
                                               <img
                                                 src={user?.user?.avatar?.url}
@@ -189,29 +175,20 @@ const ViewProductBidders = () => {
                                             data-dismiss="modal"
                                             aria-label="Close"
                                           >
-                                            <span aria-hidden="true">
-                                              &times;
-                                            </span>
+                                            <span aria-hidden="true">&times;</span>
                                           </button>
                                         </div>
                                         <div className="modal-body">
-                                          Do you want to start a chat with{' '}
-                                          {user?.user?.name} ?
+                                          Do you want to start a chat with {user?.user?.name} ?
                                         </div>
                                         <div className="modal-footer">
-                                          <button
-                                            type="button"
-                                            className="btn btn-secondary"
-                                            data-dismiss="modal"
-                                          >
+                                          <button type="button" className="btn btn-secondary" data-dismiss="modal">
                                             Cancel
                                           </button>
                                           <button
                                             type="button"
                                             className="btn btn-primary"
-                                            onClick={() =>
-                                              startConversation(user?.user?._id)
-                                            }
+                                            onClick={() => startConversation(user?.user?._id)}
                                           >
                                             Yes
                                           </button>
@@ -220,27 +197,15 @@ const ViewProductBidders = () => {
                                     </div>
                                   </div>
 
-                                  <div
-                                    key={generateId()}
-                                    className="bidder-data d-flex my-3"
-                                  >
+                                  <div key={generateId()} className="bidder-data d-flex my-3">
                                     <div className="userindex smallcol">
                                       <span>{idx + 1}</span>{' '}
                                     </div>
                                     <div className="userimg smallcol">
-                                      <img
-                                        className="bidder-dp"
-                                        src={user?.user?.avatar?.url}
-                                        alt="user"
-                                      />
+                                      <img className="bidder-dp" src={user?.user?.avatar?.url} alt="user" />
                                     </div>
-                                    <span className="username largecol">
-                                      {' '}
-                                      {user?.user?.name}{' '}
-                                    </span>
-                                    <span className=" m-auto largecol">
-                                      {user?.user?.phoneNo}
-                                    </span>
+                                    <span className="username largecol"> {user?.user?.name} </span>
+                                    <span className=" m-auto largecol">{user?.user?.phoneNo}</span>
                                     <div className="price largecol">
                                       <b>Rs. {user?.price}</b>
                                     </div>
@@ -276,9 +241,7 @@ const ViewProductBidders = () => {
               <button
                 className="btn btn-info mx-1"
                 onClick={() => {
-                  user?.role === 'admin'
-                    ? navigate('/admin/dashboard')
-                    : navigate('/dashboard')
+                  user?.role === 'admin' ? navigate('/admin/dashboard') : navigate('/dashboard')
                 }}
               >
                 Go Back

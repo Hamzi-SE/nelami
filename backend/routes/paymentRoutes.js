@@ -1,10 +1,5 @@
 const express = require('express')
-const {
-  processPayment,
-  sendStripeApiKey,
-  stripeWebhook,
-  getSession,
-} = require('../controllers/paymentController')
+const { processPayment, sendStripeApiKey, stripeWebhook, getSession } = require('../controllers/paymentController')
 const router = express.Router()
 const { isAuthenticatedUser } = require('../middleware/auth')
 

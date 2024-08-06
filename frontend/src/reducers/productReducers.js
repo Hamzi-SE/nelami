@@ -143,22 +143,19 @@ const singleProductInitialState = {
   error: null,
 }
 
-export const singleProductReducer = createReducer(
-  singleProductInitialState,
-  (builder) => {
-    builder
-      .addCase('SINGLE_PRODUCT_REQUEST', (state) => {
-        state.loading = true
-        state.product = null
-        state.error = null
-      })
-      .addCase('SINGLE_PRODUCT_SUCCESS', (state, action) => {
-        state.product = action.payload
-        state.loading = false
-      })
-      .addCase('SINGLE_PRODUCT_FAIL', (state, action) => {
-        state.loading = false
-        state.error = action.payload
-      })
-  }
-)
+export const singleProductReducer = createReducer(singleProductInitialState, (builder) => {
+  builder
+    .addCase('SINGLE_PRODUCT_REQUEST', (state) => {
+      state.loading = true
+      state.product = null
+      state.error = null
+    })
+    .addCase('SINGLE_PRODUCT_SUCCESS', (state, action) => {
+      state.product = action.payload
+      state.loading = false
+    })
+    .addCase('SINGLE_PRODUCT_FAIL', (state, action) => {
+      state.loading = false
+      state.error = action.payload
+    })
+})
