@@ -1,6 +1,6 @@
 # Nelami
 
-Nelami is an innovative platform designed to connect buyers and sellers through a bidding system where buyers can bid on products that the sellers post, and the top bidder wins the auction when it ends. This repository contains the source code and documentation for the Nelami project.
+Nelami is an innovative platform designed to connect buyers and sellers through a bidding system where buyers can bid on products that the sellers post and the top bidder wins the auction when it ends. This repository contains the source code and documentation for the Nelami project.
 
 ## Features
 
@@ -9,6 +9,7 @@ Nelami is an innovative platform designed to connect buyers and sellers through 
 - **User Profiles**: Manage user profiles with detailed information.
 - **Product Listings**: Browse and search for available products.
 - **Email Notifications**: Get updates through emails.
+- **Notifications**: Real-time updates are made through in-app notifications.
 - **Payment Integration**: Secure payment processing for transactions.
 - **Admin Dashboard**: Interactive admin interface for managing products and users.
 - **Responsive Design**: Optimized for both desktop and mobile platforms.
@@ -21,7 +22,7 @@ Nelami is an innovative platform designed to connect buyers and sellers through 
 - **Database**: MongoDB
 - **Authentication**: JWT (JSON Web Tokens)
 - **Email Templating**: EJS
-- **Payment Gateway**: Stripe
+- **Payment Gateway**: Stripe with webhook
 - **Real-Time Communication**: Socket.IO
 - **Deployment**: VPS
 
@@ -71,6 +72,7 @@ nelami/
     |   │   ├───Logout/
     |   │   ├───Messenger/
     |   │   ├───PackagesPricing/
+    |   │   ├───Payment/
     |   │   ├───ProductForms/
     |   │   │   ├───Misc/
     |   │   │   ├───Properties/
@@ -168,6 +170,8 @@ nelami/
     CLOUDINARY_API_SECRET=your_cloudinary_api_secret
     STRIPE_API_KEY=your_stripe_api_key
     STRIPE_SECRET_KEY=your_stripe_secret_key
+    STRIPE_WEBHOOK_SECRET_DEV=your_stripe_webhook_secret_key_for_dev
+    STRIPE_WEBHOOK_SECRET_PROD=your_stripe_webhook_secret_key_for_prod
     ```
 
     > Make sure to replace the placeholder values with your actual configuration details before running the application.
