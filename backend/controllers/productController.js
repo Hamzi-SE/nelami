@@ -131,6 +131,59 @@ exports.getAllProducts = catchAsyncErrors(async (req, res) => {
   })
 })
 
+// Get Hot Products (With most bids)
+exports.getHotProducts = catchAsyncErrors(async (req, res) => {
+  const products = await Bid.aggregate([
+    {
+      $project: {
+        bidItem: 1,
+        biddersCount: { $size: '$bidders' },
+      },
+    },
+    { $sort: { biddersCount: -1 } },
+    { $limit: 12 },
+    {
+      $lookup: {
+        from: 'products',
+        localField: 'bidItem',
+        foreignField: '_id',
+        as: 'product',
+      },
+    },
+    { $unwind: '$product' },
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'product.user',
+        foreignField: '_id',
+        as: 'user',
+      },
+    },
+    { $unwind: '$user' },
+    {
+      $project: {
+        _id: '$product._id',
+        title: '$product.title',
+        price: '$product.price',
+        bidStatus: '$product.bidStatus',
+        endDate: '$product.endDate',
+        category: '$product.category',
+        location: '$product.location',
+        'images.featuredImg.url': '$product.images.featuredImg.url',
+        biddersCount: 1,
+        'user._id': '$user._id',
+        'user.name': '$user.name',
+        'user.avatar.url': '$user.avatar.url',
+      },
+    },
+  ])
+
+  res.status(200).json({
+    success: true,
+    products,
+  })
+})
+
 // Get All Products --Admin
 exports.getAllProductsAdmin = catchAsyncErrors(async (req, res) => {
   const apiFeature = new ApiFeatures(Product.find({ status: 'Approved' }), req.query)

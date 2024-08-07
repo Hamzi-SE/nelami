@@ -9,7 +9,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import './Home.css'
 
 // Sliders
-import FeaturedSlider from './FeaturedSlider'
+import HotProductsSlider from './HotProductsSlider'
 import VehiclesSlider from './VehiclesSlider'
 import PropertySlider from './PropertySlider'
 import MiscProductSlider from './MiscProductSlider'
@@ -38,7 +38,7 @@ const Home = () => {
   const [city, setCity] = useState('')
   const [category, setCategory] = useState('')
 
-  const [featuredProducts, setFeaturedProducts] = useState([])
+  const [hotProducts, setHotProducts] = useState([])
   const [vehicles, setVehicles] = useState([])
   const [properties, setProperties] = useState([])
   const [miscProducts, setMiscProducts] = useState([])
@@ -68,21 +68,21 @@ const Home = () => {
     const fetchProducts = async () => {
       dispatch({ type: 'ALL_PRODUCTS_REQUEST' })
       try {
-        const [featuredRes, vehiclesRes, propertiesRes, miscRes] = await Promise.all([
-          customFetch(`/api/v1/products`),
+        const [hotProductsRes, vehiclesRes, propertiesRes, miscRes] = await Promise.all([
+          customFetch(`/api/v1/products/hot`),
           customFetch(`/api/v1/products?category=Vehicles`),
           customFetch(`/api/v1/products?category=Property`),
           customFetch(`/api/v1/products?category=MiscProducts`),
         ])
 
-        const [featuredData, vehiclesData, propertiesData, miscData] = await Promise.all([
-          featuredRes.json(),
+        const [hotProductsData, vehiclesData, propertiesData, miscData] = await Promise.all([
+          hotProductsRes.json(),
           vehiclesRes.json(),
           propertiesRes.json(),
           miscRes.json(),
         ])
 
-        setFeaturedProducts(featuredData.products)
+        setHotProducts(hotProductsData.products)
         setVehicles(vehiclesData.products)
         setProperties(propertiesData.products)
         setMiscProducts(miscData.products)
@@ -101,7 +101,7 @@ const Home = () => {
     fetchProducts()
   }, [dispatch])
 
-  const featuredSliderMemo = useMemo(() => <FeaturedSlider products={featuredProducts} />, [featuredProducts])
+  const hotProductsSliderMemo = useMemo(() => <HotProductsSlider products={hotProducts} />, [hotProducts])
 
   const vehiclesSliderMemo = useMemo(() => <VehiclesSlider products={vehicles} />, [vehicles])
 
@@ -323,8 +323,8 @@ const Home = () => {
       {/* <!--/Sliders Section--> */}
 
       <div className="container products-slider home-products-slider home-featured-slider">
-        <h1 className="text-center home-products-slider-header">Featured Products</h1>
-        {featuredSliderMemo}
+        <h1 className="text-center home-products-slider-header">Hot Products</h1>
+        {hotProductsSliderMemo}
       </div>
 
       <section className="sptb bg-white">
