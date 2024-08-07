@@ -28,6 +28,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import customFetch from '../../utils/api'
 import Loader from '../../Components/Loader/Loader'
+import toast from 'react-hot-toast'
 
 const Home = () => {
   const dispatch = useDispatch()
@@ -66,7 +67,7 @@ const Home = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      dispatch({ type: 'ALL_PRODUCTS_REQUEST' })
+      // dispatch({ type: 'ALL_PRODUCTS_REQUEST' })
       try {
         const [hotProductsRes, vehiclesRes, propertiesRes, miscRes] = await Promise.all([
           customFetch(`/api/v1/products/hot`),
@@ -86,13 +87,14 @@ const Home = () => {
         setVehicles(vehiclesData.products)
         setProperties(propertiesData.products)
         setMiscProducts(miscData.products)
-        dispatch({
-          type: 'ALL_PRODUCTS_SUCCESS',
-          payload: featuredData.products,
-        })
+        // dispatch({
+        //   type: 'ALL_PRODUCTS_SUCCESS',
+        //   payload: featuredData.products,
+        // })
       } catch (error) {
         console.error('Error fetching products: ', error)
-        dispatch({ type: 'ALL_PRODUCTS_FAIL', payload: error.message })
+        toast.error('Error fetching products')
+        // dispatch({ type: 'ALL_PRODUCTS_FAIL', payload: error.message })
       } finally {
         setLoading(false)
       }
