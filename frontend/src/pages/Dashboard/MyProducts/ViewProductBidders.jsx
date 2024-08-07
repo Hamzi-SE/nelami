@@ -17,6 +17,7 @@ const ViewProductBidders = () => {
   const [bidders, setBidders] = useState([])
   const { product } = useSelector((state) => state.singleProduct)
   const productLoading = useSelector((state) => state.singleProduct.loading)
+  const conversationLoading = useSelector((state) => state.conversation.loading)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { id } = useParams()
@@ -79,36 +80,47 @@ const ViewProductBidders = () => {
   }, [])
 
   const startConversation = async (id) => {
-    // setLoading(true);
-    const res = await customFetch(`/api/v1/conversations`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        senderId: user?._id,
-        receiverId: id,
-      }),
-    })
-    const data = await res.json()
+    dispatch({ type: 'CREATE_CONVERSATION_REQUEST' })
+    try {
+      const res = await customFetch(`/api/v1/conversations`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          senderId: user?._id,
+          receiverId: id,
+        }),
+      })
+      const data = await res.json()
 
-    if (res.status === 201) {
+      if (res.status === 201) {
+        dispatch({
+          type: 'CREATE_CONVERSATION_SUCCESS',
+          payload: data.savedConversation,
+        })
+        toast.success(data.message)
+        navigate(`/messenger`)
+      } else if (res.status === 200) {
+        dispatch({
+          type: 'CREATE_CONVERSATION_SUCCESS',
+          payload: data.conversation,
+        })
+        toast(data.message, { icon: '🤝' })
+        navigate(`/messenger`)
+      } else {
+        dispatch({ type: 'CREATE_CONVERSATION_FAIL', payload: data.message })
+        toast.error(data.message)
+      }
+
       document.getElementsByClassName('modal-backdrop')[0].remove()
-      toast.success(data.message)
-    } else if (res.status === 200) {
-      document.getElementsByClassName('modal-backdrop')[0].remove()
-      toast.success(data.message)
-    } else {
-      document.getElementsByClassName('modal-backdrop')[0].remove()
-      toast.error(data.message)
+    } catch (error) {
+      dispatch({ type: 'CREATE_CONVERSATION_FAIL', payload: error?.message || 'Something went wrong' })
+      toast.error(error?.message || 'Something went wrong')
     }
-
-    navigate(`/messenger`, { replace: true })
-
-    // setLoading(false);
   }
 
-  if (loading || productLoading) {
+  if (loading || productLoading || conversationLoading) {
     return <Loader />
   }
 
@@ -138,10 +150,20 @@ const ViewProductBidders = () => {
                     </h5>
                   </div>
                   <div style={{ height: '300px', overflowY: 'scroll' }} className="col-md-12 col-sm-12 col-lg-12">
-                    <ul className="unorder-list mt-4">
-                      <li>
-                        {bidders.length !== 0 ? (
-                          bidders
+                    {bidders.length !== 0 ? (
+                      <table className="table mt-4">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Avatar</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {bidders
                             .sort((a, b) => b?.price - a?.price)
                             ?.map((user, idx) => {
                               return (
@@ -153,25 +175,26 @@ const ViewProductBidders = () => {
                                     id={`chatModal-${idx}`}
                                     tabIndex="-1"
                                     role="dialog"
-                                    aria-labelledby="exampleModalLabel"
+                                    aria-labelledby={`chatModalLabel-${idx}`}
                                     aria-hidden="true"
                                   >
                                     <div className="modal-dialog" role="document">
                                       <div className="modal-content">
                                         <div className="modal-header">
-                                          <h5 className="modal-title" id="exampleModalLabel">
+                                          <h5 className="modal-title" id={`chatModalLabel-${idx}`}>
                                             <div className="user-wrapper">
                                               <img
                                                 src={user?.user?.avatar?.url}
                                                 alt={user?.user?.name}
-                                                className="avatar-small"
+                                                className="rounded-circle"
+                                                style={{ width: '40px', height: '40px' }}
                                               />
                                               <h3>{user?.user?.name}</h3>
                                             </div>
                                           </h5>
                                           <button
                                             type="button"
-                                            className="close"
+                                            className="btn-close"
                                             data-dismiss="modal"
                                             aria-label="Close"
                                           >
@@ -179,7 +202,7 @@ const ViewProductBidders = () => {
                                           </button>
                                         </div>
                                         <div className="modal-body">
-                                          Do you want to start a chat with {user?.user?.name} ?
+                                          Do you want to start a chat with {user?.user?.name}?
                                         </div>
                                         <div className="modal-footer">
                                           <button type="button" className="btn btn-secondary" data-dismiss="modal">
@@ -197,42 +220,39 @@ const ViewProductBidders = () => {
                                     </div>
                                   </div>
 
-                                  <div key={generateId()} className="bidder-data d-flex my-3">
-                                    <div className="userindex smallcol">
-                                      <span>{idx + 1}</span>{' '}
-                                    </div>
-                                    <div className="userimg smallcol">
-                                      <img className="bidder-dp" src={user?.user?.avatar?.url} alt="user" />
-                                    </div>
-                                    <span className="username largecol"> {user?.user?.name} </span>
-                                    <span className=" m-auto largecol">{user?.user?.phoneNo}</span>
-                                    <div className="price largecol">
-                                      <b>Rs. {user?.price}</b>
-                                    </div>
-                                    <span className="price largecol">
+                                  <tr key={generateId()} className="align-middle">
+                                    <th scope="row">{idx + 1}</th>
+                                    <td>
+                                      <img
+                                        className="rounded-circle"
+                                        src={user?.user?.avatar?.url}
+                                        alt="user"
+                                        style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                                      />
+                                    </td>
+                                    <td>{user?.user?.name}</td>
+                                    <td>{user?.user?.phoneNo}</td>
+                                    <td>Rs. {user?.price}</td>
+                                    <td>
                                       <Tippy content="Chat With User">
                                         <button
-                                          style={{
-                                            border: 'none',
-                                            background: 'white',
-                                            fontSize: '17px',
-                                          }}
+                                          className="btn btn-link p-0"
                                           data-toggle="modal"
                                           data-target={`#chatModal-${idx}`}
                                         >
-                                          <BsChatSquareText />
+                                          <BsChatSquareText size={20} />
                                         </button>
                                       </Tippy>
-                                    </span>
-                                  </div>
+                                    </td>
+                                  </tr>
                                 </React.Fragment>
                               )
-                            })
-                        ) : (
-                          <h4>No Bids On this Product Yet</h4>
-                        )}
-                      </li>
-                    </ul>
+                            })}
+                        </tbody>
+                      </table>
+                    ) : (
+                      <h4>No Bids On this Product Yet</h4>
+                    )}
                   </div>
                 </div>
               </div>

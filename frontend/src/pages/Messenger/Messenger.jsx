@@ -60,7 +60,9 @@ const Messenger = () => {
         conversationId: data.conversationId,
       })
     })
-  })
+
+    return () => socket.off('getMessage')
+  }, [socket])
 
   useEffect(() => {
     socket.on('isTyping', ({ senderId, isTyping, conversationId }) => {
@@ -69,7 +71,9 @@ const Messenger = () => {
         [conversationId]: isTyping,
       }))
     })
-  }, [currentChat, socket])
+
+    return () => socket.off('isTyping')
+  }, [socket])
 
   useEffect(() => {
     if (newMessage.trim() !== '') {
@@ -113,6 +117,8 @@ const Messenger = () => {
     socket.on('getUsers', (users) => {
       setLiveUsers(users)
     })
+
+    return () => socket.off('getUsers')
   }, [user, socket])
 
   const onEmojiClick = (event, emojiObject) => {

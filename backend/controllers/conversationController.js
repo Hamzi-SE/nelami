@@ -4,37 +4,31 @@ exports.createConversation = async (req, res, next) => {
   const { senderId, receiverId } = req.body
 
   if (senderId === receiverId) {
-    res.status(400).json({
-      message: "You can't send message to yourself",
+    return res.status(400).json({
+      message: "You can't send a message to yourself",
     })
-    return
   }
 
   const presentConversation = await Conversation.findOne({
-    members: { $eq: [senderId, receiverId] },
+    members: { $all: [senderId, receiverId] },
   })
 
   if (presentConversation) {
-    res.status(200).json({
+    return res.status(200).json({
       message: 'Conversation already exists',
       conversation: presentConversation,
     })
-    return
   }
+
   const conversation = new Conversation({
     members: [senderId, receiverId],
   })
-  try {
-    const savedConversation = await conversation.save()
-    res.status(201).json({
-      message: 'Conversation created successfully',
-      savedConversation,
-    })
-  } catch (err) {
-    res.status(500).json({
-      message: err.stack,
-    })
-  }
+
+  const savedConversation = await conversation.save()
+  res.status(201).json({
+    message: 'Conversation created successfully',
+    savedConversation,
+  })
 }
 
 exports.getUserConversation = async (req, res, next) => {

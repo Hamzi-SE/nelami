@@ -94,20 +94,3 @@
   width: 0;
   border-left: 15px solid rgb(249, 55, 55) !important;
 }
-
-.user-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin-bottom: 10px;
-}
-
-.user-wrapper > img {
-  border-radius: 50%;
-  width: 8%;
-  margin-right: 10px;
-}
-
-.user-wrapper h3 {
-  margin: 0px;
-}

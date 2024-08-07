@@ -109,7 +109,7 @@ const MyProducts = () => {
             data-icon="view"
             data-index={i}
             className="btn btn-sm btn-primary"
-            onClick={() => window.open(`${process.env.REACT_APP_URL}/product/` + row._id, '_blank')}
+            onClick={() => navigate('/product/' + row._id)}
           >
             <HiOutlineEye />
           </button>
@@ -118,7 +118,7 @@ const MyProducts = () => {
             data-icon="bidders"
             data-index={i}
             className="btn btn-sm btn-primary"
-            onClick={() => window.open(`${process.env.REACT_APP_URL}/user/product/bids/all/` + row._id, '_blank')}
+            onClick={() => navigate('/user/product/bids/all/' + row._id)}
           >
             <i className="fa-solid fa-user-group"></i>
           </button>

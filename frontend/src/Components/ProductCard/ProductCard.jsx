@@ -47,38 +47,43 @@ const ProductCard = (props) => {
 
   const startConversation = async () => {
     dispatch({ type: 'CREATE_CONVERSATION_REQUEST' })
-    const res = await customFetch(`/api/v1/conversations`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        senderId: user?._id,
-        receiverId: product?.user._id,
-      }),
-    })
-    const data = await res.json()
+    try {
+      const res = await customFetch(`/api/v1/conversations`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          senderId: user?._id,
+          receiverId: product?.user._id,
+        }),
+      })
+      const data = await res.json()
 
-    if (res.status === 201) {
-      dispatch({
-        type: 'CREATE_CONVERSATION_SUCCESS',
-        payload: data.savedConversation,
-      })
-      document.getElementsByClassName('modal-backdrop')[0].remove()
-      toast.success(data.message)
-    } else if (res.status === 200) {
-      dispatch({
-        type: 'CREATE_CONVERSATION_SUCCESS',
-        payload: data.conversation,
-      })
-      document.getElementsByClassName('modal-backdrop')[0].remove()
-      toast(data.message, { icon: '🤝' })
-    } else {
-      dispatch({ type: 'CREATE_CONVERSATION_FAIL', payload: data.message })
-      document.getElementsByClassName('modal-backdrop')[0].remove()
-      toast.error(data.message)
+      if (res.status === 201) {
+        dispatch({
+          type: 'CREATE_CONVERSATION_SUCCESS',
+          payload: data.savedConversation,
+        })
+        document.getElementsByClassName('modal-backdrop')[0].remove()
+        toast.success(data.message)
+      } else if (res.status === 200) {
+        dispatch({
+          type: 'CREATE_CONVERSATION_SUCCESS',
+          payload: data.conversation,
+        })
+        document.getElementsByClassName('modal-backdrop')[0].remove()
+        toast(data.message, { icon: '🤝' })
+      } else {
+        dispatch({ type: 'CREATE_CONVERSATION_FAIL', payload: data.message })
+        document.getElementsByClassName('modal-backdrop')[0].remove()
+        toast.error(data.message)
+      }
+      navigate(`/messenger`, { replace: true })
+    } catch (error) {
+      dispatch({ type: 'CREATE_CONVERSATION_FAIL', payload: error?.message || 'Something went wrong' })
+      toast.error(error?.message || 'Something went wrong')
     }
-    navigate(`/messenger`, { replace: true })
   }
 
   const addToWishlistHandler = async () => {
