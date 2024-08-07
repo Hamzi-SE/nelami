@@ -56,12 +56,12 @@ exports.userStats = catchAsyncErrors(async (req, res, next) => {
     user: req.user.id,
   }).countDocuments()
   const totalEndedBids = await Product.find({
-    endDate: { $lt: Date.now() },
+    bidStatus: 'Expired',
     status: 'Approved',
     user: req.user.id,
   }).countDocuments()
   const totalOngoingBids = await Product.find({
-    endDate: { $gt: Date.now() },
+    bidStatus: 'Live',
     status: 'Approved',
     user: req.user.id,
   }).countDocuments()

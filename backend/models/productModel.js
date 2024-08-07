@@ -169,10 +169,11 @@ const productSchema = new mongoose.Schema({
 
 //Calculating End Date
 productSchema.pre('save', async function (next) {
-  if (!this.isModified('bidTime')) {
-    next()
+  // Only set endDate if bidTime is modified or the document is new
+  if (this.isNew || this.isModified('bidTime')) {
+    this.endDate = new Date(new Date().getTime() + Number(this.bidTime) * 24 * 60 * 60 * 1000)
   }
-  this.endDate = new Date(new Date().getTime() + Number(this.bidTime) * 24 * 60 * 60 * 1000)
+  next()
 })
 
 module.exports = mongoose.model('Product', productSchema)
