@@ -712,9 +712,11 @@ const SingleProduct = () => {
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">
                               Close
                             </button>
-                            <button type="button" className="btn btn-danger" onClick={handleBidRetraction}>
-                              Retract Bid
-                            </button>
+                            {isBidder && (
+                              <button type="button" className="btn btn-danger" onClick={handleBidRetraction}>
+                                Retract Bid
+                              </button>
+                            )}
                             <button type="submit" className="btn btn-primary">
                               Place Your Bid
                             </button>
