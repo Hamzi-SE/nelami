@@ -2,18 +2,16 @@ const Notification = require('../models/notificationModel')
 const ErrorHandler = require('../utils/errorHandler')
 const catchAsyncErrors = require('../middleware/catchAsyncErrors')
 const eventEmitter = require('../utils/eventEmitter')
+const sendNotification = require('../utils/sendNotification')
 
 exports.createNotification = catchAsyncErrors(async (req, res, next) => {
   const { userId, message, link } = req.body
-  const notification = new Notification({
+
+  await sendNotification({
     userId,
     message,
     link,
   })
-  await notification.save()
-
-  // Emitting an internal event after saving the notification
-  eventEmitter.emit('notificationCreated', notification)
 
   res.status(201).json({
     success: true,

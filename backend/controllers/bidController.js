@@ -76,7 +76,7 @@ exports.newBid = catchAsyncErrors(async (req, res, next) => {
       // Update the existing bid price
       userBid.price = price
 
-      sendNotification({
+      await sendNotification({
         userId: userId,
         message: `Your bid has been updated successfully on the product: ${product.title.substring(0, 20)}...`,
         link: `/product/${productId}`,
@@ -85,7 +85,7 @@ exports.newBid = catchAsyncErrors(async (req, res, next) => {
       // Add a new bid for the user
       bid.bidders.push({ user: userId, price })
 
-      sendNotification({
+      await sendNotification({
         userId: userId,
         message: `Your bid has been placed successfully on the product: ${product.title.substring(0, 20)}...`,
         link: `/product/${productId}`,
@@ -94,7 +94,7 @@ exports.newBid = catchAsyncErrors(async (req, res, next) => {
 
     await bid.save()
 
-    sendNotification({
+    await sendNotification({
       userId: product.user,
       message: `${req.user.name.split(' ')[0]} has bid on your product: ${product.title.substring(0, 20)}...`,
       link: `/product/${productId}`,
@@ -114,13 +114,13 @@ exports.newBid = catchAsyncErrors(async (req, res, next) => {
       },
     })
 
-    sendNotification({
+    await sendNotification({
       userId: product.user,
       message: `${req.user.name.split(' ')[0]} has bid on your product: ${product.title.substring(0, 20)}...`,
       link: `/product/${productId}`,
     })
 
-    sendNotification({
+    await sendNotification({
       userId: userId,
       message: `Your bid has been placed successfully on the product: ${product.title.substring(0, 20)}...`,
       link: `/product/${productId}`,
@@ -135,13 +135,11 @@ exports.newBid = catchAsyncErrors(async (req, res, next) => {
   // Create and emit notifications for outbid bidders asynchronously
   process.nextTick(async () => {
     const notificationPromises = outbidBidders.map(async (outbidder) => {
-      const notification = new Notification({
+      await sendNotification({
         userId: outbidder.user,
         message: `${req.user.name.split(' ')[0]} has outbid you on the product: ${product.title.substring(0, 20)}...`,
         link: `/product/${productId}`,
       })
-      await notification.save()
-      eventEmitter.emit('notificationCreated', notification)
     })
 
     await Promise.all(notificationPromises)
@@ -211,13 +209,11 @@ exports.retractBid = catchAsyncErrors(async (req, res, next) => {
 
   await bid.save()
 
-  const notification = new Notification({
+  await sendNotification({
     userId,
     message: `Your bid on product ${product.title.substring(0, 20)}... has been retracted.`,
     link: `/product/${productId}`,
   })
-  await notification.save()
-  eventEmitter.emit('notificationCreated', notification)
 
   res.status(200).json({
     success: true,

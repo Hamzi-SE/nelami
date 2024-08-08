@@ -5,6 +5,7 @@ const User = require('../models/userModel')
 const Notification = require('../models/notificationModel')
 const ErrorHandler = require('../utils/errorHandler')
 const eventEmitter = require('../utils/eventEmitter')
+const sendNotification = require('../utils/sendNotification')
 dotenv.config({ path: 'config/config.env' })
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
@@ -169,14 +170,10 @@ exports.stripeWebhook = catchAsyncErrors(async (req, res, next) => {
 
     await user.save()
 
-    const notification = new Notification({
+    sendNotification({
       userId: user._id,
       message: `Congratulations! Your package has been upgraded to ${packageName}.`,
     })
-
-    await notification.save()
-
-    eventEmitter.emit('notificationCreated', notification)
 
     const data = await Data.findById(DATA_ID)
     if (!data) {

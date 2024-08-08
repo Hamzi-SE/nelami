@@ -1,12 +1,11 @@
 const Agenda = require('agenda')
 const User = require('../models/userModel')
 const Product = require('../models/productModel')
-const Notification = require('../models/notificationModel')
 const Bid = require('../models/bidModel')
 const dotenv = require('dotenv')
 const moment = require('moment')
 const sendEmail = require('../utils/sendEmail')
-const eventEmitter = require('../utils/eventEmitter')
+const sendNotification = require('../utils/sendNotification')
 
 dotenv.config({ path: './config/config.env' })
 
@@ -50,13 +49,11 @@ agenda.define('expire and notify winner', async (job) => {
     }
 
     // Send notification
-    const notification = new Notification({
+    await sendNotification({
       userId: highestBidUser._id,
       message: `Congratulations! You have won the auction for ${product.title}.`,
       link: `/product/${product._id}`,
     })
-    await notification.save()
-    eventEmitter.emit('notificationCreated', notification)
 
     try {
       await sendEmail({
