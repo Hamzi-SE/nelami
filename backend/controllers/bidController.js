@@ -7,16 +7,17 @@ const eventEmitter = require('../utils/eventEmitter')
 
 // Create new Bid
 exports.newBid = catchAsyncErrors(async (req, res, next) => {
-  if (req.user.role === 'Seller') {
-    return next(new ErrorHandler(`Role: ${req.user.role} cannot bid on this product`, 401))
+  if (req.user.role !== 'buyer') {
+    return next(new ErrorHandler(`Role: ${req.user.role} cannot bid on products`, 401))
   }
 
   const userId = req.user._id
   const productId = req.params.id
   const { price } = req.body
 
-  if (price > 999999999) {
-    return next(new ErrorHandler(`Price is way too high`, 401))
+  // check if price is valid
+  if (isNaN(price) || price <= 0) {
+    return next(new ErrorHandler(`Please enter a valid price`, 401))
   }
 
   // Check if the product exists and is available for bidding
@@ -26,12 +27,36 @@ exports.newBid = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(`Product not found with id: ${productId}`, 404))
   }
 
-  if (product.endDate < Date.now()) {
-    return next(new ErrorHandler(`Bidding has ended for this product`, 401))
+  if (product.bidStatus === 'Expired' || product.status !== 'Approved') {
+    return next(new ErrorHandler(`Product is not available for bidding`, 400))
+  }
+
+  if (price <= product.price) {
+    return next(new ErrorHandler(`Minimum bid amount should be greater than the product's price`, 400))
   }
 
   // Check if a bid already exists for this product and user
   let bid = await Bid.findOne({ bidItem: productId })
+
+  let highestBid = product.price // Start bidding from the product's initial price
+
+  if (bid) {
+    // Find the current highest bid
+    highestBid = Math.max(...bid.bidders.map((b) => b.price))
+  }
+
+  // Calculate the dynamic maximum bid (50% higher than the highest bid)
+  const dynamicMaxBid = Math.round(highestBid * 1.5) // 50% increase over the current highest bid
+
+  if (price > dynamicMaxBid) {
+    return next(
+      new ErrorHandler(
+        `Your bid is too high. The maximum allowed bid is Rs. ${dynamicMaxBid} right now. (50% higher than the current highest bid)`,
+        400
+      )
+    )
+  }
+
   let outbidBidders = []
 
   if (bid) {
