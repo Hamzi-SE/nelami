@@ -157,6 +157,8 @@ const SingleProduct = () => {
       if (res.status === 201) {
         dispatch({ type: 'BID_SUCCESS', payload: data.newPresentBid })
         toast.success('Bid Added Successfully')
+        document.getElementsByClassName('modal-backdrop')[0].remove()
+        document.getElementById('bidModal').classList.remove('show')
         getBidders()
       } else {
         dispatch({ type: 'BID_FAIL', payload: data.message })
@@ -168,8 +170,29 @@ const SingleProduct = () => {
     }
     // setLoading(false);
     setBidAmount('')
-    document.getElementsByClassName('modal-backdrop')[0].remove()
-    document.getElementById('bidModal').classList.remove('show')
+  }
+
+  const handleBidRetraction = async () => {
+    try {
+      const res = await customFetch(`/api/v1/bid/product/retract/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+
+      const data = await res.json()
+      if (res.status === 200) {
+        toast.success(data.message)
+        document.getElementsByClassName('modal-backdrop')[0].remove()
+        document.getElementById('bidModal').classList.remove('show')
+        getBidders()
+      } else {
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error(error)
+    }
   }
 
   const startConversation = async () => {
@@ -237,6 +260,8 @@ const SingleProduct = () => {
   if (loading || conversationLoading) {
     return <Loader />
   }
+
+  const isBidder = bidders.some((bidderGroup) => bidderGroup.bidders.some((bid) => bid.user._id === user?._id))
 
   return (
     <>
@@ -644,7 +669,8 @@ const SingleProduct = () => {
                     data-toggle="modal"
                     data-target="#bidModal"
                   >
-                    Bid Now
+                    {/* Bid Now or Change Bid if Already Bid */}
+                    {!isBidder ? 'Bid Now' : 'Change Bid'}
                   </button>
                 )}
 
@@ -686,8 +712,11 @@ const SingleProduct = () => {
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">
                               Close
                             </button>
+                            <button type="button" className="btn btn-danger" onClick={handleBidRetraction}>
+                              Retract Bid
+                            </button>
                             <button type="submit" className="btn btn-primary">
-                              Place Your Bid Now
+                              Place Your Bid
                             </button>
                           </div>
                         </form>
@@ -706,7 +735,7 @@ const SingleProduct = () => {
                   {!biddersLoading && (
                     <ul className="unorder-list mt-4">
                       <li>
-                        {bidders.length !== 0 ? (
+                        {bidders[0]?.bidders?.length > 0 ? (
                           bidders.map((bidder, index) => {
                             return (
                               <div key={index}>

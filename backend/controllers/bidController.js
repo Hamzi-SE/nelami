@@ -4,6 +4,7 @@ const ErrorHandler = require('../utils/errorHandler')
 const catchAsyncErrors = require('../middleware/catchAsyncErrors')
 const Notification = require('../models/notificationModel')
 const eventEmitter = require('../utils/eventEmitter')
+const sendNotification = require('../utils/sendNotification')
 
 // Create new Bid
 exports.newBid = catchAsyncErrors(async (req, res, next) => {
@@ -40,7 +41,7 @@ exports.newBid = catchAsyncErrors(async (req, res, next) => {
 
   let highestBid = product.price // Start bidding from the product's initial price
 
-  if (bid) {
+  if (bid && bid.bidders.length > 0) {
     // Find the current highest bid
     highestBid = Math.max(...bid.bidders.map((b) => b.price))
   }
@@ -74,12 +75,30 @@ exports.newBid = catchAsyncErrors(async (req, res, next) => {
     if (userBid) {
       // Update the existing bid price
       userBid.price = price
+
+      sendNotification({
+        userId: userId,
+        message: `Your bid has been updated successfully on the product: ${product.title.substring(0, 20)}...`,
+        link: `/product/${productId}`,
+      })
     } else {
       // Add a new bid for the user
       bid.bidders.push({ user: userId, price })
+
+      sendNotification({
+        userId: userId,
+        message: `Your bid has been placed successfully on the product: ${product.title.substring(0, 20)}...`,
+        link: `/product/${productId}`,
+      })
     }
 
     await bid.save()
+
+    sendNotification({
+      userId: product.user,
+      message: `${req.user.name.split(' ')[0]} has bid on your product: ${product.title.substring(0, 20)}...`,
+      link: `/product/${productId}`,
+    })
 
     res.status(201).json({
       success: true,
@@ -93,6 +112,18 @@ exports.newBid = catchAsyncErrors(async (req, res, next) => {
         user: userId,
         price,
       },
+    })
+
+    sendNotification({
+      userId: product.user,
+      message: `${req.user.name.split(' ')[0]} has bid on your product: ${product.title.substring(0, 20)}...`,
+      link: `/product/${productId}`,
+    })
+
+    sendNotification({
+      userId: userId,
+      message: `Your bid has been placed successfully on the product: ${product.title.substring(0, 20)}...`,
+      link: `/product/${productId}`,
     })
 
     res.status(201).json({
@@ -146,5 +177,50 @@ exports.getUserBids = catchAsyncErrors(async (req, res, next) => {
     success: true,
     user,
     bids,
+  })
+})
+
+// Retract Bid
+exports.retractBid = catchAsyncErrors(async (req, res, next) => {
+  const productId = req.params.id
+  const userId = req.user._id
+
+  const product = await Product.findById(productId)
+
+  if (!product) {
+    return next(new ErrorHandler(`Product not found with id: ${productId}`, 404))
+  }
+
+  if (product.bidStatus === 'Expired' || product.status !== 'Approved') {
+    return next(new ErrorHandler(`Product is not available for bidding`, 400))
+  }
+
+  const bid = await Bid.findOne({ bidItem: productId })
+
+  if (!bid) {
+    return next(new ErrorHandler(`No bids found for this product`, 404))
+  }
+
+  const bidderIndex = bid.bidders.findIndex((bidder) => bidder.user.toString() === userId.toString())
+
+  if (bidderIndex === -1) {
+    return next(new ErrorHandler(`User has not placed a bid`, 400))
+  }
+
+  bid.bidders.splice(bidderIndex, 1)
+
+  await bid.save()
+
+  const notification = new Notification({
+    userId,
+    message: `Your bid on product ${product.title.substring(0, 20)}... has been retracted.`,
+    link: `/product/${productId}`,
+  })
+  await notification.save()
+  eventEmitter.emit('notificationCreated', notification)
+
+  res.status(200).json({
+    success: true,
+    message: 'Bid retracted successfully',
   })
 })
