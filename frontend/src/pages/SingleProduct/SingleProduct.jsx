@@ -261,7 +261,7 @@ const SingleProduct = () => {
     return <Loader />
   }
 
-  const isBidder = bidders.some((bidderGroup) => bidderGroup.bidders.some((bid) => bid.user._id === user?._id))
+  const isBidder = bidders?.some((bidderGroup) => bidderGroup?.bidders?.some((bid) => bid?.user?._id === user?._id))
 
   return (
     <>
