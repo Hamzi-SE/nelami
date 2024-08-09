@@ -184,6 +184,41 @@ exports.getHotProducts = catchAsyncErrors(async (req, res) => {
   })
 })
 
+// Get Products Bidding Ending Soon
+exports.getBidsEndingSoon = catchAsyncErrors(async (req, res) => {
+  const products = await Product.find({
+    status: 'Approved',
+    bidStatus: 'Live',
+  })
+    .populate({
+      path: 'user',
+      select: 'name avatar.url',
+    })
+    .sort({ endDate: 1 })
+    .limit(12)
+
+  res.status(200).json({
+    success: true,
+    products,
+  })
+})
+
+// Get Latest Products
+exports.getLatestProducts = catchAsyncErrors(async (req, res) => {
+  const products = await Product.find({ status: 'Approved', bidStatus: 'Live' })
+    .populate({
+      path: 'user',
+      select: 'name avatar.url',
+    })
+    .sort({ createdAt: -1 })
+    .limit(12)
+
+  res.status(200).json({
+    success: true,
+    products,
+  })
+})
+
 // Get All Products --Admin
 exports.getAllProductsAdmin = catchAsyncErrors(async (req, res) => {
   const apiFeature = new ApiFeatures(Product.find({ status: 'Approved' }), req.query)

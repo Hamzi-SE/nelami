@@ -10,9 +10,8 @@ import './Home.css'
 
 // Sliders
 import HotProductsSlider from './HotProductsSlider'
-import VehiclesSlider from './VehiclesSlider'
-import PropertySlider from './PropertySlider'
-import MiscProductSlider from './MiscProductSlider'
+import ProductsEndingSoonSlider from './ProductsEndingSoonSlider'
+import LatestProductsSlider from './LatestProductsSlider'
 
 // Utils Import
 import {
@@ -40,9 +39,8 @@ const Home = () => {
   const [category, setCategory] = useState('')
 
   const [hotProducts, setHotProducts] = useState([])
-  const [vehicles, setVehicles] = useState([])
-  const [properties, setProperties] = useState([])
-  const [miscProducts, setMiscProducts] = useState([])
+  const [productsEndingSoon, setProductsEndingSoon] = useState([])
+  const [latestProducts, setLatestProducts] = useState([])
   const [loading, setLoading] = useState(true)
 
   const getAllSearchProducts = async () => {
@@ -69,24 +67,21 @@ const Home = () => {
     const fetchProducts = async () => {
       // dispatch({ type: 'ALL_PRODUCTS_REQUEST' })
       try {
-        const [hotProductsRes, vehiclesRes, propertiesRes, miscRes] = await Promise.all([
+        const [hotProductsRes, productsEndingSoonRes, latestProductsRes] = await Promise.all([
           customFetch(`/api/v1/products/hot`),
-          customFetch(`/api/v1/products?category=Vehicles`),
-          customFetch(`/api/v1/products?category=Property`),
-          customFetch(`/api/v1/products?category=MiscProducts`),
+          customFetch(`/api/v1/products/ending-soon`),
+          customFetch(`/api/v1/products/latest`),
         ])
 
-        const [hotProductsData, vehiclesData, propertiesData, miscData] = await Promise.all([
+        const [hotProductsData, productsEndingSoonData, latestProductsData] = await Promise.all([
           hotProductsRes.json(),
-          vehiclesRes.json(),
-          propertiesRes.json(),
-          miscRes.json(),
+          productsEndingSoonRes.json(),
+          latestProductsRes.json(),
         ])
 
         setHotProducts(hotProductsData.products)
-        setVehicles(vehiclesData.products)
-        setProperties(propertiesData.products)
-        setMiscProducts(miscData.products)
+        setProductsEndingSoon(productsEndingSoonData.products)
+        setLatestProducts(latestProductsData.products)
         // dispatch({
         //   type: 'ALL_PRODUCTS_SUCCESS',
         //   payload: featuredData.products,
@@ -105,11 +100,12 @@ const Home = () => {
 
   const hotProductsSliderMemo = useMemo(() => <HotProductsSlider products={hotProducts} />, [hotProducts])
 
-  const vehiclesSliderMemo = useMemo(() => <VehiclesSlider products={vehicles} />, [vehicles])
+  const productsEndingSoonSliderMemo = useMemo(
+    () => <ProductsEndingSoonSlider products={productsEndingSoon} />,
+    [productsEndingSoon]
+  )
 
-  const propertySliderMemo = useMemo(() => <PropertySlider products={properties} />, [properties])
-
-  const miscProductSliderMemo = useMemo(() => <MiscProductSlider products={miscProducts} />, [miscProducts])
+  const latestProductsSliderMemo = useMemo(() => <LatestProductsSlider products={latestProducts} />, [latestProducts])
 
   if (loading) {
     return <Loader />
@@ -366,16 +362,12 @@ const Home = () => {
       </section>
 
       <div className="container products-slider home-products-slider home-vehicles-slider">
-        <h1 className="text-center home-products-slider-header">Top Vehicles</h1>
-        {vehiclesSliderMemo}
+        <h1 className="text-center home-products-slider-header">Bids About To End</h1>
+        {productsEndingSoonSliderMemo}
       </div>
       <div className="container products-slider home-products-slider home-properties-slider">
-        <h1 className="text-center home-products-slider-header">Top Properties</h1>
-        {propertySliderMemo}
-      </div>
-      <div className="container products-slider home-products-slider home-misc-slider">
-        <h1 className="text-center home-products-slider-header">Top Miscellaneous Items</h1>
-        {miscProductSliderMemo}
+        <h1 className="text-center home-products-slider-header">Latest Auctions</h1>
+        {latestProductsSliderMemo}
       </div>
     </>
   )

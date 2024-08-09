@@ -11,6 +11,8 @@ const {
   approveProduct,
   getApprovalProductsSeller,
   getHotProducts,
+  getBidsEndingSoon,
+  getLatestProducts,
 } = require('../controllers/productController')
 const { isAuthenticatedUser, authorizeRole } = require('../middleware/auth')
 
@@ -18,6 +20,8 @@ const router = express.Router()
 
 router.route('/products').get(getAllProducts)
 router.route('/products/hot').get(getHotProducts)
+router.route('/products/ending-soon').get(getBidsEndingSoon)
+router.route('/products/latest').get(getLatestProducts)
 router.route('/productsAdmin').get(isAuthenticatedUser, authorizeRole('admin'), getAllProductsAdmin)
 router.route('/approvalProductsAdmin').get(isAuthenticatedUser, authorizeRole('admin'), getApprovalProductsAdmin)
 router.route('/approveProduct/:id').put(isAuthenticatedUser, authorizeRole('admin'), approveProduct)
