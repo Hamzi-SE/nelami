@@ -145,8 +145,20 @@ exports.getHotProducts = catchAsyncErrors(async (req, res) => {
     {
       $lookup: {
         from: 'products',
-        localField: 'bidItem',
-        foreignField: '_id',
+        let: { bidItemId: '$bidItem' },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: ['$_id', '$$bidItemId'] },
+                  { $eq: ['$status', 'Approved'] },
+                  { $eq: ['$bidStatus', 'Live'] },
+                ],
+              },
+            },
+          },
+        ],
         as: 'product',
       },
     },
