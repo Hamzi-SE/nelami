@@ -121,7 +121,7 @@ const Messenger = () => {
     return () => socket.off('getUsers')
   }, [user, socket])
 
-  const onEmojiClick = (event, emojiObject) => {
+  const onEmojiClick = (emojiObject, event) => {
     setNewMessage((prevInput) => prevInput + emojiObject.emoji)
     setShowPicker(false)
   }
