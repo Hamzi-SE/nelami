@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './CategoryPage.css'
-import { Link, useParams, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import ProductCard from '../../Components/ProductCard/ProductCard'
 import MetaData from '../../utils/MetaData'
 import Pagination from 'react-js-pagination'
@@ -9,6 +9,7 @@ import Loader from '../../Components/Loader/Loader'
 
 const CategoryPage = () => {
   const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
 
   const { category } = useParams()
   const [searchParams] = useSearchParams()
@@ -16,9 +17,9 @@ const CategoryPage = () => {
   const [products, setProducts] = useState([])
 
   const [resultsPerPage, setResultsPerPage] = useState(12)
-  const [currentPage, setCurrentPage] = useState(1)
   const [filteredTotalProducts, setFilteredTotalProducts] = useState(0)
   const [sortBy, setSortBy] = useState(searchParams.get('sortBy') || '1') // Default sort by Latest
+  const [currentPage, setCurrentPage] = useState(Number(searchParams.get('page')) || 1)
 
   const setCurrentPageNo = (e) => {
     setCurrentPage(e)
@@ -41,8 +42,19 @@ const CategoryPage = () => {
       setProducts(data.products)
       setLoading(false)
     }
+
     getAllProducts()
-  }, [category, currentPage, sortBy])
+
+    const currentUrlParams = new URLSearchParams(window.location.search)
+    if (currentUrlParams.get('sortBy') !== sortBy || currentUrlParams.get('page') !== String(currentPage)) {
+      navigate(`/categories/${category}?page=${currentPage}&sortBy=${sortBy}`, { replace: true })
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [category, currentPage, sortBy, navigate])
+
+  useEffect(() => {
+    setCurrentPage(1) // Reset to page 1 whenever the category changes
+  }, [category])
 
   const startIndex = Math.min((currentPage - 1) * resultsPerPage + 1, filteredTotalProducts)
   const endIndex = Math.min(currentPage * resultsPerPage, filteredTotalProducts)
