@@ -418,7 +418,17 @@ const Messenger = () => {
                     alt="emoji"
                     onClick={() => setShowPicker((val) => !val)}
                   />
-                  {showPicker && <Picker onEmojiClick={onEmojiClick} />}
+                  {showPicker && (
+                    <Picker
+                      onEmojiClick={onEmojiClick}
+                      style={{
+                        position: 'absolute',
+                        width: '90%',
+                        height: '22.5rem',
+                        top: '-22.5rem',
+                      }}
+                    />
+                  )}
                   <textarea
                     className="chatMessageInput"
                     placeholder="Type a message"

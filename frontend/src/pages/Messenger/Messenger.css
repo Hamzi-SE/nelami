@@ -138,16 +138,6 @@
   cursor: default;
 }
 
-.emoji-picker-react {
-  width: 90% !important;
-  position: absolute !important;
-  height: 276px !important;
-  top: -280px !important;
-  box-shadow:
-    rgb(0 0 0 / 19%) 0px -2px 20px,
-    rgb(0 0 0 / 23%) 0px 6px 6px !important;
-}
-
 div.conversation {
   transition: all 0.1s ease-in-out;
 }
