@@ -21,10 +21,6 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
 
   const { featuredImg, imageOne, imageTwo, imageThree, endDate } = req.body
 
-  if (!endDate) {
-    return next(new ErrorHandler('End date is required', 400))
-  }
-
   // upload user products according to package
   const user = await User.findById(req.user._id)
   const packages = await Data.findById('62ea446ef91380cf34601403')
