@@ -11,7 +11,7 @@ const BottomFooter = () => {
             <div className="container">
               <div className="row d-flex">
                 <div className="col-lg-12 col-sm-12  mt-2 mb-2 text-center ">
-                  Copyright © 2024 Nelami. All rights reserved.
+                  Copyright © 2025 Nelami. All rights reserved.
                 </div>
               </div>
             </div>
