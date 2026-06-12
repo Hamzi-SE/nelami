@@ -18,10 +18,10 @@ jobs:
 
       - name: SSH and prepare repositories
         run: |
-          ssh ubuntu@144.24.108.128 <<'EOF'
+          ssh ${{ secrets.USER_AT_SERVER }} <<'EOF'
           sudo su -
 
-          # Pull latest nelami app code
+          # Pull the latest Nelami app code
           cd /root/nelami
 
           if [ ! -d .git ]; then
@@ -32,7 +32,7 @@ jobs:
           git fetch origin
           git reset --hard origin/main
 
-          # Pull latest configs code
+          # Pull the latest configs code
           if [ ! -d /root/configs ]; then
             git clone git@github.com:Hamzi-SE/configs.git /root/configs
           else
@@ -52,7 +52,7 @@ jobs:
 
       - name: SSH and deploy backend
         run: |
-          ssh ubuntu@144.24.108.128 <<'EOF'
+          ssh ${{ secrets.USER_AT_SERVER }} <<'EOF'
           sudo su -
 
           export PATH=$PATH:/root/.nvm/versions/node/v20.14.0/bin
@@ -69,7 +69,7 @@ jobs:
 
       - name: SSH and deploy frontend
         run: |
-          ssh ubuntu@144.24.108.128 <<'EOF'
+          ssh ${{ secrets.USER_AT_SERVER }} <<'EOF'
           sudo su -
 
           export PATH=$PATH:/root/.nvm/versions/node/v20.14.0/bin
