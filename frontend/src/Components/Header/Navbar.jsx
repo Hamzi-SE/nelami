@@ -31,7 +31,7 @@ const Navbar = () => {
             <div className="desktoplogo">
               <NavLink to="/" className="light-logo">
                 <img
-                  src="https://i.postimg.cc/q7LJxFWx/3c03db78-b11b-46a7-a3e0-e45762a7b991.jpg"
+                  src="https://assets.ihamza.dev/images/nelami-logo.png"
                   alt="logo"
                   className="w-10"
                   style={{ transform: 'scale(1.5)' }}

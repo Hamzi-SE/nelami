@@ -91,7 +91,7 @@ const Checkout = () => {
           <div className="text-center mb-4">
             <img
               className="d-block mx-auto mb-4"
-              src="https://i.postimg.cc/q7LJxFWx/3c03db78-b11b-46a7-a3e0-e45762a7b991.jpg"
+              src="https://assets.ihamza.dev/images/nelami-logo.png"
               alt="Logo"
               width="240"
               height="120"

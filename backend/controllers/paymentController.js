@@ -96,7 +96,7 @@ exports.processPayment = catchAsyncErrors(async (req, res, next) => {
           product_data: {
             name: packageName,
             description: `Payment for ${packageName}`,
-            images: [`https://i.postimg.cc/YCKytpK3/Nelami-Logo.png`],
+            images: [`https://assets.ihamza.dev/images/nelami-logo.png`],
             metadata: {
               id: id,
               userId: req.user.id,
