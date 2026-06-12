@@ -3,71 +3,81 @@ name: Deploy Nelami
 on:
   push:
     branches:
-      - main  # Trigger the workflow on push to the main branch
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '20.14.0' # LTS Version
-
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_KEY }}
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
 
-      - name: SSH and prepare for deployment
+      - name: SSH and prepare repositories
         run: |
-          ssh ubuntu@144.24.108.128 <<EOF
+          ssh ubuntu@144.24.108.128 <<'EOF'
           sudo su -
+
+          # Pull latest nelami app code
           cd /root/nelami
+
           if [ ! -d .git ]; then
             git init
             git remote add origin git@github.com:Hamzi-SE/nelami.git
           fi
+
           git fetch origin
           git reset --hard origin/main
+
+          # Pull latest configs code
+          if [ ! -d /root/configs ]; then
+            git clone git@github.com:Hamzi-SE/configs.git /root/configs
+          else
+            cd /root/configs
+            git fetch origin
+            git reset --hard origin/main
+          fi
+
+          # Copy env files
+          mkdir -p /root/nelami/backend/config
+
+          cp /root/configs/nelami-backend.env /root/nelami/backend/config/config.env
+          cp /root/configs/nelami-frontend.env /root/nelami/frontend/.env
+
           exit
           EOF
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-          KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
 
       - name: SSH and deploy backend
         run: |
-          ssh ubuntu@144.24.108.128 <<EOF
+          ssh ubuntu@144.24.108.128 <<'EOF'
           sudo su -
+
           export PATH=$PATH:/root/.nvm/versions/node/v20.14.0/bin
+
           cd /root/nelami/backend
-          echo "${{ secrets.BACKEND_ENV }}" > config/config.env
+
           npm install
+
           pm2 delete nelami_server || true
           pm2 start npm --name "nelami_server" -- start
+
           exit
           EOF
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-          KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
 
       - name: SSH and deploy frontend
         run: |
-          ssh ubuntu@144.24.108.128 <<EOF
+          ssh ubuntu@144.24.108.128 <<'EOF'
           sudo su -
+
           export PATH=$PATH:/root/.nvm/versions/node/v20.14.0/bin
+
           cd /root/nelami/frontend
-          echo "${{ secrets.FRONTEND_ENV }}" > .env
+
           npm install
           npm run build
+
           exit
           EOF
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-          KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
