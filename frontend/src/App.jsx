@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 
 // Component Imports
-import Footer from './Components/Footer/Footer'
-import Header from './Components/Header/Header'
+import Footer from './components/layout/footer/Footer'
+import Header from './components/layout/header/Header'
 import MetaData from './utils/MetaData'
 
 import { callProfile } from './helpers/CallProfile'
@@ -121,13 +121,13 @@ function App() {
   const { isAuthenticated, loading } = useSelector((state) => state.user)
 
   useEffect(() => {
-    if (location.pathname === '/messenger') {
-      document.querySelector('.footer').style.display = 'none'
-      document.querySelector('.mc__form-container').style.display = 'none'
-    } else {
-      document.querySelector('.footer').style.display = 'block'
-      document.querySelector('.mc__form-container').style.display = 'block'
-    }
+    const footer = document.querySelector('.footer')
+    const form = document.querySelector('.mc__form-container')
+
+    const isMessenger = location.pathname === '/messenger'
+
+    if (footer) footer.style.display = isMessenger ? 'none' : 'block'
+    if (form) form.style.display = isMessenger ? 'none' : 'block'
   }, [location.pathname])
 
   useEffect(() => {

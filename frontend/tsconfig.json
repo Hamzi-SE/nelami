@@ -23,6 +23,5 @@
     }
   },
   "include": ["src"],
-  "exclude": ["src/Components", "src/pages", "src/helpers", "src/hooks", "src/reducers", "src/utils"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -1,13 +1,12 @@
-import React from 'react'
-import Newsletter from './NewsLetter'
+import Newsletter from './Newsletter'
 import BottomFooter from './BottomFooter'
 
 const Footer = () => {
   return (
-    <>
+    <div>
       <Newsletter />
       <BottomFooter />
-    </>
+    </div>
   )
 }
 
