@@ -15,7 +15,7 @@ import './App.css'
 import Loader from './Components/Loader/Loader'
 
 // Page Imports
-const Home = lazy(() => import('./pages/Home/Home'))
+const Home = lazy(() => import('./features/home/pages/HomePage'))
 const Login = lazy(() => import('./features/auth/pages/LoginPage'))
 const SignUp = lazy(() => import('./features/auth/pages/SignUpPage'))
 const OTPValidation = lazy(() => import('./features/auth/pages/OTPValidationPage'))
