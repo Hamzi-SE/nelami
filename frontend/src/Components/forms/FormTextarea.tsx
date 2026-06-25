@@ -1,11 +1,11 @@
 import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
-import { cn } from '@/lib/utils'
+import { Field, FieldLabel, FieldError, FieldDescription } from '@/components/ui/field'
 
 interface FormTextareaProps {
   label: string
   name: string
   placeholder?: string
+  description?: string
   error?: string
   required?: boolean
   className?: string
@@ -19,6 +19,7 @@ const FormTextarea = ({
   label,
   name,
   placeholder,
+  description,
   error,
   required = false,
   className,
@@ -28,11 +29,11 @@ const FormTextarea = ({
   onBlur,
 }: FormTextareaProps) => {
   return (
-    <div className={cn('space-y-1.5', className)}>
-      <Label htmlFor={name} className="text-sm font-medium text-neutral-700">
+    <Field data-invalid={!!error} className={className}>
+      <FieldLabel htmlFor={name}>
         {label}
         {required && <span className="text-danger-500 ml-0.5">*</span>}
-      </Label>
+      </FieldLabel>
       <Textarea
         id={name}
         name={name}
@@ -41,10 +42,11 @@ const FormTextarea = ({
         value={value}
         onChange={onChange}
         onBlur={onBlur}
-        className={error ? 'border-danger-500 focus-visible:ring-danger-500' : ''}
+        aria-invalid={!!error}
       />
-      {error && <p className="text-xs text-danger-500">{error}</p>}
-    </div>
+      {description && <FieldDescription>{description}</FieldDescription>}
+      {error && <FieldError errors={[{ message: error }]} />}
+    </Field>
   )
 }
 

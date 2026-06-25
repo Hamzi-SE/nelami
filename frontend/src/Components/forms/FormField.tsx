@@ -1,5 +1,5 @@
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { Field, FieldLabel, FieldError, FieldDescription } from '@/components/ui/field'
 import { cn } from '@/lib/utils'
 
 interface FormFieldProps {
@@ -7,6 +7,7 @@ interface FormFieldProps {
   name: string
   type?: string
   placeholder?: string
+  description?: string
   error?: string
   required?: boolean
   className?: string
@@ -20,6 +21,7 @@ const FormField = ({
   name,
   type = 'text',
   placeholder,
+  description,
   error,
   required = false,
   className,
@@ -28,11 +30,11 @@ const FormField = ({
   onBlur,
 }: FormFieldProps) => {
   return (
-    <div className={cn('space-y-1.5', className)}>
-      <Label htmlFor={name} className="text-sm font-medium text-neutral-700">
+    <Field data-invalid={!!error} className={className}>
+      <FieldLabel htmlFor={name}>
         {label}
         {required && <span className="text-danger-500 ml-0.5">*</span>}
-      </Label>
+      </FieldLabel>
       <Input
         id={name}
         name={name}
@@ -41,10 +43,11 @@ const FormField = ({
         value={value}
         onChange={onChange}
         onBlur={onBlur}
-        className={error ? 'border-danger-500 focus-visible:ring-danger-500' : ''}
+        aria-invalid={!!error}
       />
-      {error && <p className="text-xs text-danger-500">{error}</p>}
-    </div>
+      {description && <FieldDescription>{description}</FieldDescription>}
+      {error && <FieldError errors={[{ message: error }]} />}
+    </Field>
   )
 }
 

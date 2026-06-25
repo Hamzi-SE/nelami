@@ -1,4 +1,3 @@
-import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectContent,
@@ -6,7 +5,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { cn } from '@/lib/utils'
+import { Field, FieldLabel, FieldError, FieldDescription } from '@/components/ui/field'
 
 interface FormSelectOption {
   label: string
@@ -18,6 +17,7 @@ interface FormSelectProps {
   name: string
   placeholder?: string
   options: FormSelectOption[]
+  description?: string
   error?: string
   required?: boolean
   className?: string
@@ -31,6 +31,7 @@ const FormSelect = ({
   name,
   placeholder = 'Select an option',
   options,
+  description,
   error,
   required = false,
   className,
@@ -39,16 +40,13 @@ const FormSelect = ({
   disabled = false,
 }: FormSelectProps) => {
   return (
-    <div className={cn('space-y-1.5', className)}>
-      <Label htmlFor={name} className="text-sm font-medium text-neutral-700">
+    <Field data-invalid={!!error} className={className}>
+      <FieldLabel htmlFor={name}>
         {label}
         {required && <span className="text-danger-500 ml-0.5">*</span>}
-      </Label>
+      </FieldLabel>
       <Select value={value} onValueChange={onValueChange} disabled={disabled}>
-        <SelectTrigger
-          id={name}
-          className={error ? 'border-danger-500 focus-visible:ring-danger-500' : ''}
-        >
+        <SelectTrigger id={name} aria-invalid={!!error}>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>
@@ -59,8 +57,9 @@ const FormSelect = ({
           ))}
         </SelectContent>
       </Select>
-      {error && <p className="text-xs text-danger-500">{error}</p>}
-    </div>
+      {description && <FieldDescription>{description}</FieldDescription>}
+      {error && <FieldError errors={[{ message: error }]} />}
+    </Field>
   )
 }
 

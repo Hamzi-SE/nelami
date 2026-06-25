@@ -30,10 +30,8 @@ const MobileNav = () => {
   return (
     <div className="lg:hidden">
       <Sheet>
-        <SheetTrigger>
-          <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Open menu">
-            <Menu className="h-5 w-5" />
-          </Button>
+        <SheetTrigger className="inline-flex items-center justify-center h-9 w-9 rounded-lg hover:bg-neutral-100 lg:hidden">
+          <Menu className="h-5 w-5" />
         </SheetTrigger>
         <SheetContent side="left" className="w-72 p-0">
           <SheetHeader className="px-4 py-4 border-b border-neutral-200">
