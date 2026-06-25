@@ -16,9 +16,9 @@ import Loader from './Components/Loader/Loader'
 
 // Page Imports
 const Home = lazy(() => import('./pages/Home/Home'))
-const Login = lazy(() => import('./pages/Login/Login'))
-const SignUp = lazy(() => import('./pages/SignUp/SignUp'))
-const OTPValidation = lazy(() => import('./pages/SignUp/OTPValidation'))
+const Login = lazy(() => import('./features/auth/pages/LoginPage'))
+const SignUp = lazy(() => import('./features/auth/pages/SignUpPage'))
+const OTPValidation = lazy(() => import('./features/auth/pages/OTPValidationPage'))
 const Logout = lazy(() => import('./pages/Logout/Logout'))
 const Error = lazy(() => import('./pages/Error/Error'))
 const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard'))
@@ -31,15 +31,15 @@ const EditProduct = lazy(() => import('./pages/Dashboard/MyProducts/EditProduct'
 const ViewProductBidders = lazy(() => import('./pages/Dashboard/MyProducts/ViewProductBidders'))
 const DeleteProduct = lazy(() => import('./pages/Dashboard/MyProducts/DeleteProduct'))
 const CategoryPage = lazy(() => import('./pages/CategoryPage/CategoryPage'))
-const ForgotPassword = lazy(() => import('./pages/ForgotPassword/ForgotPassword'))
-const ResetPassword = lazy(() => import('./pages/ResetPassword/ResetPassword'))
+const ForgotPassword = lazy(() => import('./features/auth/pages/ForgotPasswordPage'))
+const ResetPassword = lazy(() => import('./features/auth/pages/ResetPasswordPage'))
 const PackagesPricing = lazy(() => import('./pages/PackagesPricing/PackagesPricing'))
 const Checkout = lazy(() => import('./pages/Checkout/Checkout'))
 const PaymentSuccess = lazy(() => import('./pages/Payment/PaymentSuccess'))
 const PaymentFail = lazy(() => import('./pages/Payment/PaymentFail'))
 
 // Admin Imports
-const AdminLogin = lazy(() => import('./pages/Login/AdminLogin'))
+const AdminLogin = lazy(() => import('./features/auth/pages/AdminLoginPage'))
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard/AdminDashboard'))
 const AdminEditProfile = lazy(() => import('./pages/AdminDashboard/Profile/EditProfile'))
 const DeleteUser = lazy(() => import('./pages/AdminDashboard/AllUsers/DeleteUser'))
