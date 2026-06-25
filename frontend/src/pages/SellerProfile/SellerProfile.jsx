@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
 import Loader from '../../Components/Loader/Loader'
-import ProductCard from '../../Components/ProductCard/ProductCard'
+import ProductCard from '../../components/shared/ProductCard'
 import './SellerProfile.css'
 import customFetch from '../../utils/api'
 
