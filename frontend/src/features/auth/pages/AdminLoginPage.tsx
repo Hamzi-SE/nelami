@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Eye, EyeOff, Loader2, Shield } from 'lucide-react'
 import MetaData from '@/utils/MetaData'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { Field, FieldLabel, FieldError } from '@/components/ui/field'
 import { loginSchema, type LoginFormData } from '@/lib/validations/auth'
 import { useAppSelector } from '@/store/typedHooks'
 import customFetch from '@/utils/api'
@@ -20,7 +20,7 @@ const AdminLoginPage = () => {
   const [showPassword, setShowPassword] = useState(false)
 
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormData>({
@@ -74,39 +74,54 @@ const AdminLoginPage = () => {
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              <div className="space-y-1.5">
-                <Label htmlFor="email">Email address</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="Enter admin email"
-                  {...register('email')}
-                  className={errors.email ? 'border-danger-500' : ''}
-                />
-                {errors.email && <p className="text-xs text-danger-500">{errors.email.message}</p>}
-              </div>
+              <Controller
+                name="email"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>Email address</FieldLabel>
+                    <Input
+                      {...field}
+                      id={field.name}
+                      type="email"
+                      placeholder="Enter admin email"
+                      aria-invalid={fieldState.invalid}
+                      autoComplete="email"
+                    />
+                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  </Field>
+                )}
+              />
 
-              <div className="space-y-1.5">
-                <Label htmlFor="password">Password</Label>
-                <div className="relative">
-                  <Input
-                    id="password"
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="Enter password"
-                    {...register('password')}
-                    className={`pr-10 ${errors.password ? 'border-danger-500' : ''}`}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
-                    aria-label={showPassword ? 'Hide password' : 'Show password'}
-                  >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  </button>
-                </div>
-                {errors.password && <p className="text-xs text-danger-500">{errors.password.message}</p>}
-              </div>
+              <Controller
+                name="password"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>Password</FieldLabel>
+                    <div className="relative">
+                      <Input
+                        {...field}
+                        id={field.name}
+                        type={showPassword ? 'text' : 'password'}
+                        placeholder="Enter password"
+                        aria-invalid={fieldState.invalid}
+                        autoComplete="current-password"
+                        className="pr-10"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
+                        aria-label={showPassword ? 'Hide password' : 'Show password'}
+                      >
+                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </button>
+                    </div>
+                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  </Field>
+                )}
+              />
 
               <Button type="submit" className="w-full" disabled={isSubmitting || loading}>
                 {(isSubmitting || loading) && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
