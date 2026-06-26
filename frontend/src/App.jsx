@@ -21,10 +21,8 @@ const SignUp = lazy(() => import('./features/auth/pages/SignUpPage'))
 const OTPValidation = lazy(() => import('./features/auth/pages/OTPValidationPage'))
 const Logout = lazy(() => import('./pages/Logout/Logout'))
 const Error = lazy(() => import('./pages/Error/Error'))
-const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard'))
 const SellerProfile = lazy(() => import('./pages/SellerProfile/SellerProfile'))
 const ProductsPage = lazy(() => import('./features/products/pages/ProductsPage'))
-const EditProfile = lazy(() => import('./pages/Dashboard/Profile/EditProfile'))
 const SingleProduct = lazy(() => import('./features/products/pages/ProductDetailPage'))
 const ProductForms = lazy(() => import('./features/products/pages/ProductCreatePage'))
 const EditProduct = lazy(() => import('./pages/Dashboard/MyProducts/EditProduct'))
@@ -38,13 +36,21 @@ const Checkout = lazy(() => import('./pages/Checkout/Checkout'))
 const PaymentSuccess = lazy(() => import('./pages/Payment/PaymentSuccess'))
 const PaymentFail = lazy(() => import('./pages/Payment/PaymentFail'))
 
+// Dashboard Imports (Phase 8)
+const Dashboard = lazy(() => import('./features/dashboard/pages/DashboardPage'))
+const StatsDashboard = lazy(() => import('./features/dashboard/components/DashboardStats'))
+const ProfilePage = lazy(() => import('./features/dashboard/pages/ProfilePage'))
+const EditProfilePage = lazy(() => import('./features/dashboard/pages/EditProfilePage'))
+const MyBidsPage = lazy(() => import('./features/dashboard/pages/MyBidsPage'))
+const MyWishlistPage = lazy(() => import('./features/dashboard/pages/MyWishlistPage'))
+const SettingsPage = lazy(() => import('./features/dashboard/pages/SettingsPage'))
+const SafetyTipsPage = lazy(() => import('./features/dashboard/pages/SafetyTipsPage'))
+
 // Admin Imports
 const AdminLogin = lazy(() => import('./features/auth/pages/AdminLoginPage'))
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard/AdminDashboard'))
 const AdminEditProfile = lazy(() => import('./pages/AdminDashboard/Profile/EditProfile'))
 const DeleteUser = lazy(() => import('./pages/AdminDashboard/AllUsers/DeleteUser'))
-
-// Form Imports (all handled by ProductCreatePage now)
 
 // Messenger
 const Messenger = lazy(() => import('./pages/Messenger/Messenger'))
@@ -59,8 +65,20 @@ const Routing = ({ isAuthenticated, loading }) => {
         <Route path="/signup" element={isAuthenticated ? <Navigate to="/" /> : <SignUp />} />
         <Route path="/user/validate" element={<OTPValidation />} />
         <Route path="/logout" element={isAuthenticated ? <Logout /> : <Navigate to="/" />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/EditProfile" element={<EditProfile />} />
+
+        {/* Dashboard Routes (nested) */}
+        <Route path="/dashboard" element={<Dashboard />}>
+          <Route index element={<StatsDashboard />} />
+          <Route path="profile" element={<ProfilePage />} />
+          <Route path="edit-profile" element={<EditProfilePage />} />
+          <Route path="bids" element={<MyBidsPage />} />
+          <Route path="/dashboard/wishlist" element={<MyWishlistPage />} />
+          <Route path="settings" element={<SettingsPage />} />
+          <Route path="safety" element={<SafetyTipsPage />} />
+        </Route>
+
+        {/* Backward-compatible /editProfile route (redirects to dashboard) */}
+        <Route path="/editProfile" element={<EditProfilePage />} />
         <Route path="/user/product/edit/:id" element={<EditProduct />} />
         <Route path="/user/product/bids/all/:id" element={<ViewProductBidders />} />
         <Route path="/user/product/delete/:id" element={<DeleteProduct />} />

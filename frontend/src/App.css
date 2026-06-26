@@ -3110,11 +3110,6 @@ a:active {
   border-top: 0;
 }
 
-.border {
-  vertical-align: top;
-  border: 1px solid #e8ebf3;
-}
-
 .table thead th,
 .text-wrap table thead th {
   vertical-align: bottom;
@@ -7659,65 +7654,6 @@ button.bg-white:focus {
   background-color: #e6e5e5 !important;
 }
 
-/*------Border Radius Styles-------*/
-
-.br-2 {
-  border-radius: 2px !important;
-}
-
-.br-te-7 {
-  border-top-right-radius: 7px !important;
-}
-
-.br-be-7 {
-  border-bottom-right-radius: 7px !important;
-}
-
-/*------Border Radius Styles-------*/
-.border {
-  border: 1px solid #e8ebf3 !important;
-}
-
-.border {
-  padding: 0.75rem;
-}
-
-.border-top {
-  border-top: 1px solid #e8ebf3 !important;
-}
-
-.border-end {
-  border-right: 1px solid #e8ebf3 !important;
-}
-
-.border-bottom {
-  border-bottom: 1px solid #e8ebf3 !important;
-}
-
-.border-start {
-  border-left: 1px solid #e8ebf3 !important;
-}
-
-.border-0 {
-  border: 0 !important;
-}
-
-.border-end-0 {
-  border-right: 0 !important;
-}
-
-.border-bottom-0 {
-  border-bottom: 0 !important;
-}
-
-.rounded {
-  border-radius: 3px !important;
-}
-
-.rounded-circle {
-  border-radius: 50% !important;
-}
-
 .brround {
   border-radius: 50%;
 }
@@ -7770,30 +7706,6 @@ button.bg-white:focus {
 
 .float-none {
   float: none !important;
-}
-
-.h-100 {
-  height: 100% !important;
-}
-
-.h-0 {
-  height: 0 !important;
-}
-
-.h-1 {
-  height: 0.25rem !important;
-}
-
-.h-2 {
-  height: 0.5rem !important;
-}
-
-.h-3 {
-  height: 0.75rem !important;
-}
-
-.h-9 {
-  height: 6rem !important;
 }
 
 .m-0 {
