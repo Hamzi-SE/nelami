@@ -71,60 +71,6 @@ body {
   font-family: 'Maven Pro', sans-serif;
 }
 
-[tabIndex='-1']:focus {
-  outline: 0 !important;
-}
-
-hr {
-  box-sizing: content-box;
-  height: 0;
-  overflow: visible;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin-top: 0;
-  margin-bottom: 0.66em;
-}
-
-p {
-  margin-top: 0;
-  margin-bottom: 1rem;
-}
-
-abbr[title],
-abbr[data-original-title] {
-  text-decoration: underline;
-  -webkit-text-decoration: underline dotted;
-  text-decoration: underline dotted;
-  cursor: help;
-  border-bottom: 0;
-}
-
-address {
-  margin-bottom: 1rem;
-  font-style: normal;
-  line-height: inherit;
-}
-
-ol,
-ul,
-dl {
-  margin-top: 0;
-  margin-bottom: 1rem;
-}
-
-ol ol,
-ul ul,
-ol ul,
-ul ol {
-  margin-bottom: 0;
-}
-
 dt {
   font-weight: 700;
 }
@@ -227,67 +173,9 @@ template {
   display: none !important;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.h1,
-.h2,
-.h3,
-.h4,
-.h5,
-.h6 {
-  margin-bottom: 0.66em;
-  font-family: 'Quicksand', sans-serif;
-  font-weight: 500;
-  line-height: 1.1;
-}
-
-h1,
-.h1 {
-  font-size: 2.5rem;
-  font-weight: 400;
-}
-
-h2,
-.h2 {
-  font-size: 1.75rem;
-}
-
-h3,
-.h3 {
-  font-size: 1.5rem;
-}
-
-h4,
-.h4 {
-  font-size: 1.125rem;
-}
-
-h5,
-.h5 {
-  font-size: 1rem;
-}
-
-h6,
-.h6 {
-  font-size: 0.875rem;
-}
-
 .lead {
   font-size: 1.171875rem;
   font-weight: 300;
-}
-
-hr {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  border: 0;
-  border-top: 1px solid #e8ebf3;
-  background-color: transparent;
-  opacity: 1;
 }
 
 small,
@@ -2073,10 +1961,6 @@ ul.dropdown-menu li.dropdown ul.dropdown-menu {
   font-size: 1.125rem;
   line-height: 1.44444444;
   border-radius: 3px;
-}
-
-.form-group {
-  margin-bottom: 1rem;
 }
 
 .form-text {
@@ -4122,10 +4006,6 @@ blockquote.float-right {
   text-align: right;
   border-right: 3px solid rgba(227, 237, 252, 0.5);
   border-left: 0;
-}
-
-blockquote p {
-  margin-bottom: 1rem;
 }
 
 blockquote cite {
