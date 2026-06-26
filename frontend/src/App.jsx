@@ -25,9 +25,7 @@ const SellerProfile = lazy(() => import('./pages/SellerProfile/SellerProfile'))
 const ProductsPage = lazy(() => import('./features/products/pages/ProductsPage'))
 const SingleProduct = lazy(() => import('./features/products/pages/ProductDetailPage'))
 const ProductForms = lazy(() => import('./features/products/pages/ProductCreatePage'))
-const EditProduct = lazy(() => import('./pages/Dashboard/MyProducts/EditProduct'))
-const ViewProductBidders = lazy(() => import('./pages/Dashboard/MyProducts/ViewProductBidders'))
-const DeleteProduct = lazy(() => import('./pages/Dashboard/MyProducts/DeleteProduct'))
+// Legacy seller pages replaced by features/dashboard/pages versions above
 const CategoryPage = lazy(() => import('./features/products/pages/CategoryPage'))
 const ForgotPassword = lazy(() => import('./features/auth/pages/ForgotPasswordPage'))
 const ResetPassword = lazy(() => import('./features/auth/pages/ResetPasswordPage'))
@@ -45,6 +43,11 @@ const MyBidsPage = lazy(() => import('./features/dashboard/pages/MyBidsPage'))
 const MyWishlistPage = lazy(() => import('./features/dashboard/pages/MyWishlistPage'))
 const SettingsPage = lazy(() => import('./features/dashboard/pages/SettingsPage'))
 const SafetyTipsPage = lazy(() => import('./features/dashboard/pages/SafetyTipsPage'))
+const MyProductsPage = lazy(() => import('./features/dashboard/pages/MyProductsPage'))
+const WaitingApprovalPage = lazy(() => import('./features/dashboard/pages/WaitingApprovalPage'))
+const ViewBiddersPage = lazy(() => import('./features/dashboard/pages/ViewBiddersPage'))
+const EditProductPage = lazy(() => import('./features/dashboard/pages/EditProductPage'))
+const DeleteProductPage = lazy(() => import('./features/dashboard/pages/DeleteProductPage'))
 
 // Admin Imports
 const AdminLogin = lazy(() => import('./features/auth/pages/AdminLoginPage'))
@@ -72,16 +75,19 @@ const Routing = ({ isAuthenticated, loading }) => {
           <Route path="profile" element={<ProfilePage />} />
           <Route path="edit-profile" element={<EditProfilePage />} />
           <Route path="bids" element={<MyBidsPage />} />
-          <Route path="/dashboard/wishlist" element={<MyWishlistPage />} />
+          <Route path="wishlist" element={<MyWishlistPage />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="safety" element={<SafetyTipsPage />} />
+          <Route path="products" element={<MyProductsPage />} />
+          <Route path="waiting-approval" element={<WaitingApprovalPage />} />
         </Route>
 
-        {/* Backward-compatible /editProfile route (redirects to dashboard) */}
+        {/* Backward-compatible /editProfile route */}
         <Route path="/editProfile" element={<EditProfilePage />} />
-        <Route path="/user/product/edit/:id" element={<EditProduct />} />
-        <Route path="/user/product/bids/all/:id" element={<ViewProductBidders />} />
-        <Route path="/user/product/delete/:id" element={<DeleteProduct />} />
+        {/* Seller routes (new redesigned pages) */}
+        <Route path="/user/product/edit/:id" element={<EditProductPage />} />
+        <Route path="/user/product/bids/all/:id" element={<ViewBiddersPage />} />
+        <Route path="/user/product/delete/:id" element={<DeleteProductPage />} />
         <Route path="/user/forgot-password" element={<ForgotPassword />} />
         <Route path="/user/password/reset/:token" element={<ResetPassword />} />
         <Route path="/admin/login" element={<AdminLogin />} />
