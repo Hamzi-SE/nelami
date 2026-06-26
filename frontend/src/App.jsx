@@ -49,11 +49,17 @@ const ViewBiddersPage = lazy(() => import('./features/dashboard/pages/ViewBidder
 const EditProductPage = lazy(() => import('./features/dashboard/pages/EditProductPage'))
 const DeleteProductPage = lazy(() => import('./features/dashboard/pages/DeleteProductPage'))
 
-// Admin Imports
+// Admin Imports (Phase 10)
 const AdminLogin = lazy(() => import('./features/auth/pages/AdminLoginPage'))
-const AdminDashboard = lazy(() => import('./pages/AdminDashboard/AdminDashboard'))
-const AdminEditProfile = lazy(() => import('./pages/AdminDashboard/Profile/EditProfile'))
-const DeleteUser = lazy(() => import('./pages/AdminDashboard/AllUsers/DeleteUser'))
+const AdminDashboard = lazy(() => import('./features/admin/pages/AdminDashboardPage'))
+const AdminStats = lazy(() => import('./features/admin/components/AdminStats'))
+const AdminProfilePage = lazy(() => import('./features/admin/pages/AdminProfilePage'))
+const AllUsersPage = lazy(() => import('./features/admin/pages/AllUsersPage'))
+const AllProductsPage = lazy(() => import('./features/admin/pages/AllProductsPage'))
+const ApprovalPage = lazy(() => import('./features/admin/pages/ApprovalPage'))
+const EditFeaturesPage = lazy(() => import('./features/admin/pages/EditFeaturesPage'))
+const AdminSettingsPage = lazy(() => import('./features/admin/pages/AdminSettingsPage'))
+const DeleteUserPage = lazy(() => import('./pages/AdminDashboard/AllUsers/DeleteUser'))
 
 // Messenger
 const Messenger = lazy(() => import('./pages/Messenger/Messenger'))
@@ -91,9 +97,22 @@ const Routing = ({ isAuthenticated, loading }) => {
         <Route path="/user/forgot-password" element={<ForgotPassword />} />
         <Route path="/user/password/reset/:token" element={<ResetPassword />} />
         <Route path="/admin/login" element={<AdminLogin />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/EditProfile" element={<AdminEditProfile />} />
-        <Route path="/admin/DeleteUser/:id" element={<DeleteUser />} />
+
+        {/* Admin Dashboard Routes (nested) */}
+        <Route path="/admin/dashboard" element={<AdminDashboard />}>
+          <Route index element={<AdminStats />} />
+          <Route path="profile" element={<AdminProfilePage />} />
+          <Route path="users" element={<AllUsersPage />} />
+          <Route path="products" element={<AllProductsPage />} />
+          <Route path="approvals" element={<ApprovalPage />} />
+          <Route path="features" element={<EditFeaturesPage />} />
+          <Route path="settings" element={<AdminSettingsPage />} />
+        </Route>
+
+        {/* Backward-compatible admin routes */}
+        <Route path="/admin/EditProfile" element={<AdminSettingsPage />} />
+        <Route path="/admin/deleteUser/:id" element={<DeleteUserPage />} />
+        <Route path="/admin/DeleteUser/:id" element={<DeleteUserPage />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/user/:id" element={<SellerProfile />} />
         <Route path="/categories/:category" element={<CategoryPage />} />
