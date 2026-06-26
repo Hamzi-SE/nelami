@@ -61,8 +61,8 @@ const EditFeaturesPage = lazy(() => import('./features/admin/pages/EditFeaturesP
 const AdminSettingsPage = lazy(() => import('./features/admin/pages/AdminSettingsPage'))
 const DeleteUserPage = lazy(() => import('./pages/AdminDashboard/AllUsers/DeleteUser'))
 
-// Messenger
-const Messenger = lazy(() => import('./pages/Messenger/Messenger'))
+// Messenger (Phase 11)
+const Messenger = lazy(() => import('./features/messenger/pages/MessengerPage'))
 const Contact = lazy(() => import('./pages/Contact/Contact'))
 
 const Routing = ({ isAuthenticated, loading }) => {

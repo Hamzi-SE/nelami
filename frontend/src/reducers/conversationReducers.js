@@ -42,6 +42,7 @@ const conversationsInitialState = {
   loading: false,
   conversations: null,
   error: null,
+  userAvatars: {},
 }
 
 export const conversationsReducer = createReducer(conversationsInitialState, (builder) => {
@@ -70,6 +71,9 @@ export const conversationsReducer = createReducer(conversationsInitialState, (bu
             }
           : conversation
       )
+    })
+    .addCase('SET_USER_AVATARS', (state, action) => {
+      state.userAvatars = action.payload
     })
 })
 
