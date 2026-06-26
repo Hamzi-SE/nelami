@@ -26,7 +26,7 @@ const SellerProfile = lazy(() => import('./pages/SellerProfile/SellerProfile'))
 const ProductsPage = lazy(() => import('./features/products/pages/ProductsPage'))
 const EditProfile = lazy(() => import('./pages/Dashboard/Profile/EditProfile'))
 const SingleProduct = lazy(() => import('./features/products/pages/ProductDetailPage'))
-const ProductForms = lazy(() => import('./pages/ProductForms/ProductsForms'))
+const ProductForms = lazy(() => import('./features/products/pages/ProductCreatePage'))
 const EditProduct = lazy(() => import('./pages/Dashboard/MyProducts/EditProduct'))
 const ViewProductBidders = lazy(() => import('./pages/Dashboard/MyProducts/ViewProductBidders'))
 const DeleteProduct = lazy(() => import('./pages/Dashboard/MyProducts/DeleteProduct'))
@@ -44,19 +44,7 @@ const AdminDashboard = lazy(() => import('./pages/AdminDashboard/AdminDashboard'
 const AdminEditProfile = lazy(() => import('./pages/AdminDashboard/Profile/EditProfile'))
 const DeleteUser = lazy(() => import('./pages/AdminDashboard/AllUsers/DeleteUser'))
 
-// Form Imports
-const CarForm = lazy(() => import('./pages/ProductForms/Vehicles/CarForm'))
-const BikeForm = lazy(() => import('./pages/ProductForms/Vehicles/BikeForm'))
-const BusesForm = lazy(() => import('./pages/ProductForms/Vehicles/BusesForm'))
-const RickshawForm = lazy(() => import('./pages/ProductForms/Vehicles/RickshawForm'))
-const TractorForm = lazy(() => import('./pages/ProductForms/Vehicles/TractorForm'))
-const OthersForm = lazy(() => import('./pages/ProductForms/Vehicles/OthersForm'))
-const LandForm = lazy(() => import('./pages/ProductForms/Properties/LandForm'))
-const HouseForm = lazy(() => import('./pages/ProductForms/Properties/HouseForm'))
-const ApartmentForm = lazy(() => import('./pages/ProductForms/Properties/ApartmentForm'))
-const ShopForm = lazy(() => import('./pages/ProductForms/Properties/ShopForm'))
-const PortionForm = lazy(() => import('./pages/ProductForms/Properties/PortionForm'))
-const MiscForm = lazy(() => import('./pages/ProductForms/Misc/MiscForm'))
+// Form Imports (all handled by ProductCreatePage now)
 
 // Messenger
 const Messenger = lazy(() => import('./pages/Messenger/Messenger'))
@@ -87,18 +75,6 @@ const Routing = ({ isAuthenticated, loading }) => {
         <Route path="/categories/:category" element={<CategoryPage />} />
         <Route path="/product/:id" element={<SingleProduct />} />
         <Route path="/product/new" element={<ProductForms />} />
-        <Route path="/product/new/car" element={<CarForm />} />
-        <Route path="/product/new/bike" element={<BikeForm />} />
-        <Route path="/product/new/bus" element={<BusesForm />} />
-        <Route path="/product/new/rickshaw" element={<RickshawForm />} />
-        <Route path="/product/new/tractor" element={<TractorForm />} />
-        <Route path="/product/new/other-vehicle" element={<OthersForm />} />
-        <Route path="/product/new/land" element={<LandForm />} />
-        <Route path="/product/new/house" element={<HouseForm />} />
-        <Route path="/product/new/apartment" element={<ApartmentForm />} />
-        <Route path="/product/new/shop" element={<ShopForm />} />
-        <Route path="/product/new/portion" element={<PortionForm />} />
-        <Route path="/product/new/misc" element={<MiscForm />} />
         <Route path="/packages" element={<PackagesPricing />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
