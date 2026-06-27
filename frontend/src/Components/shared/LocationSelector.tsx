@@ -1,11 +1,5 @@
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useAppSelector } from '@/store/typedHooks'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 
 interface LocationSelectorProps {
   province?: string
@@ -15,14 +9,14 @@ interface LocationSelectorProps {
   showLabel?: boolean
 }
 
-const provinceCityMap: Record<string, string[]> = {
-  Punjab: ['Lahore', 'Faisalabad', 'Rawalpindi', 'Multan', 'Gujranwala', 'Sialkot', 'Sargodha', 'Bahawalpur'],
-  Sindh: ['Karachi', 'Hyderabad', 'Sukkur', 'Larkana', 'Nawabshah'],
-  'Khyber Pakhtunkhwa': ['Peshawar', 'Mardan', 'Swat', 'Abbottabad', 'Dera Ismail Khan'],
-  Balochistan: ['Quetta', 'Turbat', 'Gwadar', 'Khuzdar', 'Sibi'],
-  'Azad Kashmir': ['Muzaffarabad', 'Mirpur', 'Kotli', 'Rawalakot'],
-  'Northern Areas': ['Gilgit', 'Skardu', 'Hunza', 'Chilas'],
-  Islamabad: ['F-6', 'F-7', 'F-8', 'G-9', 'G-10', 'G-11', 'I-8', 'I-9', 'I-10', 'Blue Area'],
+const cityListKeyMap: Record<string, string> = {
+  Punjab: 'punjabCitiesList',
+  Sindh: 'sindhCitiesList',
+  'Khyber Pakhtunkhwa': 'kpkCitiesList',
+  Balochistan: 'balochistanCitiesList',
+  'Azad Kashmir': 'azadKashmirCitiesList',
+  'Northern Areas': 'northernAreasList',
+  Islamabad: 'islamabadSectorsList',
 }
 
 const LocationSelector = ({
@@ -32,9 +26,10 @@ const LocationSelector = ({
   onCityChange,
   showLabel = true,
 }: LocationSelectorProps) => {
-  const { data } = useAppSelector((state) => state.data)
-  const provinces = data?.data?.provinceList || Object.keys(provinceCityMap)
-  const cities = province ? (provinceCityMap[province] || []) : []
+  const appData = useAppSelector((state) => state.data)
+  const provinces = appData?.data?.provinceList || []
+  const cityListKey = province ? cityListKeyMap[province] : null
+  const cities = cityListKey ? (appData?.data as any)?.[cityListKey] || [] : []
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -57,12 +52,24 @@ const LocationSelector = ({
         </Select>
       </div>
 
-      {/* City Select */}
+      {/* City / Sector Select */}
       <div>
-        {showLabel && <label className="text-xs text-neutral-500 mb-1 block">City</label>}
+        {showLabel && (
+          <label className="text-xs text-neutral-500 mb-1 block">
+            {province === 'Islamabad' ? 'Sector' : 'City'}
+          </label>
+        )}
         <Select value={city} onValueChange={onCityChange} disabled={!province}>
           <SelectTrigger>
-            <SelectValue placeholder={province ? 'Select city' : 'Select province first'} />
+            <SelectValue
+              placeholder={
+                province
+                  ? province === 'Islamabad'
+                    ? 'Select sector'
+                    : 'Select city'
+                  : 'Select province first'
+              }
+            />
           </SelectTrigger>
           <SelectContent>
             {cities.map((c) => (

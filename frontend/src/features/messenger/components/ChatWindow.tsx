@@ -1,15 +1,13 @@
-import { useEffect, useRef, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useAppSelector } from '@/store/typedHooks'
-import { Loader2, Send, ArrowLeft, Smile, User } from 'lucide-react'
-import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Skeleton } from '@/components/ui/skeleton'
-import { toast } from 'sonner'
-import Picker from 'emoji-picker-react'
-import customFetch from '@/utils/api'
+import { Input } from '@/components/ui/input'
 import { useSocket } from '@/hooks/useSocket'
+import customFetch from '@/lib/api'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
 import { formatDistanceToNow } from 'date-fns'
+import Picker from 'emoji-picker-react'
+import { ArrowLeft, Loader2, Send, Smile, User } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { toast } from 'sonner'
 import MessageBubble from './MessageBubble'
 import TypingIndicator from './TypingIndicator'
 
@@ -30,7 +28,7 @@ interface ChatWindowProps {
 }
 
 const ChatWindow = ({ conversation, friend, onlineUsers, typingStatuses, onBack }: ChatWindowProps) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const socket = useSocket()
   const { user } = useAppSelector((state) => state.user)
   const { userAvatars } = useAppSelector((state) => state.conversations)
@@ -307,11 +305,7 @@ const ChatWindow = ({ conversation, friend, onlineUsers, typingStatuses, onBack 
             disabled={sending}
           />
           <Button type="submit" size="icon" className="h-9 w-9" disabled={!newMessage.trim() || sending}>
-            {sending ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <Send className="h-4 w-4" />
-            )}
+            {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
           </Button>
         </form>
       </div>

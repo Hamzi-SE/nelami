@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react'
-import MetaData from '@/utils/MetaData'
 import { ProductGridSkeleton } from '@/components/shared/LoadingSkeleton'
-import HeroSearch from '../components/HeroSearch'
+import customFetch from '@/lib/api'
+import MetaData from '@/lib/MetaData'
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 import CategoryCards from '../components/CategoryCards'
+import HeroSearch from '../components/HeroSearch'
 import ProductCarousel from '../components/ProductCarousel'
 import StatsSection from '../components/StatsSection'
-import customFetch from '@/utils/api'
-import { toast } from 'sonner'
 
 const HomePage = () => {
   const [hotProducts, setHotProducts] = useState<any[]>([])
@@ -50,12 +50,9 @@ const HomePage = () => {
       {/* Hero Section */}
       <section className="relative py-16 md:py-24 px-4 overflow-hidden">
         {/* Background Image */}
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/banner-1.webp')" }}
-        />
+        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/banner-1.webp')" }} />
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-900/80 via-primary-800/70 to-primary-900/80" />
+        <div className="absolute inset-0 bg-linear-to-br from-primary-900/80 via-primary-800/70 to-primary-900/80" />
         {/* Content */}
         <div className="container mx-auto text-center relative z-10">
           <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">Nelami Auction Website</h1>

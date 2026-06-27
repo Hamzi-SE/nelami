@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom'
-import MetaData from '@/utils/MetaData'
+import MetaData from '@/lib/MetaData'
 import { useAppSelector } from '@/store/typedHooks'
+import { Link } from 'react-router-dom'
 import LoginForm from '../components/LoginForm'
 
 const LoginPage = () => {
@@ -15,9 +15,13 @@ const LoginPage = () => {
         <div className="container mx-auto px-4 py-6">
           <h1 className="text-2xl font-bold text-neutral-900">Login</h1>
           <nav className="flex items-center gap-1.5 mt-1 text-sm text-neutral-500">
-            <Link to="/" className="hover:text-primary-500">Home</Link>
+            <Link to="/" className="hover:text-primary-500">
+              Home
+            </Link>
             <span>/</span>
-            <Link to="/products" className="hover:text-primary-500">Pages</Link>
+            <Link to="/products" className="hover:text-primary-500">
+              Pages
+            </Link>
             <span>/</span>
             <span className="text-neutral-700">Login</span>
           </nav>

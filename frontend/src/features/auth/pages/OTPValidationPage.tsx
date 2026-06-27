@@ -1,18 +1,17 @@
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Loader2 } from 'lucide-react'
-import MetaData from '@/utils/MetaData'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useAppSelector } from '@/store/typedHooks'
-import customFetch from '@/utils/api'
+import customFetch from '@/lib/api'
+import MetaData from '@/lib/MetaData'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
+import { Loader2 } from 'lucide-react'
+import { useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
 const OTPValidationPage = () => {
   const { loading, token } = useAppSelector((state) => state.user)
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
@@ -66,7 +65,9 @@ const OTPValidationPage = () => {
         <div className="container mx-auto px-4 py-6">
           <h1 className="text-2xl font-bold text-neutral-900">OTP Validation</h1>
           <nav className="flex items-center gap-1.5 mt-1 text-sm text-neutral-500">
-            <Link to="/" className="hover:text-primary-500">Home</Link>
+            <Link to="/" className="hover:text-primary-500">
+              Home
+            </Link>
             <span>/</span>
             <span className="text-neutral-700">OTP Validation</span>
           </nav>

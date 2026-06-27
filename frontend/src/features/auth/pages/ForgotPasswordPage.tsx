@@ -1,20 +1,18 @@
-import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { useForm, Controller } from 'react-hook-form'
+import { Button } from '@/components/ui/button'
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import customFetch from '@/lib/api'
+import MetaData from '@/lib/MetaData'
+import { forgotPasswordSchema, type ForgotPasswordFormData } from '@/lib/validations/auth'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
-import { Link } from 'react-router-dom'
-import MetaData from '@/utils/MetaData'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Field, FieldLabel, FieldError, FieldDescription } from '@/components/ui/field'
-import { forgotPasswordSchema, type ForgotPasswordFormData } from '@/lib/validations/auth'
-import { useAppSelector } from '@/store/typedHooks'
-import customFetch from '@/utils/api'
+import { Controller, useForm } from 'react-hook-form'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
 const ForgotPasswordPage = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { loading } = useAppSelector((state) => state.forgotPassword)
 

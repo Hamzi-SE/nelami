@@ -1,18 +1,3 @@
-import { useEffect, useState, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Skeleton } from '@/components/ui/skeleton'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -24,17 +9,17 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import {
-  ClipboardCheck,
-  Check,
-  X,
-  Eye,
-  Trash2,
-  RefreshCw,
-  Loader2,
-} from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import customFetch from '@/lib/api'
+import { useAppDispatch } from '@/store/typedHooks'
+import { Check, ClipboardCheck, Eye, Loader2, RefreshCw, Trash2 } from 'lucide-react'
+import { useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
-import customFetch from '@/utils/api'
 
 interface ApprovalProduct {
   _id: string
@@ -48,38 +33,41 @@ interface ApprovalProduct {
 }
 
 const ApprovalPage = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const [products, setProducts] = useState<ApprovalProduct[]>([])
   const [loading, setLoading] = useState(true)
   const [refreshing, setRefreshing] = useState(false)
   const [approvingId, setApprovingId] = useState<string | null>(null)
 
-  const fetchProducts = useCallback(async (isRefresh = false) => {
-    if (isRefresh) setRefreshing(true)
-    else setLoading(true)
-    dispatch({ type: 'ADMIN_APPROVAL_PRODUCTS_REQUEST' })
-    try {
-      const res = await customFetch('/api/v1/approvalProductsAdmin', {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      })
-      const data = await res.json()
-      if (res.status === 200) {
-        dispatch({ type: 'ADMIN_APPROVAL_PRODUCTS_SUCCESS', payload: data.approvalProducts })
-        setProducts(data.approvalProducts || [])
-      } else {
-        dispatch({ type: 'ADMIN_APPROVAL_PRODUCTS_FAIL', payload: data.message })
-        toast.error(data.message)
+  const fetchProducts = useCallback(
+    async (isRefresh = false) => {
+      if (isRefresh) setRefreshing(true)
+      else setLoading(true)
+      dispatch({ type: 'ADMIN_APPROVAL_PRODUCTS_REQUEST' })
+      try {
+        const res = await customFetch('/api/v1/approvalProductsAdmin', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        })
+        const data = await res.json()
+        if (res.status === 200) {
+          dispatch({ type: 'ADMIN_APPROVAL_PRODUCTS_SUCCESS', payload: data.approvalProducts })
+          setProducts(data.approvalProducts || [])
+        } else {
+          dispatch({ type: 'ADMIN_APPROVAL_PRODUCTS_FAIL', payload: data.message })
+          toast.error(data.message)
+        }
+      } catch (error) {
+        dispatch({ type: 'ADMIN_APPROVAL_PRODUCTS_FAIL', payload: 'Something went wrong' })
+        toast.error('Something went wrong')
+      } finally {
+        setLoading(false)
+        setRefreshing(false)
       }
-    } catch (error) {
-      dispatch({ type: 'ADMIN_APPROVAL_PRODUCTS_FAIL', payload: 'Something went wrong' })
-      toast.error('Something went wrong')
-    } finally {
-      setLoading(false)
-      setRefreshing(false)
-    }
-  }, [dispatch])
+    },
+    [dispatch]
+  )
 
   useEffect(() => {
     fetchProducts()
@@ -144,12 +132,7 @@ const ApprovalPage = () => {
             {products.length} Pending
           </Badge>
         </div>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => fetchProducts(true)}
-          disabled={refreshing}
-        >
+        <Button variant="outline" size="sm" onClick={() => fetchProducts(true)} disabled={refreshing}>
           {refreshing ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
         </Button>
       </div>
@@ -191,9 +174,7 @@ const ApprovalPage = () => {
                     </TableCell>
                     <TableCell className="font-medium">
                       <div className="max-w-[200px] truncate">{product.title}</div>
-                      {product.subCategory && (
-                        <div className="text-xs text-neutral-400">{product.subCategory}</div>
-                      )}
+                      {product.subCategory && <div className="text-xs text-neutral-400">{product.subCategory}</div>}
                     </TableCell>
                     <TableCell className="hidden sm:table-cell">
                       <Badge variant="outline">{product.category}</Badge>
@@ -233,8 +214,8 @@ const ApprovalPage = () => {
                             <AlertDialogHeader>
                               <AlertDialogTitle>Approve Product</AlertDialogTitle>
                               <AlertDialogDescription>
-                                Are you sure you want to approve &quot;{product.title}&quot;? It will become visible
-                                to all users.
+                                Are you sure you want to approve &quot;{product.title}&quot;? It will become visible to
+                                all users.
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>

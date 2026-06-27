@@ -1,14 +1,13 @@
-import { useEffect, useState, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { useAppSelector } from '@/store/typedHooks'
 import { useSocket } from '@/hooks/useSocket'
-import MetaData from '@/utils/MetaData'
-import { MessageCircle, Loader2 } from 'lucide-react'
+import customFetch from '@/lib/api'
+import MetaData from '@/lib/MetaData'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
+import { Loader2, MessageCircle } from 'lucide-react'
+import { useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
-import customFetch from '@/utils/api'
-import ConversationList from '../components/ConversationList'
 import ChatWindow from '../components/ChatWindow'
+import ConversationList from '../components/ConversationList'
 
 interface Friend {
   _id: string
@@ -26,7 +25,7 @@ interface Conversation {
 }
 
 const MessengerPage = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const socket = useSocket()
   const { user, loading: userLoading, isAuthenticated } = useAppSelector((state) => state.user)
@@ -225,11 +224,7 @@ const MessengerPage = () => {
             </div>
 
             {/* Chat Window */}
-            <div
-              className={`flex-1 ${
-                currentChat ? 'block' : 'hidden md:flex md:items-center md:justify-center'
-              }`}
-            >
+            <div className={`flex-1 ${currentChat ? 'block' : 'hidden md:flex md:items-center md:justify-center'}`}>
               {currentChat ? (
                 <ChatWindow
                   conversation={currentChat}

@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import { Search, SlidersHorizontal, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useAppSelector } from '@/store/typedHooks'
+import { Search, SlidersHorizontal, X } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 const categories = [
   { label: 'All Categories', value: '' },
@@ -19,14 +19,14 @@ const sortOptions = [
   { label: 'Price: High to Low', value: '4' },
 ]
 
-const provinceCityMap: Record<string, string[]> = {
-  Punjab: ['Lahore', 'Faisalabad', 'Rawalpindi', 'Multan', 'Gujranwala', 'Sialkot', 'Sargodha', 'Bahawalpur'],
-  Sindh: ['Karachi', 'Hyderabad', 'Sukkur', 'Larkana', 'Nawabshah'],
-  'Khyber Pakhtunkhwa': ['Peshawar', 'Mardan', 'Swat', 'Abbottabad', 'Dera Ismail Khan'],
-  Balochistan: ['Quetta', 'Turbat', 'Gwadar', 'Khuzdar', 'Sibi'],
-  'Azad Kashmir': ['Muzaffarabad', 'Mirpur', 'Kotli', 'Rawalakot'],
-  'Northern Areas': ['Gilgit', 'Skardu', 'Hunza', 'Chilas'],
-  Islamabad: ['F-6', 'F-7', 'F-8', 'G-9', 'G-10', 'G-11', 'I-8', 'I-9', 'I-10', 'Blue Area'],
+const cityListKeyMap: Record<string, string> = {
+  Punjab: 'punjabCitiesList',
+  Sindh: 'sindhCitiesList',
+  'Khyber Pakhtunkhwa': 'kpkCitiesList',
+  Balochistan: 'balochistanCitiesList',
+  'Azad Kashmir': 'azadKashmirCitiesList',
+  'Northern Areas': 'northernAreasList',
+  Islamabad: 'islamabadSectorsList',
 }
 
 interface ProductFiltersProps {
@@ -34,8 +34,8 @@ interface ProductFiltersProps {
 }
 
 const ProductFilters = ({ onFiltersChange }: ProductFiltersProps) => {
-  const { data } = useAppSelector((state) => state.data)
-  const provinces = data?.data?.provinceList || Object.keys(provinceCityMap)
+  const appData = useAppSelector((state) => state.data)
+  const provinces = appData?.data?.provinceList || []
   const [searchParams, setSearchParams] = useSearchParams()
 
   const [keyword, setKeyword] = useState(searchParams.get('keyword') || '')
@@ -46,7 +46,8 @@ const ProductFilters = ({ onFiltersChange }: ProductFiltersProps) => {
   const [toPrice, setToPrice] = useState(searchParams.get('price[lte]') || '')
   const [sortBy, setSortBy] = useState(searchParams.get('sortBy') || '1')
 
-  const cities = province ? (provinceCityMap[province] || []) : []
+  const cityListKey = province ? cityListKeyMap[province] : null
+  const cities = cityListKey ? (appData?.data as any)?.[cityListKey] || [] : []
 
   useEffect(() => {
     const filters: Record<string, string> = {}
@@ -117,7 +118,9 @@ const ProductFilters = ({ onFiltersChange }: ProductFiltersProps) => {
           className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm text-neutral-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
         >
           {categories.map((cat) => (
-            <option key={cat.value} value={cat.value}>{cat.label}</option>
+            <option key={cat.value} value={cat.value}>
+              {cat.label}
+            </option>
           ))}
         </select>
       </div>
@@ -132,23 +135,29 @@ const ProductFilters = ({ onFiltersChange }: ProductFiltersProps) => {
         >
           <option value="">All Provinces</option>
           {provinces.map((p) => (
-            <option key={p} value={p}>{p}</option>
+            <option key={p} value={p}>
+              {p}
+            </option>
           ))}
         </select>
       </div>
 
-      {/* City */}
+      {/* City / Sector */}
       {province && (
         <div>
-          <label className="text-xs text-neutral-500 mb-1 block">City</label>
+          <label className="text-xs text-neutral-500 mb-1 block">
+            {province === 'Islamabad' ? 'Sector' : 'City'}
+          </label>
           <select
             value={city}
             onChange={(e) => setCity(e.target.value)}
             className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm text-neutral-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
           >
-            <option value="">All Cities</option>
+            <option value="">{province === 'Islamabad' ? 'All Sectors' : 'All Cities'}</option>
             {cities.map((c) => (
-              <option key={c} value={c}>{c}</option>
+              <option key={c} value={c}>
+                {c}
+              </option>
             ))}
           </select>
         </div>
@@ -184,7 +193,9 @@ const ProductFilters = ({ onFiltersChange }: ProductFiltersProps) => {
           className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm text-neutral-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
         >
           {sortOptions.map((opt) => (
-            <option key={opt.value} value={opt.value}>{opt.label}</option>
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
           ))}
         </select>
       </div>

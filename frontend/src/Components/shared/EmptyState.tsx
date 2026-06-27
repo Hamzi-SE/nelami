@@ -1,5 +1,5 @@
-import { Inbox } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Inbox } from 'lucide-react'
 
 interface EmptyStateProps {
   icon?: React.ReactNode

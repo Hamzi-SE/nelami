@@ -1,13 +1,8 @@
 export type {
-  LoginFormData,
-  SignUpFormData,
   ForgotPasswordFormData,
+  LoginFormData,
   ResetPasswordFormData,
+  SignUpFormData,
 } from '@/lib/validations/auth'
 
-export type {
-  VehicleFormData,
-  PropertyFormData,
-  MiscFormData,
-  ProductFormData,
-} from '@/lib/validations/product'
+export type { MiscFormData, ProductFormData, PropertyFormData, VehicleFormData } from '@/lib/validations/product'

@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Skeleton } from '@/components/ui/skeleton'
-import { Users, UserCheck, UserX, Package, Gavel, GavelIcon, Car, Home, Box } from 'lucide-react'
-import CountUp from 'react-countup'
+import customFetch from '@/lib/api'
 import { Chart, registerables } from 'chart.js'
+import { Box, Car, Gavel, GavelIcon, Home, Package, UserCheck, Users, UserX } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { Pie } from 'react-chartjs-2'
-import customFetch from '@/utils/api'
+import CountUp from 'react-countup'
 
 Chart.register(...registerables)
 
@@ -91,7 +90,13 @@ const AdminStats = () => {
     { label: 'Total Users', value: stats.totalUsers, icon: Users, color: 'text-blue-500', bg: 'bg-blue-50' },
     { label: 'Buyers', value: stats.totalBuyers, icon: UserCheck, color: 'text-amber-500', bg: 'bg-amber-50' },
     { label: 'Sellers', value: stats.totalSellers, icon: UserX, color: 'text-sky-500', bg: 'bg-sky-50' },
-    { label: 'Total Products', value: stats.totalProducts, icon: Package, color: 'text-violet-500', bg: 'bg-violet-50' },
+    {
+      label: 'Total Products',
+      value: stats.totalProducts,
+      icon: Package,
+      color: 'text-violet-500',
+      bg: 'bg-violet-50',
+    },
     { label: 'Active Bids', value: stats.activeBids, icon: Gavel, color: 'text-emerald-500', bg: 'bg-emerald-50' },
     { label: 'Ended Bids', value: stats.endedBids, icon: GavelIcon, color: 'text-rose-500', bg: 'bg-rose-50' },
     { label: 'Vehicles', value: stats.totalVehicles, icon: Car, color: 'text-teal-500', bg: 'bg-teal-50' },

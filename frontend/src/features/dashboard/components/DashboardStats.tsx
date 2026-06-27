@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
-import { useAppSelector } from '@/store/typedHooks'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Gavel, Package, Clock, CheckCircle, Car, Home, Box } from 'lucide-react'
+import customFetch from '@/lib/api'
+import { useAppSelector } from '@/store/typedHooks'
+import { Box, Car, CheckCircle, Clock, Gavel, Home, Package } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import CountUp from 'react-countup'
-import customFetch from '@/utils/api'
 
 interface StatsData {
   totalBids: number
@@ -58,8 +58,20 @@ const DashboardStats = () => {
 
   const sellerCards = [
     { label: 'Total Products', value: stats.totalProducts, icon: Package, color: 'text-amber-500', bg: 'bg-amber-50' },
-    { label: 'Auctions Ended', value: stats.totalEndedBids, icon: CheckCircle, color: 'text-rose-500', bg: 'bg-rose-50' },
-    { label: 'Ongoing Auctions', value: stats.totalOngoingBids, icon: Clock, color: 'text-emerald-500', bg: 'bg-emerald-50' },
+    {
+      label: 'Auctions Ended',
+      value: stats.totalEndedBids,
+      icon: CheckCircle,
+      color: 'text-rose-500',
+      bg: 'bg-rose-50',
+    },
+    {
+      label: 'Ongoing Auctions',
+      value: stats.totalOngoingBids,
+      icon: Clock,
+      color: 'text-emerald-500',
+      bg: 'bg-emerald-50',
+    },
     { label: 'Vehicles', value: stats.totalVehicles, icon: Car, color: 'text-blue-500', bg: 'bg-blue-50' },
     { label: 'Properties', value: stats.totalProperties, icon: Home, color: 'text-violet-500', bg: 'bg-violet-50' },
     { label: 'Miscellaneous', value: stats.totalMiscProducts, icon: Box, color: 'text-orange-500', bg: 'bg-orange-50' },

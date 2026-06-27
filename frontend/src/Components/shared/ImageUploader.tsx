@@ -1,6 +1,6 @@
-import { useState, useCallback } from 'react'
-import { Upload, X, Image as ImageIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Image as ImageIcon, Upload, X } from 'lucide-react'
+import { useCallback, useState } from 'react'
 
 interface ImageUploaderProps {
   maxImages?: number
@@ -69,14 +69,19 @@ const ImageUploader = ({ maxImages = 4, onImagesChange, initialImages = [] }: Im
     <div className="space-y-3">
       <div className="flex items-center gap-2 text-sm text-neutral-500">
         <ImageIcon className="h-4 w-4" />
-        <span>{images.length} / {maxImages} images</span>
+        <span>
+          {images.length} / {maxImages} images
+        </span>
       </div>
 
       {/* Image Previews */}
       {images.length > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {images.map((src, index) => (
-            <div key={index} className="relative group aspect-square rounded-lg overflow-hidden border border-neutral-200">
+            <div
+              key={index}
+              className="relative group aspect-square rounded-lg overflow-hidden border border-neutral-200"
+            >
               <img src={src} alt={`Upload ${index + 1}`} className="h-full w-full object-cover" />
               <button
                 type="button"
@@ -116,13 +121,7 @@ const ImageUploader = ({ maxImages = 4, onImagesChange, initialImages = [] }: Im
             </p>
             <p className="text-xs text-neutral-400 mt-0.5">PNG, JPG up to 10MB each</p>
           </div>
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={handleInputChange}
-            className="hidden"
-          />
+          <input type="file" accept="image/*" multiple onChange={handleInputChange} className="hidden" />
         </label>
       )}
     </div>

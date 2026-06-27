@@ -1,28 +1,15 @@
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import customFetch from '@/lib/api'
+import { useAppDispatch } from '@/store/typedHooks'
+import { Eye, Package, Search, Trash2, Users } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
-import { Skeleton } from '@/components/ui/skeleton'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import {
-  Package,
-  Search,
-  Eye,
-  Trash2,
-  Users,
-} from 'lucide-react'
 import { toast } from 'sonner'
-import customFetch from '@/utils/api'
 
 interface Product {
   _id: string
@@ -36,7 +23,7 @@ interface Product {
 }
 
 const AllProductsPage = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const [products, setProducts] = useState<Product[]>([])
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([])
@@ -87,9 +74,7 @@ const AllProductsPage = () => {
     }
 
     if (search) {
-      result = result.filter((p) =>
-        p.title.toLowerCase().includes(search.toLowerCase())
-      )
+      result = result.filter((p) => p.title.toLowerCase().includes(search.toLowerCase()))
     }
 
     setFilteredProducts(result)
@@ -169,9 +154,7 @@ const AllProductsPage = () => {
               <Package className="h-12 w-12 text-neutral-300 mx-auto mb-3" />
               <h3 className="text-lg font-medium text-neutral-900 mb-1">No Products Found</h3>
               <p className="text-sm text-neutral-500">
-                {search || statusFilter !== 'all'
-                  ? 'Try adjusting your search or filters.'
-                  : 'No products posted yet.'}
+                {search || statusFilter !== 'all' ? 'Try adjusting your search or filters.' : 'No products posted yet.'}
               </p>
             </div>
           ) : (
@@ -200,9 +183,7 @@ const AllProductsPage = () => {
                     </TableCell>
                     <TableCell className="font-medium">
                       <div className="max-w-[200px] truncate">{product.title}</div>
-                      {product.subCategory && (
-                        <div className="text-xs text-neutral-400">{product.subCategory}</div>
-                      )}
+                      {product.subCategory && <div className="text-xs text-neutral-400">{product.subCategory}</div>}
                     </TableCell>
                     <TableCell className="hidden sm:table-cell">
                       <Badge variant="outline">{product.category}</Badge>
@@ -211,7 +192,9 @@ const AllProductsPage = () => {
                     <TableCell>
                       <Badge
                         variant={product.bidStatus === 'Live' ? 'default' : 'secondary'}
-                        className={product.bidStatus === 'Live' ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-100' : ''}
+                        className={
+                          product.bidStatus === 'Live' ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-100' : ''
+                        }
                       >
                         {product.bidStatus}
                       </Badge>

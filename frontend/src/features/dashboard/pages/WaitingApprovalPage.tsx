@@ -1,30 +1,3 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { useForm, Controller } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { useAppSelector } from '@/store/typedHooks'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Input } from '@/components/ui/input'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -35,20 +8,30 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { Skeleton } from '@/components/ui/skeleton'
-import { Field, FieldLabel, FieldError } from '@/components/ui/field'
-import { toast } from 'sonner'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
 import {
-  Clock,
-  Eye,
-  Trash2,
-  RefreshCw,
-  Search,
-  Package,
-  Loader2,
-  X,
-} from 'lucide-react'
-import customFetch from '@/utils/api'
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { Field, FieldError } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import customFetch from '@/lib/api'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Clock, Eye, Loader2, Package, RefreshCw, Search, Trash2, X } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
+import { z } from 'zod'
 
 interface ProductImage {
   url: string
@@ -73,7 +56,7 @@ const categorySchema = z.object({
 type CategoryFormData = z.infer<typeof categorySchema>
 
 const WaitingApprovalPage = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { user } = useAppSelector((state) => state.user)
 
@@ -85,11 +68,7 @@ const WaitingApprovalPage = () => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [deleting, setDeleting] = useState(false)
 
-  const {
-    control,
-    handleSubmit,
-    watch,
-  } = useForm<CategoryFormData>({
+  const { control, handleSubmit, watch } = useForm<CategoryFormData>({
     resolver: zodResolver(categorySchema),
     defaultValues: {
       search: '',
@@ -134,10 +113,7 @@ const WaitingApprovalPage = () => {
   const filteredProducts = products.filter((product) => {
     if (!searchValue) return true
     const query = searchValue.toLowerCase()
-    return (
-      product.title.toLowerCase().includes(query) ||
-      product.category.toLowerCase().includes(query)
-    )
+    return product.title.toLowerCase().includes(query) || product.category.toLowerCase().includes(query)
   })
 
   const handleViewDetails = (product: ApprovalProduct) => {
@@ -238,17 +214,8 @@ const WaitingApprovalPage = () => {
             {products.length} Pending
           </Badge>
         </div>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => fetchProducts(true)}
-          disabled={refreshing}
-        >
-          {refreshing ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            <RefreshCw className="h-4 w-4" />
-          )}
+        <Button variant="outline" size="sm" onClick={() => fetchProducts(true)} disabled={refreshing}>
+          {refreshing ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
         </Button>
       </div>
 
@@ -261,11 +228,7 @@ const WaitingApprovalPage = () => {
             <Field data-invalid={fieldState.invalid}>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400" />
-                <Input
-                  {...field}
-                  placeholder="Search by title or category..."
-                  className="pl-9"
-                />
+                <Input {...field} placeholder="Search by title or category..." className="pl-9" />
               </div>
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
@@ -307,11 +270,7 @@ const WaitingApprovalPage = () => {
                     <div className="flex items-center gap-3">
                       <div className="h-10 w-10 rounded-lg overflow-hidden bg-neutral-100 shrink-0">
                         {product.images?.[0]?.url ? (
-                          <img
-                            src={product.images[0].url}
-                            alt={product.title}
-                            className="h-full w-full object-cover"
-                          />
+                          <img src={product.images[0].url} alt={product.title} className="h-full w-full object-cover" />
                         ) : (
                           <div className="h-full w-full flex items-center justify-center">
                             <Package className="h-4 w-4 text-neutral-400" />
@@ -319,20 +278,13 @@ const WaitingApprovalPage = () => {
                         )}
                       </div>
                       <div className="min-w-0">
-                        <p className="font-medium text-neutral-900 truncate max-w-[200px]">
-                          {product.title}
-                        </p>
-                        <p className="text-sm text-neutral-500">
-                          Rs. {product.price.toLocaleString()}
-                        </p>
+                        <p className="font-medium text-neutral-900 truncate max-w-[200px]">{product.title}</p>
+                        <p className="text-sm text-neutral-500">Rs. {product.price.toLocaleString()}</p>
                       </div>
                     </div>
                   </TableCell>
                   <TableCell className="hidden sm:table-cell">
-                    <Badge
-                      variant="secondary"
-                      className={getCategoryBadgeColor(product.category)}
-                    >
+                    <Badge variant="secondary" className={getCategoryBadgeColor(product.category)}>
                       {product.category}
                     </Badge>
                   </TableCell>
@@ -340,9 +292,7 @@ const WaitingApprovalPage = () => {
                     <span className="text-sm text-neutral-600">{product.bidTime} days</span>
                   </TableCell>
                   <TableCell className="hidden lg:table-cell">
-                    <span className="text-sm text-neutral-600">
-                      {formatDate(product.createdAt)}
-                    </span>
+                    <span className="text-sm text-neutral-600">{formatDate(product.createdAt)}</span>
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex items-center justify-end gap-2">
@@ -377,9 +327,7 @@ const WaitingApprovalPage = () => {
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>Product Details</DialogTitle>
-            <DialogDescription>
-              Pending approval product information
-            </DialogDescription>
+            <DialogDescription>Pending approval product information</DialogDescription>
           </DialogHeader>
           {selectedProduct && (
             <div className="space-y-4">
@@ -395,10 +343,7 @@ const WaitingApprovalPage = () => {
               <div className="space-y-2">
                 <h3 className="font-semibold text-neutral-900">{selectedProduct.title}</h3>
                 <div className="flex items-center gap-2">
-                  <Badge
-                    variant="secondary"
-                    className={getCategoryBadgeColor(selectedProduct.category)}
-                  >
+                  <Badge variant="secondary" className={getCategoryBadgeColor(selectedProduct.category)}>
                     {selectedProduct.category}
                   </Badge>
                   <Badge variant="secondary" className="bg-amber-100 text-amber-700 hover:bg-amber-100">
@@ -414,21 +359,15 @@ const WaitingApprovalPage = () => {
                   </div>
                   <div>
                     <span className="text-neutral-500">Bid Time:</span>
-                    <span className="ml-1 font-medium text-neutral-900">
-                      {selectedProduct.bidTime} days
-                    </span>
+                    <span className="ml-1 font-medium text-neutral-900">{selectedProduct.bidTime} days</span>
                   </div>
                   <div>
                     <span className="text-neutral-500">Submitted:</span>
-                    <span className="ml-1 font-medium text-neutral-900">
-                      {formatDate(selectedProduct.createdAt)}
-                    </span>
+                    <span className="ml-1 font-medium text-neutral-900">{formatDate(selectedProduct.createdAt)}</span>
                   </div>
                   <div>
                     <span className="text-neutral-500">End Date:</span>
-                    <span className="ml-1 font-medium text-neutral-900">
-                      {formatDate(selectedProduct.endDate)}
-                    </span>
+                    <span className="ml-1 font-medium text-neutral-900">{formatDate(selectedProduct.endDate)}</span>
                   </div>
                 </div>
               </div>
@@ -454,15 +393,8 @@ const WaitingApprovalPage = () => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleConfirmDelete}
-              className="bg-red-500 hover:bg-red-600"
-            >
-              {deleting ? (
-                <Loader2 className="h-4 w-4 animate-spin mr-1" />
-              ) : (
-                <Trash2 className="h-4 w-4 mr-1" />
-              )}
+            <AlertDialogAction onClick={handleConfirmDelete} className="bg-red-500 hover:bg-red-600">
+              {deleting ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <Trash2 className="h-4 w-4 mr-1" />}
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>

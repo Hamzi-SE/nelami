@@ -1,27 +1,15 @@
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import customFetch from '@/lib/api'
+import { useAppDispatch } from '@/store/typedHooks'
+import { Eye, Search, Trash2, Users } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
-import { Skeleton } from '@/components/ui/skeleton'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import {
-  Users,
-  Search,
-  Eye,
-  Trash2,
-} from 'lucide-react'
 import { toast } from 'sonner'
-import customFetch from '@/utils/api'
 
 interface UserItem {
   _id: string
@@ -34,7 +22,7 @@ interface UserItem {
 }
 
 const AllUsersPage = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const [users, setUsers] = useState<UserItem[]>([])
   const [filteredUsers, setFilteredUsers] = useState<UserItem[]>([])
@@ -73,10 +61,7 @@ const AllUsersPage = () => {
       .filter((user) => {
         if (!search) return true
         const query = search.toLowerCase()
-        return (
-          user.name.toLowerCase().includes(query) ||
-          user.email.toLowerCase().includes(query)
-        )
+        return user.name.toLowerCase().includes(query) || user.email.toLowerCase().includes(query)
       })
       .sort((a, b) => a.name.localeCompare(b.name))
     setFilteredUsers(result)
@@ -166,10 +151,14 @@ const AllUsersPage = () => {
                     </TableCell>
                     <TableCell className="font-medium">{user.name}</TableCell>
                     <TableCell className="hidden sm:table-cell text-sm text-neutral-600">{user.email}</TableCell>
-                    <TableCell className="hidden md:table-cell text-sm text-neutral-600">{user.phoneNo || '—'}</TableCell>
+                    <TableCell className="hidden md:table-cell text-sm text-neutral-600">
+                      {user.phoneNo || '—'}
+                    </TableCell>
                     <TableCell>
                       <Badge
-                        variant={user.role === 'admin' ? 'destructive' : user.role === 'seller' ? 'default' : 'secondary'}
+                        variant={
+                          user.role === 'admin' ? 'destructive' : user.role === 'seller' ? 'default' : 'secondary'
+                        }
                         className={user.role === 'seller' ? 'bg-blue-100 text-blue-700 hover:bg-blue-100' : ''}
                       >
                         {user.role}

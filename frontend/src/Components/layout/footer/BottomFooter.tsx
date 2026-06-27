@@ -17,11 +17,7 @@ const BottomFooter = () => {
         <div className="container mx-auto px-4">
           <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 py-3 text-sm">
             {footerLinks.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className="hover:text-white transition-colors"
-              >
+              <Link key={link.to} to={link.to} className="hover:text-white transition-colors">
                 {link.label}
               </Link>
             ))}

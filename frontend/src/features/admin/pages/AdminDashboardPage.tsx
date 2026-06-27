@@ -1,9 +1,9 @@
-import { Outlet, Navigate } from 'react-router-dom'
-import { useAppSelector } from '@/store/typedHooks'
 import AdminSidebar from '@/components/layout/sidebar/AdminSidebar'
-import MetaData from '@/utils/MetaData'
-import { toast } from 'sonner'
+import MetaData from '@/lib/MetaData'
+import { useAppSelector } from '@/store/typedHooks'
 import { useEffect } from 'react'
+import { Outlet } from 'react-router-dom'
+import { toast } from 'sonner'
 
 const AdminDashboardPage = () => {
   const { user, isAuthenticated, loading } = useAppSelector((state) => state.user)

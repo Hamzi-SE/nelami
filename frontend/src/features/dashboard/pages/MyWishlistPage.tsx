@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Link } from 'react-router-dom'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Heart, Eye, Trash2 } from 'lucide-react'
+import customFetch from '@/lib/api'
+import { Eye, Heart, Trash2 } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
-import customFetch from '@/utils/api'
 
 interface WishlistProduct {
   _id: string
@@ -123,11 +122,7 @@ const MyWishlistPage = () => {
 
                   {/* Actions */}
                   <div className="flex items-center gap-2 shrink-0">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => navigate(`/product/${product._id}`)}
-                    >
+                    <Button variant="outline" size="sm" onClick={() => navigate(`/product/${product._id}`)}>
                       <Eye className="h-4 w-4 mr-1" />
                       View
                     </Button>

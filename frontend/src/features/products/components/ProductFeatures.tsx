@@ -1,5 +1,5 @@
-import { ChevronDown } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
+import { ChevronDown } from 'lucide-react'
 import { useState } from 'react'
 
 interface ProductFeaturesProps {
@@ -36,7 +36,9 @@ const ProductFeatures = ({ product }: ProductFeaturesProps) => {
         onClick={() => setOpen(!open)}
       >
         <h3 className="font-semibold text-neutral-900">Specifications</h3>
-        <ChevronDown className={`h-4 w-4 text-neutral-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+        <ChevronDown
+          className={`h-4 w-4 text-neutral-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+        />
       </button>
       {open && (
         <CardContent className="p-4 pt-0">

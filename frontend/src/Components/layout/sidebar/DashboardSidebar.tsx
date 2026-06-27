@@ -1,22 +1,20 @@
-import { Link, useLocation } from 'react-router-dom'
+import { cn } from '@/lib/utils'
 import { useAppSelector } from '@/store/typedHooks'
 import {
-  LayoutDashboard,
-  User,
+  Clock,
   Gavel,
   Heart,
-  ShieldCheck,
-  Settings,
+  LayoutDashboard,
   LogOut,
-  Package,
-  Clock,
-  Store,
   Menu,
+  Package,
+  Settings,
+  ShieldCheck,
+  User,
   X,
 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
 import { useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 
 const DashboardSidebar = () => {
   const location = useLocation()
@@ -64,9 +62,7 @@ const DashboardSidebar = () => {
               {user?.avatar ? (
                 <img src={user.avatar.url} alt={user.name} className="h-10 w-10 rounded-full object-cover" />
               ) : (
-                <span className="text-sm font-medium text-primary-600">
-                  {user?.name?.charAt(0).toUpperCase()}
-                </span>
+                <span className="text-sm font-medium text-primary-600">{user?.name?.charAt(0).toUpperCase()}</span>
               )}
             </div>
             <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-success-500 border-2 border-white" />
@@ -127,12 +123,7 @@ const DashboardSidebar = () => {
       </button>
 
       {/* Mobile overlay */}
-      {mobileOpen && (
-        <div
-          className="lg:hidden fixed inset-0 z-40 bg-black/50"
-          onClick={() => setMobileOpen(false)}
-        />
-      )}
+      {mobileOpen && <div className="lg:hidden fixed inset-0 z-40 bg-black/50" onClick={() => setMobileOpen(false)} />}
 
       {/* Mobile sidebar */}
       <aside

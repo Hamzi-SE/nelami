@@ -1,6 +1,6 @@
-import TopBar from './TopBar'
-import Navbar from './Navbar'
 import MobileNav from './MobileNav'
+import Navbar from './Navbar'
+import TopBar from './TopBar'
 
 const Header = () => {
   return (

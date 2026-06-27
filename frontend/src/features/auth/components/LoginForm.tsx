@@ -1,21 +1,21 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { useForm, Controller } from 'react-hook-form'
+import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { useSocket } from '@/hooks/useSocket'
+import { loginSchema, type LoginFormData } from '@/lib/validations/auth'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Eye, EyeOff, Loader2 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Checkbox } from '@/components/ui/checkbox'
-import { Field, FieldLabel, FieldError, FieldDescription } from '@/components/ui/field'
-import { loginSchema, type LoginFormData } from '@/lib/validations/auth'
-import { useSocket } from '@/hooks/useSocket'
-import { useAppSelector } from '@/store/typedHooks'
-import customFetch from '@/utils/api'
+import { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { Link, useNavigate } from 'react-router-dom'
+
+import customFetch from '@/lib/api'
 import { toast } from 'sonner'
 
 const LoginForm = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const socket = useSocket()
   const { loading } = useAppSelector((state) => state.user)
@@ -118,7 +118,9 @@ const LoginForm = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Checkbox id="remember" />
-          <label htmlFor="remember" className="text-sm cursor-pointer">Remember me</label>
+          <label htmlFor="remember" className="text-sm cursor-pointer">
+            Remember me
+          </label>
         </div>
         <Link to="/user/forgot-password" className="text-sm text-primary-500 hover:text-primary-600">
           Forgot Password?

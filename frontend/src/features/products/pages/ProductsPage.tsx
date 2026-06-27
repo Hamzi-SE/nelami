@@ -1,17 +1,16 @@
-import { useEffect, useState, useCallback } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import MetaData from '@/utils/MetaData'
 import { ProductGridSkeleton } from '@/components/shared/LoadingSkeleton'
-import ProductGrid from '@/components/shared/ProductGrid'
 import ProductFilters from '@/components/shared/ProductFilters'
+import ProductGrid from '@/components/shared/ProductGrid'
 import { Button } from '@/components/ui/button'
+import customFetch from '@/lib/api'
+import MetaData from '@/lib/MetaData'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import customFetch from '@/utils/api'
-import { useAppSelector } from '@/store/typedHooks'
+import { useCallback, useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 const ProductsPage = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const { loading, products } = useAppSelector((state) => state.products)
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -20,34 +19,37 @@ const ProductsPage = () => {
   const [resultsPerPage, setResultsPerPage] = useState(12)
   const [localLoading, setLocalLoading] = useState(true)
 
-  const fetchProducts = useCallback(async (filters: Record<string, string>) => {
-    dispatch({ type: 'ALL_PRODUCTS_REQUEST' })
-    setLocalLoading(true)
+  const fetchProducts = useCallback(
+    async (filters: Record<string, string>) => {
+      dispatch({ type: 'ALL_PRODUCTS_REQUEST' })
+      setLocalLoading(true)
 
-    try {
-      const params = new URLSearchParams({ page: String(currentPage) })
-      Object.entries(filters).forEach(([key, value]) => {
-        if (value) params.set(key, value)
-      })
+      try {
+        const params = new URLSearchParams({ page: String(currentPage) })
+        Object.entries(filters).forEach(([key, value]) => {
+          if (value) params.set(key, value)
+        })
 
-      const res = await customFetch(`/api/v1/products?${params.toString()}`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      })
-      const data = await res.json()
+        const res = await customFetch(`/api/v1/products?${params.toString()}`, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        })
+        const data = await res.json()
 
-      dispatch({ type: 'ALL_PRODUCTS_SUCCESS', payload: data.products })
-      setResultsPerPage(data.resultsPerPage || 12)
-      setTotalProducts(data.productsCount || 0)
+        dispatch({ type: 'ALL_PRODUCTS_SUCCESS', payload: data.products })
+        setResultsPerPage(data.resultsPerPage || 12)
+        setTotalProducts(data.productsCount || 0)
 
-      // Update URL
-      setSearchParams(params, { replace: true })
-    } catch (error: any) {
-      dispatch({ type: 'ALL_PRODUCTS_FAIL', payload: error.message })
-    } finally {
-      setLocalLoading(false)
-    }
-  }, [currentPage, dispatch, setSearchParams])
+        // Update URL
+        setSearchParams(params, { replace: true })
+      } catch (error: any) {
+        dispatch({ type: 'ALL_PRODUCTS_FAIL', payload: error.message })
+      } finally {
+        setLocalLoading(false)
+      }
+    },
+    [currentPage, dispatch, setSearchParams]
+  )
 
   useEffect(() => {
     const filters: Record<string, string> = {}
@@ -129,11 +131,7 @@ const ProductsPage = () => {
               </div>
 
               {/* Grid */}
-              {isLoading ? (
-                <ProductGridSkeleton count={8} />
-              ) : (
-                <ProductGrid products={products} />
-              )}
+              {isLoading ? <ProductGridSkeleton count={8} /> : <ProductGrid products={products} />}
 
               {/* Pagination */}
               {totalPages > 1 && !isLoading && (

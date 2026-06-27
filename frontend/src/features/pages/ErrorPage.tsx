@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom'
-import MetaData from '@/utils/MetaData'
 import { buttonVariants } from '@/components/ui/button'
+import MetaData from '@/lib/MetaData'
 import { cn } from '@/lib/utils'
-import { Home, ArrowLeft } from 'lucide-react'
+import { ArrowLeft, Home } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const ErrorPage = () => {
   return (

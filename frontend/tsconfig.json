@@ -17,6 +17,7 @@
     "noFallthroughCasesInSwitch": false,
     "ignoreDeprecations": "6.0",
     "forceConsistentCasingInFileNames": true,
+    "types": ["node"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]

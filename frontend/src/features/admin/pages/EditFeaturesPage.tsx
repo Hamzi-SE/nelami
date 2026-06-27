@@ -1,31 +1,30 @@
-import { useState, useEffect } from 'react'
-import { useForm, Controller, useWatch } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { useDispatch } from 'react-redux'
-import { useAppSelector } from '@/store/typedHooks'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Field, FieldLabel, FieldError } from '@/components/ui/field'
-import { toast } from 'sonner'
-import { Loader2, Plus, Trash2, Package, PenSquare } from 'lucide-react'
-import customFetch from '@/utils/api'
-import { getData } from '@/helpers/GetData'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Field, FieldError, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import customFetch from '@/lib/api'
+import getBidTimeDropList from '@/lib/BidData'
+import { getBikeMake } from '@/lib/bikeData'
+import { getCarMake, getFuelDropList } from '@/lib/carData'
+import { getData } from '@/lib/helpers/getData'
 import {
   getAllCitiesDropList,
-  getProvinceDropList,
-  getIslamabadSectorsDropList,
-  getNorthernAreasCitiesDropList,
   getAzadKashmirCitiesDropList,
+  getBalochistanCitiesDropList,
+  getIslamabadSectorsDropList,
+  getKPKCitiesDropList,
+  getNorthernAreasCitiesDropList,
+  getProvinceDropList,
   getPunjabCitiesDropList,
   getSindhCitiesDropList,
-  getBalochistanCitiesDropList,
-  getKPKCitiesDropList,
-} from '@/utils/PakCitiesData'
-import getBidTimeDropList from '@/utils/BidData'
-import { getBikeMake } from '@/utils/BikeData'
-import { getCarMake, getFuelDropList } from '@/utils/carData'
+} from '@/lib/PakCitiesData'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2, Package, PenSquare, Plus, Trash2 } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Controller, useForm, useWatch } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
 
 const featureOptions = [
   { value: 'bidTimeList', label: 'Bid Time' },
@@ -65,7 +64,7 @@ type RemoveFeatureFormData = z.infer<typeof removeFeatureSchema>
 type PackageFormData = z.infer<typeof packageSchema>
 
 const EditFeaturesPage = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const { data } = useAppSelector((state) => state.data)
   const [addLoading, setAddLoading] = useState(false)
   const [removeLoading, setRemoveLoading] = useState(false)
@@ -247,10 +246,16 @@ const EditFeaturesPage = () => {
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor="add-item">Feature</FieldLabel>
-                    <select {...field} id="add-item" className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm">
+                    <select
+                      {...field}
+                      id="add-item"
+                      className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
+                    >
                       <option value="">Select Feature</option>
                       {featureOptions.map((opt) => (
-                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        <option key={opt.value} value={opt.value}>
+                          {opt.label}
+                        </option>
                       ))}
                     </select>
                     {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -297,10 +302,16 @@ const EditFeaturesPage = () => {
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor="remove-item">Feature</FieldLabel>
-                    <select {...field} id="remove-item" className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm">
+                    <select
+                      {...field}
+                      id="remove-item"
+                      className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
+                    >
                       <option value="">Select Feature</option>
                       {featureOptions.map((opt) => (
-                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        <option key={opt.value} value={opt.value}>
+                          {opt.label}
+                        </option>
                       ))}
                     </select>
                     {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -323,7 +334,9 @@ const EditFeaturesPage = () => {
                       >
                         <option value="">Select Value</option>
                         {getDropList(selectedRemoveItem).map((el: any) => (
-                          <option key={el.props.value} value={el.props.value}>{el.props.children}</option>
+                          <option key={el.props.value} value={el.props.value}>
+                            {el.props.children}
+                          </option>
                         ))}
                       </select>
                       {fieldState.invalid && <FieldError errors={[fieldState.error]} />}

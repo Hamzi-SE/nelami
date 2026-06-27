@@ -1,18 +1,16 @@
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import customFetch from '@/lib/api'
+import MetaData from '@/lib/MetaData'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
+import { CreditCard, Loader2, Shield } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { useAppSelector } from '@/store/typedHooks'
-import MetaData from '@/utils/MetaData'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Skeleton } from '@/components/ui/skeleton'
-import { CreditCard, Loader2, Shield } from 'lucide-react'
 import { toast } from 'sonner'
-import customFetch from '@/utils/api'
 
 const CheckoutPage = () => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const orderPackage = useAppSelector((state) => state.package.package)
   const orderPrice = useAppSelector((state) => state.package.price)
   const orderId = useAppSelector((state) => state.package.packageId)
@@ -72,9 +70,7 @@ const CheckoutPage = () => {
     )
   }
 
-  const descriptionItems = orderDescription
-    ? orderDescription.split('\n').filter(Boolean)
-    : []
+  const descriptionItems = orderDescription ? orderDescription.split('\n').filter(Boolean) : []
 
   return (
     <>
@@ -119,9 +115,7 @@ const CheckoutPage = () => {
 
                 <div className="border-t border-neutral-200 pt-4 flex items-center justify-between">
                   <span className="font-semibold text-neutral-900">Total (PKR)</span>
-                  <span className="text-xl font-bold text-neutral-900">
-                    Rs. {orderPrice?.toLocaleString()}
-                  </span>
+                  <span className="text-xl font-bold text-neutral-900">Rs. {orderPrice?.toLocaleString()}</span>
                 </div>
               </div>
 
@@ -135,12 +129,7 @@ const CheckoutPage = () => {
                 </div>
               </div>
 
-              <Button
-                className="w-full"
-                size="lg"
-                onClick={submitHandler}
-                disabled={loading}
-              >
+              <Button className="w-full" size="lg" onClick={submitHandler} disabled={loading}>
                 {loading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

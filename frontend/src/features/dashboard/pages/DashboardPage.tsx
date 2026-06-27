@@ -1,7 +1,7 @@
-import { Outlet, Navigate } from 'react-router-dom'
-import { useAppSelector } from '@/store/typedHooks'
 import DashboardSidebar from '@/components/layout/sidebar/DashboardSidebar'
-import MetaData from '@/utils/MetaData'
+import MetaData from '@/lib/MetaData'
+import { useAppSelector } from '@/store/typedHooks'
+import { Outlet } from 'react-router-dom'
 
 const DashboardPage = () => {
   const { user, isAuthenticated, loading } = useAppSelector((state) => state.user)

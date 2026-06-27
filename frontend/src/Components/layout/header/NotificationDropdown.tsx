@@ -1,26 +1,20 @@
-import { useState, useEffect } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { useSocket } from '@/hooks/useSocket'
-import { Bell, Check, ExternalLink, Mail, Loader2 } from 'lucide-react'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { useSocket } from '@/hooks/useSocket'
+import customFetch from '@/lib/api'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
+import { Bell, Check, ExternalLink, Loader2, Mail } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { NavLink, useLocation } from 'react-router-dom'
 import { toast } from 'sonner'
-import customFetch from '@/utils/api'
-import { useAppSelector } from '@/store/typedHooks'
 
 const NotificationDropdown = () => {
   const [isOpen, setIsOpen] = useState(false)
   const { notifications, loading, error } = useAppSelector((state) => state.notifications)
   const { isAuthenticated } = useAppSelector((state) => state.user)
   const location = useLocation()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const socket = useSocket()
 
   const unreadCount = notifications?.filter((n) => !n.read).length || 0

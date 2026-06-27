@@ -1,14 +1,14 @@
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useForm, Controller } from 'react-hook-form'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
 import { Gavel, Loader2 } from 'lucide-react'
-import { useAppSelector } from '@/store/typedHooks'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Field, FieldLabel, FieldError } from '@/components/ui/field'
-import { toast } from 'sonner'
-import customFetch from '@/utils/api'
+import { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+
 import ConfirmationDialog from '@/components/shared/ConfirmationDialog'
+import { Button } from '@/components/ui/button'
+import { Field, FieldError, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import customFetch from '@/lib/api'
+import { toast } from 'sonner'
 
 interface BidPlacementProps {
   productId: string
@@ -18,7 +18,7 @@ interface BidPlacementProps {
 }
 
 const BidPlacement = ({ productId, currentPrice, isExpired = false, onBidPlaced }: BidPlacementProps) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const { user } = useAppSelector((state) => state.user)
   const { loading } = useAppSelector((state) => state.bid)
   const [showConfirm, setShowConfirm] = useState(false)

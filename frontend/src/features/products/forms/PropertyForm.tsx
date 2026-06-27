@@ -1,9 +1,9 @@
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Field, FieldDescription, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { Home } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 import { z } from 'zod'
-import { Home, Bed, Bath, Maximize, Building } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Field, FieldLabel, FieldError, FieldDescription } from '@/components/ui/field'
 import BaseProductForm from './BaseProductForm'
 
 const propertySchema = z.object({
@@ -40,7 +40,11 @@ const PropertyForm = ({ subCategory }: { subCategory: string }) => {
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel htmlFor="furnished">Furnished Status</FieldLabel>
-              <select {...field} id="furnished" className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm">
+              <select
+                {...field}
+                id="furnished"
+                className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
+              >
                 <option value="">Select Status</option>
                 <option value="furnished">Furnished</option>
                 <option value="unfurnished">Unfurnished</option>
@@ -115,7 +119,11 @@ const PropertyForm = ({ subCategory }: { subCategory: string }) => {
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
                 <FieldLabel htmlFor="areaUnit">Area Unit</FieldLabel>
-                <select {...field} id="areaUnit" className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm">
+                <select
+                  {...field}
+                  id="areaUnit"
+                  className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
+                >
                   <option value="">Select Unit</option>
                   <option value="Marla">Marla</option>
                   <option value="Kanal">Kanal</option>
@@ -133,7 +141,11 @@ const PropertyForm = ({ subCategory }: { subCategory: string }) => {
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel htmlFor="constructionState">Construction State</FieldLabel>
-              <select {...field} id="constructionState" className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm">
+              <select
+                {...field}
+                id="constructionState"
+                className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
+              >
                 <option value="">Select State</option>
                 <option value="Completed">Completed</option>
                 <option value="In Progress">In Progress</option>

@@ -1,5 +1,5 @@
-import Countdown from 'react-countdown'
 import { Clock } from 'lucide-react'
+import Countdown from 'react-countdown'
 
 interface BidTimerProps {
   endDate: string
@@ -13,9 +13,7 @@ const BidTimer = ({ endDate, compact = false }: BidTimerProps) => {
   const isUrgent = remaining > 0 && remaining < 3600000 // < 1 hour
   const isExpired = remaining <= 0
 
-  const Completionist = () => (
-    <span className={compact ? 'text-xs' : 'text-sm'}>Auction Ended!</span>
-  )
+  const Completionist = () => <span className={compact ? 'text-xs' : 'text-sm'}>Auction Ended!</span>
 
   if (isExpired) {
     return (
@@ -28,20 +26,21 @@ const BidTimer = ({ endDate, compact = false }: BidTimerProps) => {
 
   return (
     <span
-      className={`inline-flex items-center gap-1 ${
-        compact ? 'text-xs' : 'text-sm'
-      } font-medium ${
+      className={`inline-flex items-center gap-1 ${compact ? 'text-xs' : 'text-sm'} font-medium ${
         isUrgent ? 'text-danger-500' : 'text-warning-600'
       }`}
     >
       <Clock className={compact ? 'h-3 w-3' : 'h-4 w-4'} />
-      <Countdown date={Date.now() + remaining} renderer={({ days, hours, minutes, seconds }) => (
-        <span>
-          {days > 0 && `${days}d `}
-          {hours > 0 && `${hours}h `}
-          {minutes}m {seconds}s
-        </span>
-      )}>
+      <Countdown
+        date={Date.now() + remaining}
+        renderer={({ days, hours, minutes, seconds }) => (
+          <span>
+            {days > 0 && `${days}d `}
+            {hours > 0 && `${hours}h `}
+            {minutes}m {seconds}s
+          </span>
+        )}
+      >
         <Completionist />
       </Countdown>
     </span>

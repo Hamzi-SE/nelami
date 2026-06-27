@@ -12,27 +12,28 @@ const categories = [
   { label: 'Miscellaneous', value: 'MiscProducts' },
 ]
 
-const provinceCityMap: Record<string, string[]> = {
-  Punjab: ['Lahore', 'Faisalabad', 'Rawalpindi', 'Multan', 'Gujranwala', 'Sialkot', 'Sargodha', 'Bahawalpur'],
-  Sindh: ['Karachi', 'Hyderabad', 'Sukkur', 'Larkana', 'Nawabshah'],
-  'Khyber Pakhtunkhwa': ['Peshawar', 'Mardan', 'Swat', 'Abbottabad', 'Dera Ismail Khan'],
-  Balochistan: ['Quetta', 'Turbat', 'Gwadar', 'Khuzdar', 'Sibi'],
-  'Azad Kashmir': ['Muzaffarabad', 'Mirpur', 'Kotli', 'Rawalakot'],
-  'Northern Areas': ['Gilgit', 'Skardu', 'Hunza', 'Chilas'],
-  Islamabad: ['F-6', 'F-7', 'F-8', 'G-9', 'G-10', 'G-11', 'I-8', 'I-9', 'I-10', 'Blue Area'],
+const cityListKeyMap: Record<string, string> = {
+  Punjab: 'punjabCitiesList',
+  Sindh: 'sindhCitiesList',
+  'Khyber Pakhtunkhwa': 'kpkCitiesList',
+  Balochistan: 'balochistanCitiesList',
+  'Azad Kashmir': 'azadKashmirCitiesList',
+  'Northern Areas': 'northernAreasList',
+  Islamabad: 'islamabadSectorsList',
 }
 
 const HeroSearch = () => {
   const navigate = useNavigate()
-  const { data } = useAppSelector((state) => state.data)
-  const provinces = data?.data?.provinceList || Object.keys(provinceCityMap)
+  const appData = useAppSelector((state) => state.data)
+  const provinces = appData?.data?.provinceList || []
 
   const [keyword, setKeyword] = useState('')
   const [category, setCategory] = useState('')
   const [province, setProvince] = useState('')
   const [city, setCity] = useState('')
 
-  const cities = province ? provinceCityMap[province] || [] : []
+  const cityListKey = province ? cityListKeyMap[province] : null
+  const cities = cityListKey ? (appData?.data as any)?.[cityListKey] || [] : []
 
   const handleSearch = () => {
     const params = new URLSearchParams()
@@ -95,7 +96,7 @@ const HeroSearch = () => {
             </select>
           </div>
 
-          {/* City Select */}
+          {/* City / Sector Select */}
           <div className="md:col-span-2">
             <select
               value={city}
@@ -103,7 +104,7 @@ const HeroSearch = () => {
               disabled={!province}
               className="h-11 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm text-neutral-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <option value="">City</option>
+              <option value="">{province === 'Islamabad' ? 'Sector' : 'City'}</option>
               {cities.map((c) => (
                 <option key={c} value={c}>
                   {c}

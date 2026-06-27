@@ -1,30 +1,14 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Link } from 'react-router-dom'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import {
-  Package,
-  Plus,
-  Search,
-  Eye,
-  Pencil,
-  Trash2,
-  Users,
-} from 'lucide-react'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import customFetch from '@/lib/api'
+import { Eye, Package, Pencil, Plus, Search, Trash2, Users } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
-import customFetch from '@/utils/api'
 
 interface Product {
   _id: string
@@ -84,9 +68,7 @@ const MyProductsPage = () => {
     }
 
     if (search) {
-      result = result.filter((p) =>
-        p.title.toLowerCase().includes(search.toLowerCase())
-      )
+      result = result.filter((p) => p.title.toLowerCase().includes(search.toLowerCase()))
     }
 
     setFilteredProducts(result)
@@ -213,7 +195,9 @@ const MyProductsPage = () => {
                     <TableCell>
                       <Badge
                         variant={product.bidStatus === 'Live' ? 'default' : 'secondary'}
-                        className={product.bidStatus === 'Live' ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-100' : ''}
+                        className={
+                          product.bidStatus === 'Live' ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-100' : ''
+                        }
                       >
                         {product.bidStatus}
                       </Badge>

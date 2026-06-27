@@ -1,10 +1,7 @@
-import { useState } from 'react'
-import { ChevronLeft, ChevronRight, X, Expand } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-} from '@/components/ui/dialog'
+import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { ChevronLeft, ChevronRight, Expand } from 'lucide-react'
+import { useState } from 'react'
 
 interface ImageGalleryProps {
   images: Array<{ url: string }>
@@ -59,9 +56,7 @@ const ImageGallery = ({ images, alt = 'Product image' }: ImageGalleryProps) => {
                 key={index}
                 onClick={() => setActiveIndex(index)}
                 className={`shrink-0 h-16 w-16 rounded-md overflow-hidden border-2 transition-colors ${
-                  index === activeIndex
-                    ? 'border-primary-500'
-                    : 'border-transparent hover:border-neutral-300'
+                  index === activeIndex ? 'border-primary-500' : 'border-transparent hover:border-neutral-300'
                 }`}
               >
                 <img src={img.url} alt={`${alt} thumbnail ${index + 1}`} className="h-full w-full object-cover" />
@@ -73,7 +68,7 @@ const ImageGallery = ({ images, alt = 'Product image' }: ImageGalleryProps) => {
 
       {/* Lightbox Dialog */}
       <Dialog open={isLightboxOpen} onOpenChange={setIsLightboxOpen}>
-        <DialogContent className="max-w-4xl p-0 bg-black border-none">
+        <DialogContent className="min-w-4xl max-w-6xl p-1 rounded bg-black border-none">
           <div className="relative flex items-center justify-center min-h-[60vh]">
             <img
               src={images[activeIndex]?.url}
@@ -86,7 +81,7 @@ const ImageGallery = ({ images, alt = 'Product image' }: ImageGalleryProps) => {
                 <Button
                   size="icon"
                   variant="ghost"
-                  className="absolute left-2 h-10 w-10 bg-black/50 text-white hover:bg-black/70"
+                  className="absolute left-2 h-10 w-10 bg-black/50 text-white hover:bg-white/70"
                   onClick={goToPrevious}
                 >
                   <ChevronLeft className="h-5 w-5" />
@@ -94,7 +89,7 @@ const ImageGallery = ({ images, alt = 'Product image' }: ImageGalleryProps) => {
                 <Button
                   size="icon"
                   variant="ghost"
-                  className="absolute right-2 h-10 w-10 bg-black/50 text-white hover:bg-black/70"
+                  className="absolute right-2 h-10 w-10 bg-black/50 text-white hover:bg-white/70"
                   onClick={goToNext}
                 >
                   <ChevronRight className="h-5 w-5" />

@@ -1,15 +1,13 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { useAppSelector } from '@/store/typedHooks'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
+import customFetch from '@/lib/api'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
 import { Eye, Gavel } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
-import customFetch from '@/utils/api'
 
 interface Bidder {
   user: string
@@ -31,7 +29,7 @@ interface UserBid {
 }
 
 const MyBidsPage = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { user } = useAppSelector((state) => state.user)
   const [userBids, setUserBids] = useState<UserBid[]>([])
@@ -98,7 +96,9 @@ const MyBidsPage = () => {
           <CardContent className="py-12 text-center">
             <Gavel className="h-12 w-12 text-neutral-300 mx-auto mb-3" />
             <h3 className="text-lg font-medium text-neutral-900 mb-1">No Bids Yet</h3>
-            <p className="text-sm text-neutral-500 mb-4">You haven't placed any bids yet. Browse products to start bidding!</p>
+            <p className="text-sm text-neutral-500 mb-4">
+              You haven't placed any bids yet. Browse products to start bidding!
+            </p>
             <Link to="/products">
               <Button>Browse Products</Button>
             </Link>
@@ -126,18 +126,26 @@ const MyBidsPage = () => {
                       <h3 className="font-medium text-neutral-900 truncate">{bid.bidItem?.title}</h3>
                       <div className="flex items-center gap-3 mt-1">
                         <span className="text-sm text-neutral-500">
-                          Current Price: <span className="font-medium text-neutral-700">Rs. {bid.bidItem?.price?.toLocaleString()}</span>
+                          Current Price:{' '}
+                          <span className="font-medium text-neutral-700">
+                            Rs. {bid.bidItem?.price?.toLocaleString()}
+                          </span>
                         </span>
                         {myPrice && (
                           <span className="text-sm text-neutral-500">
-                            Your Bid: <span className="font-medium text-primary-600">Rs. {myPrice.toLocaleString()}</span>
+                            Your Bid:{' '}
+                            <span className="font-medium text-primary-600">Rs. {myPrice.toLocaleString()}</span>
                           </span>
                         )}
                       </div>
                       <div className="mt-2">
                         <Badge
                           variant={bid.bidItem?.bidStatus === 'Live' ? 'default' : 'secondary'}
-                          className={bid.bidItem?.bidStatus === 'Live' ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-100' : ''}
+                          className={
+                            bid.bidItem?.bidStatus === 'Live'
+                              ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-100'
+                              : ''
+                          }
                         >
                           {bid.bidItem?.bidStatus}
                         </Badge>

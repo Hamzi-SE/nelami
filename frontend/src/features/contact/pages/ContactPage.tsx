@@ -1,17 +1,17 @@
-import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
-import { useForm, Controller } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import MetaData from '@/utils/MetaData'
+import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Button } from '@/components/ui/button'
-import { Field, FieldLabel, FieldError } from '@/components/ui/field'
-import { Loader2, Mail, Phone, Clock, MapPin } from 'lucide-react'
+import customFetch from '@/lib/api'
+import MetaData from '@/lib/MetaData'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Clock, Loader2, Mail, Phone } from 'lucide-react'
+import { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
-import customFetch from '@/utils/api'
+import { z } from 'zod'
 
 const contactSchema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -71,7 +71,9 @@ const ContactPage = () => {
         <div className="container mx-auto px-4 py-6">
           <h1 className="text-2xl font-bold text-neutral-900">Contact Us</h1>
           <nav className="flex items-center gap-1.5 mt-1 text-sm text-neutral-500">
-            <Link to="/" className="hover:text-primary-500">Home</Link>
+            <Link to="/" className="hover:text-primary-500">
+              Home
+            </Link>
             <span>/</span>
             <span className="text-neutral-700">Contact</span>
           </nav>
@@ -117,12 +119,7 @@ const ContactPage = () => {
                       render={({ field, fieldState }) => (
                         <Field data-invalid={fieldState.invalid}>
                           <FieldLabel htmlFor="message">Message</FieldLabel>
-                          <Textarea
-                            {...field}
-                            id="message"
-                            placeholder="Write your message..."
-                            rows={6}
-                          />
+                          <Textarea {...field} id="message" placeholder="Write your message..." rows={6} />
                           {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                         </Field>
                       )}
@@ -145,9 +142,7 @@ const ContactPage = () => {
                   <div>
                     <p className="text-sm font-medium text-neutral-900">Phone</p>
                     <p className="text-sm text-neutral-600 mt-0.5">+92 315-608-8777</p>
-                    <p className="text-xs text-neutral-500 mt-1">
-                      Available 24/7 for assistance.
-                    </p>
+                    <p className="text-xs text-neutral-500 mt-1">Available 24/7 for assistance.</p>
                   </div>
                 </CardContent>
               </Card>
@@ -158,9 +153,7 @@ const ContactPage = () => {
                   <div>
                     <p className="text-sm font-medium text-neutral-900">Office Hours</p>
                     <p className="text-sm text-neutral-600 mt-0.5">Mon-Sat (10:00 AM - 7:00 PM)</p>
-                    <p className="text-xs text-neutral-500 mt-1">
-                      Feel free to contact us during these hours.
-                    </p>
+                    <p className="text-xs text-neutral-500 mt-1">Feel free to contact us during these hours.</p>
                   </div>
                 </CardContent>
               </Card>
@@ -171,9 +164,7 @@ const ContactPage = () => {
                   <div>
                     <p className="text-sm font-medium text-neutral-900">Email</p>
                     <p className="text-sm text-neutral-600 mt-0.5">nelami@ihamza.dev</p>
-                    <p className="text-xs text-neutral-500 mt-1">
-                      We&apos;ll get back to you soon.
-                    </p>
+                    <p className="text-xs text-neutral-500 mt-1">We&apos;ll get back to you soon.</p>
                   </div>
                 </CardContent>
               </Card>

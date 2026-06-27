@@ -1,14 +1,8 @@
-import { NavLink } from 'react-router-dom'
-import { Menu, Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet'
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { useAppSelector } from '@/store/typedHooks'
+import { Menu, Plus } from 'lucide-react'
+import { NavLink } from 'react-router-dom'
 
 const LOGO_URL = 'https://assets.ihamza.dev/images/nelami-logo.png'
 
@@ -49,9 +43,7 @@ const MobileNav = () => {
                 to={link.to}
                 className={({ isActive }) =>
                   `px-4 py-3 text-sm font-medium transition-colors ${
-                    isActive
-                      ? 'text-primary-500 bg-primary-50'
-                      : 'text-neutral-700 hover:bg-neutral-50'
+                    isActive ? 'text-primary-500 bg-primary-50' : 'text-neutral-700 hover:bg-neutral-50'
                   }`
                 }
               >
@@ -61,9 +53,7 @@ const MobileNav = () => {
 
             {/* Categories Section */}
             <div className="px-4 py-3">
-              <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-2">
-                Categories
-              </p>
+              <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-2">Categories</p>
               <div className="flex flex-col gap-1 pl-2">
                 {categories.map((cat) => (
                   <NavLink
@@ -71,9 +61,7 @@ const MobileNav = () => {
                     to={cat.to}
                     className={({ isActive }) =>
                       `py-2 text-sm transition-colors ${
-                        isActive
-                          ? 'text-primary-500'
-                          : 'text-neutral-600 hover:text-primary-500'
+                        isActive ? 'text-primary-500' : 'text-neutral-600 hover:text-primary-500'
                       }`
                     }
                   >
@@ -90,9 +78,7 @@ const MobileNav = () => {
                   to="/Packages"
                   className={({ isActive }) =>
                     `px-4 py-3 text-sm font-medium transition-colors ${
-                      isActive
-                        ? 'text-primary-500 bg-primary-50'
-                        : 'text-neutral-700 hover:bg-neutral-50'
+                      isActive ? 'text-primary-500 bg-primary-50' : 'text-neutral-700 hover:bg-neutral-50'
                     }`
                   }
                 >
@@ -104,9 +90,7 @@ const MobileNav = () => {
                 to="/Packages"
                 className={({ isActive }) =>
                   `px-4 py-3 text-sm font-medium transition-colors ${
-                    isActive
-                      ? 'text-primary-500 bg-primary-50'
-                      : 'text-neutral-700 hover:bg-neutral-50'
+                    isActive ? 'text-primary-500 bg-primary-50' : 'text-neutral-700 hover:bg-neutral-50'
                   }`
                 }
               >

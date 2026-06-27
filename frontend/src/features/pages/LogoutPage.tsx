@@ -1,16 +1,16 @@
+import { useSocket } from '@/hooks/useSocket'
+import customFetch from '@/lib/api'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
+import { Loader2 } from 'lucide-react'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { useSocket } from '@/hooks/useSocket'
-import { Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
-import customFetch from '@/utils/api'
 
 const LogoutPage = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const socket = useSocket()
-  const { user } = useSelector((state: any) => state.user)
+  const { user } = useAppSelector((state: any) => state.user)
 
   useEffect(() => {
     const callLogout = async () => {

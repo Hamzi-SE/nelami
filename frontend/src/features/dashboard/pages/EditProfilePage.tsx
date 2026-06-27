@@ -1,20 +1,19 @@
-import { useEffect, useState } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
-import { useForm, Controller } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { useDispatch } from 'react-redux'
-import { useAppSelector } from '@/store/typedHooks'
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
+import DashboardSidebar from '@/components/layout/sidebar/DashboardSidebar'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Button } from '@/components/ui/button'
-import { Field, FieldLabel, FieldError } from '@/components/ui/field'
+import customFetch from '@/lib/api'
+import { getAllCitiesDropList } from '@/lib/PakCitiesData'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { ArrowLeft, Loader2 } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
-import { Loader2, ArrowLeft } from 'lucide-react'
-import customFetch from '@/utils/api'
-import { getAllCitiesDropList } from '@/utils/PakCitiesData'
-import DashboardSidebar from '@/components/layout/sidebar/DashboardSidebar'
+import { z } from 'zod'
 
 const profileSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -28,7 +27,7 @@ const profileSchema = z.object({
 type ProfileFormData = z.infer<typeof profileSchema>
 
 const EditProfilePage = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const location = useLocation()
   const { user } = useAppSelector((state) => state.user)
@@ -155,9 +154,7 @@ const EditProfilePage = () => {
                 ) : user?.avatar ? (
                   <img src={user.avatar.url} alt={user.name} className="h-full w-full object-cover" />
                 ) : (
-                  <span className="text-xl font-semibold text-neutral-400">
-                    {user?.name?.charAt(0).toUpperCase()}
-                  </span>
+                  <span className="text-xl font-semibold text-neutral-400">{user?.name?.charAt(0).toUpperCase()}</span>
                 )}
               </div>
               <div>

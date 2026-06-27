@@ -1,12 +1,12 @@
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { getCarMake, getFuelDropList } from '@/lib/carData'
+import { useAppSelector } from '@/store/typedHooks'
+import { Car } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 import { z } from 'zod'
-import { Car } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Field, FieldLabel, FieldError, FieldDescription } from '@/components/ui/field'
-import { useAppSelector } from '@/store/typedHooks'
 import BaseProductForm from './BaseProductForm'
-import { getCarMake, getFuelDropList } from '@/utils/carData'
 
 const vehicleSchema = z.object({
   make: z.string().min(1, 'Please select a make'),
@@ -36,10 +36,16 @@ const VehicleForm = ({ subCategory }: { subCategory: string }) => {
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel htmlFor="make">Make</FieldLabel>
-              <select {...field} id="make" className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm">
+              <select
+                {...field}
+                id="make"
+                className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
+              >
                 <option value="">Select Make</option>
                 {getCarMake(data).map((el: any) => (
-                  <option key={el.props.value} value={el.props.value}>{el.props.children}</option>
+                  <option key={el.props.value} value={el.props.value}>
+                    {el.props.children}
+                  </option>
                 ))}
               </select>
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -66,10 +72,16 @@ const VehicleForm = ({ subCategory }: { subCategory: string }) => {
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
                 <FieldLabel htmlFor="year">Year</FieldLabel>
-                <select {...field} id="year" className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm">
+                <select
+                  {...field}
+                  id="year"
+                  className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
+                >
                   <option value="">Select Year</option>
                   {years.map((y) => (
-                    <option key={y} value={y}>{y}</option>
+                    <option key={y} value={y}>
+                      {y}
+                    </option>
                   ))}
                 </select>
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -83,10 +95,16 @@ const VehicleForm = ({ subCategory }: { subCategory: string }) => {
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
                 <FieldLabel htmlFor="fuelType">Fuel Type</FieldLabel>
-                <select {...field} id="fuelType" className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm">
+                <select
+                  {...field}
+                  id="fuelType"
+                  className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
+                >
                   <option value="">Select Fuel Type</option>
                   {getFuelDropList(data).map((el: any) => (
-                    <option key={el.props.value} value={el.props.value}>{el.props.children}</option>
+                    <option key={el.props.value} value={el.props.value}>
+                      {el.props.children}
+                    </option>
                   ))}
                 </select>
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}

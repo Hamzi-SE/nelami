@@ -1,32 +1,32 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { useDispatch } from 'react-redux'
-import { useAppSelector } from '@/store/typedHooks'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Field, FieldLabel, FieldError } from '@/components/ui/field'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Field, FieldError, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import customFetch from '@/lib/api'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { ArrowUp, Crown, Loader2, Lock } from 'lucide-react'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
-import { Loader2, Lock, Crown, ArrowUp } from 'lucide-react'
-import { Link } from 'react-router-dom'
-import customFetch from '@/utils/api'
+import { z } from 'zod'
 
-const passwordSchema = z.object({
-  oldPassword: z.string().min(1, 'Current password is required'),
-  newPassword: z.string().min(6, 'New password must be at least 6 characters'),
-  confirmPassword: z.string().min(1, 'Please confirm your new password'),
-}).refine((data) => data.newPassword === data.confirmPassword, {
-  message: 'Passwords do not match',
-  path: ['confirmPassword'],
-})
+const passwordSchema = z
+  .object({
+    oldPassword: z.string().min(1, 'Current password is required'),
+    newPassword: z.string().min(6, 'New password must be at least 6 characters'),
+    confirmPassword: z.string().min(1, 'Please confirm your new password'),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  })
 
 type PasswordFormData = z.infer<typeof passwordSchema>
 
 const SettingsPage = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { user } = useAppSelector((state) => state.user)
   const [loading, setLoading] = useState(false)
@@ -100,13 +100,15 @@ const SettingsPage = () => {
                 <p className="text-sm text-neutral-500">Current Package</p>
                 <p className="text-lg font-semibold text-neutral-900 capitalize">{user?.userPackage || 'Free'}</p>
               </div>
-              <div className={`px-3 py-1 rounded-full text-xs font-medium ${
-                user?.userPackage === 'Platinum'
-                  ? 'bg-violet-100 text-violet-700'
-                  : user?.userPackage === 'Gold'
-                  ? 'bg-amber-100 text-amber-700'
-                  : 'bg-neutral-100 text-neutral-700'
-              }`}>
+              <div
+                className={`px-3 py-1 rounded-full text-xs font-medium ${
+                  user?.userPackage === 'Platinum'
+                    ? 'bg-violet-100 text-violet-700'
+                    : user?.userPackage === 'Gold'
+                      ? 'bg-amber-100 text-amber-700'
+                      : 'bg-neutral-100 text-neutral-700'
+                }`}
+              >
                 {user?.userPackage || 'Free'}
               </div>
             </div>
@@ -137,12 +139,7 @@ const SettingsPage = () => {
 
             <Field data-invalid={!!errors.newPassword}>
               <FieldLabel htmlFor="newPassword">New Password</FieldLabel>
-              <Input
-                {...register('newPassword')}
-                id="newPassword"
-                type="password"
-                placeholder="Enter new password"
-              />
+              <Input {...register('newPassword')} id="newPassword" type="password" placeholder="Enter new password" />
               {errors.newPassword && <FieldError errors={[errors.newPassword]} />}
             </Field>
 

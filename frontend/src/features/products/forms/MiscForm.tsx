@@ -1,5 +1,5 @@
-import { Package } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Package } from 'lucide-react'
 import BaseProductForm from './BaseProductForm'
 
 const MiscForm = ({ subCategory }: { subCategory: string }) => {
@@ -20,13 +20,7 @@ const MiscForm = ({ subCategory }: { subCategory: string }) => {
     </Card>
   )
 
-  return (
-    <BaseProductForm
-      category="MiscProducts"
-      subCategory={subCategory}
-      additionalFields={additionalFields}
-    />
-  )
+  return <BaseProductForm category="MiscProducts" subCategory={subCategory} additionalFields={additionalFields} />
 }
 
 export default MiscForm

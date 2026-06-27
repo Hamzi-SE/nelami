@@ -1,6 +1,3 @@
-import { useNavigate, useParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { useAppSelector } from '@/store/typedHooks'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,13 +8,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
-import { Loader2, AlertTriangle } from 'lucide-react'
+import customFetch from '@/lib/api'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
+import { AlertTriangle, Loader2 } from 'lucide-react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'sonner'
-import customFetch from '@/utils/api'
 
 const DeleteUserPage = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { loading } = useAppSelector((state) => state.profile)
   const { user } = useAppSelector((state) => state.user)
@@ -37,7 +35,6 @@ const DeleteUserPage = () => {
     try {
       const res = await customFetch(`/api/v1/admin/user/${id}`, {
         method: 'DELETE',
-        'Content-Type': 'application/json',
       })
       const data = await res.json()
 

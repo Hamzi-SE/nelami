@@ -1,29 +1,30 @@
-import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { useForm, Controller } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { Save, Loader2, MapPin, Clock, DollarSign, FileText, Image as ImageIcon, Upload, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Field, FieldLabel, FieldError, FieldDescription } from '@/components/ui/field'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
 import { Progress } from '@/components/ui/progress'
-import { useAppSelector } from '@/store/typedHooks'
-import { toast } from 'sonner'
-import PostProduct from '@/helpers/PostProduct'
+import { Textarea } from '@/components/ui/textarea'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Clock, DollarSign, FileText, Image as ImageIcon, Loader2, MapPin, Save, Upload, X } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import { z } from 'zod'
+
+import getBidTimeDropList from '@/lib/BidData'
+import PostProduct from '@/lib/helpers/postProduct'
 import {
+  getAzadKashmirCitiesDropList,
+  getBalochistanCitiesDropList,
+  getIslamabadSectorsDropList,
+  getKPKCitiesDropList,
+  getNorthernAreasCitiesDropList,
   getProvinceDropList,
   getPunjabCitiesDropList,
   getSindhCitiesDropList,
-  getKPKCitiesDropList,
-  getBalochistanCitiesDropList,
-  getAzadKashmirCitiesDropList,
-  getNorthernAreasCitiesDropList,
-  getIslamabadSectorsDropList,
-} from '@/utils/PakCitiesData'
+} from '@/lib/PakCitiesData'
+import { toast } from 'sonner'
 
 // Helper to get city dropdown based on province
 const getCityDropList = (province: string, data: any) => {
@@ -39,13 +40,14 @@ const getCityDropList = (province: string, data: any) => {
   const getter = cityMap[province]
   return getter ? getter(data) : []
 }
-import { getCarMake, getFuelDropList } from '@/utils/carData'
-import getBidTimeDropList from '@/utils/BidData'
 
 // Base schema for all product types
 const baseSchema = z.object({
   title: z.string().min(3, 'Title must be at least 3 characters').max(100, 'Title must be less than 100 characters'),
-  description: z.string().min(10, 'Description must be at least 10 characters').max(2000, 'Description must be less than 2000 characters'),
+  description: z
+    .string()
+    .min(10, 'Description must be at least 10 characters')
+    .max(2000, 'Description must be less than 2000 characters'),
   price: z.coerce.number().min(1, 'Price must be greater than 0'),
   province: z.string().min(1, 'Please select a province'),
   city: z.string().min(1, 'Please select a city'),
@@ -60,8 +62,14 @@ interface BaseProductFormProps {
   additionalFieldNames?: string[] // names of additional required fields for progress calculation
 }
 
-const BaseProductForm = ({ category, subCategory, additionalFields, additionalSchema, additionalFieldNames = [] }: BaseProductFormProps) => {
-  const dispatch = useDispatch()
+const BaseProductForm = ({
+  category,
+  subCategory,
+  additionalFields,
+  additionalSchema,
+  additionalFieldNames = [],
+}: BaseProductFormProps) => {
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { data } = useAppSelector((state) => state.data)
   const { user, isAuthenticated, loading: userLoading } = useAppSelector((state) => state.user)
@@ -252,9 +260,13 @@ const BaseProductForm = ({ category, subCategory, additionalFields, additionalSc
           {autoSaveStatus && (
             <span className="text-xs text-neutral-400 flex items-center gap-1">
               {autoSaveStatus === 'saving' ? (
-                <><Loader2 className="h-3 w-3 animate-spin" /> Saving...</>
+                <>
+                  <Loader2 className="h-3 w-3 animate-spin" /> Saving...
+                </>
               ) : (
-                <><Save className="h-3 w-3" /> Draft saved</>
+                <>
+                  <Save className="h-3 w-3" /> Draft saved
+                </>
               )}
             </span>
           )}
@@ -326,7 +338,11 @@ const BaseProductForm = ({ category, subCategory, additionalFields, additionalSc
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor="province">Province</FieldLabel>
-                    <select {...field} id="province" className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm">
+                    <select
+                      {...field}
+                      id="province"
+                      className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
+                    >
                       <option value="">Select Province</option>
                       {getProvinceDropList(data)}
                     </select>
@@ -342,10 +358,12 @@ const BaseProductForm = ({ category, subCategory, additionalFields, additionalSc
                   control={control}
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor="city">
-                        {selectedProvince === 'Islamabad' ? 'Sector' : 'City'}
-                      </FieldLabel>
-                      <select {...field} id="city" className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm">
+                      <FieldLabel htmlFor="city">{selectedProvince === 'Islamabad' ? 'Sector' : 'City'}</FieldLabel>
+                      <select
+                        {...field}
+                        id="city"
+                        className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
+                      >
                         <option value="">Select {selectedProvince === 'Islamabad' ? 'Sector' : 'City'}</option>
                         {getCityDropList(selectedProvince, data)}
                       </select>
@@ -373,10 +391,16 @@ const BaseProductForm = ({ category, subCategory, additionalFields, additionalSc
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="bidTime">Bid Time (Days)</FieldLabel>
-                  <select {...field} id="bidTime" className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm">
+                  <select
+                    {...field}
+                    id="bidTime"
+                    className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
+                  >
                     <option value="">Select Bid Time</option>
                     {getBidTimeDropList(data).map((el: any) => (
-                      <option key={el.props.value} value={el.props.value}>{el.props.children}</option>
+                      <option key={el.props.value} value={el.props.value}>
+                        {el.props.children}
+                      </option>
                     ))}
                   </select>
                   <FieldDescription>How many days should the auction last? (1-30 days)</FieldDescription>
@@ -404,7 +428,10 @@ const BaseProductForm = ({ category, subCategory, additionalFields, additionalSc
                     className={`relative aspect-square rounded-lg border-2 border-dashed overflow-hidden transition-colors ${
                       dragOverIndex === index ? 'border-primary-400 bg-primary-50' : 'border-neutral-300 bg-neutral-50'
                     }`}
-                    onDragOver={(e) => { e.preventDefault(); setDragOverIndex(index) }}
+                    onDragOver={(e) => {
+                      e.preventDefault()
+                      setDragOverIndex(index)
+                    }}
                     onDragLeave={() => setDragOverIndex(null)}
                     onDrop={(e) => handleDrop(e, index)}
                   >

@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom'
-import { useAppSelector } from '@/store/typedHooks'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { User, Mail, Phone, MapPin, Shield } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { useAppSelector } from '@/store/typedHooks'
+import { Mail, MapPin, Phone, Shield, User } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const AdminProfilePage = () => {
   const { user } = useAppSelector((state) => state.user)
@@ -21,7 +21,9 @@ const AdminProfilePage = () => {
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Profile</CardTitle>
           <Link to="/admin/dashboard/settings">
-            <Button variant="outline" size="sm">Edit Profile</Button>
+            <Button variant="outline" size="sm">
+              Edit Profile
+            </Button>
           </Link>
         </CardHeader>
         <CardContent className="space-y-6">

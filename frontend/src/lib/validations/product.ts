@@ -2,7 +2,10 @@ import { z } from 'zod'
 
 const baseProductSchema = z.object({
   title: z.string().min(3, 'Title must be at least 3 characters').max(100, 'Title must be less than 100 characters'),
-  description: z.string().min(10, 'Description must be at least 10 characters').max(2000, 'Description must be less than 2000 characters'),
+  description: z
+    .string()
+    .min(10, 'Description must be at least 10 characters')
+    .max(2000, 'Description must be less than 2000 characters'),
   price: z.coerce.number().min(1, 'Price must be greater than 0'),
   province: z.string().min(1, 'Please select a province'),
   city: z.string().min(1, 'Please select a city'),
@@ -11,7 +14,14 @@ const baseProductSchema = z.object({
 
 export const vehicleSchema = baseProductSchema.extend({
   category: z.literal('Vehicles'),
-  subCategory: z.enum(['Cars', 'Bikes', 'Buses/Vans/Trucks', 'Rickshaw & Chingchi', 'Tractors & Trailers', 'Other Vehicles']),
+  subCategory: z.enum([
+    'Cars',
+    'Bikes',
+    'Buses/Vans/Trucks',
+    'Rickshaw & Chingchi',
+    'Tractors & Trailers',
+    'Other Vehicles',
+  ]),
   make: z.string().min(1, 'Please select a make'),
   model: z.string().min(1, 'Please enter a model'),
   year: z.string().min(1, 'Please select a year'),
@@ -21,7 +31,13 @@ export const vehicleSchema = baseProductSchema.extend({
 
 export const propertySchema = baseProductSchema.extend({
   category: z.literal('Property'),
-  subCategory: z.enum(['Land & Plots', 'Houses', 'Apartments & Flats', 'Shops-Offices-Commercial', 'Portions & Floors']),
+  subCategory: z.enum([
+    'Land & Plots',
+    'Houses',
+    'Apartments & Flats',
+    'Shops-Offices-Commercial',
+    'Portions & Floors',
+  ]),
   furnished: z.enum(['furnished', 'unfurnished']).optional(),
   bedrooms: z.coerce.number().optional(),
   bathrooms: z.coerce.number().optional(),

@@ -1,7 +1,7 @@
-import { useRef } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import ProductCard from '@/components/shared/ProductCard'
+import { Button } from '@/components/ui/button'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { useRef } from 'react'
 
 interface ProductCarouselProps {
   title: string
@@ -57,10 +57,7 @@ const ProductCarousel = ({ title, products }: ProductCarouselProps) => {
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {products.map((product, index) => (
-          <div
-            key={product._id || index}
-            className="shrink-0 w-[260px] sm:w-[280px] md:w-[300px] snap-start"
-          >
+          <div key={product._id || index} className="shrink-0 w-[260px] sm:w-[280px] md:w-[300px] snap-start">
             <ProductCard product={product} index={index} />
           </div>
         ))}

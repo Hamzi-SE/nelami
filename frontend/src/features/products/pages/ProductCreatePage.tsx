@@ -1,11 +1,11 @@
+import { Button } from '@/components/ui/button'
+import MetaData from '@/lib/MetaData'
+import { Building2, Car, ChevronRight, Package } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Car, Building2, Package, ChevronRight } from 'lucide-react'
-import MetaData from '@/utils/MetaData'
-import { Button } from '@/components/ui/button'
-import VehicleForm from '../forms/VehicleForm'
-import PropertyForm from '../forms/PropertyForm'
 import MiscForm from '../forms/MiscForm'
+import PropertyForm from '../forms/PropertyForm'
+import VehicleForm from '../forms/VehicleForm'
 
 type Step = 'category' | 'subCategory' | 'form'
 
@@ -14,7 +14,14 @@ const categories = [
     id: 'Vehicles',
     label: 'Vehicles',
     icon: Car,
-    subCategories: ['Cars', 'Bikes', 'Buses/Vans/Trucks', 'Rickshaw & Chingchi', 'Tractors & Trailers', 'Other Vehicles'],
+    subCategories: [
+      'Cars',
+      'Bikes',
+      'Buses/Vans/Trucks',
+      'Rickshaw & Chingchi',
+      'Tractors & Trailers',
+      'Other Vehicles',
+    ],
   },
   {
     id: 'Property',

@@ -1,20 +1,20 @@
-import { Link, useLocation } from 'react-router-dom'
+import { cn } from '@/lib/utils'
 import { useAppSelector } from '@/store/typedHooks'
 import {
-  LayoutDashboard,
-  User,
-  Users,
-  Package,
   ClipboardCheck,
-  PenSquare,
-  Settings,
+  LayoutDashboard,
   LogOut,
   Menu,
-  X,
+  Package,
+  PenSquare,
+  Settings,
   Shield,
+  User,
+  Users,
+  X,
 } from 'lucide-react'
-import { cn } from '@/lib/utils'
 import { useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 
 const AdminSidebar = () => {
   const location = useLocation()
@@ -74,9 +74,7 @@ const AdminSidebar = () => {
               onClick={handleNavClick}
               className={cn(
                 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
-                active
-                  ? 'bg-danger-50 text-danger-700'
-                  : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900'
+                active ? 'bg-danger-50 text-danger-700' : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900'
               )}
             >
               <Icon className={cn('h-4 w-4', active ? 'text-danger-600' : 'text-neutral-400')} />
@@ -111,12 +109,7 @@ const AdminSidebar = () => {
       </button>
 
       {/* Mobile overlay */}
-      {mobileOpen && (
-        <div
-          className="lg:hidden fixed inset-0 z-40 bg-black/50"
-          onClick={() => setMobileOpen(false)}
-        />
-      )}
+      {mobileOpen && <div className="lg:hidden fixed inset-0 z-40 bg-black/50" onClick={() => setMobileOpen(false)} />}
 
       {/* Mobile sidebar */}
       <aside

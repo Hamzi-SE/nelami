@@ -1,6 +1,3 @@
-import { useState, useEffect, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Search, Package, Loader2 } from 'lucide-react'
 import {
   CommandDialog,
   CommandEmpty,
@@ -9,7 +6,10 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command'
-import customFetch from '@/utils/api'
+import customFetch from '@/lib/api'
+import { Loader2, Package, Search } from 'lucide-react'
+import { useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const SearchCommand = () => {
   const [open, setOpen] = useState(false)
@@ -54,11 +54,14 @@ const SearchCommand = () => {
     return () => clearTimeout(timeoutId)
   }, [query])
 
-  const handleSelect = useCallback((productId: string) => {
-    setOpen(false)
-    setQuery('')
-    navigate(`/product/${productId}`)
-  }, [navigate])
+  const handleSelect = useCallback(
+    (productId: string) => {
+      setOpen(false)
+      setQuery('')
+      navigate(`/product/${productId}`)
+    },
+    [navigate]
+  )
 
   return (
     <>
@@ -74,11 +77,7 @@ const SearchCommand = () => {
       </button>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput
-          placeholder="Search products..."
-          value={query}
-          onValueChange={setQuery}
-        />
+        <CommandInput placeholder="Search products..." value={query} onValueChange={setQuery} />
         <CommandList>
           <CommandEmpty>
             {loading ? (

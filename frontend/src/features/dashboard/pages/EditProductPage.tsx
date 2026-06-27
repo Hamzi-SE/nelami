@@ -1,20 +1,19 @@
-import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { useForm, Controller } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { useDispatch } from 'react-redux'
-import { useAppSelector } from '@/store/typedHooks'
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Button } from '@/components/ui/button'
-import { Field, FieldLabel, FieldError } from '@/components/ui/field'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Field, FieldError, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Textarea } from '@/components/ui/textarea'
+import customFetch from '@/lib/api'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { AlertTriangle, ArrowLeft, Loader2 } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'sonner'
-import { Loader2, ArrowLeft, AlertTriangle } from 'lucide-react'
-import customFetch from '@/utils/api'
+import { z } from 'zod'
 
 const editProductSchema = z.object({
   title: z.string().min(3, 'Title must be at least 3 characters'),
@@ -60,7 +59,7 @@ interface ProductDetails {
 }
 
 const EditProductPage = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
   const { user, isAuthenticated } = useAppSelector((state) => state.user)
@@ -233,7 +232,9 @@ const EditProductPage = () => {
               <p className="text-sm text-neutral-500">Rs. {product.price?.toLocaleString()}</p>
               <div className="mt-3 space-y-1 text-xs text-neutral-500">
                 {product.location && (
-                  <p>Location: {product.location.city}, {product.location.province}</p>
+                  <p>
+                    Location: {product.location.city}, {product.location.province}
+                  </p>
                 )}
                 {product.bidTime && <p>Auction Duration: {product.bidTime} Days</p>}
                 {product.endDate && <p>End Date: {new Date(product.endDate).toLocaleDateString()}</p>}
@@ -375,12 +376,7 @@ const EditProductPage = () => {
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
                       <FieldLabel htmlFor="description">Description</FieldLabel>
-                      <Textarea
-                        {...field}
-                        id="description"
-                        placeholder="Describe your product in detail"
-                        rows={6}
-                      />
+                      <Textarea {...field} id="description" placeholder="Describe your product in detail" rows={6} />
                       {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </Field>
                   )}
@@ -423,7 +419,9 @@ const EditProductPage = () => {
                     {product.area && (
                       <div>
                         <span className="text-neutral-400">Area:</span>{' '}
-                        <span className="text-neutral-700">{product.area} {product.areaUnit}</span>
+                        <span className="text-neutral-700">
+                          {product.area} {product.areaUnit}
+                        </span>
                       </div>
                     )}
                     <div>

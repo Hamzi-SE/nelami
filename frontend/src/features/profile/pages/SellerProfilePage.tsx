@@ -1,17 +1,16 @@
+import ProductCard from '@/components/shared/ProductCard'
+import { Badge } from '@/components/ui/badge'
+import { Card, CardContent } from '@/components/ui/card'
+import customFetch from '@/lib/api'
+import MetaData from '@/lib/MetaData'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
+import { Loader2, Store, User } from 'lucide-react'
 import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { useAppSelector } from '@/store/typedHooks'
-import MetaData from '@/utils/MetaData'
-import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Loader2, Store, User } from 'lucide-react'
 import { toast } from 'sonner'
-import customFetch from '@/utils/api'
-import ProductCard from '@/components/shared/ProductCard'
 
 const SellerProfilePage = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const { seller, products, loading } = useAppSelector((state) => state.sellerProfile)
   const { id } = useParams()
   const navigate = useNavigate()
@@ -22,7 +21,6 @@ const SellerProfilePage = () => {
       try {
         const res = await customFetch(`/api/v1/seller/${id}`, {
           method: 'GET',
-          'Content-Type': 'application/json',
         })
         const data = await res.json()
 
@@ -79,9 +77,7 @@ const SellerProfilePage = () => {
               )}
             </div>
             <h1 className="text-2xl font-bold">{seller?.name}</h1>
-            {seller?.aboutInfo && (
-              <p className="text-white/80 mt-2 max-w-md">{seller.aboutInfo}</p>
-            )}
+            {seller?.aboutInfo && <p className="text-white/80 mt-2 max-w-md">{seller.aboutInfo}</p>}
             <div className="flex items-center gap-3 mt-4">
               {seller?.store && (
                 <Badge variant="secondary" className="bg-white/20 text-white border-0">
@@ -104,9 +100,7 @@ const SellerProfilePage = () => {
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
             <User className="h-5 w-5 text-primary-500" />
-            <h2 className="text-xl font-semibold text-neutral-900">
-              {seller?.name}&apos;s Products
-            </h2>
+            <h2 className="text-xl font-semibold text-neutral-900">{seller?.name}&apos;s Products</h2>
             <Badge variant="secondary">{products?.length || 0}</Badge>
           </div>
 
@@ -115,9 +109,7 @@ const SellerProfilePage = () => {
               <CardContent className="py-12 text-center">
                 <Store className="h-12 w-12 text-neutral-300 mx-auto mb-3" />
                 <h3 className="text-lg font-medium text-neutral-900 mb-1">No Products Yet</h3>
-                <p className="text-sm text-neutral-500">
-                  This seller hasn&apos;t listed any products yet.
-                </p>
+                <p className="text-sm text-neutral-500">This seller hasn&apos;t listed any products yet.</p>
               </CardContent>
             </Card>
           ) : (

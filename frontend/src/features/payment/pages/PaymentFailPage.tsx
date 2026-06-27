@@ -1,8 +1,8 @@
-import { useNavigate } from 'react-router-dom'
-import MetaData from '@/utils/MetaData'
-import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { XCircle, Mail } from 'lucide-react'
+import { Card, CardContent } from '@/components/ui/card'
+import MetaData from '@/lib/MetaData'
+import { Mail, XCircle } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 const PaymentFailPage = () => {
   const navigate = useNavigate()
@@ -19,7 +19,8 @@ const PaymentFailPage = () => {
 
           <h1 className="text-2xl font-bold text-neutral-900 mb-2">Payment Failed</h1>
           <p className="text-neutral-500 mb-8">
-            Unfortunately, your payment could not be processed. Please try again or contact support if the issue persists.
+            Unfortunately, your payment could not be processed. Please try again or contact support if the issue
+            persists.
           </p>
 
           <Card className="text-left mb-6">
@@ -30,10 +31,7 @@ const PaymentFailPage = () => {
                   <p className="text-sm font-medium text-neutral-900">Need help?</p>
                   <p className="text-sm text-neutral-500 mt-1">
                     Contact us at{' '}
-                    <a
-                      href="mailto:nelami@ihamza.dev"
-                      className="text-primary-500 hover:text-primary-600 font-medium"
-                    >
+                    <a href="mailto:nelami@ihamza.dev" className="text-primary-500 hover:text-primary-600 font-medium">
                       nelami@ihamza.dev
                     </a>{' '}
                     for assistance.

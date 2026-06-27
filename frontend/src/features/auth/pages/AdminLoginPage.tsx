@@ -1,20 +1,19 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { useForm, Controller } from 'react-hook-form'
+import { Button } from '@/components/ui/button'
+import { Field, FieldError, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import customFetch from '@/lib/api'
+import MetaData from '@/lib/MetaData'
+import { loginSchema, type LoginFormData } from '@/lib/validations/auth'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Eye, EyeOff, Loader2, Shield } from 'lucide-react'
-import MetaData from '@/utils/MetaData'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Field, FieldLabel, FieldError } from '@/components/ui/field'
-import { loginSchema, type LoginFormData } from '@/lib/validations/auth'
-import { useAppSelector } from '@/store/typedHooks'
-import customFetch from '@/utils/api'
+import { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
 const AdminLoginPage = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { loading } = useAppSelector((state) => state.user)
   const [showPassword, setShowPassword] = useState(false)

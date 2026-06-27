@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react'
-import { useParams, useSearchParams } from 'react-router-dom'
-import MetaData from '@/utils/MetaData'
 import { ProductGridSkeleton } from '@/components/shared/LoadingSkeleton'
 import ProductGrid from '@/components/shared/ProductGrid'
 import { Button } from '@/components/ui/button'
+import customFetch from '@/lib/api'
+import MetaData from '@/lib/MetaData'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import customFetch from '@/utils/api'
+import { useEffect, useState } from 'react'
+import { useParams, useSearchParams } from 'react-router-dom'
 
 const sortOptions = [
   { label: 'Latest', value: '1' },
@@ -57,7 +57,8 @@ const CategoryPage = () => {
 
   const totalPages = Math.ceil(totalProducts / resultsPerPage)
 
-  const categoryTitle = category === 'Vehicles' ? 'Vehicles' : category === 'Property' ? 'Properties' : 'Miscellaneous Products'
+  const categoryTitle =
+    category === 'Vehicles' ? 'Vehicles' : category === 'Property' ? 'Properties' : 'Miscellaneous Products'
 
   return (
     <>
@@ -94,18 +95,16 @@ const CategoryPage = () => {
                 className="h-8 rounded-lg border border-neutral-200 bg-white px-2 text-sm text-neutral-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
               >
                 {sortOptions.map((opt) => (
-                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
                 ))}
               </select>
             </div>
           </div>
 
           {/* Grid */}
-          {loading ? (
-            <ProductGridSkeleton count={8} />
-          ) : (
-            <ProductGrid products={products} />
-          )}
+          {loading ? <ProductGridSkeleton count={8} /> : <ProductGrid products={products} />}
 
           {/* Pagination */}
           {totalPages > 1 && !loading && (

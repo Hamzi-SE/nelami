@@ -1,15 +1,14 @@
-import { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { Heart, MessageCircle, Users, MapPin, Clock, Flame, Timer } from 'lucide-react'
-import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Card } from '@/components/ui/card'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
-import { useAppSelector } from '@/store/typedHooks'
-import customFetch from '@/utils/api'
-import { callProfile } from '@/helpers/CallProfile'
-import { toast } from 'sonner'
+import customFetch from '@/lib/api'
+import { callProfile } from '@/lib/helpers/callProfile'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
+import { Flame, Heart, MapPin, MessageCircle, Timer, Users } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import Countdown from 'react-countdown'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 interface ProductCardProps {
   product: any
@@ -17,7 +16,7 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { user } = useAppSelector((state) => state.user)
 
@@ -120,9 +119,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       {/* Image Container */}
       <Link to={`/product/${product._id}`} className="block">
         <div className="relative aspect-[4/3] overflow-hidden bg-neutral-100">
-          {!imageLoaded && (
-            <div className="absolute inset-0 bg-neutral-200 animate-pulse" />
-          )}
+          {!imageLoaded && <div className="absolute inset-0 bg-neutral-200 animate-pulse" />}
           <img
             src={product.images?.featuredImg?.url}
             alt={product.title}
@@ -144,8 +141,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 isExpired
                   ? 'bg-danger-500 text-white'
                   : isUrgent
-                  ? 'bg-warning-500 text-white'
-                  : 'bg-success-500 text-white'
+                    ? 'bg-warning-500 text-white'
+                    : 'bg-success-500 text-white'
               }`}
             >
               {product.bidStatus}
@@ -180,11 +177,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
           {/* Countdown timer overlay for live auctions */}
           {!isExpired && (
             <div className="absolute bottom-3 left-3">
-              <div className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-semibold ${
-                isUrgent
-                  ? 'bg-danger-500/90 text-white'
-                  : 'bg-black/60 text-white backdrop-blur-sm'
-              }`}>
+              <div
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-semibold ${
+                  isUrgent ? 'bg-danger-500/90 text-white' : 'bg-black/60 text-white backdrop-blur-sm'
+                }`}
+              >
                 {isUrgent ? <Flame className="h-3 w-3" /> : <Timer className="h-3 w-3" />}
                 <Countdown
                   date={Date.now() + remaining}
@@ -245,9 +242,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                   aria-label={`${bidCount} bids`}
                 >
                   <Users className="h-4 w-4 text-neutral-500" />
-                  <span className="text-xs text-neutral-600 font-medium">
-                    {bidCount > 0 ? bidCount : ''}
-                  </span>
+                  <span className="text-xs text-neutral-600 font-medium">{bidCount > 0 ? bidCount : ''}</span>
                 </button>
               </TooltipTrigger>
               <TooltipContent side="bottom">
@@ -258,9 +253,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
           {/* Right: Price */}
           <div className="text-right">
-            <p className="text-lg font-bold text-neutral-900">
-              Rs. {product.price?.toLocaleString()}
-            </p>
+            <p className="text-lg font-bold text-neutral-900">Rs. {product.price?.toLocaleString()}</p>
           </div>
         </div>
       </div>

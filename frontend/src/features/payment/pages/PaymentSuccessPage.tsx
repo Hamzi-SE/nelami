@@ -1,13 +1,13 @@
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import customFetch from '@/lib/api'
+import { callProfile } from '@/lib/helpers/callProfile'
+import MetaData from '@/lib/MetaData'
+import { useAppDispatch } from '@/store/typedHooks'
+import { CheckCircle, Loader2, PartyPopper } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import MetaData from '@/utils/MetaData'
-import { Card, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { CheckCircle, Loader2, PartyPopper } from 'lucide-react'
 import { toast } from 'sonner'
-import customFetch from '@/utils/api'
-import { callProfile } from '@/helpers/CallProfile'
 
 interface SessionData {
   id: string
@@ -21,7 +21,7 @@ const PaymentSuccessPage = () => {
   const [session, setSession] = useState<SessionData | null>(null)
   const location = useLocation()
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -78,17 +78,13 @@ const PaymentSuccessPage = () => {
           )}
 
           <h1 className="text-2xl font-bold text-neutral-900 mb-2">Payment Successful!</h1>
-          <p className="text-neutral-500 mb-8">
-            Thank you for your purchase. Your payment was processed successfully.
-          </p>
+          <p className="text-neutral-500 mb-8">Thank you for your purchase. Your payment was processed successfully.</p>
 
           <Card className="text-left mb-6">
             <CardContent className="py-5 space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-neutral-500">Session ID</span>
-                <span className="text-sm font-mono text-neutral-700 truncate max-w-[140px]">
-                  {session.id}
-                </span>
+                <span className="text-sm font-mono text-neutral-700 truncate max-w-[140px]">{session.id}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-neutral-500">Amount</span>

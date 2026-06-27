@@ -1,5 +1,5 @@
-import { formatDistanceToNow } from 'date-fns'
 import { cn } from '@/lib/utils'
+import { formatDistanceToNow } from 'date-fns'
 
 interface MessageBubbleProps {
   text: string
@@ -32,9 +32,7 @@ const MessageBubble = ({ text, createdAt, isOwn, senderAvatar, senderName }: Mes
         <div
           className={cn(
             'px-3.5 py-2 rounded-2xl text-sm',
-            isOwn
-              ? 'bg-primary-500 text-white rounded-br-md'
-              : 'bg-neutral-100 text-neutral-900 rounded-bl-md'
+            isOwn ? 'bg-primary-500 text-white rounded-br-md' : 'bg-neutral-100 text-neutral-900 rounded-bl-md'
           )}
         >
           {text}

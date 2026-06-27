@@ -1,26 +1,25 @@
-import { useEffect, useState } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import Countdown from 'react-countdown'
-import { MapPin, Share2, ArrowLeft, Loader2, Crown } from 'lucide-react'
-import MetaData from '@/utils/MetaData'
-import { Button } from '@/components/ui/button'
+import ImageGallery from '@/components/shared/ImageGallery'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { useSocket } from '@/hooks/useSocket'
-import { useAppSelector } from '@/store/typedHooks'
-import customFetch from '@/utils/api'
-import ImageGallery from '@/components/shared/ImageGallery'
-import BidPlacement from '../components/BidPlacement'
-import BidLeaderboard from '../components/BidLeaderboard'
-import SellerInfo from '../components/SellerInfo'
-import ProductFeatures from '../components/ProductFeatures'
+import customFetch from '@/lib/api'
+import MetaData from '@/lib/MetaData'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
+import { ArrowLeft, Crown, Loader2, MapPin, Share2 } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import Countdown from 'react-countdown'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'sonner'
+import BidLeaderboard from '../components/BidLeaderboard'
+import BidPlacement from '../components/BidPlacement'
+import ProductFeatures from '../components/ProductFeatures'
+import SellerInfo from '../components/SellerInfo'
 
 const ProductDetailPage = () => {
   const { id } = useParams()
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const socket = useSocket()
 
   const { loading, product, error } = useAppSelector((state) => state.singleProduct)

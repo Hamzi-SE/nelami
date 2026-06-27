@@ -1,7 +1,7 @@
-import { NavLink } from 'react-router-dom'
-import { LogIn, LogOut, LayoutDashboard, MessageSquare, Shield } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAppSelector } from '@/store/typedHooks'
+import { LayoutDashboard, LogIn, LogOut, MessageSquare, Shield } from 'lucide-react'
+import { NavLink } from 'react-router-dom'
 import NotificationDropdown from './NotificationDropdown'
 
 const socialLinks = [
@@ -39,13 +39,21 @@ const TopBar = () => {
             {!isAuthenticated ? (
               <>
                 <NavLink to="/Signup">
-                  <Button variant="ghost" size="sm" className="h-7 text-xs gap-1 text-neutral-600 hover:text-neutral-900">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 text-xs gap-1 text-neutral-600 hover:text-neutral-900"
+                  >
                     <LogIn className="h-3 w-3" />
                     <span>Register</span>
                   </Button>
                 </NavLink>
                 <NavLink to="/Login">
-                  <Button variant="ghost" size="sm" className="h-7 text-xs gap-1 text-neutral-600 hover:text-neutral-900">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 text-xs gap-1 text-neutral-600 hover:text-neutral-900"
+                  >
                     <LogIn className="h-3 w-3" />
                     <span>Login</span>
                   </Button>
@@ -57,7 +65,11 @@ const TopBar = () => {
 
                 {user?.role !== 'admin' && (
                   <NavLink to="/Dashboard">
-                    <Button variant="ghost" size="sm" className="h-7 text-xs gap-1 text-neutral-600 hover:text-neutral-900">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-7 text-xs gap-1 text-neutral-600 hover:text-neutral-900"
+                    >
                       <LayoutDashboard className="h-3 w-3" />
                       <span>Dashboard</span>
                     </Button>
@@ -65,7 +77,11 @@ const TopBar = () => {
                 )}
 
                 <NavLink to="/messenger">
-                  <Button variant="ghost" size="sm" className="h-7 text-xs gap-1 text-neutral-600 hover:text-neutral-900">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 text-xs gap-1 text-neutral-600 hover:text-neutral-900"
+                  >
                     <MessageSquare className="h-3 w-3" />
                     <span>Messenger</span>
                   </Button>
@@ -73,7 +89,11 @@ const TopBar = () => {
 
                 {user?.role === 'admin' && (
                   <NavLink to="/admin/Dashboard">
-                    <Button variant="ghost" size="sm" className="h-7 text-xs gap-1 text-neutral-600 hover:text-neutral-900">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-7 text-xs gap-1 text-neutral-600 hover:text-neutral-900"
+                    >
                       <Shield className="h-3 w-3" />
                       <span>Admin Dashboard</span>
                     </Button>
@@ -81,7 +101,11 @@ const TopBar = () => {
                 )}
 
                 <NavLink to="/Logout">
-                  <Button variant="ghost" size="sm" className="h-7 text-xs gap-1 text-neutral-600 hover:text-neutral-900">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 text-xs gap-1 text-neutral-600 hover:text-neutral-900"
+                  >
                     <LogOut className="h-3 w-3" />
                     <span>Logout</span>
                   </Button>

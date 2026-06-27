@@ -1,29 +1,19 @@
-import { useEffect, useState, useCallback } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { useForm, Controller } from 'react-hook-form'
-import { useAppSelector } from '@/store/typedHooks'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+
 import { Input } from '@/components/ui/input'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-  DialogClose,
-} from '@/components/ui/dialog'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import customFetch from '@/lib/api'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
+import { ArrowLeft, Clock, Gavel, Loader2, MessageSquare, Phone, Search, Trophy, Users } from 'lucide-react'
+import { useCallback, useEffect, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'sonner'
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -36,22 +26,15 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
-import { Skeleton } from '@/components/ui/skeleton'
 import {
-  ArrowLeft,
-  Users,
-  MessageSquare,
-  Trophy,
-  Clock,
-  Search,
-  Loader2,
-  Gavel,
-  Phone,
-  Mail,
-} from 'lucide-react'
-import { toast } from 'sonner'
-import customFetch from '@/utils/api'
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 
 // --- Types ---
 
@@ -96,7 +79,7 @@ interface ChatFormValues {
 // --- Component ---
 
 const ViewBiddersPage = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
   const { user: currentUser } = useAppSelector((state) => state.user)
@@ -161,9 +144,7 @@ const ViewBiddersPage = () => {
       if (res.status === 200) {
         dispatch({ type: 'PRODUCT_BIDS_SUCCESS', payload: data.bids })
         if (data.bids?.[0]?.bidders) {
-          const sorted = [...data.bids[0].bidders].sort(
-            (a: BidderEntry, b: BidderEntry) => b.price - a.price
-          )
+          const sorted = [...data.bids[0].bidders].sort((a: BidderEntry, b: BidderEntry) => b.price - a.price)
           setBidders(sorted)
         }
       } else {
@@ -237,14 +218,11 @@ const ViewBiddersPage = () => {
     reset({ message: '' })
   }
 
-  const filteredBidders = bidders.filter((b) =>
-    b.user?.name?.toLowerCase().includes(searchQuery.toLowerCase())
-  )
+  const filteredBidders = bidders.filter((b) => b.user?.name?.toLowerCase().includes(searchQuery.toLowerCase()))
 
   const highestBid = bidders.length > 0 ? bidders[0].price : 0
 
-  const formatCurrency = (amount: number) =>
-    `Rs. ${amount.toLocaleString()}`
+  const formatCurrency = (amount: number) => `Rs. ${amount.toLocaleString()}`
 
   const formatDate = (dateStr: string) => {
     if (!dateStr) return ''
@@ -316,7 +294,9 @@ const ViewBiddersPage = () => {
         <Card>
           <CardContent className="py-12 text-center">
             <Gavel className="h-12 w-12 text-neutral-300 mx-auto mb-3" />
-            <p className="text-sm text-neutral-500">The product you are looking for does not exist or has been removed.</p>
+            <p className="text-sm text-neutral-500">
+              The product you are looking for does not exist or has been removed.
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -340,11 +320,7 @@ const ViewBiddersPage = () => {
           <div className="flex items-center gap-4">
             {/* Product Image */}
             <div className="h-20 w-20 rounded-lg overflow-hidden bg-neutral-100 shrink-0">
-              <img
-                src={product.images?.featuredImg?.url}
-                alt={product.title}
-                className="h-full w-full object-cover"
-              />
+              <img src={product.images?.featuredImg?.url} alt={product.title} className="h-full w-full object-cover" />
             </div>
 
             {/* Product Details */}
@@ -354,19 +330,13 @@ const ViewBiddersPage = () => {
                 {product.category} &middot; {product.subCategory}
               </p>
               <div className="flex flex-wrap items-center gap-3 mt-2">
-                <span className="text-sm font-medium text-neutral-700">
-                  {formatCurrency(product.price)}
-                </span>
-                <Badge className={getBidStatusColor(product.bidStatus)}>
-                  {product.bidStatus}
-                </Badge>
+                <span className="text-sm font-medium text-neutral-700">{formatCurrency(product.price)}</span>
+                <Badge className={getBidStatusColor(product.bidStatus)}>{product.bidStatus}</Badge>
               </div>
               {product.endDate && (
                 <div className="flex items-center gap-1.5 mt-1.5">
                   <Clock className="h-3.5 w-3.5 text-neutral-400" />
-                  <span className="text-xs text-neutral-500">
-                    Ends {formatDate(product.endDate)}
-                  </span>
+                  <span className="text-xs text-neutral-500">Ends {formatDate(product.endDate)}</span>
                 </div>
               )}
             </div>
@@ -378,9 +348,7 @@ const ViewBiddersPage = () => {
               {highestBid > 0 && (
                 <>
                   <p className="text-xs text-neutral-500 mt-1">Highest Bid</p>
-                  <p className="text-sm font-semibold text-primary-600">
-                    {formatCurrency(highestBid)}
-                  </p>
+                  <p className="text-sm font-semibold text-primary-600">{formatCurrency(highestBid)}</p>
                 </>
               )}
             </div>
@@ -412,16 +380,12 @@ const ViewBiddersPage = () => {
             <div className="py-12 text-center">
               <Users className="h-12 w-12 text-neutral-300 mx-auto mb-3" />
               <h3 className="text-lg font-medium text-neutral-900 mb-1">No Bids Yet</h3>
-              <p className="text-sm text-neutral-500">
-                No one has placed a bid on this product yet. Check back later!
-              </p>
+              <p className="text-sm text-neutral-500">No one has placed a bid on this product yet. Check back later!</p>
             </div>
           ) : filteredBidders.length === 0 ? (
             <div className="py-12 text-center">
               <Search className="h-10 w-10 text-neutral-300 mx-auto mb-3" />
-              <p className="text-sm text-neutral-500">
-                No bidders match &ldquo;{searchQuery}&rdquo;
-              </p>
+              <p className="text-sm text-neutral-500">No bidders match &ldquo;{searchQuery}&rdquo;</p>
             </div>
           ) : (
             <Table>
@@ -444,11 +408,7 @@ const ViewBiddersPage = () => {
                     <TableRow key={bidder.user?._id || idx}>
                       {/* Rank */}
                       <TableCell className="text-center font-medium text-neutral-500">
-                        {rank === 1 ? (
-                          <Trophy className="h-4 w-4 text-amber-500 mx-auto" />
-                        ) : (
-                          rank
-                        )}
+                        {rank === 1 ? <Trophy className="h-4 w-4 text-amber-500 mx-auto" /> : rank}
                       </TableCell>
 
                       {/* User Info */}
@@ -456,22 +416,13 @@ const ViewBiddersPage = () => {
                         <div className="flex items-center gap-3">
                           <Avatar size="default">
                             {bidder.user?.avatar?.url ? (
-                              <AvatarImage
-                                src={bidder.user.avatar.url}
-                                alt={bidder.user.name}
-                              />
+                              <AvatarImage src={bidder.user.avatar.url} alt={bidder.user.name} />
                             ) : null}
-                            <AvatarFallback>
-                              {bidder.user?.name?.charAt(0).toUpperCase() || '?'}
-                            </AvatarFallback>
+                            <AvatarFallback>{bidder.user?.name?.charAt(0).toUpperCase() || '?'}</AvatarFallback>
                           </Avatar>
                           <div className="min-w-0">
-                            <p className="text-sm font-medium text-neutral-900 truncate">
-                              {bidder.user?.name}
-                            </p>
-                            <p className="text-xs text-neutral-500 truncate hidden sm:block">
-                              {bidder.user?.email}
-                            </p>
+                            <p className="text-sm font-medium text-neutral-900 truncate">{bidder.user?.name}</p>
+                            <p className="text-xs text-neutral-500 truncate hidden sm:block">{bidder.user?.email}</p>
                           </div>
                           {isHighest && (
                             <Badge className="bg-amber-100 text-amber-700 hover:bg-amber-100 text-[10px] px-1.5">
@@ -495,7 +446,9 @@ const ViewBiddersPage = () => {
 
                       {/* Bid Amount */}
                       <TableCell className="text-right">
-                        <span className={`text-sm font-semibold ${isHighest ? 'text-primary-600' : 'text-neutral-900'}`}>
+                        <span
+                          className={`text-sm font-semibold ${isHighest ? 'text-primary-600' : 'text-neutral-900'}`}
+                        >
                           {formatCurrency(bidder.price)}
                         </span>
                       </TableCell>
@@ -522,21 +475,15 @@ const ViewBiddersPage = () => {
                                 <AlertDialogMedia>
                                   <Avatar className="h-12 w-12">
                                     {bidder.user?.avatar?.url ? (
-                                      <AvatarImage
-                                        src={bidder.user.avatar.url}
-                                        alt={bidder.user.name}
-                                      />
+                                      <AvatarImage src={bidder.user.avatar.url} alt={bidder.user.name} />
                                     ) : null}
-                                    <AvatarFallback>
-                                      {bidder.user?.name?.charAt(0).toUpperCase() || '?'}
-                                    </AvatarFallback>
+                                    <AvatarFallback>{bidder.user?.name?.charAt(0).toUpperCase() || '?'}</AvatarFallback>
                                   </Avatar>
                                 </AlertDialogMedia>
-                                <AlertDialogTitle>
-                                  Chat with {bidder.user?.name}?
-                                </AlertDialogTitle>
+                                <AlertDialogTitle>Chat with {bidder.user?.name}?</AlertDialogTitle>
                                 <AlertDialogDescription>
-                                  This will open a conversation with {bidder.user?.name}. You can discuss the bid, negotiate terms, or ask questions.
+                                  This will open a conversation with {bidder.user?.name}. You can discuss the bid,
+                                  negotiate terms, or ask questions.
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
                               <AlertDialogFooter>
@@ -558,7 +505,9 @@ const ViewBiddersPage = () => {
                             </AlertDialogContent>
                           </AlertDialog>
                         ) : (
-                          <Badge variant="secondary" className="text-xs">You</Badge>
+                          <Badge variant="secondary" className="text-xs">
+                            You
+                          </Badge>
                         )}
                       </TableCell>
                     </TableRow>
@@ -576,12 +525,8 @@ const ViewBiddersPage = () => {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-3">
               <Avatar size="default">
-                {chatTarget?.avatar?.url ? (
-                  <AvatarImage src={chatTarget.avatar.url} alt={chatTarget.name} />
-                ) : null}
-                <AvatarFallback>
-                  {chatTarget?.name?.charAt(0).toUpperCase() || '?'}
-                </AvatarFallback>
+                {chatTarget?.avatar?.url ? <AvatarImage src={chatTarget.avatar.url} alt={chatTarget.name} /> : null}
+                <AvatarFallback>{chatTarget?.name?.charAt(0).toUpperCase() || '?'}</AvatarFallback>
               </Avatar>
               <span>Chat with {chatTarget?.name}</span>
             </DialogTitle>
@@ -595,11 +540,7 @@ const ViewBiddersPage = () => {
               name="message"
               control={control}
               render={({ field }) => (
-                <Input
-                  {...field}
-                  placeholder="Type a message (optional)..."
-                  disabled={startingChat}
-                />
+                <Input {...field} placeholder="Type a message (optional)..." disabled={startingChat} />
               )}
             />
             <DialogFooter>
@@ -609,9 +550,7 @@ const ViewBiddersPage = () => {
                 </Button>
               </DialogClose>
               <Button type="submit" disabled={isSubmitting || startingChat}>
-                {(isSubmitting || startingChat) && (
-                  <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
-                )}
+                {(isSubmitting || startingChat) && <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />}
                 <MessageSquare className="mr-1.5 h-3.5 w-3.5" />
                 Start Chat
               </Button>
@@ -625,9 +564,7 @@ const ViewBiddersPage = () => {
         <Button
           variant="outline"
           onClick={() => {
-            currentUser?.role === 'admin'
-              ? navigate('/admin/dashboard')
-              : navigate('/dashboard/products')
+            currentUser?.role === 'admin' ? navigate('/admin/dashboard') : navigate('/dashboard/products')
           }}
         >
           <ArrowLeft className="mr-1.5 h-4 w-4" />

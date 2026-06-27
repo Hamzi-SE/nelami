@@ -1,19 +1,19 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { useForm, Controller } from 'react-hook-form'
+import { Button } from '@/components/ui/button'
+import { Field, FieldError, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { signupSchema, type SignUpFormData } from '@/lib/validations/auth'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Eye, EyeOff, Loader2 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Field, FieldLabel, FieldError, FieldDescription } from '@/components/ui/field'
-import { signupSchema, type SignUpFormData } from '@/lib/validations/auth'
-import { useAppSelector } from '@/store/typedHooks'
-import customFetch from '@/utils/api'
+import { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { Link, useNavigate } from 'react-router-dom'
+
+import customFetch from '@/lib/api'
 import { toast } from 'sonner'
 
 const SignUpForm = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { loading } = useAppSelector((state) => state.user)
   const [showPassword, setShowPassword] = useState(false)

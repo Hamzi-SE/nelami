@@ -23,9 +23,7 @@ const UserAvatar = ({ src, name, size = 'md' }: UserAvatarProps) => {
   return (
     <Avatar className={sizeClasses[size]}>
       <AvatarImage src={src} alt={name} />
-      <AvatarFallback className="bg-primary-100 text-primary-700 font-medium text-sm">
-        {initials || '?'}
-      </AvatarFallback>
+      <AvatarFallback className="bg-primary-100 text-primary-700 font-medium text-sm">{initials || '?'}</AvatarFallback>
     </Avatar>
   )
 }

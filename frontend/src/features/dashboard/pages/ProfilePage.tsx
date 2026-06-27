@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom'
-import { useAppSelector } from '@/store/typedHooks'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { User, Mail, Phone, MapPin, Store, FileText } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { useAppSelector } from '@/store/typedHooks'
+import { FileText, Mail, MapPin, Phone, Store, User } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const ProfilePage = () => {
   const { user } = useAppSelector((state) => state.user)
@@ -21,7 +21,9 @@ const ProfilePage = () => {
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Profile</CardTitle>
           <Link to="/dashboard/edit-profile">
-            <Button variant="outline" size="sm">Edit Profile</Button>
+            <Button variant="outline" size="sm">
+              Edit Profile
+            </Button>
           </Link>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -32,9 +34,7 @@ const ProfilePage = () => {
                 {user?.avatar ? (
                   <img src={user.avatar.url} alt={user.name} className="h-full w-full object-cover" />
                 ) : (
-                  <span className="text-xl font-semibold text-primary-600">
-                    {user?.name?.charAt(0).toUpperCase()}
-                  </span>
+                  <span className="text-xl font-semibold text-primary-600">{user?.name?.charAt(0).toUpperCase()}</span>
                 )}
               </div>
               <span className="absolute bottom-0 right-0 h-4 w-4 rounded-full bg-success-500 border-2 border-white" />
@@ -84,7 +84,9 @@ const ProfilePage = () => {
               )}
               <div className="pt-2">
                 <Link to={`/user/${user?._id}`}>
-                  <Button variant="outline" size="sm">View Seller Page</Button>
+                  <Button variant="outline" size="sm">
+                    View Seller Page
+                  </Button>
                 </Link>
               </div>
             </>

@@ -1,7 +1,7 @@
-import { Trophy, Users } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Trophy, Users } from 'lucide-react'
 
 interface BidLeaderboardProps {
   bidders?: any
@@ -97,13 +97,9 @@ const BidLeaderboard = ({ bidders, loading = false }: BidLeaderboardProps) => {
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-neutral-900 truncate">
-                  {bidder.user?.name || 'Anonymous'}
-                </p>
+                <p className="text-sm font-medium text-neutral-900 truncate">{bidder.user?.name || 'Anonymous'}</p>
               </div>
-              <p className="text-sm font-semibold text-neutral-900">
-                Rs. {bidder.price?.toLocaleString()}
-              </p>
+              <p className="text-sm font-semibold text-neutral-900">Rs. {bidder.price?.toLocaleString()}</p>
             </div>
           )
         })}

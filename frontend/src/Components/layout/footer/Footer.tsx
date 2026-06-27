@@ -1,12 +1,12 @@
-import Newsletter from './Newsletter'
 import BottomFooter from './BottomFooter'
+import Newsletter from './Newsletter'
 
 const Footer = () => {
   return (
-    <div>
+    <section className="footer">
       <Newsletter />
       <BottomFooter />
-    </div>
+    </section>
   )
 }
 

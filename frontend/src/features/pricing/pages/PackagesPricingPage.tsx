@@ -1,11 +1,10 @@
-import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { useAppSelector } from '@/store/typedHooks'
-import MetaData from '@/utils/MetaData'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Check, Crown, Star, Gem, Loader2 } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import MetaData from '@/lib/MetaData'
+import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
+import { Check, Crown, Gem, Loader2, Star } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
 const packageIcons = {
@@ -16,7 +15,7 @@ const packageIcons = {
 
 const PackagesPricingPage = () => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const { user, loading: userLoading } = useAppSelector((state) => state.user)
   const data = useAppSelector((state) => state?.data?.data)
   const dataLoading = useAppSelector((state) => state?.data?.loading)
@@ -69,9 +68,7 @@ const PackagesPricingPage = () => {
             {packages.map((pkg: any, index: number) => {
               const isCurrentPlan = user?.userPackage === pkg.name
               const Icon = packageIcons[pkg.name as keyof typeof packageIcons] || Star
-              const features = pkg.description
-                ? pkg.description.split(',').map((item: string) => item.trim())
-                : []
+              const features = pkg.description ? pkg.description.split(',').map((item: string) => item.trim()) : []
 
               return (
                 <Card
@@ -88,26 +85,20 @@ const PackagesPricingPage = () => {
                     </Badge>
                   )}
                   <CardHeader className="text-center pb-2">
-                    <div className={`mx-auto h-12 w-12 rounded-xl flex items-center justify-center mb-3 ${
-                      index === 0
-                        ? 'bg-neutral-100'
-                        : index === 1
-                        ? 'bg-amber-100'
-                        : 'bg-violet-100'
-                    }`}>
-                      <Icon className={`h-6 w-6 ${
-                        index === 0
-                          ? 'text-neutral-600'
-                          : index === 1
-                          ? 'text-amber-600'
-                          : 'text-violet-600'
-                      }`} />
+                    <div
+                      className={`mx-auto h-12 w-12 rounded-xl flex items-center justify-center mb-3 ${
+                        index === 0 ? 'bg-neutral-100' : index === 1 ? 'bg-amber-100' : 'bg-violet-100'
+                      }`}
+                    >
+                      <Icon
+                        className={`h-6 w-6 ${
+                          index === 0 ? 'text-neutral-600' : index === 1 ? 'text-amber-600' : 'text-violet-600'
+                        }`}
+                      />
                     </div>
                     <CardTitle className="text-xl">{pkg.name}</CardTitle>
                     <div className="mt-2">
-                      <span className="text-3xl font-bold text-neutral-900">
-                        Rs. {pkg.price?.toLocaleString()}
-                      </span>
+                      <span className="text-3xl font-bold text-neutral-900">Rs. {pkg.price?.toLocaleString()}</span>
                     </div>
                   </CardHeader>
                   <CardContent className="flex-1 flex flex-col">
