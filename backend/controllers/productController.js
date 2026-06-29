@@ -363,7 +363,6 @@ exports.updateProduct = catchAsyncErrors(async (req, res) => {
   product = await Product.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
-    useFindAndModify: false,
   })
 
   res.status(200).json({

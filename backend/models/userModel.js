@@ -9,6 +9,9 @@ const userSchema = new mongoose.Schema(
     userPackage: {
       type: String,
       enum: ['Free', 'Gold', 'Platinum'],
+      default: function () {
+        return this.role === 'seller' ? 'Free' : undefined
+      },
     },
     name: {
       type: String,
@@ -32,12 +35,12 @@ const userSchema = new mongoose.Schema(
       public_id: {
         type: String,
         required: true,
-        default: 'skfjaldjflljalfjlajf',
+        default: 'https://assets.ihamza.dev/images/nelami-default-user-img.png',
       },
       url: {
         type: String,
         required: true,
-        default: 'https://i.postimg.cc/mD9SJc41/149071.png',
+        default: 'https://assets.ihamza.dev/images/nelami-default-user-img.png',
       },
     },
     role: {
@@ -62,6 +65,9 @@ const userSchema = new mongoose.Schema(
     },
     productsPosted: {
       type: Number,
+      default: function () {
+        return this.role === 'seller' ? 0 : undefined
+      },
     },
     wishlist: [
       {
