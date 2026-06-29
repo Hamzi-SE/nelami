@@ -1,10 +1,11 @@
+import EmptyState from '@/components/shared/EmptyState'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import customFetch from '@/lib/api'
 import { Eye, Heart, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
 interface WishlistProduct {
@@ -88,13 +89,14 @@ const MyWishlistPage = () => {
 
       {wishlist.length === 0 ? (
         <Card>
-          <CardContent className="py-12 text-center">
-            <Heart className="h-12 w-12 text-neutral-300 mx-auto mb-3" />
-            <h3 className="text-lg font-medium text-neutral-900 mb-1">Your Wishlist is Empty</h3>
-            <p className="text-sm text-neutral-500 mb-4">Save products you're interested in to find them later.</p>
-            <Link to="/products">
-              <Button>Browse Products</Button>
-            </Link>
+          <CardContent>
+            <EmptyState
+              icon={<Heart className="h-12 w-12" />}
+              title="No Wishlist Items"
+              description="Items you add to your wishlist will appear here."
+              actionLabel="Browse Products"
+              onAction={() => navigate('/products')}
+            />
           </CardContent>
         </Card>
       ) : (

@@ -160,7 +160,7 @@ const ApprovalPage = () => {
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>
+              <TableBody className="stagger-rows">
                 {products.map((product) => (
                   <TableRow key={product._id}>
                     <TableCell>

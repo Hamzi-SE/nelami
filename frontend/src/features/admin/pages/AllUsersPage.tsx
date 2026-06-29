@@ -1,3 +1,4 @@
+import EmptyState from '@/components/shared/EmptyState'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -116,13 +117,11 @@ const AllUsersPage = () => {
         </CardHeader>
         <CardContent className="p-0">
           {filteredUsers.length === 0 ? (
-            <div className="py-12 text-center">
-              <Users className="h-12 w-12 text-neutral-300 mx-auto mb-3" />
-              <h3 className="text-lg font-medium text-neutral-900 mb-1">No Users Found</h3>
-              <p className="text-sm text-neutral-500">
-                {search ? 'Try adjusting your search.' : 'No users registered yet.'}
-              </p>
-            </div>
+            <EmptyState
+              icon={<Users className="h-12 w-12" />}
+              title="No Users Found"
+              description={search ? 'Try adjusting your search.' : 'No users registered yet.'}
+            />
           ) : (
             <Table>
               <TableHeader>
@@ -135,7 +134,7 @@ const AllUsersPage = () => {
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>
+              <TableBody className="stagger-rows">
                 {filteredUsers.map((user) => (
                   <TableRow key={user._id}>
                     <TableCell>

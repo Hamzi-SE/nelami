@@ -1,5 +1,5 @@
-import CountUp from 'react-countup'
-import { TrendingUp, Users, ShoppingBag, Gavel } from 'lucide-react'
+import CountUp from '@/components/shared/CountUp'
+import { Gavel, ShoppingBag, TrendingUp, Users } from 'lucide-react'
 
 const stats = [
   { icon: ShoppingBag, label: 'Total Products', value: 1500, suffix: '+' },

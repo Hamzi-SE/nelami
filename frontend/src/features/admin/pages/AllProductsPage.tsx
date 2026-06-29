@@ -1,3 +1,4 @@
+import EmptyState from '@/components/shared/EmptyState'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -150,13 +151,13 @@ const AllProductsPage = () => {
         </CardHeader>
         <CardContent className="p-0">
           {filteredProducts.length === 0 ? (
-            <div className="py-12 text-center">
-              <Package className="h-12 w-12 text-neutral-300 mx-auto mb-3" />
-              <h3 className="text-lg font-medium text-neutral-900 mb-1">No Products Found</h3>
-              <p className="text-sm text-neutral-500">
-                {search || statusFilter !== 'all' ? 'Try adjusting your search or filters.' : 'No products posted yet.'}
-              </p>
-            </div>
+            <EmptyState
+              icon={<Package className="h-12 w-12" />}
+              title="No Products Found"
+              description={
+                search || statusFilter !== 'all' ? 'Try adjusting your search or filters.' : 'No products posted yet.'
+              }
+            />
           ) : (
             <Table>
               <TableHeader>
@@ -169,7 +170,7 @@ const AllProductsPage = () => {
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>
+              <TableBody className="stagger-rows">
                 {filteredProducts.map((product) => (
                   <TableRow key={product._id}>
                     <TableCell>

@@ -1,3 +1,5 @@
+import CountUp from '@/components/shared/CountUp'
+import EmptyState from '@/components/shared/EmptyState'
 import { ProductGridSkeleton } from '@/components/shared/LoadingSkeleton'
 import ProductFilters from '@/components/shared/ProductFilters'
 import ProductGrid from '@/components/shared/ProductGrid'
@@ -5,13 +7,13 @@ import { Button } from '@/components/ui/button'
 import customFetch from '@/lib/api'
 import MetaData from '@/lib/MetaData'
 import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Search } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 const ProductsPage = () => {
   const dispatch = useAppDispatch()
-  const { loading, products } = useAppSelector((state) => state.products)
+  const { loading, products, error } = useAppSelector((state) => state.products)
   const [searchParams, setSearchParams] = useSearchParams()
 
   const [currentPage, setCurrentPage] = useState(parseInt(searchParams.get('page')) || 1)
@@ -105,7 +107,8 @@ const ProductsPage = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-primary-900/80 via-primary-800/70 to-primary-900/80" />
         <div className="container mx-auto text-center relative z-10">
           <h1 className="text-2xl md:text-4xl font-bold text-white">
-            <span>{totalProducts}</span> Auctions Running Right Now on Nelami
+            <span>{!isLoading && !error && <CountUp duration={0.5} end={totalProducts} />}</span> Auctions Running Right
+            Now on Nelami
           </h1>
         </div>
       </section>

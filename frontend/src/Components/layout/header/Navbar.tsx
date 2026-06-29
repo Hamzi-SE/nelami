@@ -1,3 +1,4 @@
+import SearchCommand from '@/components/shared/SearchCommand'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { useAppSelector } from '@/store/typedHooks'
@@ -101,8 +102,12 @@ const Navbar = () => {
             )}
           </nav>
 
-          {/* CTA — Post Free Ad */}
+          {/* Search + CTA */}
           <div className="flex items-center gap-3">
+            <div className="hidden md:block">
+              <SearchCommand />
+            </div>
+
             <NavLink to="/product/new" className="hidden lg:inline-flex">
               <Button size="sm" className="gap-1.5">
                 <Plus className="h-4 w-4" />

@@ -195,7 +195,7 @@ const DeleteProductPage = () => {
                     <TableHead className="text-neutral-900">Details</TableHead>
                   </TableRow>
                 </TableHeader>
-                <TableBody>
+                <TableBody className="stagger-rows">
                   <TableRow>
                     <TableCell className="font-medium text-neutral-500">Title</TableCell>
                     <TableCell>{product.title}</TableCell>

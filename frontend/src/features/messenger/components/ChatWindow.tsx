@@ -1,3 +1,4 @@
+import EmptyState from '@/components/shared/EmptyState'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useSocket } from '@/hooks/useSocket'
@@ -5,7 +6,7 @@ import customFetch from '@/lib/api'
 import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
 import { formatDistanceToNow } from 'date-fns'
 import Picker from 'emoji-picker-react'
-import { ArrowLeft, Loader2, Send, Smile, User } from 'lucide-react'
+import { ArrowLeft, Loader2, MessageCircle, Send, Smile, User } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import MessageBubble from './MessageBubble'
@@ -256,10 +257,11 @@ const ChatWindow = ({ conversation, friend, onlineUsers, typingStatuses, onBack 
             <Loader2 className="h-8 w-8 animate-spin text-primary-500" />
           </div>
         ) : messages.length === 0 ? (
-          <div className="flex items-center justify-center h-full text-center p-6">
-            <p className="text-sm text-neutral-500">
-              Start your conversation with <span className="font-medium">{friend.name}</span>
-            </p>
+          <div className="flex items-center justify-center h-full">
+            <EmptyState
+              icon={<MessageCircle className="h-8 w-8" />}
+              title={`Start your conversation with ${friend.name}`}
+            />
           </div>
         ) : (
           messages.map((message, index) => (

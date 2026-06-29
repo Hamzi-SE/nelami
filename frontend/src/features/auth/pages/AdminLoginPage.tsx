@@ -45,7 +45,7 @@ const AdminLoginPage = () => {
       if (res.status === 200) {
         dispatch({ type: 'LOGIN_USER_SUCCESS', payload: result.user })
         toast.success('Admin Logged In Successfully')
-        navigate('/admin/Dashboard', { replace: true })
+        navigate('/admin/dashboard', { replace: true })
         window.scrollTo(0, 0)
       } else {
         dispatch({ type: 'LOGIN_USER_FAIL', payload: result.message })

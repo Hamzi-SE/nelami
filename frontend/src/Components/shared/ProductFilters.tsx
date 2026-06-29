@@ -145,9 +145,7 @@ const ProductFilters = ({ onFiltersChange }: ProductFiltersProps) => {
       {/* City / Sector */}
       {province && (
         <div>
-          <label className="text-xs text-neutral-500 mb-1 block">
-            {province === 'Islamabad' ? 'Sector' : 'City'}
-          </label>
+          <label className="text-xs text-neutral-500 mb-1 block">{province === 'Islamabad' ? 'Sector' : 'City'}</label>
           <select
             value={city}
             onChange={(e) => setCity(e.target.value)}

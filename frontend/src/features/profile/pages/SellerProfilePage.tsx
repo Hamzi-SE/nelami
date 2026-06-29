@@ -1,9 +1,12 @@
+import EmptyState from '@/components/shared/EmptyState'
 import ProductCard from '@/components/shared/ProductCard'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
+import { staggerContainer, staggerItem } from '@/lib/animations'
 import customFetch from '@/lib/api'
 import MetaData from '@/lib/MetaData'
 import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
+import { motion } from 'framer-motion'
 import { Loader2, Store, User } from 'lucide-react'
 import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -106,18 +109,27 @@ const SellerProfilePage = () => {
 
           {products?.length === 0 ? (
             <Card>
-              <CardContent className="py-12 text-center">
-                <Store className="h-12 w-12 text-neutral-300 mx-auto mb-3" />
-                <h3 className="text-lg font-medium text-neutral-900 mb-1">No Products Yet</h3>
-                <p className="text-sm text-neutral-500">This seller hasn&apos;t listed any products yet.</p>
+              <CardContent>
+                <EmptyState
+                  icon={<Store className="h-12 w-12" />}
+                  title="No Products Yet"
+                  description="This seller hasn't listed any products yet."
+                />
               </CardContent>
             </Card>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <motion.div
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+              initial="hidden"
+              animate="visible"
+              variants={staggerContainer}
+            >
               {products?.map((product: any, index: number) => (
-                <ProductCard key={product._id || index} product={product} index={index} />
+                <motion.div key={product?._id || index} variants={staggerItem}>
+                  <ProductCard key={product?._id || index} product={product} index={index} />
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           )}
         </div>
       </section>

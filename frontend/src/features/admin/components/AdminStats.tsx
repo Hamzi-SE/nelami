@@ -1,10 +1,10 @@
+import CountUp from '@/components/shared/CountUp'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import customFetch from '@/lib/api'
 import { Chart, registerables } from 'chart.js'
 import { Box, Car, Gavel, GavelIcon, Home, Package, UserCheck, Users, UserX } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Pie } from 'react-chartjs-2'
-import CountUp from 'react-countup'
 
 Chart.register(...registerables)
 

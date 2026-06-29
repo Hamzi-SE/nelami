@@ -53,7 +53,7 @@ const BidLeaderboard = ({ bidders, loading = false }: BidLeaderboardProps) => {
         <CardContent>
           <div className="text-center py-4">
             <Users className="h-8 w-8 text-neutral-300 mx-auto mb-2" />
-            <p className="text-sm text-neutral-500">No bids yet. Be the first!</p>
+            <p className="text-sm text-neutral-500 text-center py-2">No bids yet. Be the first!</p>
           </div>
         </CardContent>
       </Card>

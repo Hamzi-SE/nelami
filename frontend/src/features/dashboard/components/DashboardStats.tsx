@@ -1,9 +1,10 @@
+import CountUp from '@/components/shared/CountUp'
+import ErrorState from '@/components/shared/ErrorState'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import customFetch from '@/lib/api'
 import { useAppSelector } from '@/store/typedHooks'
 import { Box, Car, CheckCircle, Clock, Gavel, Home, Package } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import CountUp from 'react-countup'
 
 interface StatsData {
   totalBids: number
@@ -27,33 +28,39 @@ const DashboardStats = () => {
     totalMiscProducts: 0,
   })
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
+
+  const fetchStats = async () => {
+    setLoading(true)
+    setError(false)
+    try {
+      const res = await customFetch('/api/v1/userStats', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      })
+      const data = await res.json()
+      if (res.status === 200) {
+        setStats({
+          totalBids: data.totalBids || 0,
+          totalProducts: data.totalProducts || 0,
+          totalEndedBids: data.totalEndedBids || 0,
+          totalOngoingBids: data.totalOngoingBids || 0,
+          totalVehicles: data.totalVehicles || 0,
+          totalProperties: data.totalProperties || 0,
+          totalMiscProducts: data.totalMiscProducts || 0,
+        })
+      } else {
+        setError(true)
+      }
+    } catch {
+      setError(true)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
-    const getStats = async () => {
-      try {
-        const res = await customFetch('/api/v1/userStats', {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
-        })
-        const data = await res.json()
-        if (res.status === 200) {
-          setStats({
-            totalBids: data.totalBids || 0,
-            totalProducts: data.totalProducts || 0,
-            totalEndedBids: data.totalEndedBids || 0,
-            totalOngoingBids: data.totalOngoingBids || 0,
-            totalVehicles: data.totalVehicles || 0,
-            totalProperties: data.totalProperties || 0,
-            totalMiscProducts: data.totalMiscProducts || 0,
-          })
-        }
-      } catch (error) {
-        console.error('Error fetching stats:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-    getStats()
+    fetchStats()
   }, [])
 
   const sellerCards = [
@@ -91,6 +98,16 @@ const DashboardStats = () => {
           </Card>
         ))}
       </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <ErrorState
+        title="Failed to Load Stats"
+        message="Unable to load your dashboard statistics. Please try again."
+        onRetry={fetchStats}
+      />
     )
   }
 

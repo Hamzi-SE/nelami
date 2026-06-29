@@ -64,7 +64,7 @@ const TopBar = () => {
                 {user?.role !== 'admin' && <NotificationDropdown />}
 
                 {user?.role !== 'admin' && (
-                  <NavLink to="/Dashboard">
+                  <NavLink to="/dashboard">
                     <Button
                       variant="ghost"
                       size="sm"
@@ -88,7 +88,7 @@ const TopBar = () => {
                 </NavLink>
 
                 {user?.role === 'admin' && (
-                  <NavLink to="/admin/Dashboard">
+                  <NavLink to="/admin/dashboard">
                     <Button
                       variant="ghost"
                       size="sm"

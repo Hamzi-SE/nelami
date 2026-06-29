@@ -44,7 +44,16 @@ function Button({
   size = 'default',
   ...props
 }: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
-  return <ButtonPrimitive data-slot="button" className={cn(buttonVariants({ variant, size, className }))} {...props} />
+  return (
+    <ButtonPrimitive
+      data-slot="button"
+      className={cn(
+        buttonVariants({ variant, size, className }),
+        'transition-transform duration-100 active:scale-[0.97]'
+      )}
+      {...props}
+    />
+  )
 }
 
 export { Button, buttonVariants }

@@ -119,7 +119,15 @@ const ContactPage = () => {
                       render={({ field, fieldState }) => (
                         <Field data-invalid={fieldState.invalid}>
                           <FieldLabel htmlFor="message">Message</FieldLabel>
-                          <Textarea {...field} id="message" placeholder="Write your message..." rows={6} />
+                          <Textarea
+                            {...field}
+                            id="message"
+                            placeholder="Write your message..."
+                            rows={6}
+                            minLength={10}
+                            maxLength={3000}
+                            className="min-h-25"
+                          />
                           {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                         </Field>
                       )}

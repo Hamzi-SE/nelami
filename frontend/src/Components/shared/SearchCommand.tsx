@@ -1,4 +1,6 @@
+import EmptyState from '@/components/shared/EmptyState'
 import {
+  Command,
   CommandDialog,
   CommandEmpty,
   CommandGroup,
@@ -77,36 +79,42 @@ const SearchCommand = () => {
       </button>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Search products..." value={query} onValueChange={setQuery} />
-        <CommandList>
-          <CommandEmpty>
-            {loading ? (
-              <div className="flex items-center justify-center py-6">
-                <Loader2 className="h-5 w-5 animate-spin text-neutral-400" />
-              </div>
-            ) : (
-              'No results found.'
+        <Command>
+          <CommandInput placeholder="Search products..." value={query} onValueChange={setQuery} />
+          <CommandList>
+            <CommandEmpty>
+              {loading ? (
+                <div className="flex items-center justify-center py-6">
+                  <Loader2 className="h-5 w-5 animate-spin text-neutral-400" />
+                </div>
+              ) : (
+                <EmptyState
+                  icon={<Search className="h-6 w-6" />}
+                  title="No Results Found"
+                  description="Try searching with different keywords."
+                />
+              )}
+            </CommandEmpty>
+            {results.length > 0 && (
+              <CommandGroup heading="Products">
+                {results.map((product) => (
+                  <CommandItem
+                    key={product._id}
+                    value={product.title}
+                    onSelect={() => handleSelect(product._id)}
+                    className="flex items-center gap-3"
+                  >
+                    <Package className="h-4 w-4 text-neutral-400" />
+                    <div className="flex-1 min-w-0">
+                      <p className="truncate text-sm">{product.title}</p>
+                      <p className="text-xs text-neutral-400">Rs. {product.price?.toLocaleString()}</p>
+                    </div>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
             )}
-          </CommandEmpty>
-          {results.length > 0 && (
-            <CommandGroup heading="Products">
-              {results.map((product) => (
-                <CommandItem
-                  key={product._id}
-                  value={product.title}
-                  onSelect={() => handleSelect(product._id)}
-                  className="flex items-center gap-3"
-                >
-                  <Package className="h-4 w-4 text-neutral-400" />
-                  <div className="flex-1 min-w-0">
-                    <p className="truncate text-sm">{product.title}</p>
-                    <p className="text-xs text-neutral-400">Rs. {product.price?.toLocaleString()}</p>
-                  </div>
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          )}
-        </CommandList>
+          </CommandList>
+        </Command>
       </CommandDialog>
     </>
   )

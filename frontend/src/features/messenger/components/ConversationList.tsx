@@ -1,3 +1,4 @@
+import EmptyState from '@/components/shared/EmptyState'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
 import { format, formatDistanceToNow } from 'date-fns'
@@ -64,12 +65,12 @@ const ConversationList = ({
 
   if (conversations.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-full text-center p-6">
-        <MessageCircle className="h-12 w-12 text-neutral-300 mb-3" />
-        <h3 className="text-lg font-medium text-neutral-900 mb-1">No Conversations</h3>
-        <p className="text-sm text-neutral-500">
-          Start a conversation from a product page to chat with sellers/buyers.
-        </p>
+      <div className="flex justify-center items-center h-full">
+        <EmptyState
+          icon={<MessageCircle className="h-12 w-12" />}
+          title="No Conversations"
+          description="Start a conversation from a product page to chat with sellers/buyers."
+        />
       </div>
     )
   }

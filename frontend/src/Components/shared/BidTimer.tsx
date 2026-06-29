@@ -27,7 +27,7 @@ const BidTimer = ({ endDate, compact = false }: BidTimerProps) => {
   return (
     <span
       className={`inline-flex items-center gap-1 ${compact ? 'text-xs' : 'text-sm'} font-medium ${
-        isUrgent ? 'text-danger-500' : 'text-warning-600'
+        isUrgent ? 'text-danger-500 animate-pulse' : 'text-warning-600'
       }`}
     >
       <Clock className={compact ? 'h-3 w-3' : 'h-4 w-4'} />

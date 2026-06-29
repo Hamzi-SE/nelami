@@ -1,3 +1,5 @@
+import EmptyState from '@/components/shared/EmptyState'
+import ErrorState from '@/components/shared/ErrorState'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -292,11 +294,13 @@ const ViewBiddersPage = () => {
           <h1 className="text-xl font-semibold text-neutral-900">Product Not Found</h1>
         </div>
         <Card>
-          <CardContent className="py-12 text-center">
-            <Gavel className="h-12 w-12 text-neutral-300 mx-auto mb-3" />
-            <p className="text-sm text-neutral-500">
-              The product you are looking for does not exist or has been removed.
-            </p>
+          <CardContent className="py-8">
+            <ErrorState
+              title="Product Not Found"
+              message="The product you are looking for does not exist or has been removed."
+              onRetry={() => navigate('/dashboard/products')}
+              actionLabel="Back to Products"
+            />
           </CardContent>
         </Card>
       </div>
@@ -377,11 +381,11 @@ const ViewBiddersPage = () => {
         </CardHeader>
         <CardContent className="p-0">
           {bidders.length === 0 ? (
-            <div className="py-12 text-center">
-              <Users className="h-12 w-12 text-neutral-300 mx-auto mb-3" />
-              <h3 className="text-lg font-medium text-neutral-900 mb-1">No Bids Yet</h3>
-              <p className="text-sm text-neutral-500">No one has placed a bid on this product yet. Check back later!</p>
-            </div>
+            <EmptyState
+              icon={<Users className="h-12 w-12" />}
+              title="No Bids Yet"
+              description="No one has placed a bid on this product yet. Check back later!"
+            />
           ) : filteredBidders.length === 0 ? (
             <div className="py-12 text-center">
               <Search className="h-10 w-10 text-neutral-300 mx-auto mb-3" />
@@ -399,7 +403,7 @@ const ViewBiddersPage = () => {
                   <TableHead className="text-right">Action</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>
+              <TableBody className="stagger-rows">
                 {filteredBidders.map((bidder, idx) => {
                   const isHighest = idx === 0 && bidders.length > 1
                   const rank = bidders.indexOf(bidder) + 1

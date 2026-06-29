@@ -263,7 +263,7 @@ const WaitingApprovalPage = () => {
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
+            <TableBody className="stagger-rows">
               {filteredProducts.map((product) => (
                 <TableRow key={product._id}>
                   <TableCell>

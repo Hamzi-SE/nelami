@@ -1,4 +1,5 @@
 import ImageGallery from '@/components/shared/ImageGallery'
+import ErrorState from '@/components/shared/ErrorState'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -195,12 +196,16 @@ const ProductDetailPage = () => {
 
   if (error || !product) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-        <p className="text-neutral-500 text-lg">Product not found.</p>
-        {error && <p className="text-danger-500">Reason: {error}</p>}
-        <Link to="/">
-          <Button>Go to Home Page</Button>
-        </Link>
+      <div className="flex items-center justify-center min-h-[60vh] p-4">
+        <ErrorState
+          title="Product Not Found"
+          message={
+            error
+              ? `Failed to load product: ${error}`
+              : 'The product you are looking for does not exist or has been removed.'
+          }
+          onRetry={() => window.location.reload()}
+        />
       </div>
     )
   }

@@ -1,3 +1,4 @@
+import EmptyState from '@/components/shared/EmptyState'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
@@ -108,7 +109,13 @@ const NotificationDropdown = () => {
         ) : error ? (
           <div className="p-4 text-sm text-danger-500">Error: {error}</div>
         ) : notifications?.length === 0 ? (
-          <div className="p-4 text-sm text-neutral-500 text-center">No notifications</div>
+          <div className="overflow-hidden">
+            <EmptyState
+              icon={<Bell className="h-8 w-8" />}
+              title="No Notifications"
+              description="You're all caught up!"
+            />
+          </div>
         ) : (
           notifications?.map((notification: any, index: number) => (
             <DropdownMenuItem

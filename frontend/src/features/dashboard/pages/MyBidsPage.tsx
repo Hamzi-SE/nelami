@@ -1,3 +1,4 @@
+import EmptyState from '@/components/shared/EmptyState'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -6,7 +7,7 @@ import customFetch from '@/lib/api'
 import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
 import { Eye, Gavel } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
 interface Bidder {
@@ -93,15 +94,14 @@ const MyBidsPage = () => {
 
       {userBids.length === 0 ? (
         <Card>
-          <CardContent className="py-12 text-center">
-            <Gavel className="h-12 w-12 text-neutral-300 mx-auto mb-3" />
-            <h3 className="text-lg font-medium text-neutral-900 mb-1">No Bids Yet</h3>
-            <p className="text-sm text-neutral-500 mb-4">
-              You haven't placed any bids yet. Browse products to start bidding!
-            </p>
-            <Link to="/products">
-              <Button>Browse Products</Button>
-            </Link>
+          <CardContent>
+            <EmptyState
+              icon={<Gavel className="h-12 w-12" />}
+              title="No Bids Yet"
+              description="You haven't placed any bids yet. Browse products and start bidding!"
+              actionLabel="Browse Products"
+              onAction={() => navigate('/products')}
+            />
           </CardContent>
         </Card>
       ) : (

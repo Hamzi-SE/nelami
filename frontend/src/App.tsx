@@ -1,12 +1,14 @@
-import React, { lazy, Suspense, useEffect } from 'react'
 import { Toaster } from '@/components/ui/sonner'
+import { useReducedMotion } from '@/lib/animations'
 import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
+import { AnimatePresence, motion } from 'framer-motion'
+import { lazy, Suspense, useEffect } from 'react'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 
 // Component Imports
+import MetaData from '@/lib/MetaData'
 import Footer from './components/layout/footer/Footer'
 import Header from './components/layout/header/Header'
-import MetaData from '@/lib/MetaData'
 
 import { callProfile } from '@/lib/helpers/callProfile'
 import { getData } from '@/lib/helpers/getData'
@@ -69,70 +71,91 @@ interface RoutingProps {
 }
 
 const Routing = ({ isAuthenticated, loading }: RoutingProps) => {
+  const location = useLocation()
+  const reduced = useReducedMotion()
+
+  const routes = (
+    <Routes location={location}>
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Login />} />
+      <Route path="/signup" element={isAuthenticated ? <Navigate to="/" /> : <SignUp />} />
+      <Route path="/user/validate" element={<OTPValidation />} />
+      <Route path="/logout" element={isAuthenticated ? <Logout /> : <Navigate to="/" />} />
+
+      {/* Dashboard Routes (nested) */}
+      <Route path="/dashboard" element={<Dashboard />}>
+        <Route index element={<StatsDashboard />} />
+        <Route path="profile" element={<ProfilePage />} />
+        <Route path="edit-profile" element={<EditProfilePage />} />
+        <Route path="bids" element={<MyBidsPage />} />
+        <Route path="wishlist" element={<MyWishlistPage />} />
+        <Route path="settings" element={<SettingsPage />} />
+        <Route path="safety" element={<SafetyTipsPage />} />
+        <Route path="products" element={<MyProductsPage />} />
+        <Route path="waiting-approval" element={<WaitingApprovalPage />} />
+      </Route>
+
+      {/* Backward-compatible /editProfile route */}
+      <Route path="/editProfile" element={<EditProfilePage />} />
+      {/* Seller routes (new redesigned pages) */}
+      <Route path="/user/product/edit/:id" element={<EditProductPage />} />
+      <Route path="/user/product/bids/all/:id" element={<ViewBiddersPage />} />
+      <Route path="/user/product/delete/:id" element={<DeleteProductPage />} />
+      <Route path="/user/forgot-password" element={<ForgotPassword />} />
+      <Route path="/user/password/reset/:token" element={<ResetPassword />} />
+      <Route path="/admin/login" element={<AdminLogin />} />
+
+      {/* Admin Dashboard Routes (nested) */}
+      <Route path="/admin/dashboard" element={<AdminDashboard />}>
+        <Route index element={<AdminStats />} />
+        <Route path="profile" element={<AdminProfilePage />} />
+        <Route path="users" element={<AllUsersPage />} />
+        <Route path="products" element={<AllProductsPage />} />
+        <Route path="approvals" element={<ApprovalPage />} />
+        <Route path="features" element={<EditFeaturesPage />} />
+        <Route path="settings" element={<AdminSettingsPage />} />
+      </Route>
+
+      {/* Backward-compatible admin routes */}
+      <Route path="/admin/EditProfile" element={<AdminSettingsPage />} />
+      <Route path="/admin/deleteUser/:id" element={<DeleteUserPage />} />
+      <Route path="/admin/DeleteUser/:id" element={<DeleteUserPage />} />
+      <Route path="/products" element={<ProductsPage />} />
+      <Route path="/user/:id" element={<SellerProfile />} />
+      <Route path="/categories/:category" element={<CategoryPage />} />
+      <Route path="/product/:id" element={<SingleProduct />} />
+      <Route path="/product/new" element={<ProductForms />} />
+      <Route path="/packages" element={<PackagesPricing />} />
+      <Route path="/checkout" element={<Checkout />} />
+      <Route path="/payment-success" element={<PaymentSuccess />} />
+      <Route path="/payment-fail" element={<PaymentFail />} />
+
+      <Route
+        path="/messenger"
+        element={loading ? <Loader /> : isAuthenticated ? <Messenger /> : <Navigate to="/login" replace />}
+      />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="*" element={<Error />} />
+    </Routes>
+  )
+
   return (
     <Suspense fallback={<Loader />}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Login />} />
-        <Route path="/signup" element={isAuthenticated ? <Navigate to="/" /> : <SignUp />} />
-        <Route path="/user/validate" element={<OTPValidation />} />
-        <Route path="/logout" element={isAuthenticated ? <Logout /> : <Navigate to="/" />} />
-
-        {/* Dashboard Routes (nested) */}
-        <Route path="/dashboard" element={<Dashboard />}>
-          <Route index element={<StatsDashboard />} />
-          <Route path="profile" element={<ProfilePage />} />
-          <Route path="edit-profile" element={<EditProfilePage />} />
-          <Route path="bids" element={<MyBidsPage />} />
-          <Route path="wishlist" element={<MyWishlistPage />} />
-          <Route path="settings" element={<SettingsPage />} />
-          <Route path="safety" element={<SafetyTipsPage />} />
-          <Route path="products" element={<MyProductsPage />} />
-          <Route path="waiting-approval" element={<WaitingApprovalPage />} />
-        </Route>
-
-        {/* Backward-compatible /editProfile route */}
-        <Route path="/editProfile" element={<EditProfilePage />} />
-        {/* Seller routes (new redesigned pages) */}
-        <Route path="/user/product/edit/:id" element={<EditProductPage />} />
-        <Route path="/user/product/bids/all/:id" element={<ViewBiddersPage />} />
-        <Route path="/user/product/delete/:id" element={<DeleteProductPage />} />
-        <Route path="/user/forgot-password" element={<ForgotPassword />} />
-        <Route path="/user/password/reset/:token" element={<ResetPassword />} />
-        <Route path="/admin/login" element={<AdminLogin />} />
-
-        {/* Admin Dashboard Routes (nested) */}
-        <Route path="/admin/dashboard" element={<AdminDashboard />}>
-          <Route index element={<AdminStats />} />
-          <Route path="profile" element={<AdminProfilePage />} />
-          <Route path="users" element={<AllUsersPage />} />
-          <Route path="products" element={<AllProductsPage />} />
-          <Route path="approvals" element={<ApprovalPage />} />
-          <Route path="features" element={<EditFeaturesPage />} />
-          <Route path="settings" element={<AdminSettingsPage />} />
-        </Route>
-
-        {/* Backward-compatible admin routes */}
-        <Route path="/admin/EditProfile" element={<AdminSettingsPage />} />
-        <Route path="/admin/deleteUser/:id" element={<DeleteUserPage />} />
-        <Route path="/admin/DeleteUser/:id" element={<DeleteUserPage />} />
-        <Route path="/products" element={<ProductsPage />} />
-        <Route path="/user/:id" element={<SellerProfile />} />
-        <Route path="/categories/:category" element={<CategoryPage />} />
-        <Route path="/product/:id" element={<SingleProduct />} />
-        <Route path="/product/new" element={<ProductForms />} />
-        <Route path="/packages" element={<PackagesPricing />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/payment-success" element={<PaymentSuccess />} />
-        <Route path="/payment-fail" element={<PaymentFail />} />
-
-        <Route
-          path="/messenger"
-          element={loading ? <Loader /> : isAuthenticated ? <Messenger /> : <Navigate to="/login" replace />}
-        />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="*" element={<Error />} />
-      </Routes>
+      {reduced ? (
+        routes
+      ) : (
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={location.pathname}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+          >
+            {routes}
+          </motion.div>
+        </AnimatePresence>
+      )}
     </Suspense>
   )
 }

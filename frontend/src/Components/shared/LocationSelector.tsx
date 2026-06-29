@@ -55,19 +55,13 @@ const LocationSelector = ({
       {/* City / Sector Select */}
       <div>
         {showLabel && (
-          <label className="text-xs text-neutral-500 mb-1 block">
-            {province === 'Islamabad' ? 'Sector' : 'City'}
-          </label>
+          <label className="text-xs text-neutral-500 mb-1 block">{province === 'Islamabad' ? 'Sector' : 'City'}</label>
         )}
         <Select value={city} onValueChange={onCityChange} disabled={!province}>
           <SelectTrigger>
             <SelectValue
               placeholder={
-                province
-                  ? province === 'Islamabad'
-                    ? 'Select sector'
-                    : 'Select city'
-                  : 'Select province first'
+                province ? (province === 'Islamabad' ? 'Select sector' : 'Select city') : 'Select province first'
               }
             />
           </SelectTrigger>
