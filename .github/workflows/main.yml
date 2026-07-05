@@ -57,7 +57,7 @@ jobs:
           ssh ${{ secrets.USER_AT_SERVER }} <<'EOF'
           sudo su -
 
-          export PATH=$PATH:/root/.nvm/versions/node/v20.14.0/bin
+          export PATH=$PATH:/root/.nvm/versions/node/v22.20.0/bin
 
           cd /root/nelami/backend
 
@@ -74,7 +74,7 @@ jobs:
           ssh ${{ secrets.USER_AT_SERVER }} <<'EOF'
           sudo su -
 
-          export PATH=$PATH:/root/.nvm/versions/node/v20.14.0/bin
+          export PATH=$PATH:/root/.nvm/versions/node/v22.20.0/bin
 
           cd /root/nelami/frontend
 
