@@ -1,6 +1,8 @@
 import DashboardSidebar from '@/components/layout/sidebar/DashboardSidebar'
+import Loader from '@/components/Loader/Loader'
 import MetaData from '@/lib/MetaData'
 import { useAppSelector } from '@/store/typedHooks'
+import { Suspense } from 'react'
 import { Outlet } from 'react-router-dom'
 
 const DashboardPage = () => {
@@ -29,7 +31,9 @@ const DashboardPage = () => {
         <div className="flex">
           <DashboardSidebar />
           <main className="flex-1 p-4 lg:p-6 overflow-auto">
-            <Outlet />
+            <Suspense fallback={<Loader />}>
+              <Outlet />
+            </Suspense>
           </main>
         </div>
       </div>

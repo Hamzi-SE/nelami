@@ -1,7 +1,8 @@
 import AdminSidebar from '@/components/layout/sidebar/AdminSidebar'
+import Loader from '@/components/Loader/Loader'
 import MetaData from '@/lib/MetaData'
 import { useAppSelector } from '@/store/typedHooks'
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import { toast } from 'sonner'
 
@@ -37,7 +38,9 @@ const AdminDashboardPage = () => {
         <div className="flex">
           <AdminSidebar />
           <main className="flex-1 p-4 lg:p-6 overflow-auto">
-            <Outlet />
+            <Suspense fallback={<Loader />}>
+              <Outlet />
+            </Suspense>
           </main>
         </div>
       </div>
