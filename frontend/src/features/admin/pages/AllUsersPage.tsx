@@ -180,7 +180,7 @@ const AllUsersPage = () => {
                           variant="ghost"
                           size="icon"
                           className="h-8 w-8 text-danger-500 hover:text-danger-600 hover:bg-danger-50"
-                          onClick={() => navigate(`/admin/deleteUser/${user._id}`)}
+                          onClick={() => navigate(`/admin/delete-user/${user._id}`)}
                           title="Delete User"
                         >
                           <Trash2 className="h-4 w-4" />

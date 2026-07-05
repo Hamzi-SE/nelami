@@ -8,7 +8,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2, Lock } from 'lucide-react'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -27,7 +26,6 @@ type PasswordFormData = z.infer<typeof passwordSchema>
 
 const AdminSettingsPage = () => {
   const dispatch = useAppDispatch()
-  const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
 
   const {

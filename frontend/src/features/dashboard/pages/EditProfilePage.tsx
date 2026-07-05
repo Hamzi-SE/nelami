@@ -1,4 +1,3 @@
-import DashboardSidebar from '@/components/layout/sidebar/DashboardSidebar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
@@ -34,9 +33,6 @@ const EditProfilePage = () => {
   const { user } = useAppSelector((state) => state.user)
   const { data } = useAppSelector((state) => state.data)
 
-  // Show sidebar when accessed via /editProfile (outside dashboard nested routes)
-  // When accessed via /dashboard/edit-profile, the DashboardPage already provides the sidebar
-  const showSidebar = location.pathname === '/editProfile'
   const [loading, setLoading] = useState(false)
   const [avatar, setAvatar] = useState<string | null>(null)
   const [initialLoading, setInitialLoading] = useState(true)
@@ -273,17 +269,6 @@ const EditProfilePage = () => {
       </form>
     </div>
   )
-
-  if (showSidebar) {
-    return (
-      <div className="bg-neutral-50 min-h-[calc(100vh-64px)]">
-        <div className="flex">
-          <DashboardSidebar />
-          <main className="flex-1 p-4 lg:p-6 overflow-auto">{content}</main>
-        </div>
-      </div>
-    )
-  }
 
   return content
 }

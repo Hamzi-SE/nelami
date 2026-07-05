@@ -96,9 +96,7 @@ const Routing = ({ isAuthenticated, loading }: RoutingProps) => {
         <Route path="waiting-approval" element={<WaitingApprovalPage />} />
       </Route>
 
-      {/* Backward-compatible /editProfile route */}
-      <Route path="/editProfile" element={<EditProfilePage />} />
-      {/* Seller routes (new redesigned pages) */}
+      {/* Seller routes */}
       <Route path="/user/product/edit/:id" element={<EditProductPage />} />
       <Route path="/user/product/bids/all/:id" element={<ViewBiddersPage />} />
       <Route path="/user/product/delete/:id" element={<DeleteProductPage />} />
@@ -118,10 +116,7 @@ const Routing = ({ isAuthenticated, loading }: RoutingProps) => {
         <Route path="settings" element={<AdminSettingsPage />} />
       </Route>
 
-      {/* Backward-compatible admin routes */}
-      <Route path="/admin/EditProfile" element={<AdminSettingsPage />} />
-      <Route path="/admin/deleteUser/:id" element={<DeleteUserPage />} />
-      <Route path="/admin/DeleteUser/:id" element={<DeleteUserPage />} />
+      <Route path="/admin/delete-user/:id" element={<DeleteUserPage />} />
       <Route path="/products" element={<ProductsPage />} />
       <Route path="/user/:id" element={<SellerProfile />} />
       <Route path="/categories/:category" element={<CategoryPage />} />
