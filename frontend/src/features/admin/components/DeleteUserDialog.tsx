@@ -15,14 +15,14 @@ import { AlertTriangle, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
-interface DeleteUserPageProps {
+interface DeleteUserDialogProps {
   open: boolean
   userId: string | null
   onOpenChange: (open: boolean) => void
   onDeleted?: (userId: string) => void
 }
 
-const DeleteUserPage = ({ open, userId, onOpenChange, onDeleted }: DeleteUserPageProps) => {
+const DeleteUserDialog = ({ open, userId, onOpenChange, onDeleted }: DeleteUserDialogProps) => {
   const dispatch = useAppDispatch()
   const { loading } = useAppSelector((state) => state.profile)
   const { user } = useAppSelector((state) => state.user)
@@ -111,4 +111,4 @@ const DeleteUserPage = ({ open, userId, onOpenChange, onDeleted }: DeleteUserPag
   )
 }
 
-export default DeleteUserPage
+export default DeleteUserDialog

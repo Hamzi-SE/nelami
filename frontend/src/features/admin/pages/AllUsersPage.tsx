@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import DeleteUserPage from '@/features/pages/DeleteUserPage'
+import DeleteUserDialog from '@/features/admin/components/DeleteUserDialog'
 import customFetch from '@/lib/api'
 import { useAppDispatch } from '@/store/typedHooks'
 import { Eye, Search, Trash2, Users } from 'lucide-react'
@@ -207,7 +207,7 @@ const AllUsersPage = () => {
         </CardContent>
       </Card>
 
-      <DeleteUserPage
+      <DeleteUserDialog
         open={deleteModalOpen}
         userId={deleteUserId}
         onOpenChange={setDeleteModalOpen}
