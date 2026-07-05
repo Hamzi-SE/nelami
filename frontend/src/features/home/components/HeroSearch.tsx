@@ -1,9 +1,10 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useAppSelector } from '@/store/typedHooks'
+import { Search } from 'lucide-react'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const categories = [
   { label: 'All Categories', value: '' },
@@ -67,50 +68,52 @@ const HeroSearch = () => {
 
           {/* Category Select */}
           <div className="md:col-span-3">
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="h-11 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm text-neutral-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-            >
-              {categories.map((cat) => (
-                <option key={cat.value} value={cat.value}>
-                  {cat.label}
-                </option>
-              ))}
-            </select>
+            <Select value={category} onValueChange={setCategory}>
+              <SelectTrigger className="h-11! w-full">
+                <SelectValue placeholder="Category" />
+              </SelectTrigger>
+              <SelectContent>
+                {categories.map((cat) => (
+                  <SelectItem key={cat.value} value={cat.value}>
+                    {cat.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Province Select */}
           <div className="md:col-span-2">
-            <select
-              value={province}
-              onChange={(e) => handleProvinceChange(e.target.value)}
-              className="h-11 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm text-neutral-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-            >
-              <option value="">Province</option>
-              {provinces.map((p) => (
-                <option key={p} value={p}>
-                  {p}
-                </option>
-              ))}
-            </select>
+            <Select value={province} onValueChange={handleProvinceChange}>
+              <SelectTrigger className="h-11! w-full">
+                <SelectValue placeholder="Province" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="">Province</SelectItem>
+                {provinces.map((p) => (
+                  <SelectItem key={p} value={p}>
+                    {p}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           {/* City / Sector Select */}
           <div className="md:col-span-2">
-            <select
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              disabled={!province}
-              className="h-11 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm text-neutral-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <option value="">{province === 'Islamabad' ? 'Sector' : 'City'}</option>
-              {cities.map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-            </select>
+            <Select value={city} onValueChange={setCity} disabled={!province}>
+              <SelectTrigger className="h-11! w-full">
+                <SelectValue placeholder={province === 'Islamabad' ? 'Sector' : 'City'} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="">{province === 'Islamabad' ? 'Sector' : 'City'}</SelectItem>
+                {cities.map((c) => (
+                  <SelectItem key={c} value={c}>
+                    {c}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Search Button */}

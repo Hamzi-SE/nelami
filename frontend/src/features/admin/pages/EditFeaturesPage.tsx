@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import customFetch from '@/lib/api'
 import getBidTimeDropList from '@/lib/BidData'
 import { getBikeMake } from '@/lib/bikeData'
@@ -210,8 +211,8 @@ const EditFeaturesPage = () => {
     }
   }
 
-  const handlePackageNameChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const pkg = data?.packages?.find((o: any) => o.name === e.target.value)
+  const handlePackageNameChange = (value: string) => {
+    const pkg = data?.packages?.find((o: any) => o.name === value)
     if (pkg) {
       resetPackage({
         name: pkg.name,
@@ -246,18 +247,19 @@ const EditFeaturesPage = () => {
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor="add-item">Feature</FieldLabel>
-                    <select
-                      {...field}
-                      id="add-item"
-                      className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
-                    >
-                      <option value="">Select Feature</option>
-                      {featureOptions.map((opt) => (
-                        <option key={opt.value} value={opt.value}>
-                          {opt.label}
-                        </option>
-                      ))}
-                    </select>
+                    <Select {...field}>
+                      <SelectTrigger id="add-item" className="h-9 w-full">
+                        <SelectValue placeholder="Select Feature" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="">Select Feature</SelectItem>
+                        {featureOptions.map((opt) => (
+                          <SelectItem key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                   </Field>
                 )}
@@ -302,18 +304,19 @@ const EditFeaturesPage = () => {
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor="remove-item">Feature</FieldLabel>
-                    <select
-                      {...field}
-                      id="remove-item"
-                      className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
-                    >
-                      <option value="">Select Feature</option>
-                      {featureOptions.map((opt) => (
-                        <option key={opt.value} value={opt.value}>
-                          {opt.label}
-                        </option>
-                      ))}
-                    </select>
+                    <Select {...field}>
+                      <SelectTrigger id="remove-item" className="h-9 w-full">
+                        <SelectValue placeholder="Select Feature" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="">Select Feature</SelectItem>
+                        {featureOptions.map((opt) => (
+                          <SelectItem key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                   </Field>
                 )}
@@ -326,19 +329,23 @@ const EditFeaturesPage = () => {
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
                       <FieldLabel htmlFor={`remove-value-${selectedRemoveItem}`}>Value to Remove</FieldLabel>
-                      <select
+                      <Select
                         {...field}
                         id={`remove-value-${selectedRemoveItem}`}
                         key={`remove-select-${selectedRemoveItem}`}
-                        className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
                       >
-                        <option value="">Select Value</option>
-                        {getDropList(selectedRemoveItem).map((el: any) => (
-                          <option key={el.props.value} value={el.props.value}>
-                            {el.props.children}
-                          </option>
-                        ))}
-                      </select>
+                        <SelectTrigger className="h-9 w-full">
+                          <SelectValue placeholder="Select Value" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="">Select Value</SelectItem>
+                          {getDropList(selectedRemoveItem).map((el: any) => (
+                            <SelectItem key={el.props.value} value={el.props.value}>
+                              {el.props.children}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </Field>
                   )}
@@ -371,20 +378,34 @@ const EditFeaturesPage = () => {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="pkg-name">Package</FieldLabel>
-                  <select
-                    {...field}
-                    id="pkg-name"
-                    onChange={(e) => {
-                      field.onChange(e)
-                      handlePackageNameChange(e)
+                  <Select
+                    value={field.value}
+                    onValueChange={(v) => {
+                      field.onChange(v)
+                      handlePackageNameChange(v)
                     }}
-                    className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
+                    id="pkg-name"
                   >
-                    <option value="">Select Package</option>
-                    <option value="Free">Free</option>
-                    <option value="Gold">Gold</option>
-                    <option value="Platinum">Platinum</option>
-                  </select>
+                    <SelectTrigger className="h-9 w-full max-w-1/2">
+                      <SelectValue placeholder="Select Package" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">Select Package</SelectItem>
+                      {data?.packages?.length ? (
+                        data.packages.map((p: any) => (
+                          <SelectItem key={p.name} value={p.name}>
+                            {p.name}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <>
+                          <SelectItem value="Free">Free</SelectItem>
+                          <SelectItem value="Gold">Gold</SelectItem>
+                          <SelectItem value="Platinum">Platinum</SelectItem>
+                        </>
+                      )}
+                    </SelectContent>
+                  </Select>
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
               )}

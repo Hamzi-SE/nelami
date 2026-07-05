@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Field, FieldDescription, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Home } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 import { z } from 'zod'
@@ -40,15 +41,16 @@ const PropertyForm = ({ subCategory }: { subCategory: string }) => {
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel htmlFor="furnished">Furnished Status</FieldLabel>
-              <select
-                {...field}
-                id="furnished"
-                className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
-              >
-                <option value="">Select Status</option>
-                <option value="furnished">Furnished</option>
-                <option value="unfurnished">Unfurnished</option>
-              </select>
+              <Select {...field}>
+                <SelectTrigger id="furnished" className="h-9 w-full">
+                  <SelectValue placeholder="Select Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">Select Status</SelectItem>
+                  <SelectItem value="furnished">Furnished</SelectItem>
+                  <SelectItem value="unfurnished">Unfurnished</SelectItem>
+                </SelectContent>
+              </Select>
             </Field>
           )}
         />
@@ -119,17 +121,18 @@ const PropertyForm = ({ subCategory }: { subCategory: string }) => {
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
                 <FieldLabel htmlFor="areaUnit">Area Unit</FieldLabel>
-                <select
-                  {...field}
-                  id="areaUnit"
-                  className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
-                >
-                  <option value="">Select Unit</option>
-                  <option value="Marla">Marla</option>
-                  <option value="Kanal">Kanal</option>
-                  <option value="Sq. Ft.">Sq. Ft.</option>
-                  <option value="Sq. Yard">Sq. Yard</option>
-                </select>
+                <Select {...field}>
+                  <SelectTrigger id="areaUnit" className="h-9 w-full">
+                    <SelectValue placeholder="Select Unit" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">Select Unit</SelectItem>
+                    <SelectItem value="Marla">Marla</SelectItem>
+                    <SelectItem value="Kanal">Kanal</SelectItem>
+                    <SelectItem value="Sq. Ft.">Sq. Ft.</SelectItem>
+                    <SelectItem value="Sq. Yard">Sq. Yard</SelectItem>
+                  </SelectContent>
+                </Select>
               </Field>
             )}
           />
@@ -141,16 +144,17 @@ const PropertyForm = ({ subCategory }: { subCategory: string }) => {
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel htmlFor="constructionState">Construction State</FieldLabel>
-              <select
-                {...field}
-                id="constructionState"
-                className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
-              >
-                <option value="">Select State</option>
-                <option value="Completed">Completed</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Grey Structure">Grey Structure</option>
-              </select>
+              <Select {...field}>
+                <SelectTrigger id="constructionState" className="h-9 w-full">
+                  <SelectValue placeholder="Select State" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">Select State</SelectItem>
+                  <SelectItem value="Completed">Completed</SelectItem>
+                  <SelectItem value="In Progress">In Progress</SelectItem>
+                  <SelectItem value="Grey Structure">Grey Structure</SelectItem>
+                </SelectContent>
+              </Select>
             </Field>
           )}
         />

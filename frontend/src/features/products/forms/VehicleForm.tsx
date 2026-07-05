@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { getCarMake, getFuelDropList } from '@/lib/carData'
 import { useAppSelector } from '@/store/typedHooks'
 import { Car } from 'lucide-react'
@@ -36,18 +37,19 @@ const VehicleForm = ({ subCategory }: { subCategory: string }) => {
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel htmlFor="make">Make</FieldLabel>
-              <select
-                {...field}
-                id="make"
-                className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
-              >
-                <option value="">Select Make</option>
-                {getCarMake(data).map((el: any) => (
-                  <option key={el.props.value} value={el.props.value}>
-                    {el.props.children}
-                  </option>
-                ))}
-              </select>
+              <Select {...field}>
+                <SelectTrigger id="make" className="h-9 w-full">
+                  <SelectValue placeholder="Select Make" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">Select Make</SelectItem>
+                  {getCarMake(data).map((el: any) => (
+                    <SelectItem key={el.props.value} value={el.props.value}>
+                      {el.props.children}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}
@@ -72,18 +74,19 @@ const VehicleForm = ({ subCategory }: { subCategory: string }) => {
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
                 <FieldLabel htmlFor="year">Year</FieldLabel>
-                <select
-                  {...field}
-                  id="year"
-                  className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
-                >
-                  <option value="">Select Year</option>
-                  {years.map((y) => (
-                    <option key={y} value={y}>
-                      {y}
-                    </option>
-                  ))}
-                </select>
+                <Select {...field}>
+                  <SelectTrigger id="year" className="h-9 w-full">
+                    <SelectValue placeholder="Select Year" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">Select Year</SelectItem>
+                    {years.map((y) => (
+                      <SelectItem key={y} value={y}>
+                        {y}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
               </Field>
             )}
@@ -95,18 +98,19 @@ const VehicleForm = ({ subCategory }: { subCategory: string }) => {
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
                 <FieldLabel htmlFor="fuelType">Fuel Type</FieldLabel>
-                <select
-                  {...field}
-                  id="fuelType"
-                  className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
-                >
-                  <option value="">Select Fuel Type</option>
-                  {getFuelDropList(data).map((el: any) => (
-                    <option key={el.props.value} value={el.props.value}>
-                      {el.props.children}
-                    </option>
-                  ))}
-                </select>
+                <Select {...field}>
+                  <SelectTrigger id="fuelType" className="h-9 w-full">
+                    <SelectValue placeholder="Select Fuel Type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">Select Fuel Type</SelectItem>
+                    {getFuelDropList(data).map((el: any) => (
+                      <SelectItem key={el.props.value} value={el.props.value}>
+                        {el.props.children}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
               </Field>
             )}

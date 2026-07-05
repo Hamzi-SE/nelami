@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import customFetch from '@/lib/api'
 import { getAllCitiesDropList } from '@/lib/PakCitiesData'
@@ -203,14 +204,15 @@ const EditProfilePage = () => {
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor="city">City</FieldLabel>
-                    <select
-                      {...field}
-                      id="city"
-                      className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
-                    >
-                      <option value="">Select City</option>
-                      {getAllCitiesDropList(data)}
-                    </select>
+                    <Select {...field}>
+                      <SelectTrigger id="city" className="h-9 w-full">
+                        <SelectValue placeholder="Select City" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="">Select City</SelectItem>
+                        {getAllCitiesDropList(data)}
+                      </SelectContent>
+                    </Select>
                     {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                   </Field>
                 )}

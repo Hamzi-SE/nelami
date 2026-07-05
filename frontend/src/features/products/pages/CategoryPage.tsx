@@ -1,6 +1,7 @@
 import { ProductGridSkeleton } from '@/components/shared/LoadingSkeleton'
 import ProductGrid from '@/components/shared/ProductGrid'
 import { Button } from '@/components/ui/button'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import customFetch from '@/lib/api'
 import MetaData from '@/lib/MetaData'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
@@ -86,20 +87,24 @@ const CategoryPage = () => {
             </p>
             <div className="flex items-center gap-2">
               <label className="text-sm text-neutral-500">Sort:</label>
-              <select
+              <Select
                 value={sortBy}
-                onChange={(e) => {
-                  setSortBy(e.target.value)
+                onValueChange={(value) => {
+                  setSortBy(value)
                   setCurrentPage(1)
                 }}
-                className="h-8 rounded-lg border border-neutral-200 bg-white px-2 text-sm text-neutral-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
               >
-                {sortOptions.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
+                <SelectTrigger className="h-8 w-[160px]">
+                  <SelectValue placeholder="Sort" />
+                </SelectTrigger>
+                <SelectContent>
+                  {sortOptions.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
 

@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Progress } from '@/components/ui/progress'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -338,14 +339,19 @@ const BaseProductForm = ({
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor="province">Province</FieldLabel>
-                    <select
-                      {...field}
-                      id="province"
-                      className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
-                    >
-                      <option value="">Select Province</option>
-                      {getProvinceDropList(data)}
-                    </select>
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger id="province" className="h-9 w-full">
+                        <SelectValue placeholder="Select Province" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="">Select Province</SelectItem>
+                        {getProvinceDropList(data).map((el: any) => (
+                          <SelectItem key={el.props.value} value={el.props.value}>
+                            {el.props.children}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                   </Field>
                 )}
@@ -359,14 +365,20 @@ const BaseProductForm = ({
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
                       <FieldLabel htmlFor="city">{selectedProvince === 'Islamabad' ? 'Sector' : 'City'}</FieldLabel>
-                      <select
-                        {...field}
-                        id="city"
-                        className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
-                      >
-                        <option value="">Select {selectedProvince === 'Islamabad' ? 'Sector' : 'City'}</option>
-                        {getCityDropList(selectedProvince, data)}
-                      </select>
+                      <Select value={field.value} onValueChange={field.onChange}>
+                        <SelectTrigger id="city" className="h-9 w-full">
+                          <SelectValue
+                            placeholder={selectedProvince === 'Islamabad' ? 'Select Sector' : 'Select City'}
+                          />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {getCityDropList(selectedProvince, data).map((el: any) => (
+                            <SelectItem key={el.props.value} value={el.props.value}>
+                              {el.props.children}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </Field>
                   )}
@@ -391,18 +403,18 @@ const BaseProductForm = ({
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="bidTime">Bid Time (Days)</FieldLabel>
-                  <select
-                    {...field}
-                    id="bidTime"
-                    className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm"
-                  >
-                    <option value="">Select Bid Time</option>
-                    {getBidTimeDropList(data).map((el: any) => (
-                      <option key={el.props.value} value={el.props.value}>
-                        {el.props.children}
-                      </option>
-                    ))}
-                  </select>
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <SelectTrigger id="bidTime" className="h-9 w-full">
+                      <SelectValue placeholder="Select Bid Time" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {getBidTimeDropList(data).map((el: any) => (
+                        <SelectItem key={el.props.value} value={el.props.value}>
+                          {el.props.children}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FieldDescription>How many days should the auction last? (1-30 days)</FieldDescription>
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>

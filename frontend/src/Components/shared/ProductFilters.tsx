@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useAppSelector } from '@/store/typedHooks'
 import { Search, SlidersHorizontal, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
@@ -112,52 +113,55 @@ const ProductFilters = ({ onFiltersChange }: ProductFiltersProps) => {
       {/* Category */}
       <div>
         <label className="text-xs text-neutral-500 mb-1 block">Category</label>
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm text-neutral-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
-        >
-          {categories.map((cat) => (
-            <option key={cat.value} value={cat.value}>
-              {cat.label}
-            </option>
-          ))}
-        </select>
+        <Select value={category} onValueChange={setCategory}>
+          <SelectTrigger className="h-9 w-full">
+            <SelectValue placeholder="All Categories" />
+          </SelectTrigger>
+          <SelectContent>
+            {categories.map((cat) => (
+              <SelectItem key={cat.value} value={cat.value}>
+                {cat.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Province */}
       <div>
         <label className="text-xs text-neutral-500 mb-1 block">Province</label>
-        <select
-          value={province}
-          onChange={(e) => handleProvinceChange(e.target.value)}
-          className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm text-neutral-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
-        >
-          <option value="">All Provinces</option>
-          {provinces.map((p) => (
-            <option key={p} value={p}>
-              {p}
-            </option>
-          ))}
-        </select>
+        <Select value={province} onValueChange={handleProvinceChange}>
+          <SelectTrigger className="h-9 w-full">
+            <SelectValue placeholder="All Provinces" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="">All Provinces</SelectItem>
+            {provinces.map((p) => (
+              <SelectItem key={p} value={p}>
+                {p}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {/* City / Sector */}
       {province && (
         <div>
           <label className="text-xs text-neutral-500 mb-1 block">{province === 'Islamabad' ? 'Sector' : 'City'}</label>
-          <select
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm text-neutral-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
-          >
-            <option value="">{province === 'Islamabad' ? 'All Sectors' : 'All Cities'}</option>
-            {cities.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
+          <Select value={city} onValueChange={setCity}>
+            <SelectTrigger className="h-9 w-full">
+              <SelectValue placeholder={province === 'Islamabad' ? 'All Sectors' : 'All Cities'} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">{province === 'Islamabad' ? 'All Sectors' : 'All Cities'}</SelectItem>
+              {cities.map((c) => (
+                <SelectItem key={c} value={c}>
+                  {c}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       )}
 
@@ -185,17 +189,18 @@ const ProductFilters = ({ onFiltersChange }: ProductFiltersProps) => {
       {/* Sort */}
       <div>
         <label className="text-xs text-neutral-500 mb-1 block">Sort By</label>
-        <select
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
-          className="h-9 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm text-neutral-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
-        >
-          {sortOptions.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
+        <Select value={sortBy} onValueChange={setSortBy}>
+          <SelectTrigger className="h-9 w-full">
+            <SelectValue placeholder="Sort By" />
+          </SelectTrigger>
+          <SelectContent>
+            {sortOptions.map((opt) => (
+              <SelectItem key={opt.value} value={opt.value}>
+                {opt.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
     </div>
   )
