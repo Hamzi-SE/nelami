@@ -8,22 +8,36 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
+import { Input } from '@/components/ui/input'
 import customFetch from '@/lib/api'
 import { useAppDispatch, useAppSelector } from '@/store/typedHooks'
 import { AlertTriangle, Loader2 } from 'lucide-react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useState } from 'react'
 import { toast } from 'sonner'
 
-const DeleteUserPage = () => {
+interface DeleteUserPageProps {
+  open: boolean
+  userId: string | null
+  onOpenChange: (open: boolean) => void
+  onDeleted?: (userId: string) => void
+}
+
+const DeleteUserPage = ({ open, userId, onOpenChange, onDeleted }: DeleteUserPageProps) => {
   const dispatch = useAppDispatch()
-  const navigate = useNavigate()
   const { loading } = useAppSelector((state) => state.profile)
   const { user } = useAppSelector((state) => state.user)
-  const { id } = useParams()
+  const [confirmText, setConfirmText] = useState('')
 
   const handleDelete = async () => {
+    if (confirmText !== 'DELETE') {
+      toast.error('Type DELETE to confirm')
+      return
+    }
+
+    if (!userId) return
+
     dispatch({ type: 'DELETE_USER_REQUEST' })
-    if (user?._id === id) {
+    if (user?._id === userId) {
       dispatch({
         type: 'DELETE_USER_FAIL',
         payload: "You can't delete your own account",
@@ -33,7 +47,7 @@ const DeleteUserPage = () => {
     }
 
     try {
-      const res = await customFetch(`/api/v1/admin/user/${id}`, {
+      const res = await customFetch(`/api/v1/admin/user/${userId}`, {
         method: 'DELETE',
       })
       const data = await res.json()
@@ -41,11 +55,11 @@ const DeleteUserPage = () => {
       if (res.status === 200) {
         dispatch({ type: 'DELETE_USER_SUCCESS' })
         toast.success(data.message)
-        navigate(user?.role === 'admin' ? '/admin/dashboard' : '/dashboard')
+        onDeleted?.(userId)
+        onOpenChange(false)
       } else {
         dispatch({ type: 'DELETE_USER_FAIL', payload: data.message })
         toast.error(data.message)
-        navigate('/dashboard')
       }
     } catch (error) {
       dispatch({ type: 'DELETE_USER_FAIL', payload: 'Something went wrong' })
@@ -53,24 +67,8 @@ const DeleteUserPage = () => {
     }
   }
 
-  const handleGoBack = () => {
-    if (user?.role === 'admin') {
-      navigate('/admin/dashboard')
-    } else {
-      navigate('/dashboard')
-    }
-  }
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="h-8 w-8 animate-spin text-primary-500" />
-      </div>
-    )
-  }
-
   return (
-    <AlertDialog open={true}>
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <div className="flex items-center gap-3">
@@ -80,13 +78,32 @@ const DeleteUserPage = () => {
             <AlertDialogTitle>Delete User</AlertDialogTitle>
           </div>
           <AlertDialogDescription>
-            Are you sure you want to delete this user? This action cannot be undone.
+            This action is permanent and cannot be undone. Deleting this user will remove their account and related
+            records.
           </AlertDialogDescription>
         </AlertDialogHeader>
+
+        <div className="space-y-3">
+          <label className="block text-sm font-medium text-neutral-700">
+            Type <span className="font-semibold text-danger-600">DELETE</span> to confirm
+          </label>
+          <Input
+            value={confirmText}
+            onChange={(e) => setConfirmText(e.target.value)}
+            placeholder="Type DELETE here"
+            disabled={loading}
+          />
+        </div>
+
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={handleGoBack}>Go Back</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} className="bg-danger-500 hover:bg-danger-600">
-            Delete
+          <AlertDialogCancel onClick={() => onOpenChange(false)}>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            onClick={handleDelete}
+            className="bg-danger-500 hover:bg-danger-600"
+            disabled={loading || confirmText !== 'DELETE'}
+          >
+            {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+            Delete User
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

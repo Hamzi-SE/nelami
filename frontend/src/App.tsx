@@ -60,7 +60,6 @@ const AllProductsPage = lazy(() => import('./features/admin/pages/AllProductsPag
 const ApprovalPage = lazy(() => import('./features/admin/pages/ApprovalPage'))
 const EditFeaturesPage = lazy(() => import('./features/admin/pages/EditFeaturesPage'))
 const AdminSettingsPage = lazy(() => import('./features/admin/pages/AdminSettingsPage'))
-const DeleteUserPage = lazy(() => import('./features/pages/DeleteUserPage'))
 
 // Messenger (Phase 11)
 const Messenger = lazy(() => import('./features/messenger/pages/MessengerPage'))
@@ -116,7 +115,6 @@ const Routing = ({ isAuthenticated, loading }: RoutingProps) => {
         <Route path="settings" element={<AdminSettingsPage />} />
       </Route>
 
-      <Route path="/admin/delete-user/:id" element={<DeleteUserPage />} />
       <Route path="/products" element={<ProductsPage />} />
       <Route path="/user/:id" element={<SellerProfile />} />
       <Route path="/categories/:category" element={<CategoryPage />} />

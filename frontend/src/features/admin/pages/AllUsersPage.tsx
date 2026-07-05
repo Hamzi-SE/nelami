@@ -5,11 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import DeleteUserPage from '@/features/pages/DeleteUserPage'
 import customFetch from '@/lib/api'
 import { useAppDispatch } from '@/store/typedHooks'
 import { Eye, Search, Trash2, Users } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
 interface UserItem {
@@ -24,11 +24,12 @@ interface UserItem {
 
 const AllUsersPage = () => {
   const dispatch = useAppDispatch()
-  const navigate = useNavigate()
   const [users, setUsers] = useState<UserItem[]>([])
   const [filteredUsers, setFilteredUsers] = useState<UserItem[]>([])
   const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(true)
+  const [deleteUserId, setDeleteUserId] = useState<string | null>(null)
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -67,6 +68,17 @@ const AllUsersPage = () => {
       .sort((a, b) => a.name.localeCompare(b.name))
     setFilteredUsers(result)
   }, [search, users])
+
+  const handleDeleteClick = (userId: string) => {
+    setDeleteUserId(userId)
+    setDeleteModalOpen(true)
+  }
+
+  const handleDeleteSuccess = (deletedUserId: string) => {
+    const updatedUsers = users.filter((user) => user._id !== deletedUserId)
+    setUsers(updatedUsers)
+    setDeleteUserId(null)
+  }
 
   if (loading) {
     return (
@@ -180,7 +192,7 @@ const AllUsersPage = () => {
                           variant="ghost"
                           size="icon"
                           className="h-8 w-8 text-danger-500 hover:text-danger-600 hover:bg-danger-50"
-                          onClick={() => navigate(`/admin/delete-user/${user._id}`)}
+                          onClick={() => handleDeleteClick(user._id)}
                           title="Delete User"
                         >
                           <Trash2 className="h-4 w-4" />
@@ -194,6 +206,13 @@ const AllUsersPage = () => {
           )}
         </CardContent>
       </Card>
+
+      <DeleteUserPage
+        open={deleteModalOpen}
+        userId={deleteUserId}
+        onOpenChange={setDeleteModalOpen}
+        onDeleted={handleDeleteSuccess}
+      />
     </div>
   )
 }
