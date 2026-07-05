@@ -13,25 +13,14 @@ const Conversation = require('../models/conversationModel')
 
 // Register User
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
-  const { name, email, password, confirmPassword, role, address, phoneNo, city, store, aboutInfo } = req.body
+  const { name, email, password, confirmPassword, role, phoneNo } = req.body
 
-  if (!name || !email || !password || !confirmPassword || !role || !phoneNo || !city) {
+  if (!name || !email || !password || !confirmPassword || !role || !phoneNo) {
     return next(new ErrorHandler('Please Fill All Required Fields', 400))
   }
 
   if (password !== confirmPassword) {
     return next(new ErrorHandler('Password does not match', 400))
-  }
-
-  if (role === 'seller' && !store) {
-    return next(new ErrorHandler('Seller must enter store name', 400))
-  }
-
-  let productsPosted
-  let userPackage
-  if (role === 'seller') {
-    productsPosted = 0
-    userPackage = 'Free'
   }
 
   const userExists = await User.findOne({ email })
@@ -41,17 +30,11 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
   }
 
   const user = {
-    userPackage,
     name,
     email,
     password,
     role,
-    address,
     phoneNo,
-    city,
-    store,
-    aboutInfo,
-    productsPosted,
   }
 
   const activationToken = createActivationToken(user)
@@ -286,72 +269,32 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
 
 // update User Profile
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
-  const { name, address, phoneNo, city, store, aboutInfo } = req.body
+  const { name, address, phoneNo, city, store, aboutInfo, avatar } = req.body
 
-  if (!name || !phoneNo || !city) {
-    return next(new ErrorHandler('Please Fill All Required Fields', 400))
-  }
-  let newUserData = {}
-
-  if (req.user.role === 'buyer') {
-    newUserData = {
-      name,
-      address,
-      phoneNo,
-      city,
-      aboutInfo,
-    }
-  } else if (req.user.role === 'seller') {
-    newUserData = {
-      name,
-      address,
-      phoneNo,
-      city,
-      store,
-      aboutInfo,
-    }
-  } else if (req.user.role === 'admin') {
-    newUserData = {
-      name,
-      address,
-      phoneNo,
-      city,
-    }
+  if (!name || !phoneNo) {
+    return next(new ErrorHandler('Name and phone number are required', 400))
   }
 
-  if (req.body.avatar !== '') {
-    try {
-      const user = await User.findById(req.user.id)
-      if (!user) {
-        return next(new ErrorHandler('User not found', 404))
-      }
+  const roleFields = {
+    buyer: { name, address, phoneNo, city, aboutInfo },
+    seller: { name, address, phoneNo, city, store, aboutInfo },
+    admin: { name, address, phoneNo, city },
+  }
 
-      const imageId = user.avatar.public_id
+  const newUserData = roleFields[req.user.role]
 
-      if (imageId) {
-        await cloudinary.uploader.destroy(imageId)
-      }
+  if (!newUserData) {
+    return next(new ErrorHandler('Invalid user role', 400))
+  }
 
-      const myCloud = await cloudinary.uploader.upload(req.body.avatar, {
-        upload_preset: 'ml_default',
-        width: 300,
-        height: 300,
-        crop: 'scale',
-      })
-
-      newUserData.avatar = {
-        public_id: myCloud.public_id,
-        url: myCloud.secure_url,
-      }
-    } catch (error) {
-      return next(new ErrorHandler(error.message, 500))
-    }
+  if (avatar) {
+    const uploadedAvatar = await uploadAvatar(req.user.id, avatar)
+    newUserData.avatar = uploadedAvatar
   }
 
   const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,
     runValidators: true,
-    useFindAndModify: false,
   })
 
   res.status(200).json({
@@ -486,3 +429,27 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
     message: 'User Deleted Successfully',
   })
 })
+
+const uploadAvatar = async (userId, avatar) => {
+  const user = await User.findById(userId)
+
+  if (!user) {
+    throw new ErrorHandler('User not found', 404)
+  }
+
+  if (user.avatar?.public_id) {
+    await cloudinary.uploader.destroy(user.avatar.public_id)
+  }
+
+  const uploaded = await cloudinary.uploader.upload(avatar, {
+    upload_preset: 'ml_default',
+    width: 300,
+    height: 300,
+    crop: 'scale',
+  })
+
+  return {
+    public_id: uploaded.public_id,
+    url: uploaded.secure_url,
+  }
+}
