@@ -116,14 +116,14 @@ const DashboardSidebar = () => {
       {/* Mobile toggle */}
       <button
         type="button"
-        className="lg:hidden fixed top-20 left-3 z-40 h-10 w-10 rounded-lg bg-white border border-neutral-200 shadow-sm flex items-center justify-center"
+        className="lg:hidden fixed top-20 left-3 z-50 h-10 w-10 rounded-lg bg-white border border-neutral-200 shadow-sm flex items-center justify-center"
         onClick={() => setMobileOpen(!mobileOpen)}
       >
         {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
       </button>
 
       {/* Mobile overlay */}
-      {mobileOpen && <div className="lg:hidden fixed inset-0 z-40 bg-black/50" onClick={() => setMobileOpen(false)} />}
+      {mobileOpen && <div className="lg:hidden fixed inset-0 z-50 bg-black/50" onClick={() => setMobileOpen(false)} />}
 
       {/* Mobile sidebar */}
       <aside
