@@ -20,7 +20,7 @@ const AdminProfilePage = () => {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Profile</CardTitle>
-          <Link to="/admin/dashboard/settings">
+          <Link to="/admin/dashboard/edit-profile">
             <Button variant="outline" size="sm">
               Edit Profile
             </Button>

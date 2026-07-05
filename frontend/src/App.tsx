@@ -54,6 +54,7 @@ const AdminLogin = lazy(() => import('./features/auth/pages/AdminLoginPage'))
 const AdminDashboard = lazy(() => import('./features/admin/pages/AdminDashboardPage'))
 const AdminStats = lazy(() => import('./features/admin/components/AdminStats'))
 const AdminProfilePage = lazy(() => import('./features/admin/pages/AdminProfilePage'))
+const AdminEditProfilePage = lazy(() => import('./features/admin/pages/AdminEditProfilePage'))
 const AllUsersPage = lazy(() => import('./features/admin/pages/AllUsersPage'))
 const AllProductsPage = lazy(() => import('./features/admin/pages/AllProductsPage'))
 const ApprovalPage = lazy(() => import('./features/admin/pages/ApprovalPage'))
@@ -109,6 +110,7 @@ const Routing = ({ isAuthenticated, loading }: RoutingProps) => {
       <Route path="/admin/dashboard" element={<AdminDashboard />}>
         <Route index element={<AdminStats />} />
         <Route path="profile" element={<AdminProfilePage />} />
+        <Route path="edit-profile" element={<AdminEditProfilePage />} />
         <Route path="users" element={<AllUsersPage />} />
         <Route path="products" element={<AllProductsPage />} />
         <Route path="approvals" element={<ApprovalPage />} />
