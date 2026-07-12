@@ -10,12 +10,14 @@ const User = require('../models/userModel')
 const Product = require('../models/productModel')
 const Bid = require('../models/bidModel')
 const Conversation = require('../models/conversationModel')
+const PendingUser = require('../models/pendingUserModel')
 
 // Register User
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
-  const { name, email, password, confirmPassword, role, phoneNo } = req.body
+  const { name, email, password, confirmPassword, phoneNo } = req.body
+  const requestedRole = req.body.role
 
-  if (!name || !email || !password || !confirmPassword || !role || !phoneNo) {
+  if (!name || !email || !password || !confirmPassword || !phoneNo) {
     return next(new ErrorHandler('Please Fill All Required Fields', 400))
   }
 
@@ -23,47 +25,52 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler('Password does not match', 400))
   }
 
+  // Never allow registering as admin via the public endpoint.
+  const role = requestedRole === 'seller' ? 'seller' : 'buyer'
+
   const userExists = await User.findOne({ email })
 
   if (userExists) {
     return next(new ErrorHandler('Email is already registered', 400))
   }
 
-  const user = {
+  const activationCode = Math.floor(1000 + Math.random() * 9000).toString()
+
+  // Store the pending registration server-side; the plaintext password is not
+  // embedded in the activation JWT (it lives in PendingUser, TTL 15 min).
+  const pending = await PendingUser.create({
     name,
     email,
     password,
-    role,
     phoneNo,
-  }
+    role,
+    activationCode,
+    expiresAt: new Date(Date.now() + 15 * 60 * 1000),
+  })
 
-  const activationToken = createActivationToken(user)
+  const activationToken = createActivationToken({ email, activationCode })
 
-  const activationCode = activationToken.activationCode
-
-  // // Add URL
   const url = `${process.env.FRONTEND_URL}/user/validate?email=${email}`
 
-  // // Send URL and OTP to the email
-  const message = `Your OTP is :- \n\n${activationCode}\n\n Please click on the link below to verify your email. The link will expire in 15 minutes. \n\n${url}\n\n If you have not requested this email, then please ignore it`
-
-  const emailData = { user: { name: user.name }, activationCode, url }
+  const emailData = { user: { name }, activationCode, url }
 
   try {
     await sendEmail({
-      email: user.email,
+      email,
       subject: 'Nelami Website Account Activation',
       template: 'activation-mail',
       data: emailData,
     })
   } catch (error) {
+    // Roll back so the user can retry registration
+    await PendingUser.deleteOne({ _id: pending._id })
     return next(new ErrorHandler(error.message, 500))
   }
 
   res.status(201).json({
     success: true,
-    message: `Please check your email: ${user.email} to activate your account`,
-    activationToken: activationToken.token,
+    message: `Please check your email: ${email} to activate your account`,
+    activationToken,
   })
 })
 
@@ -79,17 +86,23 @@ exports.OTPValidation = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler('Something went wrong while activating your account. Please try again.', 400))
   }
 
-  const newUser = jwt.verify(token, process.env.ACTIVATION_SECRET)
-
-  if (!newUser) {
+  // The JWT only carries email + activationCode (no password).
+  let decoded
+  try {
+    decoded = jwt.verify(token, process.env.ACTIVATION_SECRET)
+  } catch (err) {
     return next(new ErrorHandler('Invalid Token or Token has been expired', 400))
   }
 
-  if (newUser.activationCode !== otp) {
+  if (decoded.activationCode !== otp) {
     return next(new ErrorHandler('Invalid activation code', 400))
   }
 
-  const user = newUser.user
+  // Fetch the pending registration (password is server-side, never in the JWT)
+  const pending = await PendingUser.findOne({ email, activationCode: otp })
+  if (!pending) {
+    return next(new ErrorHandler('Invalid or expired activation. Please register again.', 400))
+  }
 
   // check if email already exists
   const emailExists = await User.findOne({ email })
@@ -98,16 +111,24 @@ exports.OTPValidation = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler('Email is already registered', 400))
   }
 
-  // create user
-  const createdUser = await User.create(user)
+  // create user (the User pre-save hook hashes pending.password)
+  const createdUser = await User.create({
+    name: pending.name,
+    email: pending.email,
+    password: pending.password,
+    phoneNo: pending.phoneNo,
+    role: pending.role,
+  })
 
-  const emailData = { user: { name: user.name, role: user.role } }
+  await PendingUser.deleteOne({ _id: pending._id })
+
+  const emailData = { user: { name: createdUser.name, role: createdUser.role } }
 
   sendToken(createdUser, 200, res)
   // send email with welcome message
   try {
     await sendEmail({
-      email: user.email,
+      email: createdUser.email,
       subject: 'Welcome to Nelami',
       template: 'welcome-mail',
       data: emailData,

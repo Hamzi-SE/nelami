@@ -9,6 +9,7 @@ const sendNotification = async ({ userId, message, link }) => {
   })
   await notification.save()
   eventEmitter.emit('notificationCreated', notification)
+  return notification
 }
 
 module.exports = sendNotification

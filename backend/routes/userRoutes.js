@@ -17,20 +17,30 @@ const {
   getSellerDetails,
 } = require('../controllers/userController')
 const { isAuthenticatedUser, authorizeRole } = require('../middleware/auth')
+const rateLimit = require('express-rate-limit')
 
 const router = express.Router()
 
-router.route('/register').post(registerUser)
+// Throttle authentication endpoints to blunt brute-force / abuse.
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, message: 'Too many attempts, please try again later.' },
+})
 
-router.route('/OTPValidation').post(OTPValidation)
+router.route('/register').post(authLimiter, registerUser)
 
-router.route('/login').post(loginUser)
+router.route('/OTPValidation').post(authLimiter, OTPValidation)
+
+router.route('/login').post(authLimiter, loginUser)
 
 router.route('/logout').get(logout)
 
-router.route('/password/forgot').post(forgotPassword)
+router.route('/password/forgot').post(authLimiter, forgotPassword)
 
-router.route('/password/reset/:token').put(resetPassword)
+router.route('/password/reset/:token').put(authLimiter, resetPassword)
 
 router.route('/me').get(isAuthenticatedUser, getUserDetails)
 router.route('/seller/:id').get(getSellerDetails)

@@ -17,8 +17,6 @@ dotenv.config({ path: './config/config.env' })
 
 // Create Product  -- SELLER
 exports.createProduct = catchAsyncErrors(async (req, res, next) => {
-  req.body.user = req.user._id
-
   const { featuredImg, imageOne, imageTwo, imageThree, endDate } = req.body
 
   // upload user products according to package
@@ -44,22 +42,46 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
     )
   }
 
+  // Build the product document from an explicit allow-list; never trust client-supplied status / tag / bidStatus / user (mass assignment).
+  const productData = {
+    user: req.user._id,
+    title: req.body.title,
+    description: req.body.description,
+    category: req.body.category,
+    subCategory: req.body.subCategory,
+    price: req.body.price,
+    bidTime: req.body.bidTime,
+    status: 'Pending',
+    bidStatus: 'Live',
+    tag: 'Normal',
+    location: {
+      province: req.body.province,
+      city: req.body.city,
+    },
+    images: {},
+  }
+
+  // Optional category-specific fields (only if provided by the client)
+  const optionalFields = [
+    'furnished', 'bedrooms', 'bathrooms', 'noOfStoreys', 'constructionState',
+    'type', 'features', 'make', 'model', 'year', 'kmsDriven', 'fuelType',
+    'floorLevel', 'areaUnit', 'area',
+  ]
+  for (const field of optionalFields) {
+    if (req.body[field] !== undefined) {
+      productData[field] = req.body[field]
+    }
+  }
+
   // upload images to cloudinary
   if (!featuredImg) {
     return next(new ErrorHandler('Featured Image is required to post an AD', 401))
   }
 
-  req.body.location = {
-    province: req.body.province,
-    city: req.body.city,
-  }
-
-  req.body.images = {}
-
   const uploadImages = async (image, key) => {
     if (image) {
       const result = await uploadImagetoCloudinary(image)
-      req.body.images[key] = {
+      productData.images[key] = {
         public_id: result.public_id,
         url: result.secure_url,
       }
@@ -72,9 +94,9 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
   await uploadImages(imageThree, 'imageThree')
 
   // Converting endDate to UTC for storing in the database
-  req.body.endDate = moment(endDate).utc().toDate()
+  productData.endDate = moment(endDate).utc().toDate()
 
-  const product = await Product.create(req.body)
+  const product = await Product.create(productData)
 
   if (product) {
     user.productsPosted += 1
@@ -352,22 +374,55 @@ exports.getSingleProduct = catchAsyncErrors(async (req, res, next) => {
   })
 })
 
-// Update a Product  --SELLER
-exports.updateProduct = catchAsyncErrors(async (req, res) => {
-  let product = await Product.findById(req.params.id)
+// Update a Product  --SELLER / ADMIN
+exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
+  const product = await Product.findById(req.params.id)
 
   if (!product) {
     return next(new ErrorHandler('Product Not Found', 404))
   }
 
-  product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+  // A seller may only update their own product; admins may update any.
+  if (req.user.role !== 'admin' && product.user.toString() !== req.user.id.toString()) {
+    return next(new ErrorHandler('You are not allowed to update this product', 403))
+  }
+
+  // Apply an explicit allow-list; never let the client set user / status / tag / bidStatus (mass assignment).
+  const updatableFields = [
+    'title', 'description', 'price', 'bidTime',
+    'furnished', 'bedrooms', 'bathrooms', 'noOfStoreys', 'constructionState',
+    'type', 'features', 'make', 'model', 'year', 'kmsDriven', 'fuelType',
+    'floorLevel', 'areaUnit', 'area',
+    'category', 'subCategory',
+  ]
+  const updateData = {}
+  for (const field of updatableFields) {
+    if (req.body[field] !== undefined) {
+      updateData[field] = req.body[field]
+    }
+  }
+
+  // Map province/city into the nested location object if provided
+  if (req.body.province !== undefined || req.body.city !== undefined) {
+    updateData.location = {
+      province: req.body.province ?? product.location?.province,
+      city: req.body.city ?? product.location?.city,
+    }
+  }
+
+  // Images are uploaded client-side to Cloudinary; pass them through if present.
+  if (req.body.images !== undefined) {
+    updateData.images = req.body.images
+  }
+
+  const updatedProduct = await Product.findByIdAndUpdate(req.params.id, updateData, {
     new: true,
     runValidators: true,
   })
 
   res.status(200).json({
     success: true,
-    product,
+    product: updatedProduct,
   })
 })
 

@@ -33,6 +33,12 @@ exports.createConversation = async (req, res, next) => {
 
 exports.getUserConversation = async (req, res, next) => {
   const { userId } = req.params
+
+  // A user may only fetch their own conversations.
+  if (userId !== req.user?.id?.toString()) {
+    return res.status(403).json({ message: 'You are not authorized to view these conversations' })
+  }
+
   try {
     const conversations = await Conversation.find({
       members: { $in: [req.params.userId] },

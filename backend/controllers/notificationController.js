@@ -5,12 +5,11 @@ const eventEmitter = require('../utils/eventEmitter')
 const sendNotification = require('../utils/sendNotification')
 
 exports.createNotification = catchAsyncErrors(async (req, res, next) => {
-  const { userId, message, link } = req.body
-
-  await sendNotification({
-    userId,
-    message,
-    link,
+  // Notifications are always created for the authenticated user; ignore any client-supplied userId.
+  const notification = await sendNotification({
+    userId: req.user.id,
+    message: req.body.message,
+    link: req.body.link,
   })
 
   res.status(201).json({

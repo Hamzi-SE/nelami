@@ -6,19 +6,27 @@ const catchAsyncErrors = require('../middleware/catchAsyncErrors')
 
 // Add
 exports.createMessage = catchAsyncErrors(async (req, res, next) => {
+  const { conversationId, senderId, text } = req.body
+
+  // Require auth; the sender must be the logged-in user and a conversation member.
+  if (!req.user || req.user.id.toString() !== String(senderId)) {
+    return next(new ErrorHandler('You are not authorized to send this message', 403))
+  }
+
+  const conversation = await Conversation.findById(conversationId)
+  if (!conversation || !conversation.members.map((m) => String(m)).includes(req.user.id.toString())) {
+    return next(new ErrorHandler('You are not a member of this conversation', 403))
+  }
+
   const messageObj = new Message(req.body)
 
   try {
     const savedMessage = await messageObj.save()
     if (savedMessage) {
-      const { conversationId } = req.body
-      const conversation = await Conversation.findById(conversationId)
-      if (conversation) {
-        conversation.lastMessage = savedMessage.text
-        conversation.lastMessageTime = savedMessage.createdAt
-        conversation.lastMessageSender = savedMessage.sender
-        await conversation.save()
-      }
+      conversation.lastMessage = savedMessage.text
+      conversation.lastMessageTime = savedMessage.createdAt
+      conversation.lastMessageSender = savedMessage.sender
+      await conversation.save()
     }
     res.status(201).json({
       message: 'Message created successfully',
@@ -31,6 +39,12 @@ exports.createMessage = catchAsyncErrors(async (req, res, next) => {
 
 // Get all messages
 exports.getAllMessages = catchAsyncErrors(async (req, res, next) => {
+  // Require auth and conversation membership before returning any messages.
+  const conversation = await Conversation.findById(req.params.conversationId)
+  if (!conversation || !conversation.members.map((m) => String(m)).includes(req.user.id.toString())) {
+    return next(new ErrorHandler('You are not a member of this conversation', 403))
+  }
+
   try {
     const messages = await Message.find({
       conversationId: req.params.conversationId,

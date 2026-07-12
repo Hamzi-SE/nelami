@@ -16,14 +16,12 @@ const sendToken = (user, statusCode, res) => {
   })
 }
 
-const createActivationToken = (user) => {
-  const activationCode = Math.floor(1000 + Math.random() * 9000).toString() // 4 digit number
-
-  const token = jwt.sign({ user, activationCode }, process.env.ACTIVATION_SECRET, {
+// Sign only the email + activation code. The plaintext password is never
+// embedded in the token (stored server-side in PendingUser).
+const createActivationToken = ({ email, activationCode }) => {
+  return jwt.sign({ email, activationCode }, process.env.ACTIVATION_SECRET, {
     expiresIn: '15m',
   })
-
-  return { token, activationCode }
 }
 
 module.exports = { sendToken, createActivationToken }
