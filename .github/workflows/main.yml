@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      
+
   workflow_dispatch:
 
 jobs:
@@ -22,6 +22,14 @@ jobs:
         run: |
           ssh ${{ secrets.USER_AT_SERVER }} <<'EOF'
           sudo su -
+
+          # Load NVM
+          export NVM_DIR="/root/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+          nvm use 22
+
+          echo "Node: $(node -v)"
+          echo "NPM : $(npm -v)"
 
           # Pull the latest Nelami app code
           cd /root/nelami
@@ -57,11 +65,17 @@ jobs:
           ssh ${{ secrets.USER_AT_SERVER }} <<'EOF'
           sudo su -
 
-          export PATH=$PATH:/root/.nvm/versions/node/v22.20.0/bin
+          # Load NVM
+          export NVM_DIR="/root/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+          nvm use 22
+
+          echo "Node: $(node -v)"
+          echo "NPM : $(npm -v)"
 
           cd /root/nelami/backend
 
-          npm install
+          npm ci
 
           pm2 delete nelami_server || true
           pm2 start npm --name "nelami_server" -- start
@@ -74,16 +88,20 @@ jobs:
           ssh ${{ secrets.USER_AT_SERVER }} <<'EOF'
           sudo su -
 
-          export PATH=$PATH:/root/.nvm/versions/node/v22.20.0/bin
+          # Load NVM
+          export NVM_DIR="/root/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+          nvm use 22
+
+          echo "Node: $(node -v)"
+          echo "NPM : $(npm -v)"
+          echo "Arch: $(uname -m)"
 
           cd /root/nelami/frontend
 
           rm -rf node_modules
-          rm -f package-lock.json
+          npm ci
 
-          npm cache clean --force
-
-          npm install
           npm run build
 
           exit
