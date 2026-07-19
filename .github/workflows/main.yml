@@ -100,7 +100,9 @@ jobs:
           cd /root/nelami/frontend
 
           rm -rf node_modules
-          npm ci
+          rm -f package-lock.json
+
+          npm cache clean --force
 
           npm run build
 
